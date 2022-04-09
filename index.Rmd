@@ -54,7 +54,7 @@ To take this workshop you need to:
     * Click on the link > Click on Download in the top-right > Click on Direct download
     * Then save the folder to your computer
 
-Once in class, go to the workshop folder (point 1 above) and double-click on the workshop _R project_ file (`Egocentric_R.Rproj`) in it. That will open RStudio.
+Once in class, go to the workshop folder (point 5 above) and double-click on the workshop _R project_ file (`Egocentric_R.Rproj`) in it. That will open RStudio.
 
 **NOTE:** It's very important that you save the workshop folder _as downloaded_ to a location in your computer, and open `Egocentric_R.Rproj` _within that folder_. By doing so, you will be opening RStudio _and_ setting the workshop folder as your [R working directory](#starting-R-and-loading-packages). All our R scripts assume that working directory. In particular, they assume that the `Data` subfolder is in your R working directory. You can type `getwd()` in your R console to see the path to your R working directory and make sure that it's correctly pointed to the location of the workshop folder in your computer. 
 
