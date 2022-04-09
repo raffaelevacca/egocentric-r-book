@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 Multilevel modeling of ego-network data | Egocentric network analysis with R</title>
+  <meta name="description" content="Personal network analysis with R" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 Multilevel modeling of ego-network data | Egocentric network analysis with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Personal network analysis with R" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 Multilevel modeling of ego-network data | Egocentric network analysis with R" />
+  
+  <meta name="twitter:description" content="Personal network analysis with R" />
+  
+
+<meta name="author" content="Raffaele Vacca" />
+
+
+<meta name="date" content="2022-02-08" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="structure.html"/>
+<link rel="next" href="egor.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Contents</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#materials"><i class="fa fa-check"></i><b>1.1</b> Workshop materials</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#setup"><i class="fa fa-check"></i><b>1.2</b> Workshop setup</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#packages"><i class="fa fa-check"></i><b>1.2.1</b> Required R packages</a></li>
+<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#rstudio-settings"><i class="fa fa-check"></i><b>1.2.2</b> RStudio settings</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#data"><i class="fa fa-check"></i><b>1.3</b> Data</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#author-and-contacts"><i class="fa fa-check"></i><b>1.4</b> Author and contacts</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="basics.html"><a href="basics.html"><i class="fa fa-check"></i><b>2</b> R basics</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="basics.html"><a href="basics.html#overview"><i class="fa fa-check"></i><b>2.1</b> Overview</a></li>
+<li class="chapter" data-level="2.2" data-path="basics.html"><a href="basics.html#starting-R-and-loading-packages"><i class="fa fa-check"></i><b>2.2</b> Starting R and loading packages</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="basics.html"><a href="basics.html#console-vs-scripts"><i class="fa fa-check"></i><b>2.2.1</b> Console vs scripts</a></li>
+<li class="chapter" data-level="2.2.2" data-path="basics.html"><a href="basics.html#getting-help"><i class="fa fa-check"></i><b>2.2.2</b> Getting help</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="basics.html"><a href="basics.html#objects-in-r"><i class="fa fa-check"></i><b>2.3</b> Objects in R</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="basics.html"><a href="basics.html#the-workspace"><i class="fa fa-check"></i><b>2.3.1</b> The workspace</a></li>
+<li class="chapter" data-level="2.3.2" data-path="basics.html"><a href="basics.html#saving-and-removing-objects"><i class="fa fa-check"></i><b>2.3.2</b> Saving and removing objects</a></li>
+<li class="chapter" data-level="2.3.3" data-path="basics.html"><a href="basics.html#vector-and-matrix-objects"><i class="fa fa-check"></i><b>2.3.3</b> Vector and matrix objects</a></li>
+<li class="chapter" data-level="2.3.4" data-path="basics.html"><a href="basics.html#dataframes"><i class="fa fa-check"></i><b>2.3.4</b> Data frames</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="basics.html"><a href="basics.html#arithmetic-statistical-and-relational-operations"><i class="fa fa-check"></i><b>2.4</b> Arithmetic, statistical, and relational operations</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="basics.html"><a href="basics.html#arithmetic-operations-and-recycling"><i class="fa fa-check"></i><b>2.4.1</b> Arithmetic operations and recycling</a></li>
+<li class="chapter" data-level="2.4.2" data-path="basics.html"><a href="basics.html#relational-operations-and-logical-vectors"><i class="fa fa-check"></i><b>2.4.2</b> Relational operations and logical vectors</a></li>
+<li class="chapter" data-level="2.4.3" data-path="basics.html"><a href="basics.html#examples-of-arithmetic-and-statistical-functions"><i class="fa fa-check"></i><b>2.4.3</b> Examples of arithmetic and statistical functions</a></li>
+<li class="chapter" data-level="2.4.4" data-path="basics.html"><a href="basics.html#missing-and-infinite-values"><i class="fa fa-check"></i><b>2.4.4</b> Missing and infinite values</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="basics.html"><a href="basics.html#indexing"><i class="fa fa-check"></i><b>2.5</b> Indexing</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="basics.html"><a href="basics.html#index-df"><i class="fa fa-check"></i><b>2.5.1</b> Indexing and subsetting data frames</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="basics.html"><a href="basics.html#the-tidyverse-grammar"><i class="fa fa-check"></i><b>2.6</b> The <code>tidyverse</code> grammar</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="basics.html"><a href="basics.html#pipes-and-the-operator"><i class="fa fa-check"></i><b>2.6.1</b> Pipes and the <code>%&gt;%</code> operator</a></li>
+<li class="chapter" data-level="2.6.2" data-path="basics.html"><a href="basics.html#subsetting-data-frames-in-tidyverse"><i class="fa fa-check"></i><b>2.6.2</b> Subsetting data frames in <code>tidyverse</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="represent.html"><a href="represent.html"><i class="fa fa-check"></i><b>3</b> Representing and visualizing ego-networks</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="represent.html"><a href="represent.html#overview-1"><i class="fa fa-check"></i><b>3.1</b> Overview</a></li>
+<li class="chapter" data-level="3.2" data-path="represent.html"><a href="represent.html#egocentric-data"><i class="fa fa-check"></i><b>3.2</b> Ego-level and alter-level data</a></li>
+<li class="chapter" data-level="3.3" data-path="represent.html"><a href="represent.html#networks-in-r"><i class="fa fa-check"></i><b>3.3</b> Networks in R</a></li>
+<li class="chapter" data-level="3.4" data-path="represent.html"><a href="represent.html#ego-networks-as-igraph-objects"><i class="fa fa-check"></i><b>3.4</b> Ego-networks as <code>igraph</code> objects</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="composition.html"><a href="composition.html"><i class="fa fa-check"></i><b>4</b> Ego-network composition</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="composition.html"><a href="composition.html#overview-2"><i class="fa fa-check"></i><b>4.1</b> Overview</a></li>
+<li class="chapter" data-level="4.2" data-path="composition.html"><a href="composition.html#measures-of-ego-network-composition"><i class="fa fa-check"></i><b>4.2</b> Measures of ego-network composition</a></li>
+<li class="chapter" data-level="4.3" data-path="composition.html"><a href="composition.html#comp-many"><i class="fa fa-check"></i><b>4.3</b> Analyzing the composition of many ego-networks</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="composition.html"><a href="composition.html#split-apply-combine-in-egocentric-network-analysis"><i class="fa fa-check"></i><b>4.3.1</b> Split-apply-combine in egocentric network analysis</a></li>
+<li class="chapter" data-level="4.3.2" data-path="composition.html"><a href="composition.html#summarize-dplyr"><i class="fa fa-check"></i><b>4.3.2</b> Grouping and summarizing with <code>dplyr</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="structure.html"><a href="structure.html"><i class="fa fa-check"></i><b>5</b> Ego-network structure</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="structure.html"><a href="structure.html#overview-3"><i class="fa fa-check"></i><b>5.1</b> Overview</a></li>
+<li class="chapter" data-level="5.2" data-path="structure.html"><a href="structure.html#measures-of-ego-network-structure"><i class="fa fa-check"></i><b>5.2</b> Measures of ego-network structure</a></li>
+<li class="chapter" data-level="5.3" data-path="structure.html"><a href="structure.html#lists"><i class="fa fa-check"></i><b>5.3</b> R lists</a></li>
+<li class="chapter" data-level="5.4" data-path="structure.html"><a href="structure.html#apply-purrr"><i class="fa fa-check"></i><b>5.4</b> Analyzing the structure of many ego-networks</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="multilevel.html"><a href="multilevel.html"><i class="fa fa-check"></i><b>6</b> Multilevel modeling of ego-network data</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="multilevel.html"><a href="multilevel.html#overview-4"><i class="fa fa-check"></i><b>6.1</b> Overview</a></li>
+<li class="chapter" data-level="6.2" data-path="multilevel.html"><a href="multilevel.html#prepare-the-data"><i class="fa fa-check"></i><b>6.2</b> Prepare the data</a></li>
+<li class="chapter" data-level="6.3" data-path="multilevel.html"><a href="multilevel.html#random-intercept-models"><i class="fa fa-check"></i><b>6.3</b> Random intercept models</a></li>
+<li class="chapter" data-level="6.4" data-path="multilevel.html"><a href="multilevel.html#random-slope-models"><i class="fa fa-check"></i><b>6.4</b> Random slope models</a></li>
+<li class="chapter" data-level="6.5" data-path="multilevel.html"><a href="multilevel.html#tests-of-significance"><i class="fa fa-check"></i><b>6.5</b> Tests of significance</a></li>
+<li class="chapter" data-level="6.6" data-path="multilevel.html"><a href="multilevel.html#further-readings"><i class="fa fa-check"></i><b>6.6</b> Further readings</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="egor.html"><a href="egor.html"><i class="fa fa-check"></i><b>7</b> The <code>egor</code> package</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="egor.html"><a href="egor.html#egor-import"><i class="fa fa-check"></i><b>7.1</b> Importing ego-network data</a></li>
+<li class="chapter" data-level="7.2" data-path="egor.html"><a href="egor.html#analyzing-and-visualizing-ego-network-data"><i class="fa fa-check"></i><b>7.2</b> Analyzing and visualizing ego-network data</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="supplementary.html"><a href="supplementary.html"><i class="fa fa-check"></i><b>8</b> Supplementary topics</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="supplementary.html"><a href="supplementary.html#more-r-programming-topics"><i class="fa fa-check"></i><b>8.1</b> More R programming topics</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="supplementary.html"><a href="supplementary.html#types-and-classes-of-objects"><i class="fa fa-check"></i><b>8.1.1</b> Types and classes of objects</a></li>
+<li class="chapter" data-level="8.1.2" data-path="supplementary.html"><a href="supplementary.html#functions"><i class="fa fa-check"></i><b>8.1.2</b> Writing your own R functions</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="supplementary.html"><a href="supplementary.html#import-igraph"><i class="fa fa-check"></i><b>8.2</b> Importing ego-network data with <code>igraph</code> and <code>tidyverse</code></a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="supplementary.html"><a href="supplementary.html#importing-data-for-one-ego-network"><i class="fa fa-check"></i><b>8.2.1</b> Importing data for one ego-network</a></li>
+<li class="chapter" data-level="8.2.2" data-path="supplementary.html"><a href="supplementary.html#importing-data-on-many-ego-networks-as-data-frames-and-lists"><i class="fa fa-check"></i><b>8.2.2</b> Importing data on many ego-networks as data frames and lists</a></li>
+<li class="chapter" data-level="8.2.3" data-path="supplementary.html"><a href="supplementary.html#creating-lists-of-ego-networks-as-igraph-objects-with-purrr"><i class="fa fa-check"></i><b>8.2.3</b> Creating lists of ego-networks as <code>igraph</code> objects with <code>purrr</code></a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="supplementary.html"><a href="supplementary.html#more-igraph"><i class="fa fa-check"></i><b>8.3</b> More operations with <code>igraph</code></a></li>
+<li class="chapter" data-level="8.4" data-path="supplementary.html"><a href="supplementary.html#statnet"><i class="fa fa-check"></i><b>8.4</b> The <code>statnet</code> suite of packages</a></li>
+<li class="chapter" data-level="8.5" data-path="supplementary.html"><a href="supplementary.html#illustrative-example-personal-networks-of-sri-lankan-immigrants-in-italy"><i class="fa fa-check"></i><b>8.5</b> Illustrative example: personal networks of Sri Lankan immigrants in Italy</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Egocentric network analysis with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="multilevel" class="section level1" number="6">
+<h1><span class="header-section-number">Chapter 6</span> Multilevel modeling of ego-network data</h1>
+<div id="overview-4" class="section level2" number="6.1">
+<h2><span class="header-section-number">6.1</span> Overview</h2>
+<p>This chapter is still in progress, in the meantime see the multilevel modeling slides in the <a href="http://www.raffaelevacca.com/teaching/egocentric-r/folder/">workshop folder</a> (<code>Slides</code> subfolder). <span class="citation">Vacca (<a href="#ref-vacca_multilevel_2018" role="doc-biblioref">2018</a>)</span> provides a review and illustration of multilevel modeling for ego-network data. The code below is drawn in part from that article.</p>
+</div>
+<div id="prepare-the-data" class="section level2" number="6.2">
+<h2><span class="header-section-number">6.2</span> Prepare the data</h2>
+<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb412-1"><a href="multilevel.html#cb412-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load packages.</span></span>
+<span id="cb412-2"><a href="multilevel.html#cb412-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb412-3"><a href="multilevel.html#cb412-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb412-4"><a href="multilevel.html#cb412-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb412-5"><a href="multilevel.html#cb412-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb412-6"><a href="multilevel.html#cb412-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span>
+<span id="cb412-7"><a href="multilevel.html#cb412-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb412-8"><a href="multilevel.html#cb412-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom.mixed)</span>
+<span id="cb412-9"><a href="multilevel.html#cb412-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb412-10"><a href="multilevel.html#cb412-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Clear the workspace from all previous objects</span></span>
+<span id="cb412-11"><a href="multilevel.html#cb412-11" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>())</span>
+<span id="cb412-12"><a href="multilevel.html#cb412-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb412-13"><a href="multilevel.html#cb412-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the data</span></span>
+<span id="cb412-14"><a href="multilevel.html#cb412-14" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;./Data/data.rda&quot;</span>)</span>
+<span id="cb412-15"><a href="multilevel.html#cb412-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb412-16"><a href="multilevel.html#cb412-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Create data frame object for models (level-1 join)</span></span>
+<span id="cb412-17"><a href="multilevel.html#cb412-17" aria-hidden="true" tabindex="-1"></a>(model.data <span class="ot">&lt;-</span> <span class="fu">left_join</span>(alter.attr.all, ego.df, <span class="at">by=</span> <span class="st">&quot;ego_ID&quot;</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 4,590 × 20
+##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
+##       &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;     &lt;fct&gt;         &lt;fct&gt;        &lt;fct&gt;    
+##  1     2801     28         1 Female    51-60         Close family Sri Lanka
+##  2     2802     28         2 Male      51-60         Other family Sri Lanka
+##  3     2803     28         3 Male      51-60         Close family Sri Lanka
+##  4     2804     28         4 Male      60+           Close family Sri Lanka
+##  5     2805     28         5 Female    41-50         Close family Sri Lanka
+##  6     2806     28         6 Female    60+           Close family Sri Lanka
+##  7     2807     28         7 Male      41-50         Other family Sri Lanka
+##  8     2808     28         8 Female    36-40         Other family Sri Lanka
+##  9     2809     28         9 Female    51-60         Other family Sri Lanka
+## 10     2810     28        10 Male      60+           Other family Sri Lanka
+## # … with 4,580 more rows, and 13 more variables: alter.res &lt;fct&gt;,
+## #   alter.clo &lt;dbl&gt;, alter.loan &lt;fct&gt;, alter.fam &lt;fct&gt;, alter.age &lt;dbl&gt;,
+## #   ego.sex &lt;fct&gt;, ego.age &lt;dbl&gt;, ego.arr &lt;dbl&gt;, ego.edu &lt;fct&gt;, ego.inc &lt;dbl&gt;,
+## #   empl &lt;dbl&gt;, ego.empl.bin &lt;fct&gt;, ego.age.cat &lt;fct&gt;</code></pre>
+<div class="sourceCode" id="cb414"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb414-1"><a href="multilevel.html#cb414-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Create variables to be used in multilevel models                         ====</span></span>
+<span id="cb414-2"><a href="multilevel.html#cb414-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================================================================ =</span></span>
+<span id="cb414-3"><a href="multilevel.html#cb414-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb414-4"><a href="multilevel.html#cb414-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ego-alter age homophily variable</span></span>
+<span id="cb414-5"><a href="multilevel.html#cb414-5" aria-hidden="true" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - </span></span>
+<span id="cb414-6"><a href="multilevel.html#cb414-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb414-7"><a href="multilevel.html#cb414-7" aria-hidden="true" tabindex="-1"></a><span class="co"># (TRUE if alter and ego are in the same age bracket)</span></span>
+<span id="cb414-8"><a href="multilevel.html#cb414-8" aria-hidden="true" tabindex="-1"></a>model.data <span class="sc">%&lt;&gt;%</span></span>
+<span id="cb414-9"><a href="multilevel.html#cb414-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">alter.same.age =</span> (alter.age.cat<span class="sc">==</span>ego.age.cat))  </span>
+<span id="cb414-10"><a href="multilevel.html#cb414-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb414-11"><a href="multilevel.html#cb414-11" aria-hidden="true" tabindex="-1"></a><span class="co"># See result</span></span>
+<span id="cb414-12"><a href="multilevel.html#cb414-12" aria-hidden="true" tabindex="-1"></a><span class="fu">tabyl</span>(model.data<span class="sc">$</span>alter.same.age)</span></code></pre></div>
+<pre><code>##  model.data$alter.same.age    n    percent valid_percent
+##                      FALSE 3228 0.70326797     0.7113266
+##                       TRUE 1310 0.28540305     0.2886734
+##                         NA   52 0.01132898            NA</code></pre>
+<div class="sourceCode" id="cb416"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb416-1"><a href="multilevel.html#cb416-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Recode: TRUE = Yes, FALSE = No</span></span>
+<span id="cb416-2"><a href="multilevel.html#cb416-2" aria-hidden="true" tabindex="-1"></a>model.data <span class="sc">%&lt;&gt;%</span> </span>
+<span id="cb416-3"><a href="multilevel.html#cb416-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">alter.same.age =</span> <span class="fu">as.character</span>(alter.same.age),</span>
+<span id="cb416-4"><a href="multilevel.html#cb416-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">alter.same.age =</span> <span class="fu">fct_recode</span>(alter.same.age,</span>
+<span id="cb416-5"><a href="multilevel.html#cb416-5" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">Yes =</span> <span class="st">&quot;TRUE&quot;</span>, <span class="at">No =</span> <span class="st">&quot;FALSE&quot;</span>))</span>
+<span id="cb416-6"><a href="multilevel.html#cb416-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb416-7"><a href="multilevel.html#cb416-7" aria-hidden="true" tabindex="-1"></a><span class="co"># See result</span></span>
+<span id="cb416-8"><a href="multilevel.html#cb416-8" aria-hidden="true" tabindex="-1"></a><span class="fu">tabyl</span>(model.data<span class="sc">$</span>alter.same.age)</span></code></pre></div>
+<pre><code>##  model.data$alter.same.age    n    percent valid_percent
+##                         No 3228 0.70326797     0.7113266
+##                        Yes 1310 0.28540305     0.2886734
+##                       &lt;NA&gt;   52 0.01132898            NA</code></pre>
+<div class="sourceCode" id="cb418"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb418-1"><a href="multilevel.html#cb418-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Centered/rescaled versions of ego and alter age </span></span>
+<span id="cb418-2"><a href="multilevel.html#cb418-2" aria-hidden="true" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
+<span id="cb418-3"><a href="multilevel.html#cb418-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb418-4"><a href="multilevel.html#cb418-4" aria-hidden="true" tabindex="-1"></a><span class="co"># This is done for easier interpretation of model coefficients</span></span>
+<span id="cb418-5"><a href="multilevel.html#cb418-5" aria-hidden="true" tabindex="-1"></a>model.data <span class="sc">%&lt;&gt;%</span></span>
+<span id="cb418-6"><a href="multilevel.html#cb418-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Ego age centered around its mean and scaled by 5 (1 unit = 5 years)</span></span>
+<span id="cb418-7"><a href="multilevel.html#cb418-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ego.age.cen =</span> <span class="fu">scale</span>(ego.age, <span class="at">scale=</span> <span class="dv">5</span>),</span>
+<span id="cb418-8"><a href="multilevel.html#cb418-8" aria-hidden="true" tabindex="-1"></a>         <span class="co"># Alter age category centered around its mean</span></span>
+<span id="cb418-9"><a href="multilevel.html#cb418-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">alter.age.cat.cen =</span> <span class="fu">scale</span>(<span class="fu">as.numeric</span>(alter.age.cat), <span class="at">scale=</span> <span class="cn">FALSE</span>))</span>
+<span id="cb418-10"><a href="multilevel.html#cb418-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb418-11"><a href="multilevel.html#cb418-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Count of family members in ego-network</span></span>
+<span id="cb418-12"><a href="multilevel.html#cb418-12" aria-hidden="true" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
+<span id="cb418-13"><a href="multilevel.html#cb418-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb418-14"><a href="multilevel.html#cb418-14" aria-hidden="true" tabindex="-1"></a>model.data <span class="sc">%&lt;&gt;%</span></span>
+<span id="cb418-15"><a href="multilevel.html#cb418-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ego_ID) <span class="sc">%&gt;%</span></span>
+<span id="cb418-16"><a href="multilevel.html#cb418-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">net.count.fam =</span> <span class="fu">sum</span>(alter.fam<span class="sc">==</span><span class="st">&quot;Yes&quot;</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb418-17"><a href="multilevel.html#cb418-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb418-18"><a href="multilevel.html#cb418-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb418-19"><a href="multilevel.html#cb418-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Center and rescale by 5 (+1 unit = 5 more family members in ego-network)</span></span>
+<span id="cb418-20"><a href="multilevel.html#cb418-20" aria-hidden="true" tabindex="-1"></a>model.data <span class="sc">%&lt;&gt;%</span></span>
+<span id="cb418-21"><a href="multilevel.html#cb418-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">net.count.fam.cen =</span> <span class="fu">scale</span>(net.count.fam, <span class="at">scale=</span><span class="dv">5</span>)) </span></code></pre></div>
+</div>
+<div id="random-intercept-models" class="section level2" number="6.3">
+<h2><span class="header-section-number">6.3</span> Random intercept models</h2>
+<div class="sourceCode" id="cb419"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb419-1"><a href="multilevel.html#cb419-1" aria-hidden="true" tabindex="-1"></a><span class="do">## m1: Variance components models                                           ====</span></span>
+<span id="cb419-2"><a href="multilevel.html#cb419-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================================================================ =</span></span>
+<span id="cb419-3"><a href="multilevel.html#cb419-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb419-4"><a href="multilevel.html#cb419-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Variance components model: level 1 is ties, level 2 is egos, random intercept, </span></span>
+<span id="cb419-5"><a href="multilevel.html#cb419-5" aria-hidden="true" tabindex="-1"></a><span class="co"># no predictor</span></span>
+<span id="cb419-6"><a href="multilevel.html#cb419-6" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(alter.loan <span class="sc">~</span> <span class="co"># Dependent variable</span></span>
+<span id="cb419-7"><a href="multilevel.html#cb419-7" aria-hidden="true" tabindex="-1"></a>              (<span class="dv">1</span> <span class="sc">|</span> ego_ID), <span class="co"># Intercept (1) varies in level-2 units (ego_ID)</span></span>
+<span id="cb419-8"><a href="multilevel.html#cb419-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">&quot;logit&quot;</span>), <span class="co"># Model class (logistic)</span></span>
+<span id="cb419-9"><a href="multilevel.html#cb419-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> model.data) <span class="co"># Data object</span></span>
+<span id="cb419-10"><a href="multilevel.html#cb419-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb419-11"><a href="multilevel.html#cb419-11" aria-hidden="true" tabindex="-1"></a><span class="co"># View results</span></span>
+<span id="cb419-12"><a href="multilevel.html#cb419-12" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">S</span>(m1)</span></code></pre></div>
+<pre><code>## Generalized linear mixed model fit by ML
+## Call: glmer(formula = alter.loan ~ (1 | ego_ID), data = model.data, family =
+##             binomial(&quot;logit&quot;))
+## 
+## Estimates of Fixed Effects:
+##             Estimate Std. Error z value Pr(&gt;|z|)
+## (Intercept)  0.05376    0.09609   0.559    0.576
+## 
+## Exponentiated Fixed Effects and Confidence Bounds:
+##             Estimate     2.5 %   97.5 %
+## (Intercept) 1.055234 0.8740869 1.273923
+## 
+## Estimates of Random Effects (Covariance Components):
+##  Groups Name        Std.Dev.
+##  ego_ID (Intercept) 0.9001  
+## 
+## Number of obs: 4021, groups:  ego_ID, 101
+## 
+##   logLik       df      AIC      BIC 
+## -2577.23        2  5158.46  5171.06</code></pre>
+<div class="sourceCode" id="cb421"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb421-1"><a href="multilevel.html#cb421-1" aria-hidden="true" tabindex="-1"></a><span class="do">## m2: Add tie characteristics as predictors (level 1)                      ====</span></span>
+<span id="cb421-2"><a href="multilevel.html#cb421-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================================================================ =</span></span>
+<span id="cb421-3"><a href="multilevel.html#cb421-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb421-4"><a href="multilevel.html#cb421-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Add alter.fam and alter.same.age as predictors</span></span>
+<span id="cb421-5"><a href="multilevel.html#cb421-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb421-6"><a href="multilevel.html#cb421-6" aria-hidden="true" tabindex="-1"></a><span class="co"># See descriptives for the new predictors</span></span>
+<span id="cb421-7"><a href="multilevel.html#cb421-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tabyl</span>(model.data<span class="sc">$</span>alter.fam)</span></code></pre></div>
+<pre><code>##  model.data$alter.fam    n   percent
+##                    No 3202 0.6976035
+##                   Yes 1388 0.3023965</code></pre>
+<div class="sourceCode" id="cb423"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb423-1"><a href="multilevel.html#cb423-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tabyl</span>(model.data<span class="sc">$</span>alter.same.age)</span></code></pre></div>
+<pre><code>##  model.data$alter.same.age    n    percent valid_percent
+##                         No 3228 0.70326797     0.7113266
+##                        Yes 1310 0.28540305     0.2886734
+##                       &lt;NA&gt;   52 0.01132898            NA</code></pre>
+<div class="sourceCode" id="cb425"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb425-1"><a href="multilevel.html#cb425-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate the model and view results</span></span>
+<span id="cb425-2"><a href="multilevel.html#cb425-2" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(alter.loan <span class="sc">~</span> <span class="co"># Dependent variable</span></span>
+<span id="cb425-3"><a href="multilevel.html#cb425-3" aria-hidden="true" tabindex="-1"></a>              alter.fam <span class="sc">+</span> alter.same.age <span class="sc">+</span> <span class="co"># Tie characteristics</span></span>
+<span id="cb425-4"><a href="multilevel.html#cb425-4" aria-hidden="true" tabindex="-1"></a>              (<span class="dv">1</span> <span class="sc">|</span> ego_ID), <span class="co"># Intercept (1) varies in level-2 units (ego_ID)</span></span>
+<span id="cb425-5"><a href="multilevel.html#cb425-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">&quot;logit&quot;</span>), <span class="co"># Model class (logistic)</span></span>
+<span id="cb425-6"><a href="multilevel.html#cb425-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> model.data) <span class="co"># Data object</span></span>
+<span id="cb425-7"><a href="multilevel.html#cb425-7" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">S</span>(m2)</span></code></pre></div>
+<pre><code>## Generalized linear mixed model fit by ML
+## Call: glmer(formula = alter.loan ~ alter.fam + alter.same.age + (1 | ego_ID),
+##             data = model.data, family = binomial(&quot;logit&quot;))
+## 
+## Estimates of Fixed Effects:
+##                   Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)       -0.21556    0.10511  -2.051   0.0403 *  
+## alter.famYes       1.01248    0.09284  10.906   &lt;2e-16 ***
+## alter.same.ageYes  0.20385    0.07951   2.564   0.0104 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Exponentiated Fixed Effects and Confidence Bounds:
+##                    Estimate     2.5 %   97.5 %
+## (Intercept)       0.8060913 0.6560167 0.990498
+## alter.famYes      2.7524141 2.2945208 3.301684
+## alter.same.ageYes 1.2261126 1.0491859 1.432875
+## 
+## Estimates of Random Effects (Covariance Components):
+##  Groups Name        Std.Dev.
+##  ego_ID (Intercept) 0.9372  
+## 
+## Number of obs: 3972, groups:  ego_ID, 100
+## 
+##   logLik       df      AIC      BIC 
+## -2478.16        4  4964.31  4989.46</code></pre>
+<div class="sourceCode" id="cb427"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb427-1"><a href="multilevel.html#cb427-1" aria-hidden="true" tabindex="-1"></a><span class="do">## m3: Add ego characteristics as predictors (level 2)                      ====</span></span>
+<span id="cb427-2"><a href="multilevel.html#cb427-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================================================================ =</span></span>
+<span id="cb427-3"><a href="multilevel.html#cb427-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb427-4"><a href="multilevel.html#cb427-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Add ego age (ego.age.cen), employment status (ego.empl.bin), </span></span>
+<span id="cb427-5"><a href="multilevel.html#cb427-5" aria-hidden="true" tabindex="-1"></a><span class="co"># educational level (ego.edu)</span></span>
+<span id="cb427-6"><a href="multilevel.html#cb427-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb427-7"><a href="multilevel.html#cb427-7" aria-hidden="true" tabindex="-1"></a><span class="co"># See descriptives for the new predictors</span></span>
+<span id="cb427-8"><a href="multilevel.html#cb427-8" aria-hidden="true" tabindex="-1"></a><span class="fu">skim_tee</span>(model.data<span class="sc">$</span>ego.age.cen)</span></code></pre></div>
+<pre><code>## ── Data Summary ────────────────────────
+##                            Values
+## Name                       data  
+## Number of rows             4590  
+## Number of columns          1     
+## _______________________          
+## Column type frequency:           
+##   numeric                  1     
+## ________________________         
+## Group variables            None  
+## 
+## ── Variable type: numeric ──────────────────────────────────────────────────────
+##   skim_variable n_missing complete_rate     mean    sd    p0   p25     p50   p75
+## 1 V1                   45         0.990 3.00e-16  2.14 -3.85 -1.85 -0.0515  1.95
+##    p100 hist 
+## 1  3.95 ▃▇▅▆▅</code></pre>
+<div class="sourceCode" id="cb429"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb429-1"><a href="multilevel.html#cb429-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tabyl</span>(model.data<span class="sc">$</span>ego.empl.bin)</span></code></pre></div>
+<pre><code>##  model.data$ego.empl.bin    n   percent
+##                       No  900 0.1960784
+##                      Yes 3690 0.8039216</code></pre>
+<div class="sourceCode" id="cb431"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb431-1"><a href="multilevel.html#cb431-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tabyl</span>(model.data<span class="sc">$</span>ego.edu)</span></code></pre></div>
+<pre><code>##  model.data$ego.edu    n   percent
+##             Primary 1890 0.4117647
+##           Secondary 2025 0.4411765
+##          University  675 0.1470588</code></pre>
+<div class="sourceCode" id="cb433"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb433-1"><a href="multilevel.html#cb433-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate the model and view results</span></span>
+<span id="cb433-2"><a href="multilevel.html#cb433-2" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(alter.loan <span class="sc">~</span> alter.fam <span class="sc">+</span> alter.same.age <span class="sc">+</span> <span class="co"># Tie characteristics</span></span>
+<span id="cb433-3"><a href="multilevel.html#cb433-3" aria-hidden="true" tabindex="-1"></a>              ego.age.cen <span class="sc">+</span> ego.empl.bin <span class="sc">+</span> ego.edu <span class="sc">+</span> <span class="co"># Ego characteristics</span></span>
+<span id="cb433-4"><a href="multilevel.html#cb433-4" aria-hidden="true" tabindex="-1"></a>              (<span class="dv">1</span> <span class="sc">|</span> ego_ID), <span class="co"># Intercept (1) varies in level-2 units</span></span>
+<span id="cb433-5"><a href="multilevel.html#cb433-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">&quot;logit&quot;</span>), <span class="co"># Model class (logistic)</span></span>
+<span id="cb433-6"><a href="multilevel.html#cb433-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> model.data) <span class="co"># Data</span></span>
+<span id="cb433-7"><a href="multilevel.html#cb433-7" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">S</span>(m3)</span></code></pre></div>
+<pre><code>## Generalized linear mixed model fit by ML
+## Call: glmer(formula = alter.loan ~ alter.fam + alter.same.age + ego.age.cen +
+##             ego.empl.bin + ego.edu + (1 | ego_ID), data = model.data, family =
+##             binomial(&quot;logit&quot;))
+## 
+## Estimates of Fixed Effects:
+##                   Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)       -0.61436    0.22533  -2.726  0.00640 ** 
+## alter.famYes       1.00698    0.09285  10.845  &lt; 2e-16 ***
+## alter.same.ageYes  0.19790    0.07950   2.489  0.01280 *  
+## ego.age.cen       -0.01306    0.04487  -0.291  0.77100    
+## ego.empl.binYes    0.07832    0.24560   0.319  0.74982    
+## ego.eduSecondary   0.49402    0.20962   2.357  0.01843 *  
+## ego.eduUniversity  0.86478    0.29945   2.888  0.00388 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Exponentiated Fixed Effects and Confidence Bounds:
+##                    Estimate     2.5 %    97.5 %
+## (Intercept)       0.5409853 0.3478433 0.8413706
+## alter.famYes      2.7373105 2.2818716 3.2836504
+## alter.same.ageYes 1.2188393 1.0429744 1.4243583
+## ego.age.cen       0.9870236 0.9039218 1.0777652
+## ego.empl.binYes   1.0814648 0.6682807 1.7501120
+## ego.eduSecondary  1.6388884 1.0867367 2.4715784
+## ego.eduUniversity 2.3744849 1.3203030 4.2703671
+## 
+## Estimates of Random Effects (Covariance Components):
+##  Groups Name        Std.Dev.
+##  ego_ID (Intercept) 0.879   
+## 
+## Number of obs: 3972, groups:  ego_ID, 100
+## 
+##   logLik       df      AIC      BIC 
+## -2472.68        8  4961.36  5011.66</code></pre>
+<div class="sourceCode" id="cb435"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb435-1"><a href="multilevel.html#cb435-1" aria-hidden="true" tabindex="-1"></a><span class="do">## m4: Add alter characteristics as predictors (level 1)                        ====</span></span>
+<span id="cb435-2"><a href="multilevel.html#cb435-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================================================================ =</span></span>
+<span id="cb435-3"><a href="multilevel.html#cb435-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb435-4"><a href="multilevel.html#cb435-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Add alter sex and alter age (centered)</span></span>
+<span id="cb435-5"><a href="multilevel.html#cb435-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb435-6"><a href="multilevel.html#cb435-6" aria-hidden="true" tabindex="-1"></a><span class="co"># See descriptives for the new predictors</span></span>
+<span id="cb435-7"><a href="multilevel.html#cb435-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tabyl</span>(model.data<span class="sc">$</span>alter.sex)</span></code></pre></div>
+<pre><code>##  model.data$alter.sex    n   percent
+##                Female 1297 0.2825708
+##                  Male 3293 0.7174292</code></pre>
+<div class="sourceCode" id="cb437"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb437-1"><a href="multilevel.html#cb437-1" aria-hidden="true" tabindex="-1"></a><span class="fu">skim_tee</span>(model.data<span class="sc">$</span>alter.age.cat.cen)</span></code></pre></div>
+<pre><code>## ── Data Summary ────────────────────────
+##                            Values
+## Name                       data  
+## Number of rows             4590  
+## Number of columns          1     
+## _______________________          
+## Column type frequency:           
+##   numeric                  1     
+## ________________________         
+## Group variables            None  
+## 
+## ── Variable type: numeric ──────────────────────────────────────────────────────
+##   skim_variable n_missing complete_rate      mean    sd    p0   p25    p50   p75
+## 1 V1                    8         0.998 -3.65e-16  1.64 -3.13 -1.13 -0.126 0.874
+##    p100 hist 
+## 1  2.87 ▆▅▆▇▆</code></pre>
+<div class="sourceCode" id="cb439"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb439-1"><a href="multilevel.html#cb439-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate the model and view results</span></span>
+<span id="cb439-2"><a href="multilevel.html#cb439-2" aria-hidden="true" tabindex="-1"></a>m4 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(alter.loan <span class="sc">~</span> alter.fam <span class="sc">+</span> alter.same.age <span class="sc">+</span> <span class="co"># Tie characteristics</span></span>
+<span id="cb439-3"><a href="multilevel.html#cb439-3" aria-hidden="true" tabindex="-1"></a>              ego.age.cen <span class="sc">+</span> ego.empl.bin <span class="sc">+</span> ego.edu <span class="sc">+</span> <span class="co"># Ego characteristics</span></span>
+<span id="cb439-4"><a href="multilevel.html#cb439-4" aria-hidden="true" tabindex="-1"></a>              alter.sex <span class="sc">+</span> alter.age.cat.cen <span class="sc">+</span> <span class="co"># Alter characteristics</span></span>
+<span id="cb439-5"><a href="multilevel.html#cb439-5" aria-hidden="true" tabindex="-1"></a>              (<span class="dv">1</span> <span class="sc">|</span> ego_ID), <span class="co"># Intercept (1) varies in level-2 units</span></span>
+<span id="cb439-6"><a href="multilevel.html#cb439-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">&quot;logit&quot;</span>), <span class="co"># Model class (logistic)</span></span>
+<span id="cb439-7"><a href="multilevel.html#cb439-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">data=</span> model.data) <span class="co"># Data</span></span>
+<span id="cb439-8"><a href="multilevel.html#cb439-8" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">S</span>(m4)</span></code></pre></div>
+<pre><code>## Generalized linear mixed model fit by ML
+## Call: glmer(formula = alter.loan ~ alter.fam + alter.same.age + ego.age.cen +
+##             ego.empl.bin + ego.edu + alter.sex + alter.age.cat.cen + (1 | ego_ID), data =
+##             model.data, family = binomial(&quot;logit&quot;))
+## 
+## Estimates of Fixed Effects:
+##                   Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)       -0.79887    0.23621  -3.382 0.000719 ***
+## alter.famYes       1.04455    0.09450  11.053  &lt; 2e-16 ***
+## alter.same.ageYes  0.18047    0.07984   2.261 0.023788 *  
+## ego.age.cen       -0.02345    0.04544  -0.516 0.605772    
+## ego.empl.binYes    0.06895    0.24631   0.280 0.779516    
+## ego.eduSecondary   0.49039    0.21009   2.334 0.019585 *  
+## ego.eduUniversity  0.87968    0.30015   2.931 0.003381 ** 
+## alter.sexMale      0.25266    0.08596   2.939 0.003290 ** 
+## alter.age.cat.cen  0.03834    0.02475   1.549 0.121299    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Exponentiated Fixed Effects and Confidence Bounds:
+##                    Estimate     2.5 %    97.5 %
+## (Intercept)       0.4498365 0.2831345 0.7146883
+## alter.famYes      2.8421300 2.3615720 3.4204771
+## alter.same.ageYes 1.1977844 1.0242872 1.4006692
+## ego.age.cen       0.9768214 0.8935895 1.0678057
+## ego.empl.binYes   1.0713874 0.6611311 1.7362229
+## ego.eduSecondary  1.6329480 1.0817965 2.4648991
+## ego.eduUniversity 2.4101365 1.3382884 4.3404380
+## alter.sexMale     1.2874404 1.0878229 1.5236881
+## alter.age.cat.cen 1.0390877 0.9898894 1.0907312
+## 
+## Estimates of Random Effects (Covariance Components):
+##  Groups Name        Std.Dev.
+##  ego_ID (Intercept) 0.881   
+## 
+## Number of obs: 3972, groups:  ego_ID, 100
+## 
+##   logLik       df      AIC      BIC 
+## -2467.02       10  4954.04  5016.91</code></pre>
+<div class="sourceCode" id="cb441"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb441-1"><a href="multilevel.html#cb441-1" aria-hidden="true" tabindex="-1"></a><span class="do">## m5: Add network characteristics as predictors (level 2)                  ====</span></span>
+<span id="cb441-2"><a href="multilevel.html#cb441-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================================================================ =</span></span>
+<span id="cb441-3"><a href="multilevel.html#cb441-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb441-4"><a href="multilevel.html#cb441-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Add count of family members in network (centered)</span></span>
+<span id="cb441-5"><a href="multilevel.html#cb441-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb441-6"><a href="multilevel.html#cb441-6" aria-hidden="true" tabindex="-1"></a><span class="co"># See descriptives for the new predictor</span></span>
+<span id="cb441-7"><a href="multilevel.html#cb441-7" aria-hidden="true" tabindex="-1"></a><span class="fu">skim_tee</span>(model.data<span class="sc">$</span>net.count.fam.cen)</span></code></pre></div>
+<pre><code>## ── Data Summary ────────────────────────
+##                            Values
+## Name                       data  
+## Number of rows             4590  
+## Number of columns          1     
+## _______________________          
+## Column type frequency:           
+##   numeric                  1     
+## ________________________         
+## Group variables            None  
+## 
+## ── Variable type: numeric ──────────────────────────────────────────────────────
+##   skim_variable n_missing complete_rate     mean    sd    p0    p25    p50   p75
+## 1 V1                    0             1 7.24e-17  1.02 -1.72 -0.722 -0.122 0.478
+##    p100 hist 
+## 1  2.88 ▃▇▅▂▁</code></pre>
+<div class="sourceCode" id="cb443"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb443-1"><a href="multilevel.html#cb443-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate model and see results</span></span>
+<span id="cb443-2"><a href="multilevel.html#cb443-2" aria-hidden="true" tabindex="-1"></a>m5 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(alter.loan <span class="sc">~</span> alter.fam <span class="sc">+</span> alter.same.age <span class="sc">+</span> <span class="co"># Tie characteristics</span></span>
+<span id="cb443-3"><a href="multilevel.html#cb443-3" aria-hidden="true" tabindex="-1"></a>              ego.age.cen <span class="sc">+</span> ego.empl.bin <span class="sc">+</span> ego.edu <span class="sc">+</span> <span class="co"># Ego characteristics</span></span>
+<span id="cb443-4"><a href="multilevel.html#cb443-4" aria-hidden="true" tabindex="-1"></a>              alter.sex <span class="sc">+</span> alter.age.cat.cen <span class="sc">+</span>  <span class="co"># Alter characteristics</span></span>
+<span id="cb443-5"><a href="multilevel.html#cb443-5" aria-hidden="true" tabindex="-1"></a>              net.count.fam.cen <span class="sc">+</span> <span class="co"># Ego-network characteristics</span></span>
+<span id="cb443-6"><a href="multilevel.html#cb443-6" aria-hidden="true" tabindex="-1"></a>              (<span class="dv">1</span> <span class="sc">|</span> ego_ID), <span class="co"># Intercept (1) varies in level-2 units</span></span>
+<span id="cb443-7"><a href="multilevel.html#cb443-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">&quot;logit&quot;</span>), <span class="co"># Model class (logistic)</span></span>
+<span id="cb443-8"><a href="multilevel.html#cb443-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">data=</span> model.data) <span class="co"># Data</span></span>
+<span id="cb443-9"><a href="multilevel.html#cb443-9" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">S</span>(m5)</span></code></pre></div>
+<pre><code>## Generalized linear mixed model fit by ML
+## Call: glmer(formula = alter.loan ~ alter.fam + alter.same.age + ego.age.cen +
+##             ego.empl.bin + ego.edu + alter.sex + alter.age.cat.cen + net.count.fam.cen + (1
+##             | ego_ID), data = model.data, family = binomial(&quot;logit&quot;))
+## 
+## Estimates of Fixed Effects:
+##                   Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)       -0.85008    0.23451  -3.625 0.000289 ***
+## alter.famYes       1.06161    0.09498  11.178  &lt; 2e-16 ***
+## alter.same.ageYes  0.18265    0.07983   2.288 0.022144 *  
+## ego.age.cen       -0.02293    0.04473  -0.513 0.608155    
+## ego.empl.binYes    0.11922    0.24382   0.489 0.624872    
+## ego.eduSecondary   0.49633    0.20680   2.400 0.016390 *  
+## ego.eduUniversity  0.94457    0.29758   3.174 0.001503 ** 
+## alter.sexMale      0.25068    0.08596   2.916 0.003541 ** 
+## alter.age.cat.cen  0.03879    0.02474   1.568 0.116875    
+## net.count.fam.cen -0.17863    0.09517  -1.877 0.060524 .  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Exponentiated Fixed Effects and Confidence Bounds:
+##                    Estimate     2.5 %    97.5 %
+## (Intercept)       0.4273806 0.2698984 0.6767516
+## alter.famYes      2.8910255 2.3999768 3.4825454
+## alter.same.ageYes 1.2003973 1.0265250 1.4037200
+## ego.age.cen       0.9773295 0.8953033 1.0668708
+## ego.empl.binYes   1.1266164 0.6986086 1.8168463
+## ego.eduSecondary  1.6426831 1.0952898 2.4636473
+## ego.eduUniversity 2.5717065 1.4352318 4.6080878
+## alter.sexMale     1.2848996 1.0856839 1.5206700
+## alter.age.cat.cen 1.0395548 0.9903505 1.0912039
+## net.count.fam.cen 0.8364152 0.6940853 1.0079314
+## 
+## Estimates of Random Effects (Covariance Components):
+##  Groups Name        Std.Dev.
+##  ego_ID (Intercept) 0.8648  
+## 
+## Number of obs: 3972, groups:  ego_ID, 100
+## 
+##   logLik       df      AIC      BIC 
+## -2465.28       11  4952.56  5021.72</code></pre>
+<div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb445-1"><a href="multilevel.html#cb445-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Results as tidy data frame</span></span>
+<span id="cb445-2"><a href="multilevel.html#cb445-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(m5)</span></code></pre></div>
+<pre><code>## # A tibble: 11 × 7
+##    effect   group  term              estimate std.error statistic   p.value
+##    &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;                &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+##  1 fixed    &lt;NA&gt;   (Intercept)        -0.850     0.235     -3.62   2.89e- 4
+##  2 fixed    &lt;NA&gt;   alter.famYes        1.06      0.0950    11.2    5.25e-29
+##  3 fixed    &lt;NA&gt;   alter.same.ageYes   0.183     0.0798     2.29   2.21e- 2
+##  4 fixed    &lt;NA&gt;   ego.age.cen        -0.0229    0.0447    -0.513  6.08e- 1
+##  5 fixed    &lt;NA&gt;   ego.empl.binYes     0.119     0.244      0.489  6.25e- 1
+##  6 fixed    &lt;NA&gt;   ego.eduSecondary    0.496     0.207      2.40   1.64e- 2
+##  7 fixed    &lt;NA&gt;   ego.eduUniversity   0.945     0.298      3.17   1.50e- 3
+##  8 fixed    &lt;NA&gt;   alter.sexMale       0.251     0.0860     2.92   3.54e- 3
+##  9 fixed    &lt;NA&gt;   alter.age.cat.cen   0.0388    0.0247     1.57   1.17e- 1
+## 10 fixed    &lt;NA&gt;   net.count.fam.cen  -0.179     0.0952    -1.88   6.05e- 2
+## 11 ran_pars ego_ID sd__(Intercept)     0.865    NA         NA     NA</code></pre>
+<div class="sourceCode" id="cb447"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb447-1"><a href="multilevel.html#cb447-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot predictor effects                                                   ====</span></span>
+<span id="cb447-2"><a href="multilevel.html#cb447-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================================================================ =</span></span>
+<span id="cb447-3"><a href="multilevel.html#cb447-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb447-4"><a href="multilevel.html#cb447-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggeffects)</span>
+<span id="cb447-5"><a href="multilevel.html#cb447-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb447-6"><a href="multilevel.html#cb447-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Probability of financial support as a function of alter.fam</span></span>
+<span id="cb447-7"><a href="multilevel.html#cb447-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpredict</span>(m5, <span class="st">&quot;alter.fam&quot;</span>) </span></code></pre></div>
+<pre><code>## # Predicted probabilities of alter.loan
+## 
+## alter.fam | Predicted |       95% CI
+## ------------------------------------
+## No        |      0.30 | [0.21, 0.40]
+## Yes       |      0.55 | [0.44, 0.66]
+## 
+## Adjusted for:
+## *    alter.same.age =      No
+## *       ego.age.cen =   -0.03
+## *      ego.empl.bin =      No
+## *           ego.edu = Primary
+## *         alter.sex =  Female
+## * alter.age.cat.cen =   -0.05
+## * net.count.fam.cen =    0.00
+## *            ego_ID = 0 (population-level)</code></pre>
+<div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb449-1"><a href="multilevel.html#cb449-1" aria-hidden="true" tabindex="-1"></a><span class="co"># You can convert it to a tidy data frame</span></span>
+<span id="cb449-2"><a href="multilevel.html#cb449-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpredict</span>(m5, <span class="st">&quot;alter.fam&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb449-3"><a href="multilevel.html#cb449-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 2 × 6
+##   x     predicted std.error conf.low conf.high group
+##   &lt;fct&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;
+## 1 No        0.299     0.234    0.212     0.403 1    
+## 2 Yes       0.552     0.239    0.436     0.664 1</code></pre>
+<div class="sourceCode" id="cb451"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb451-1"><a href="multilevel.html#cb451-1" aria-hidden="true" tabindex="-1"></a><span class="co"># You can also plot the result</span></span>
+<span id="cb451-2"><a href="multilevel.html#cb451-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpredict</span>(m5, <span class="st">&quot;alter.fam&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb451-3"><a href="multilevel.html#cb451-3" aria-hidden="true" tabindex="-1"></a>  plot</span></code></pre></div>
+<p><img src="Egocentric_R_bookdown_files/figure-html/rand-intercept-1.png" width="672" /></p>
+<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb452-1"><a href="multilevel.html#cb452-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Probability of financial support as a function of ego.edu</span></span>
+<span id="cb452-2"><a href="multilevel.html#cb452-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpredict</span>(m5, <span class="st">&quot;ego.edu&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb452-3"><a href="multilevel.html#cb452-3" aria-hidden="true" tabindex="-1"></a>  plot</span></code></pre></div>
+<p><img src="Egocentric_R_bookdown_files/figure-html/rand-intercept-2.png" width="672" /></p>
+</div>
+<div id="random-slope-models" class="section level2" number="6.4">
+<h2><span class="header-section-number">6.4</span> Random slope models</h2>
+<div class="sourceCode" id="cb453"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb453-1"><a href="multilevel.html#cb453-1" aria-hidden="true" tabindex="-1"></a><span class="do">## m6: Random slope for alter.fam                                           ====</span></span>
+<span id="cb453-2"><a href="multilevel.html#cb453-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================================================================ =</span></span>
+<span id="cb453-3"><a href="multilevel.html#cb453-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb453-4"><a href="multilevel.html#cb453-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit model</span></span>
+<span id="cb453-5"><a href="multilevel.html#cb453-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2707</span>)</span>
+<span id="cb453-6"><a href="multilevel.html#cb453-6" aria-hidden="true" tabindex="-1"></a>m6 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(alter.loan <span class="sc">~</span> alter.fam <span class="sc">+</span> alter.same.age <span class="sc">+</span> <span class="co"># Tie characteristics</span></span>
+<span id="cb453-7"><a href="multilevel.html#cb453-7" aria-hidden="true" tabindex="-1"></a>              ego.age.cen <span class="sc">+</span> ego.empl.bin <span class="sc">+</span> ego.edu <span class="sc">+</span> <span class="co"># Ego characteristics</span></span>
+<span id="cb453-8"><a href="multilevel.html#cb453-8" aria-hidden="true" tabindex="-1"></a>              alter.sex <span class="sc">+</span> alter.age.cat.cen <span class="sc">+</span>  <span class="co"># Alter characteristics</span></span>
+<span id="cb453-9"><a href="multilevel.html#cb453-9" aria-hidden="true" tabindex="-1"></a>              net.count.fam.cen <span class="sc">+</span> <span class="co"># Ego-network characteristics</span></span>
+<span id="cb453-10"><a href="multilevel.html#cb453-10" aria-hidden="true" tabindex="-1"></a>              (<span class="dv">1</span> <span class="sc">+</span> alter.fam <span class="sc">|</span> ego_ID), <span class="co"># Both intercept (1) and alter.fam </span></span>
+<span id="cb453-11"><a href="multilevel.html#cb453-11" aria-hidden="true" tabindex="-1"></a>            <span class="co"># slppe vary in level-2 units (ego_ID)</span></span>
+<span id="cb453-12"><a href="multilevel.html#cb453-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">&quot;logit&quot;</span>), <span class="co"># Model class (logistic)</span></span>
+<span id="cb453-13"><a href="multilevel.html#cb453-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> model.data) <span class="co"># Data</span></span></code></pre></div>
+<pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, :
+## Model failed to converge with max|grad| = 0.00200685 (tol = 0.002, component 1)</code></pre>
+<div class="sourceCode" id="cb455"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb455-1"><a href="multilevel.html#cb455-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Re-fit with starting values from previous fit to address convergence warnings</span></span>
+<span id="cb455-2"><a href="multilevel.html#cb455-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb455-3"><a href="multilevel.html#cb455-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Get estimate values from previous fit</span></span>
+<span id="cb455-4"><a href="multilevel.html#cb455-4" aria-hidden="true" tabindex="-1"></a>ss <span class="ot">&lt;-</span> <span class="fu">getME</span>(m6, <span class="fu">c</span>(<span class="st">&quot;theta&quot;</span>, <span class="st">&quot;fixef&quot;</span>))</span>
+<span id="cb455-5"><a href="multilevel.html#cb455-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb455-6"><a href="multilevel.html#cb455-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Refit by setting ss as starting values </span></span>
+<span id="cb455-7"><a href="multilevel.html#cb455-7" aria-hidden="true" tabindex="-1"></a>m6 <span class="ot">&lt;-</span> <span class="fu">glmer</span>(alter.loan <span class="sc">~</span> alter.fam <span class="sc">+</span> alter.same.age <span class="sc">+</span> <span class="co"># Tie characteristics</span></span>
+<span id="cb455-8"><a href="multilevel.html#cb455-8" aria-hidden="true" tabindex="-1"></a>              ego.age.cen <span class="sc">+</span> ego.empl.bin <span class="sc">+</span> ego.edu <span class="sc">+</span> <span class="co"># Ego characteristics</span></span>
+<span id="cb455-9"><a href="multilevel.html#cb455-9" aria-hidden="true" tabindex="-1"></a>              alter.sex <span class="sc">+</span> alter.age.cat.cen <span class="sc">+</span>  <span class="co"># Alter characteristics</span></span>
+<span id="cb455-10"><a href="multilevel.html#cb455-10" aria-hidden="true" tabindex="-1"></a>              net.count.fam.cen <span class="sc">+</span> <span class="co"># Ego-network characteristics</span></span>
+<span id="cb455-11"><a href="multilevel.html#cb455-11" aria-hidden="true" tabindex="-1"></a>              (<span class="dv">1</span> <span class="sc">+</span> alter.fam <span class="sc">|</span> ego_ID), <span class="co"># Both intercept (1) and alter.fam </span></span>
+<span id="cb455-12"><a href="multilevel.html#cb455-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">start=</span> ss, <span class="co"># </span></span>
+<span id="cb455-13"><a href="multilevel.html#cb455-13" aria-hidden="true" tabindex="-1"></a>            <span class="co"># slppe vary in level-2 units (ego_ID)</span></span>
+<span id="cb455-14"><a href="multilevel.html#cb455-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">&quot;logit&quot;</span>), <span class="co"># Model class (logistic)</span></span>
+<span id="cb455-15"><a href="multilevel.html#cb455-15" aria-hidden="true" tabindex="-1"></a>            <span class="at">data=</span> model.data) <span class="co"># Data</span></span>
+<span id="cb455-16"><a href="multilevel.html#cb455-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb455-17"><a href="multilevel.html#cb455-17" aria-hidden="true" tabindex="-1"></a><span class="co"># View results</span></span>
+<span id="cb455-18"><a href="multilevel.html#cb455-18" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">S</span>(m6)</span></code></pre></div>
+<pre><code>## Generalized linear mixed model fit by ML
+## Call: glmer(formula = alter.loan ~ alter.fam + alter.same.age + ego.age.cen +
+##             ego.empl.bin + ego.edu + alter.sex + alter.age.cat.cen + net.count.fam.cen + (1
+##             + alter.fam | ego_ID), data = model.data, family = binomial(&quot;logit&quot;), start =
+##             ss)
+## 
+## Estimates of Fixed Effects:
+##                   Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)       -0.91969    0.24607  -3.738 0.000186 ***
+## alter.famYes       1.10130    0.12286   8.964  &lt; 2e-16 ***
+## alter.same.ageYes  0.18966    0.08067   2.351 0.018712 *  
+## ego.age.cen       -0.02932    0.04559  -0.643 0.520083    
+## ego.empl.binYes    0.16614    0.25193   0.659 0.509591    
+## ego.eduSecondary   0.52523    0.21101   2.489 0.012807 *  
+## ego.eduUniversity  1.00013    0.30745   3.253 0.001142 ** 
+## alter.sexMale      0.25913    0.08691   2.981 0.002868 ** 
+## alter.age.cat.cen  0.04230    0.02515   1.682 0.092567 .  
+## net.count.fam.cen -0.18543    0.09693  -1.913 0.055745 .  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Exponentiated Fixed Effects and Confidence Bounds:
+##                    Estimate     2.5 %    97.5 %
+## (Intercept)       0.3986409 0.2461083 0.6457098
+## alter.famYes      3.0080852 2.3643516 3.8270860
+## alter.same.ageYes 1.2088437 1.0320646 1.4159027
+## ego.age.cen       0.9711040 0.8881019 1.0618634
+## ego.empl.binYes   1.1807410 0.7206271 1.9346335
+## ego.eduSecondary  1.6908402 1.1181228 2.5569111
+## ego.eduUniversity 2.7186307 1.4881543 4.9665232
+## alter.sexMale     1.2957964 1.0928433 1.5364401
+## alter.age.cat.cen 1.0432040 0.9930348 1.0959078
+## net.count.fam.cen 0.8307451 0.6870043 1.0045607
+## 
+## Estimates of Random Effects (Covariance Components):
+##  Groups Name         Std.Dev. Corr 
+##  ego_ID (Intercept)  0.9054        
+##         alter.famYes 0.6697   -0.27
+## 
+## Number of obs: 3972, groups:  ego_ID, 100
+## 
+##   logLik       df      AIC      BIC 
+## -2460.22       13  4946.44  5028.17</code></pre>
+<div class="sourceCode" id="cb457"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb457-1"><a href="multilevel.html#cb457-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Results as tidy data frame</span></span>
+<span id="cb457-2"><a href="multilevel.html#cb457-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(m6)</span></code></pre></div>
+<pre><code>## # A tibble: 13 × 7
+##    effect   group  term                   estimate std.error statistic   p.value
+##    &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;                     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+##  1 fixed    &lt;NA&gt;   (Intercept)             -0.920     0.246     -3.74   1.86e- 4
+##  2 fixed    &lt;NA&gt;   alter.famYes             1.10      0.123      8.96   3.13e-19
+##  3 fixed    &lt;NA&gt;   alter.same.ageYes        0.190     0.0807     2.35   1.87e- 2
+##  4 fixed    &lt;NA&gt;   ego.age.cen             -0.0293    0.0456    -0.643  5.20e- 1
+##  5 fixed    &lt;NA&gt;   ego.empl.binYes          0.166     0.252      0.659  5.10e- 1
+##  6 fixed    &lt;NA&gt;   ego.eduSecondary         0.525     0.211      2.49   1.28e- 2
+##  7 fixed    &lt;NA&gt;   ego.eduUniversity        1.00      0.307      3.25   1.14e- 3
+##  8 fixed    &lt;NA&gt;   alter.sexMale            0.259     0.0869     2.98   2.87e- 3
+##  9 fixed    &lt;NA&gt;   alter.age.cat.cen        0.0423    0.0251     1.68   9.26e- 2
+## 10 fixed    &lt;NA&gt;   net.count.fam.cen       -0.185     0.0969    -1.91   5.57e- 2
+## 11 ran_pars ego_ID sd__(Intercept)          0.905    NA         NA     NA       
+## 12 ran_pars ego_ID cor__(Intercept).alte…  -0.275    NA         NA     NA       
+## 13 ran_pars ego_ID sd__alter.famYes         0.670    NA         NA     NA</code></pre>
+</div>
+<div id="tests-of-significance" class="section level2" number="6.5">
+<h2><span class="header-section-number">6.5</span> Tests of significance</h2>
+<div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb459-1"><a href="multilevel.html#cb459-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Test significance of ego-level random intercept                          ====</span></span>
+<span id="cb459-2"><a href="multilevel.html#cb459-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================================================================ =</span></span>
+<span id="cb459-3"><a href="multilevel.html#cb459-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb459-4"><a href="multilevel.html#cb459-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Test that there is significant clustering by egos, i.e. ego-level variance</span></span>
+<span id="cb459-5"><a href="multilevel.html#cb459-5" aria-hidden="true" tabindex="-1"></a><span class="co"># of random intercepts is significantly higher than 0. This means comparing</span></span>
+<span id="cb459-6"><a href="multilevel.html#cb459-6" aria-hidden="true" tabindex="-1"></a><span class="co"># the random-intercept null model (i.e. &quot;variance components&quot; model) to the </span></span>
+<span id="cb459-7"><a href="multilevel.html#cb459-7" aria-hidden="true" tabindex="-1"></a><span class="co"># single-level null model.</span></span>
+<span id="cb459-8"><a href="multilevel.html#cb459-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb459-9"><a href="multilevel.html#cb459-9" aria-hidden="true" tabindex="-1"></a><span class="co"># First estimate the simpler, single-level null model: m0, which is nested in m1</span></span>
+<span id="cb459-10"><a href="multilevel.html#cb459-10" aria-hidden="true" tabindex="-1"></a>m0 <span class="ot">&lt;-</span> <span class="fu">glm</span>(alter.loan <span class="sc">~</span> <span class="dv">1</span>, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">&quot;logit&quot;</span>), <span class="at">data=</span> model.data)</span>
+<span id="cb459-11"><a href="multilevel.html#cb459-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb459-12"><a href="multilevel.html#cb459-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Then conduct a LRT comparing deviance of m0 to deviance of m1.</span></span>
+<span id="cb459-13"><a href="multilevel.html#cb459-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb459-14"><a href="multilevel.html#cb459-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Difference between deviances.</span></span>
+<span id="cb459-15"><a href="multilevel.html#cb459-15" aria-hidden="true" tabindex="-1"></a>(val <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span><span class="sc">*</span><span class="fu">logLik</span>(m0)) <span class="sc">-</span> (<span class="sc">-</span><span class="dv">2</span><span class="sc">*</span><span class="fu">logLik</span>(m1))</span></code></pre></div>
+<pre><code>## &#39;log Lik.&#39; 416.3027 (df=1)</code></pre>
+<div class="sourceCode" id="cb461"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb461-1"><a href="multilevel.html#cb461-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare this difference to chi-squared distribution with 1 degree of freedom.</span></span>
+<span id="cb461-2"><a href="multilevel.html#cb461-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pchisq</span>(val, <span class="at">df=</span> <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>## &#39;log Lik.&#39; 0 (df=1)</code></pre>
+<div class="sourceCode" id="cb463"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb463-1"><a href="multilevel.html#cb463-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The same result is obtained using the anova() function</span></span>
+<span id="cb463-2"><a href="multilevel.html#cb463-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m1, m0, <span class="at">refit=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>## Data: model.data
+## Models:
+## m0: alter.loan ~ 1
+## m1: alter.loan ~ (1 | ego_ID)
+##    npar    AIC    BIC  logLik deviance Chisq Df Pr(&gt;Chisq)    
+## m0    1 5572.8 5579.1 -2785.4   5570.8                        
+## m1    2 5158.5 5171.1 -2577.2   5154.5 416.3  1  &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode" id="cb465"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb465-1"><a href="multilevel.html#cb465-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Test significance of ego-level random slope for alter.fam                ====</span></span>
+<span id="cb465-2"><a href="multilevel.html#cb465-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ============================================================================ =</span></span>
+<span id="cb465-3"><a href="multilevel.html#cb465-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb465-4"><a href="multilevel.html#cb465-4" aria-hidden="true" tabindex="-1"></a><span class="co"># This is done with a LRT comparing the same model with random slope for alter.fam</span></span>
+<span id="cb465-5"><a href="multilevel.html#cb465-5" aria-hidden="true" tabindex="-1"></a><span class="co"># (m6) and without it (m5). Note that m5 is nested in m6, that&#39;s why we can </span></span>
+<span id="cb465-6"><a href="multilevel.html#cb465-6" aria-hidden="true" tabindex="-1"></a><span class="co"># use LRT.</span></span>
+<span id="cb465-7"><a href="multilevel.html#cb465-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb465-8"><a href="multilevel.html#cb465-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Difference between deviances.</span></span>
+<span id="cb465-9"><a href="multilevel.html#cb465-9" aria-hidden="true" tabindex="-1"></a>(val <span class="ot">&lt;-</span> (<span class="sc">-</span><span class="dv">2</span><span class="sc">*</span><span class="fu">logLik</span>(m5)) <span class="sc">-</span> (<span class="sc">-</span><span class="dv">2</span><span class="sc">*</span><span class="fu">logLik</span>(m6)))</span></code></pre></div>
+<pre><code>## &#39;log Lik.&#39; 10.12578 (df=11)</code></pre>
+<div class="sourceCode" id="cb467"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb467-1"><a href="multilevel.html#cb467-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare this difference to chi-squared distribution with 2 degrees of freedom.</span></span>
+<span id="cb467-2"><a href="multilevel.html#cb467-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pchisq</span>(val, <span class="at">df=</span> <span class="dv">2</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>## &#39;log Lik.&#39; 0.006327255 (df=11)</code></pre>
+<div class="sourceCode" id="cb469"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb469-1"><a href="multilevel.html#cb469-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Same results with anova() function</span></span>
+<span id="cb469-2"><a href="multilevel.html#cb469-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m6, m5, <span class="at">refit=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>## Data: model.data
+## Models:
+## m5: alter.loan ~ alter.fam + alter.same.age + ego.age.cen + ego.empl.bin + ego.edu + alter.sex + alter.age.cat.cen + net.count.fam.cen + (1 | ego_ID)
+## m6: alter.loan ~ alter.fam + alter.same.age + ego.age.cen + ego.empl.bin + ego.edu + alter.sex + alter.age.cat.cen + net.count.fam.cen + (1 + alter.fam | ego_ID)
+##    npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)   
+## m5   11 4952.6 5021.7 -2465.3   4930.6                        
+## m6   13 4946.4 5028.2 -2460.2   4920.4 10.126  2   0.006327 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+<div id="further-readings" class="section level2" number="6.6">
+<h2><span class="header-section-number">6.6</span> Further readings</h2>
+<p>In order of relevance to this chapter:</p>
+<ul>
+<li><span class="citation">Vacca (<a href="#ref-vacca_multilevel_2018" role="doc-biblioref">2018</a>)</span></li>
+<li><span class="citation">McCarty et al. (<a href="#ref-mccarty_conducting_2019" role="doc-biblioref">2019</a>)</span>, Ch. 13.</li>
+<li><span class="citation">Perry, Borgatti, and Pescosolido (<a href="#ref-perry_egocentric_2018" role="doc-biblioref">2018</a>)</span>, Ch. 8.</li>
+<li><span class="citation">Crossley et al. (<a href="#ref-crossley_social_2015" role="doc-biblioref">2015</a>)</span>, Ch. 6.</li>
+<li><span class="citation">Vacca, Stacciarini, and Tranmer (<a href="#ref-vacca_cross-classified_2019" role="doc-biblioref">2019</a>)</span></li>
+<li><span class="citation">Duijn (<a href="#ref-simonoff_multilevel_2013" role="doc-biblioref">2013</a>)</span></li>
+<li><span class="citation">Rasbash, Steele, and Reckie (<a href="#ref-rasbash_lemma:_2008" role="doc-biblioref">2008</a>)</span></li>
+<li><span class="citation">Snijders and Bosker (<a href="#ref-snijders_multilevel_2012" role="doc-biblioref">2012</a>)</span></li>
+</ul>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-crossley_social_2015" class="csl-entry">
+Crossley, Nick, Elisa Bellotti, Gemma Edwards, Martin G. Everett, Johan Koskinen, and Mark Tranmer. 2015. <em>Social Network Analysis for Ego-Nets</em>. London: SAGE Publications.
+</div>
+<div id="ref-simonoff_multilevel_2013" class="csl-entry">
+Duijn, Marijtje A. J van. 2013. <span>“Multilevel Modeling of Social Network and Relational Data.”</span> In <em>The <span>SAGE</span> Handbook of Multilevel Modeling</em>, edited by Jeffrey S. Simonoff, Marc A. Scott, and Brian D. Marx, 599–618. Los Angeles: SAGE.
+</div>
+<div id="ref-mccarty_conducting_2019" class="csl-entry">
+McCarty, Christopher, Miranda J. Lubbers, Raffaele Vacca, and José Luis Molina. 2019. <em>Conducting Personal Network Research: A Practical Guide</em>. Methodology in the Social Sciences. New York City: The Guilford Press.
+</div>
+<div id="ref-perry_egocentric_2018" class="csl-entry">
+Perry, Brea L., Steve Borgatti, and Bernice A. Pescosolido. 2018. <em>Egocentric Network Analysis: <span>Foundation</span>, Methods, and Models</em>. Cambridge University Press.
+</div>
+<div id="ref-rasbash_lemma:_2008" class="csl-entry">
+Rasbash, J., F. Steele, and George Reckie. 2008. <em><span>LEMMA</span>: <span>Learning</span> Environment for Multilevel Methodology and Applications</em>. University of Bristol: Centre for Multilevel Modelling. <a href="https://www.cmm.bris.ac.uk/lemma">https://www.cmm.bris.ac.uk/lemma</a>.
+</div>
+<div id="ref-snijders_multilevel_2012" class="csl-entry">
+Snijders, Tom, and R. J. Bosker. 2012. <em>Multilevel Analysis: <span>An</span> Introduction to Basic and Advanced Multilevel Modeling</em>. 2nd edition. London; Thousand Oaks, Calif: SAGE Publications.
+</div>
+<div id="ref-vacca_multilevel_2018" class="csl-entry">
+Vacca, Raffaele. 2018. <span>“Multilevel Models for Personal Networks: Methods and Applications.”</span> <em>Statistica Applicata - Italian Journal of Applied Statistics</em> 30 (1): 59–97. <a href="https://doi.org/10.26398/IJAS.0030-003">https://doi.org/10.26398/IJAS.0030-003</a>.
+</div>
+<div id="ref-vacca_cross-classified_2019" class="csl-entry">
+Vacca, Raffaele, Jeanne-Marie R. Stacciarini, and Mark Tranmer. 2019. <span>“Cross-Classified Multilevel Models for Personal Networks: <span>Detecting</span> and Accounting for Overlapping Actors.”</span> <em>Sociological Methods &amp; Research</em>, November, 004912411988245. <a href="https://doi.org/10.1177/0049124119882450">https://doi.org/10.1177/0049124119882450</a>.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="structure.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="egor.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Egocentric_R_bookdown.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

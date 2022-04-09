@@ -1,0 +1,275 @@
+# R basics {#basics}
+
+```{r include=FALSE, cache=FALSE}
+knitr::read_chunk("./Scripts/02_Basics.R")
+```
+
+## Overview
+
+This chapter covers some basic tools and characteristics of the R language that we'll use in the workshop. While this obviously can't be a comprehensive introduction to R, we'll demonstrate some essential R notions and features that are commonly used in social science data analysis, including (egocentric) social network analysis. 
+
+The script covers the following topics:
+
+* Starting R, getting help with R.
+* Creating and saving R objects.
+* Vectors and matrices, data frames and tibbles.
+* Arithmetic and relational operations.
+* Indexing vectors, matrices, and data frames.
+
+## Starting R and loading packages {#starting-R-and-loading-packages}
+
++ Before starting any work in R, you normally want to do two things:
+    * Make sure your R session is pointing to the correct _working directory_.
+    * Install and/or load the _packages_ you are going to use. 
++ **Working directory**. By default, R will look for files and save new files in this directory. 
+    * Type `getwd()` in the console to view your current working directory.
+    * If you opened RStudio by double-clicking on a project (`.Rproj`) file, then the working directory is the folder where that file is located. 
+    * You can always use `setwd()` to manually change your working directory to any path, but it's usually more convenient to work with R projects and their default working directory instead.
+    * In RStudio, you can also check the current working directory by clicking on the `Files` panel.
++ **R packages**. There are two steps to using a package in R:
+    1. **Install** the package. _You do this just once_. Use `install.packages("package_name")` or the appropriate RStudio menu (`Tools > Install Packages...`). Once you install a package, the package files are in your system R folder and R will be able to always find the package there.
+    2. **Load** the package in your current session. Use `library(package_name)` (_no_ quotation marks around the package name). _You do this in each R session in which you need the package_, that is, every time you start R and you need the package. 
++ An R package is just a collection of **functions**. You can only use an R function if that function is included in a package you loaded in the current session.
++ Sometimes two different functions from two different packages have the same **name**. For example, both the `igraph` package and the `sna` package have a function called `degree`. If both packages are loaded, typing just `degree` might give you unexpected results, because R will pick one of the two functions (the one in the package that was loaded most recently), which might not be the function you meant. 
+    * To avoid this problem, you can use the `package::function()` notation: `igraph::degree()` will always call the `degree` function from the `igraph` package, while `sna::degree()` will call the `degree` function from the `sna` package. 
++ Tip: To check the package that a function comes from, just go to that function's manual page. The package will be indicated in the first line of the page. E.g., type `?degree` to see where the `degree` function comes from. 
+    * If no currently loaded package has a function called `degree`, then typing `?degree` will cause a warning (`No documentation for 'degree'`).
+    * If multiple, currently loaded packages have a function called `degree`, then typing `?degree` will bring up a page with the list of all those packages.
++ This workshop will use a number of packages, listed [here](#packages).
+
+### Console vs scripts
+
++ When you open RStudio, you typically see two separate windows: the script editor and the console. You can write R code in either of them.
++ **Console**. Here you write R code line by line. Once you type a line, you press `ENTER` to execute it. By pressing `ARROW UP` you go back to the last line you ran. By continuing to press `ARROW UP`, you can navigate through all the lines of code you previously executed. This is called the "commands history" (all the lines of code executed in the current session). You will lose all this code (all the history) when you quit R, unless you explicitly save the history to a file (which is not what you typically do, you should just write the code in a script).  
++ **Script editor**. Here you write a script. This is the most common way of working with R. A script is simply a plain text file where all your R code is saved. If your work is in a script, it is **reproducible**.
++ Both the R standard GUI and RStudio have a script editor with several helpful tools. Among other things, these allow you to run a script while you write it. By pressing `CTRL+ENTER` (Windows) or `CMD+ENTER` (Mac), you run the script line your cursor is on (or the selected script region). 
+    * Note that with RStudio you can run the single script line where your cursor is; a whole highlighted region of code; the region of code from the beginning of the script up to the line where your cursor is; the region of code from the line where your cursor is up to the end of the script. See the *Code* menu and its keyboard shortcuts.
++ The script editor also allows you to save your script. In RStudio, see `File > Save` and its keyboard shortcut. R script files commonly have a `.R` extension (e.g. "`myscript.R`"). But note that a script file is just a text file (like any `.txt` file), which you can open and edit in any text editor, or in Microsoft Word and the likes.
++ You can also run a whole script altogether --- this is called **sourcing** a script. By running `source("myscript.R")`, you source the script file `myscript.R` (assuming the file is in your working directory, otherwise you'll have to enter the whole file path). In RStudio: see *Code* > *Source* and its keyboard shortcut.
++ In both the console and the script editor, any line that starts by `#` is called a **comment**. R disregards comments --- it just prints them as they are in the console (does not parse and execute them as programming code). Remember to always use comments to document what your code is doing (this is good for yourself and for others).
++ In RStudio you can navigate the script headings in your script with a drop-down menu in the bottom-left of the script editor. Any line that starts by `#` and ends by `####`, `----`, or `====` is read as a heading by RStudio.
+
+### Getting help
+
++ Getting help is one of the most common things you do when using R. As a beginner, you'll constantly need to get help (for example, read manual pages) about R functions. Also as an experienced user, you'll often need to go back to the manual pages of particular functions or other R help resources. At any experience level, using R involves constantly using its documentation and help resources. 
++ The following are a few help tools in R:
+    * `help(...)` or `?...` are the most common ways of getting help: they send you to the R manual page for a specific function. E.g. `help(sum)` or `?sum` (they are equivalent).
+    * `help.start()` (or RStudio: `Help > R Help`) gives you general help pages in html (introduction to R, references to all functions in all installed packages, etc.).
+    * `demo()` gives you demos on specific topics. Run `demo()` to see all available topics.
+    * `example()` gives you example code on specific functions, e.g. `example(sum)` for the function `sum`.  
+    * `help.search(...)` or `??...` search for a specific string in the manual pages, e.g. `??histogram`.
++ In addition to built-in help facilities within R, there are plenty of ways to get **R help online**. Certain popular R packages have their own website, e.g. [ggplot2](http://ggplot2.tidyverse.org/), [igraph](http://igraph.org/), and [statnet](http://www.statnet.org/). Other websites for general R help include [rdocumentation.org](http://www.rdocumentation.org/) and [stackoverflow.com](http://stackoverflow.com/). See the workshop slides or talk to me for more information.
+
+```{r starting, include=TRUE, cache=FALSE, tidy= FALSE}
+```
+
+```{r include=FALSE, cache=FALSE}
+rm(list=ls())
+```
+
+## Objects in R
+
+> In R, everything that **exists** is an object. Everything that **happens** is a function call.
+- John Chambers
+
++ R is an object-oriented programming language. Everything is contained in an **object**, including data, analysis tools and analysis results. Things such as datasets, commands (called "functions" in R), regression results, descriptive statistics, etc., are all objects.
++ An object has a _name_ and a _value_. You create an object by **assigning** a value to a name. 
+    * You assign with `<-` or with `=`.
+    * R is **case-sensitive**: the object named `mydata` is different from the object named `Mydata`.
++ Whenever you run an operation or execute a function in R, you need to assign the result to an object if you want to save it and re-use it later. **Assign it or lose it**: anything that is not assigned to an object is just printed to the console and lost.
++ Objects have a size (bytes, megabytes, etc.) and a **type** (technically, a _class_, a _type_ and a _mode_ --- more on this [later](#types-and-classes-of-objects)).
++ A **function** is a particular type of object. Functions take other objects as arguments (input) and return more objects as a result (output). R functions are what other data analysis programs call "commands". See Section \@ref(functions) for more about functions.
+
+### The workspace
+
++ During your R session, objects (data, results) are located in the computer's main memory. They make up your workspace: the set of **all the objects** currently in memory. They will disappear when you quit R, unless you save them to files on disk.
++ What's in your current workspace?
+    * The function `ls()` shows you a full list of the objects currently in the workspace.
+    * Alternatively, in RStudio open the Environment panel to get a clickable list of objects currently in the workspace (if you don't see your Environment panel, check `Preferences... > Pane Layout`).
+
+### Saving and removing objects
+
++ Two main functions to **save** R objects to files: `save()` (saves specific objects, its arguments); `save.image()` (saves all the current workspace).
++ Unless you specify a different path, all files you save from R are put in your current working directory.
++ The most common file extensions for files that store R objects are `.rda` and `.RData`.
++ If you have a file with R objects, say `objects.rda`, you can **load** it in you current R session using the `load()` function: `load(file= "objects.rda")`. This assumes `objects.rda` is in your current working directory (otherwise you'll have to specify the whole file path).
++ The function `rm()` **removes** specific objects from the workspace. You can use it to clear the workspace from all existing objects by typing `rm(list=ls())` (remember that `ls()` returns a character vector with the names of all the objects in the current workspace).
+
+```{r objects, include=TRUE, cache=FALSE, tidy=FALSE, error=TRUE}
+```
+
+### Vector and matrix objects
+
++ **Vectors** are the most basic objects you use in R. Vectors can be numeric (numerical data), logical (TRUE/FALSE data), or character (string data).
++ The basic function to create a vector is `c` (**concatenate**).
++ Other useful functions to create vectors: `rep` and `seq`. 
+    * Another function we'll use to create vectors later in the workshop is `seq_along`. `seq_along(x)` creates a vector consisting of a sequence of integers from 1 to `length(x)` in steps of 1.
+    * Also keep in mind the `:` shortcut: `c(1, 2, 3, 4)` is the same as `1:4`.
++ The **length** (number of elements) is a basic property of vectors: `length(x)` returns the length of vector `x`.
++ When we `print` vectors, the numbers in square brackets indicate the positions of vector elements.
++ To create a matrix: `matrix`. Its main arguments are the cell values (within `c()`), number of rows (`nrow`) and number of columns (`ncol`). Values are arranged in a `nrow` x `ncol` matrix _by column_. See `?matrix`.
++ When we `print` matrices, the numbers in square brackets indicate the row and column numbers.
+
+### Data frames {#dataframes}
+
++ "Data frame" is R's name for dataset. A dataset is a collection of cases (rows), and variables (columns) which are measured on those cases.
++ When `print`ed in R, data frames look like matrices. However, unlike matrix columns, data frame columns can be of different types, e.g. a numeric variable and a character variable.
++ On the other hand, just like matrix columns, data frame columns (variables) must all have the same `length` (number of cases). You can't put together variables (vectors) of different length in the same data frame.
++ Although data frames look like matrices, in R's mind they are a specific kind of _list_ (more about lists in Section \@ref(lists)). In fact, the `class` of a data frame is `data.frame`, but the `type` of a data frame is `list`. The list elements for a data frame are its variables (columns).
++ **Tibbles.** The tidyverse packages, which we use in this workshop, rely on a more efficient form of data frame, called *tibble*. 
+    * A tibble has class `tbl_df` *and* `data.frame`. This means that, to R, a tibble is *also* a data frame, and any function that works on data frames normally also works on tibbles. 
+    * A tibble has a number of advantages over a traditional data frame, some of which we'll see in this workshop. 
+    * One of the advantages is the clearer and more informative way in which tibbles are printed. When we print a tibble data frame we can immediately see its number of rows, number of columns, names of variables, and type of each variable (numeric, integer, character, etc.).
+    * To convert an existing data frame to tibble: `as_tibble`. To create a tibble from scratch (similar to the `data.frame` function in base R): `tibble`.
++ While data frames can be created manually in R (with the functions `data.frame` in base R and `tibble` in `tidyverse`), data are most commonly imported into R from external sources, like a csv or txt file.
++ We'll import data from csv files using the `read_csv()` function from `tidyverse`.
+    * `read_csv()` reads csv files (values separated by "," or ";"). `read_delim()` reads files in which values are separated by any delimiter. 
+    * These functions have many arguments that make them very flexible and allow users to import basically any kind of table stored in a text file. Check out `?read_delim`.
+    * In base R, the corresponding functions are `read.csv()` and `read.table()`.
++ Data can also be imported into R from most external file formats (SAS, SPSS, Stata, Excel, etc.) using the tidyverse packages  `readxl` and `haven`, or the `foreign` package in traditional R.
++ Note that you can click on a data frame's name in RStudio's Environment pane. That will open the data frame in a window, similar to SPSS's data view.
+
+```{r vectors, include=TRUE, cache=FALSE, tidy=FALSE}
+```
+
+## Arithmetic, statistical, and relational operations
+
+### Arithmetic operations and recycling
+
++ R can work as a normal calculator.
+    * Addition/subtraction: `7+3`
+    * Multiplication: `7*3`
+    * Negative: `-7`
+    * Division: `7/3`
+    * Integer division: `7%/%3`
+    * Integer remainder: `7%%3`
+    * Exponentiation: `7^3`
++ Many operations involving vectors in R are performed **element-wise**, i.e., separately on each element of the vector (see examples below).
++ Most operations on vectors use the **recycling** rule: if a vector is too short, its values are re-used the number of times needed to match the desired length (see examples below).
++ Examples of vector operations and recycling:
+    * `[1 2 3 4] + [1 2 3 4] = [1+1 2+2 3+3 4+4]` (element-wise addition.)
+    * `[1 2 3 4] + 1 = [1+1 2+1 3+1 4+1]` (`1` is recycled 3 times to match the `length` of the first vector.)
+    * `[1 2 3 4] + [1 2] = [1+1 2+2 3+1 4+2]` (`[1 2]` is recycled once.)
+    * `[1 2 3 4] + [1 2 3] = [1+1 2+2 3+3 4+1]` (`[1 2 3]` is recycled one third of a time: R will warn that the length of longer vector is not a multiple of the length of shorter vector.)
+
+### Relational operations and logical vectors
+
++ **Relational** operators: `>`, `<`, `<=`, `>=`. Equal is `==` (NOT `=`). _Not_ equal is `!=`.
+    * Note: equal is `==`, whereas `=` has a different meaning. `=` is used to assign function arguments (e.g. `matrix(x, nrow = 3, ncol = 4)`), or to assign objects (`x <- 2` is the same as `x = 2`).
++ Relational operations result in **logical** vectors: vectors of `TRUE`/`FALSE` values.
++ Like arithmetic operations, relational ones are performed element-wise on vectors, and recycling applies.
++ Logical operators: `&` for AND, `|` for OR.
++ Negation (i.e. opposite) of a logical vector: `!`.
++ Is value _x_ in vector _y_? `x %in% y`.
++ R can convert logical vectors to numeric (`as.numeric()`, `as.integer()`). In this conversion, `TRUE` becomes `1` and `FALSE` becomes `0`. Conversely, if converted to logical (`as.logical()`), `1/0` are `TRUE/FALSE`.
+    * Therefore, if `x` is a logical vector, `sum(x)` gives the _count_ of `TRUE`s in `x` (sum of `1`s in the vector).
+    * `mean(x)` gives the _proportion_ of `1`s in `x` (mean of a binary vector: sum of `1`s in the vector divided by number of elements in the vector).
+
+### Examples of arithmetic and statistical functions
+
++ Arithmetic _vector_ functions are performed element-wise, and return a vector. Examples:
+    * Exponential: `exp(x)`.
+    * Logarithm: `log(x)` (base _e_) or `log10(x)` (base 10).
++ Statistical _scalar_ functions are executed on the set of all vector elements taken together, and return a scalar. Examples: 
+    * `mean(x)` and `median(x)`.
+    * Standard deviation and variance: `sd(x)`, `var(x)`.
+    * Minimum and maximum: `min(x)`, `max(x)`.
+    * `sum(x)`: sum of all elements in `x`.
++ `table(x)` is another basic statistical function (but it's not scalar): 
+    * `table(x)` returns a `table` object with the absolute frequencies of values in `x`. 
++ Functions such as `sum()`, `mean()` and `table()` are very useful when programming in R (for example, when writing your own functions). However, if you just need descriptive statistics for the data, there are more convenient tools you can use. Some of these are the following functions, which work well with `tidyverse` (we'll see them in Ch. \@ref(composition)):
+    * The `skim` function (from the `skimr` package) for descriptive statistics of continuous/quantitative variables.
+    * The `tabyl` function (from the `janitor` package) for frequencies of categorical variables.
+
+### Missing and infinite values
+
++ Missing values in R are represented by `NA` (Not Available).
+    * If your data has a different code for missing values (e.g., -99), you'll have to recode that to NA for R to properly handle missing values in your data.
++ Infinity may result from arithmetic operations: `Inf` and `-Inf` (e.g. `3/0`). `NaN` also may result, meaning Not a Number (e.g. `0/0`). 
+    * While `NA`s can appear in any type of object, `Inf`, `-Inf` and `NaN` can only appear in numeric objects.
++ `is.na(x)` checks if each element of `x` is NA and returns TRUE if that's the case, FALSE otherwise. It's a vector function (its value has the same `length` as `x`).
+
+```{r operations, include=TRUE, cache=FALSE, tidy= FALSE}
+```
+
+## Indexing 
+
++ **Indexing** is crucial in R. Indexing means appending an index to an object to extract one (or more) of its elements or components. Indexing is also called subscripting.
++ Indexing can be used to **extract** (view, query) the component of an object, or to **replace** it (assign a different value to that element).
++ The basic notation for indexing in R is `[ ]`: `x[i]` gives you the _i_-th element of object `x`.
++ **Numeric indexing** uses integers in square brackets `[ ]`: e.g. `x[3]`. Note that you can use negative integers to index (select) everything _but_ that element: e.g. `x[-3]`, `x[c(-2,-4)]`.
++ **Logical indexing** uses logical vectors in square brackets `[ ]`. It's used to index objects according to a condition, e.g. to index all values in `x` that are greater than 3 (see example code below).
++ **Name indexing** uses element names. Elements in a vector, and rows or columns in a matrix can have names. 
+    * Names can be displayed and assigned using the `names` function in base R, or `set_names` (just to assign names) in tidyverse.
++ When indexing you must take into account the **number of dimensions** of an object. For example, vectors have 1 dimension, matrices have 2. Arrays can be defined with 3 dimensions or more (e.g. three-way tables). 
+    * Square brackets typically contain a slot for each dimension of the object, separated by a comma:
+        - `x[i]` indexes the _i_-th element of the one-dimensional object `x`;
+        - `x[i,j]` indexes the _i,j_-th element of the two-dimensional object `x` (e.g. `x` is a matrix, _i_ refers to a row and _j_ refers to a column); 
+        - `x[i,j,k]` indexes the _i,j,k_-th element of the three-dimensional object `x`, etc.
+    * Notice that a dimension's slot may be empty, meaning that we index all elements in that dimension. So, if `x` is a matrix, `x[3,]` will index the whole 3rd row of the matrix -- i.e. `[`row 3, all columns`]`. 
+    * If `x` has more than one dimension (e.g. it's a matrix), then `x[3]` (no comma, just one slot) is still valid, but it might give you unexpected results.
++ Matrices have special functions that can be used for indexing, e.g. `diagonal()`, `upper.tri()`, `lower.tri()`. These can be useful for manipulating adjacency matrices.
++ Particular indexing rules may apply to particular `class`es of objects, for example lists and data frames (see next Section \@ref(index-df)).
+ 
+### Indexing and subsetting data frames {#index-df}
+
++ **List notations.** Data frames are a special class of lists (see Section \@ref(lists) for more about lists). Just like any list, data frames can be indexed in the following 3 ways:
+    1. `[ ]` notation, e.g. `df[3]` or `df["variable.name"]`. This returns another data frame that only includes the indexed element(s), e.g. only the 3^rd^ element. Note:
+        - This notation _preserves the_ `data.frame` _class_: the result is still a data frame.
+        - This notation can be used to index _multiple_ elements of a data frame into a new data frame, e.g. `df[c(1,3,5)]` or `df[c("sex", "age")]`
+    2. `[[ ]]` notation, e.g. `df[[3]]` or `df[["variable.name"]]`. This returns the specific element (column) selected, not as a data frame but as a vector with its own type and class, e.g. the numeric vector _within_ the 3^rd^ element of `df`. Note two differences from the `[ ]` notation: 
+        - `[[ ]]` _does not_ preserve the `data.frame` class. The result is _not_ a data frame.
+        - Consistently, `[[ ]]` can only be used to index a _single_ element (column) of the data frame, not multiple elements.
+    3. The `$` notation. If _variable.name_ is the name of a specific variable (column) in `df`, then `df$variable.name` indexes that variable. This is the same as the `[[ ]]` notation: `df$variable.name` is the same as `df[["variable.name"]]`, and it's also the same as `df[[i]]` (where `i` is the position of the variable called _variable.name_ in the data frame).
++ **Matrix notation.** Data frames can also be indexed like a matrix, with the `[ , ]` notation: 
+    * `df[2,3]`, `df[2, ]`, `df[ ,3]`.
+    * `df[,"age"]`, `df[,c("sex", "age")]`, `df[5,"age"]`
++ **Keep in mind the difference** between the following:
+    * Extracting a data frame's variable (column) in itself, as a vector (numeric, character, etc.) --- The single pepper packet by itself in the figure below (panel C). This is given by `df[[i]]`, `df[["variable.name"]]`, `df$variable.name`.
+    * Extracting another data frame of just one variable (column) -- The single pepper packet _within_ the pepper shaker in the figure below (panel B). This is given by `df[i]`, `df["variable.name"]`.
++ **Subsetting data frames**. In base R there are different ways to subset a dataframe's rows (cases) and/or columns (variables) using indexing (some examples are in the code below). However, we'll mostly use the subsetting functions introduced by the `dplyr` package in `tidyverse` (see [below](#the-tidyverse-syntax)).
+
+[![Indexing lists/data frames](./Figures/wickham_indexing_tweet.png){width=50%}](https://twitter.com/hadleywickham/status/643381054758363136?lang=en)
+
+```{r indexing, include=TRUE, cache=FALSE, tidy= FALSE, error=TRUE}
+```
+
+## The `tidyverse` grammar
+
+### Pipes and the `%>%` operator
++ The pipe operator `%>%` was introduced by the `magrittr` package and is adopted by `igraph` and `tidyverse`, which we'll use in this workshop. The operator is becoming increasingly popular among R users.
++ The idea behind pipes is in essence very simple:
+    * `f(g(x))` becomes `x %>% g %>% f`.
+    * For example: `mean(table(x))` becomes `x %>% table %>% mean`.
++ So `%>%` pipes the output of the previous function (e.g. `table`) into the input of the following function (e.g. `mean`). This turns inside-to-outside code into left-to-right code. Because left to right is the direction most of us are used to read in, pipes make R code less cumbersome and more readable.
++ You may also see pipes concatenating multiple lines of code. That's possible and a common coding style. Instead of
+```
+x %>% table %>% mean
+```
+you can write 
+```
+x %>%
+  table %>%
+  mean
+```
++ The `%<>%` operator combines `%>%` (pipe) and `<-` (assignment): it pipes the left-hand object on to the right-hand operations, and then assigns the operations' final output to the original object. The following code:
+```
+x <- x %>%
+  table %>%
+  mean
+```
+does the same thing as the following (more concise) code:
+```
+x %<>%
+  table %>%
+  mean
+```
+
+### Subsetting data frames in `tidyverse`
++ Tidyverse includes the `dplyr` package for data frame manipulation. This is a very powerful package for all kinds of data manipulation. To learn more, see the package [cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf) and [vignettes](https://dplyr.tidyverse.org/articles/index.html).
++ Subsetting data frames with `dplyr`:
+    * `dplyr::filter()` is used to subset rows (cases) of a data frame based on one or multiple conditions (for example, respondents with certain values on one or more variables).
+    * `dplyr::select()` is used to subset columns (variables) of a data frame. You can use full variable names or select variables in many other ways. See examples in the `select` [manual page](https://dplyr.tidyverse.org/reference/select.html).
+
+```{r tidyverse, include=TRUE, cache=FALSE, tidy=FALSE, error=TRUE, message=FALSE}
+```

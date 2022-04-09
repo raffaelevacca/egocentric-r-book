@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 R basics | Egocentric network analysis with R</title>
+  <meta name="description" content="Personal network analysis with R" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 R basics | Egocentric network analysis with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Personal network analysis with R" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 R basics | Egocentric network analysis with R" />
+  
+  <meta name="twitter:description" content="Personal network analysis with R" />
+  
+
+<meta name="author" content="Raffaele Vacca" />
+
+
+<meta name="date" content="2022-02-08" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="represent.html"/>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Contents</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#materials"><i class="fa fa-check"></i><b>1.1</b> Workshop materials</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#setup"><i class="fa fa-check"></i><b>1.2</b> Workshop setup</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#packages"><i class="fa fa-check"></i><b>1.2.1</b> Required R packages</a></li>
+<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#rstudio-settings"><i class="fa fa-check"></i><b>1.2.2</b> RStudio settings</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#data"><i class="fa fa-check"></i><b>1.3</b> Data</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#author-and-contacts"><i class="fa fa-check"></i><b>1.4</b> Author and contacts</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="basics.html"><a href="basics.html"><i class="fa fa-check"></i><b>2</b> R basics</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="basics.html"><a href="basics.html#overview"><i class="fa fa-check"></i><b>2.1</b> Overview</a></li>
+<li class="chapter" data-level="2.2" data-path="basics.html"><a href="basics.html#starting-R-and-loading-packages"><i class="fa fa-check"></i><b>2.2</b> Starting R and loading packages</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="basics.html"><a href="basics.html#console-vs-scripts"><i class="fa fa-check"></i><b>2.2.1</b> Console vs scripts</a></li>
+<li class="chapter" data-level="2.2.2" data-path="basics.html"><a href="basics.html#getting-help"><i class="fa fa-check"></i><b>2.2.2</b> Getting help</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="basics.html"><a href="basics.html#objects-in-r"><i class="fa fa-check"></i><b>2.3</b> Objects in R</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="basics.html"><a href="basics.html#the-workspace"><i class="fa fa-check"></i><b>2.3.1</b> The workspace</a></li>
+<li class="chapter" data-level="2.3.2" data-path="basics.html"><a href="basics.html#saving-and-removing-objects"><i class="fa fa-check"></i><b>2.3.2</b> Saving and removing objects</a></li>
+<li class="chapter" data-level="2.3.3" data-path="basics.html"><a href="basics.html#vector-and-matrix-objects"><i class="fa fa-check"></i><b>2.3.3</b> Vector and matrix objects</a></li>
+<li class="chapter" data-level="2.3.4" data-path="basics.html"><a href="basics.html#dataframes"><i class="fa fa-check"></i><b>2.3.4</b> Data frames</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="basics.html"><a href="basics.html#arithmetic-statistical-and-relational-operations"><i class="fa fa-check"></i><b>2.4</b> Arithmetic, statistical, and relational operations</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="basics.html"><a href="basics.html#arithmetic-operations-and-recycling"><i class="fa fa-check"></i><b>2.4.1</b> Arithmetic operations and recycling</a></li>
+<li class="chapter" data-level="2.4.2" data-path="basics.html"><a href="basics.html#relational-operations-and-logical-vectors"><i class="fa fa-check"></i><b>2.4.2</b> Relational operations and logical vectors</a></li>
+<li class="chapter" data-level="2.4.3" data-path="basics.html"><a href="basics.html#examples-of-arithmetic-and-statistical-functions"><i class="fa fa-check"></i><b>2.4.3</b> Examples of arithmetic and statistical functions</a></li>
+<li class="chapter" data-level="2.4.4" data-path="basics.html"><a href="basics.html#missing-and-infinite-values"><i class="fa fa-check"></i><b>2.4.4</b> Missing and infinite values</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="basics.html"><a href="basics.html#indexing"><i class="fa fa-check"></i><b>2.5</b> Indexing</a>
+<ul>
+<li class="chapter" data-level="2.5.1" data-path="basics.html"><a href="basics.html#index-df"><i class="fa fa-check"></i><b>2.5.1</b> Indexing and subsetting data frames</a></li>
+</ul></li>
+<li class="chapter" data-level="2.6" data-path="basics.html"><a href="basics.html#the-tidyverse-grammar"><i class="fa fa-check"></i><b>2.6</b> The <code>tidyverse</code> grammar</a>
+<ul>
+<li class="chapter" data-level="2.6.1" data-path="basics.html"><a href="basics.html#pipes-and-the-operator"><i class="fa fa-check"></i><b>2.6.1</b> Pipes and the <code>%&gt;%</code> operator</a></li>
+<li class="chapter" data-level="2.6.2" data-path="basics.html"><a href="basics.html#subsetting-data-frames-in-tidyverse"><i class="fa fa-check"></i><b>2.6.2</b> Subsetting data frames in <code>tidyverse</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="represent.html"><a href="represent.html"><i class="fa fa-check"></i><b>3</b> Representing and visualizing ego-networks</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="represent.html"><a href="represent.html#overview-1"><i class="fa fa-check"></i><b>3.1</b> Overview</a></li>
+<li class="chapter" data-level="3.2" data-path="represent.html"><a href="represent.html#egocentric-data"><i class="fa fa-check"></i><b>3.2</b> Ego-level and alter-level data</a></li>
+<li class="chapter" data-level="3.3" data-path="represent.html"><a href="represent.html#networks-in-r"><i class="fa fa-check"></i><b>3.3</b> Networks in R</a></li>
+<li class="chapter" data-level="3.4" data-path="represent.html"><a href="represent.html#ego-networks-as-igraph-objects"><i class="fa fa-check"></i><b>3.4</b> Ego-networks as <code>igraph</code> objects</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="composition.html"><a href="composition.html"><i class="fa fa-check"></i><b>4</b> Ego-network composition</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="composition.html"><a href="composition.html#overview-2"><i class="fa fa-check"></i><b>4.1</b> Overview</a></li>
+<li class="chapter" data-level="4.2" data-path="composition.html"><a href="composition.html#measures-of-ego-network-composition"><i class="fa fa-check"></i><b>4.2</b> Measures of ego-network composition</a></li>
+<li class="chapter" data-level="4.3" data-path="composition.html"><a href="composition.html#comp-many"><i class="fa fa-check"></i><b>4.3</b> Analyzing the composition of many ego-networks</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="composition.html"><a href="composition.html#split-apply-combine-in-egocentric-network-analysis"><i class="fa fa-check"></i><b>4.3.1</b> Split-apply-combine in egocentric network analysis</a></li>
+<li class="chapter" data-level="4.3.2" data-path="composition.html"><a href="composition.html#summarize-dplyr"><i class="fa fa-check"></i><b>4.3.2</b> Grouping and summarizing with <code>dplyr</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="structure.html"><a href="structure.html"><i class="fa fa-check"></i><b>5</b> Ego-network structure</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="structure.html"><a href="structure.html#overview-3"><i class="fa fa-check"></i><b>5.1</b> Overview</a></li>
+<li class="chapter" data-level="5.2" data-path="structure.html"><a href="structure.html#measures-of-ego-network-structure"><i class="fa fa-check"></i><b>5.2</b> Measures of ego-network structure</a></li>
+<li class="chapter" data-level="5.3" data-path="structure.html"><a href="structure.html#lists"><i class="fa fa-check"></i><b>5.3</b> R lists</a></li>
+<li class="chapter" data-level="5.4" data-path="structure.html"><a href="structure.html#apply-purrr"><i class="fa fa-check"></i><b>5.4</b> Analyzing the structure of many ego-networks</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="multilevel.html"><a href="multilevel.html"><i class="fa fa-check"></i><b>6</b> Multilevel modeling of ego-network data</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="multilevel.html"><a href="multilevel.html#overview-4"><i class="fa fa-check"></i><b>6.1</b> Overview</a></li>
+<li class="chapter" data-level="6.2" data-path="multilevel.html"><a href="multilevel.html#prepare-the-data"><i class="fa fa-check"></i><b>6.2</b> Prepare the data</a></li>
+<li class="chapter" data-level="6.3" data-path="multilevel.html"><a href="multilevel.html#random-intercept-models"><i class="fa fa-check"></i><b>6.3</b> Random intercept models</a></li>
+<li class="chapter" data-level="6.4" data-path="multilevel.html"><a href="multilevel.html#random-slope-models"><i class="fa fa-check"></i><b>6.4</b> Random slope models</a></li>
+<li class="chapter" data-level="6.5" data-path="multilevel.html"><a href="multilevel.html#tests-of-significance"><i class="fa fa-check"></i><b>6.5</b> Tests of significance</a></li>
+<li class="chapter" data-level="6.6" data-path="multilevel.html"><a href="multilevel.html#further-readings"><i class="fa fa-check"></i><b>6.6</b> Further readings</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="egor.html"><a href="egor.html"><i class="fa fa-check"></i><b>7</b> The <code>egor</code> package</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="egor.html"><a href="egor.html#egor-import"><i class="fa fa-check"></i><b>7.1</b> Importing ego-network data</a></li>
+<li class="chapter" data-level="7.2" data-path="egor.html"><a href="egor.html#analyzing-and-visualizing-ego-network-data"><i class="fa fa-check"></i><b>7.2</b> Analyzing and visualizing ego-network data</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="supplementary.html"><a href="supplementary.html"><i class="fa fa-check"></i><b>8</b> Supplementary topics</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="supplementary.html"><a href="supplementary.html#more-r-programming-topics"><i class="fa fa-check"></i><b>8.1</b> More R programming topics</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="supplementary.html"><a href="supplementary.html#types-and-classes-of-objects"><i class="fa fa-check"></i><b>8.1.1</b> Types and classes of objects</a></li>
+<li class="chapter" data-level="8.1.2" data-path="supplementary.html"><a href="supplementary.html#functions"><i class="fa fa-check"></i><b>8.1.2</b> Writing your own R functions</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="supplementary.html"><a href="supplementary.html#import-igraph"><i class="fa fa-check"></i><b>8.2</b> Importing ego-network data with <code>igraph</code> and <code>tidyverse</code></a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="supplementary.html"><a href="supplementary.html#importing-data-for-one-ego-network"><i class="fa fa-check"></i><b>8.2.1</b> Importing data for one ego-network</a></li>
+<li class="chapter" data-level="8.2.2" data-path="supplementary.html"><a href="supplementary.html#importing-data-on-many-ego-networks-as-data-frames-and-lists"><i class="fa fa-check"></i><b>8.2.2</b> Importing data on many ego-networks as data frames and lists</a></li>
+<li class="chapter" data-level="8.2.3" data-path="supplementary.html"><a href="supplementary.html#creating-lists-of-ego-networks-as-igraph-objects-with-purrr"><i class="fa fa-check"></i><b>8.2.3</b> Creating lists of ego-networks as <code>igraph</code> objects with <code>purrr</code></a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="supplementary.html"><a href="supplementary.html#more-igraph"><i class="fa fa-check"></i><b>8.3</b> More operations with <code>igraph</code></a></li>
+<li class="chapter" data-level="8.4" data-path="supplementary.html"><a href="supplementary.html#statnet"><i class="fa fa-check"></i><b>8.4</b> The <code>statnet</code> suite of packages</a></li>
+<li class="chapter" data-level="8.5" data-path="supplementary.html"><a href="supplementary.html#illustrative-example-personal-networks-of-sri-lankan-immigrants-in-italy"><i class="fa fa-check"></i><b>8.5</b> Illustrative example: personal networks of Sri Lankan immigrants in Italy</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Egocentric network analysis with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="basics" class="section level1" number="2">
+<h1><span class="header-section-number">Chapter 2</span> R basics</h1>
+<div id="overview" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Overview</h2>
+<p>This chapter covers some basic tools and characteristics of the R language that we’ll use in the workshop. While this obviously can’t be a comprehensive introduction to R, we’ll demonstrate some essential R notions and features that are commonly used in social science data analysis, including (egocentric) social network analysis.</p>
+<p>The script covers the following topics:</p>
+<ul>
+<li>Starting R, getting help with R.</li>
+<li>Creating and saving R objects.</li>
+<li>Vectors and matrices, data frames and tibbles.</li>
+<li>Arithmetic and relational operations.</li>
+<li>Indexing vectors, matrices, and data frames.</li>
+</ul>
+</div>
+<div id="starting-R-and-loading-packages" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Starting R and loading packages</h2>
+<ul>
+<li>Before starting any work in R, you normally want to do two things:
+<ul>
+<li>Make sure your R session is pointing to the correct <em>working directory</em>.</li>
+<li>Install and/or load the <em>packages</em> you are going to use.</li>
+</ul></li>
+<li><strong>Working directory</strong>. By default, R will look for files and save new files in this directory.
+<ul>
+<li>Type <code>getwd()</code> in the console to view your current working directory.</li>
+<li>If you opened RStudio by double-clicking on a project (<code>.Rproj</code>) file, then the working directory is the folder where that file is located.</li>
+<li>You can always use <code>setwd()</code> to manually change your working directory to any path, but it’s usually more convenient to work with R projects and their default working directory instead.</li>
+<li>In RStudio, you can also check the current working directory by clicking on the <code>Files</code> panel.</li>
+</ul></li>
+<li><strong>R packages</strong>. There are two steps to using a package in R:
+<ol style="list-style-type: decimal">
+<li><strong>Install</strong> the package. <em>You do this just once</em>. Use <code>install.packages("package_name")</code> or the appropriate RStudio menu (<code>Tools &gt; Install Packages...</code>). Once you install a package, the package files are in your system R folder and R will be able to always find the package there.</li>
+<li><strong>Load</strong> the package in your current session. Use <code>library(package_name)</code> (<em>no</em> quotation marks around the package name). <em>You do this in each R session in which you need the package</em>, that is, every time you start R and you need the package.</li>
+</ol></li>
+<li>An R package is just a collection of <strong>functions</strong>. You can only use an R function if that function is included in a package you loaded in the current session.</li>
+<li>Sometimes two different functions from two different packages have the same <strong>name</strong>. For example, both the <code>igraph</code> package and the <code>sna</code> package have a function called <code>degree</code>. If both packages are loaded, typing just <code>degree</code> might give you unexpected results, because R will pick one of the two functions (the one in the package that was loaded most recently), which might not be the function you meant.
+<ul>
+<li>To avoid this problem, you can use the <code>package::function()</code> notation: <code>igraph::degree()</code> will always call the <code>degree</code> function from the <code>igraph</code> package, while <code>sna::degree()</code> will call the <code>degree</code> function from the <code>sna</code> package.</li>
+</ul></li>
+<li>Tip: To check the package that a function comes from, just go to that function’s manual page. The package will be indicated in the first line of the page. E.g., type <code>?degree</code> to see where the <code>degree</code> function comes from.
+<ul>
+<li>If no currently loaded package has a function called <code>degree</code>, then typing <code>?degree</code> will cause a warning (<code>No documentation for 'degree'</code>).</li>
+<li>If multiple, currently loaded packages have a function called <code>degree</code>, then typing <code>?degree</code> will bring up a page with the list of all those packages.</li>
+</ul></li>
+<li>This workshop will use a number of packages, listed <a href="index.html#packages">here</a>.</li>
+</ul>
+<div id="console-vs-scripts" class="section level3" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Console vs scripts</h3>
+<ul>
+<li>When you open RStudio, you typically see two separate windows: the script editor and the console. You can write R code in either of them.</li>
+<li><strong>Console</strong>. Here you write R code line by line. Once you type a line, you press <code>ENTER</code> to execute it. By pressing <code>ARROW UP</code> you go back to the last line you ran. By continuing to press <code>ARROW UP</code>, you can navigate through all the lines of code you previously executed. This is called the “commands history” (all the lines of code executed in the current session). You will lose all this code (all the history) when you quit R, unless you explicitly save the history to a file (which is not what you typically do, you should just write the code in a script).<br />
+</li>
+<li><strong>Script editor</strong>. Here you write a script. This is the most common way of working with R. A script is simply a plain text file where all your R code is saved. If your work is in a script, it is <strong>reproducible</strong>.</li>
+<li>Both the R standard GUI and RStudio have a script editor with several helpful tools. Among other things, these allow you to run a script while you write it. By pressing <code>CTRL+ENTER</code> (Windows) or <code>CMD+ENTER</code> (Mac), you run the script line your cursor is on (or the selected script region).
+<ul>
+<li>Note that with RStudio you can run the single script line where your cursor is; a whole highlighted region of code; the region of code from the beginning of the script up to the line where your cursor is; the region of code from the line where your cursor is up to the end of the script. See the <em>Code</em> menu and its keyboard shortcuts.</li>
+</ul></li>
+<li>The script editor also allows you to save your script. In RStudio, see <code>File &gt; Save</code> and its keyboard shortcut. R script files commonly have a <code>.R</code> extension (e.g. “<code>myscript.R</code>”). But note that a script file is just a text file (like any <code>.txt</code> file), which you can open and edit in any text editor, or in Microsoft Word and the likes.</li>
+<li>You can also run a whole script altogether — this is called <strong>sourcing</strong> a script. By running <code>source("myscript.R")</code>, you source the script file <code>myscript.R</code> (assuming the file is in your working directory, otherwise you’ll have to enter the whole file path). In RStudio: see <em>Code</em> &gt; <em>Source</em> and its keyboard shortcut.</li>
+<li>In both the console and the script editor, any line that starts by <code>#</code> is called a <strong>comment</strong>. R disregards comments — it just prints them as they are in the console (does not parse and execute them as programming code). Remember to always use comments to document what your code is doing (this is good for yourself and for others).</li>
+<li>In RStudio you can navigate the script headings in your script with a drop-down menu in the bottom-left of the script editor. Any line that starts by <code>#</code> and ends by <code>####</code>, <code>----</code>, or <code>====</code> is read as a heading by RStudio.</li>
+</ul>
+</div>
+<div id="getting-help" class="section level3" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Getting help</h3>
+<ul>
+<li>Getting help is one of the most common things you do when using R. As a beginner, you’ll constantly need to get help (for example, read manual pages) about R functions. Also as an experienced user, you’ll often need to go back to the manual pages of particular functions or other R help resources. At any experience level, using R involves constantly using its documentation and help resources.</li>
+<li>The following are a few help tools in R:
+<ul>
+<li><code>help(...)</code> or <code>?...</code> are the most common ways of getting help: they send you to the R manual page for a specific function. E.g. <code>help(sum)</code> or <code>?sum</code> (they are equivalent).</li>
+<li><code>help.start()</code> (or RStudio: <code>Help &gt; R Help</code>) gives you general help pages in html (introduction to R, references to all functions in all installed packages, etc.).</li>
+<li><code>demo()</code> gives you demos on specific topics. Run <code>demo()</code> to see all available topics.</li>
+<li><code>example()</code> gives you example code on specific functions, e.g. <code>example(sum)</code> for the function <code>sum</code>.<br />
+</li>
+<li><code>help.search(...)</code> or <code>??...</code> search for a specific string in the manual pages, e.g. <code>??histogram</code>.</li>
+</ul></li>
+<li>In addition to built-in help facilities within R, there are plenty of ways to get <strong>R help online</strong>. Certain popular R packages have their own website, e.g. <a href="http://ggplot2.tidyverse.org/">ggplot2</a>, <a href="http://igraph.org/">igraph</a>, and <a href="http://www.statnet.org/">statnet</a>. Other websites for general R help include <a href="http://www.rdocumentation.org/">rdocumentation.org</a> and <a href="http://stackoverflow.com/">stackoverflow.com</a>. See the workshop slides or talk to me for more information.</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="basics.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># What&#39;s the current working directory? </span></span>
+<span id="cb1-2"><a href="basics.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># getwd() </span></span>
+<span id="cb1-3"><a href="basics.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Un-comment to check your actual working directory.</span></span>
+<span id="cb1-4"><a href="basics.html#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="basics.html#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Change the working directory. </span></span>
+<span id="cb1-6"><a href="basics.html#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># setwd(&quot;/my/working/directory&quot;) </span></span>
+<span id="cb1-7"><a href="basics.html#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># (Delete the leading &quot;#&quot; and type in your actual working directory&#39;s path</span></span>
+<span id="cb1-8"><a href="basics.html#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># instead of &quot;/my/working/directory&quot;)</span></span>
+<span id="cb1-9"><a href="basics.html#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="basics.html#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># You should use R projects (.Rproj) to point to a working directory instead of</span></span>
+<span id="cb1-11"><a href="basics.html#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># manually changing it.</span></span>
+<span id="cb1-12"><a href="basics.html#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="basics.html#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Suppose that we want to use the package &quot;igraph&quot; in the following code.</span></span>
+<span id="cb1-14"><a href="basics.html#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;igraph&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     decompose, spectrum</code></pre>
+<pre><code>## The following object is masked from &#39;package:base&#39;:
+## 
+##     union</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="basics.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note that we can only load a package if we have it installed. In this case, I</span></span>
+<span id="cb5-2"><a href="basics.html#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># have igraph already installed. Had this not been the case, I would have have</span></span>
+<span id="cb5-3"><a href="basics.html#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># needed to install it: </span></span>
+<span id="cb5-4"><a href="basics.html#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;igraph&quot;).</span></span>
+<span id="cb5-5"><a href="basics.html#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># (Packages can also be installed through an RStudio menu item).</span></span>
+<span id="cb5-6"><a href="basics.html#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="basics.html#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s load another suite of packages we&#39;ll use in the rest of this script.</span></span>
+<span id="cb5-8"><a href="basics.html#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.6     ✓ dplyr   1.0.7
+## ✓ tidyr   1.1.4     ✓ stringr 1.4.0
+## ✓ readr   2.1.1     ✓ forcats 0.5.1</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::as_data_frame() masks tibble::as_data_frame(), igraph::as_data_frame()
+## x purrr::compose()       masks igraph::compose()
+## x tidyr::crossing()      masks igraph::crossing()
+## x dplyr::filter()        masks stats::filter()
+## x dplyr::groups()        masks igraph::groups()
+## x dplyr::lag()           masks stats::lag()
+## x purrr::simplify()      masks igraph::simplify()</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="basics.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note that whatever is typed after the &quot;#&quot; sign has no effect but to be printed</span></span>
+<span id="cb9-2"><a href="basics.html#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># as is in the console: it is a comment.</span></span></code></pre></div>
+</div>
+</div>
+<div id="objects-in-r" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Objects in R</h2>
+<blockquote>
+<p>In R, everything that <strong>exists</strong> is an object. Everything that <strong>happens</strong> is a function call.
+- John Chambers</p>
+</blockquote>
+<ul>
+<li>R is an object-oriented programming language. Everything is contained in an <strong>object</strong>, including data, analysis tools and analysis results. Things such as datasets, commands (called “functions” in R), regression results, descriptive statistics, etc., are all objects.</li>
+<li>An object has a <em>name</em> and a <em>value</em>. You create an object by <strong>assigning</strong> a value to a name.
+<ul>
+<li>You assign with <code>&lt;-</code> or with <code>=</code>.</li>
+<li>R is <strong>case-sensitive</strong>: the object named <code>mydata</code> is different from the object named <code>Mydata</code>.</li>
+</ul></li>
+<li>Whenever you run an operation or execute a function in R, you need to assign the result to an object if you want to save it and re-use it later. <strong>Assign it or lose it</strong>: anything that is not assigned to an object is just printed to the console and lost.</li>
+<li>Objects have a size (bytes, megabytes, etc.) and a <strong>type</strong> (technically, a <em>class</em>, a <em>type</em> and a <em>mode</em> — more on this <a href="supplementary.html#types-and-classes-of-objects">later</a>).</li>
+<li>A <strong>function</strong> is a particular type of object. Functions take other objects as arguments (input) and return more objects as a result (output). R functions are what other data analysis programs call “commands”. See Section <a href="supplementary.html#functions">8.1.2</a> for more about functions.</li>
+</ul>
+<div id="the-workspace" class="section level3" number="2.3.1">
+<h3><span class="header-section-number">2.3.1</span> The workspace</h3>
+<ul>
+<li>During your R session, objects (data, results) are located in the computer’s main memory. They make up your workspace: the set of <strong>all the objects</strong> currently in memory. They will disappear when you quit R, unless you save them to files on disk.</li>
+<li>What’s in your current workspace?
+<ul>
+<li>The function <code>ls()</code> shows you a full list of the objects currently in the workspace.</li>
+<li>Alternatively, in RStudio open the Environment panel to get a clickable list of objects currently in the workspace (if you don’t see your Environment panel, check <code>Preferences... &gt; Pane Layout</code>).</li>
+</ul></li>
+</ul>
+</div>
+<div id="saving-and-removing-objects" class="section level3" number="2.3.2">
+<h3><span class="header-section-number">2.3.2</span> Saving and removing objects</h3>
+<ul>
+<li>Two main functions to <strong>save</strong> R objects to files: <code>save()</code> (saves specific objects, its arguments); <code>save.image()</code> (saves all the current workspace).</li>
+<li>Unless you specify a different path, all files you save from R are put in your current working directory.</li>
+<li>The most common file extensions for files that store R objects are <code>.rda</code> and <code>.RData</code>.</li>
+<li>If you have a file with R objects, say <code>objects.rda</code>, you can <strong>load</strong> it in you current R session using the <code>load()</code> function: <code>load(file= "objects.rda")</code>. This assumes <code>objects.rda</code> is in your current working directory (otherwise you’ll have to specify the whole file path).</li>
+<li>The function <code>rm()</code> <strong>removes</strong> specific objects from the workspace. You can use it to clear the workspace from all existing objects by typing <code>rm(list=ls())</code> (remember that <code>ls()</code> returns a character vector with the names of all the objects in the current workspace).</li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="basics.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the object a: assign the value 50 to the name &quot;a&quot;</span></span>
+<span id="cb10-2"><a href="basics.html#cb10-2" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">50</span></span>
+<span id="cb10-3"><a href="basics.html#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="basics.html#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Display (&quot;print&quot;) the object a.</span></span>
+<span id="cb10-5"><a href="basics.html#cb10-5" aria-hidden="true" tabindex="-1"></a>a</span></code></pre></div>
+<pre><code>## [1] 50</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="basics.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s create another object.</span></span>
+<span id="cb12-2"><a href="basics.html#cb12-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="st">&quot;Mark&quot;</span></span>
+<span id="cb12-3"><a href="basics.html#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="basics.html#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Display it.</span></span>
+<span id="cb12-5"><a href="basics.html#cb12-5" aria-hidden="true" tabindex="-1"></a>b</span></code></pre></div>
+<pre><code>## [1] &quot;Mark&quot;</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="basics.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create and display object at the same time.</span></span>
+<span id="cb14-2"><a href="basics.html#cb14-2" aria-hidden="true" tabindex="-1"></a>(obj <span class="ot">&lt;-</span> <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>## [1] 10</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="basics.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s reuse the object we created for a simple operation.</span></span>
+<span id="cb16-2"><a href="basics.html#cb16-2" aria-hidden="true" tabindex="-1"></a>a <span class="sc">+</span> <span class="dv">3</span></span></code></pre></div>
+<pre><code>## [1] 53</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="basics.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># What if we want to save this result?</span></span>
+<span id="cb18-2"><a href="basics.html#cb18-2" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> a <span class="sc">+</span> <span class="dv">3</span></span>
+<span id="cb18-3"><a href="basics.html#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="basics.html#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># All objects in the workspace</span></span>
+<span id="cb18-5"><a href="basics.html#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span>()</span></code></pre></div>
+<pre><code>## [1] &quot;a&quot;      &quot;b&quot;      &quot;obj&quot;    &quot;result&quot;</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="basics.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Now we can view that result whenever we need it.</span></span>
+<span id="cb20-2"><a href="basics.html#cb20-2" aria-hidden="true" tabindex="-1"></a>result</span></code></pre></div>
+<pre><code>## [1] 53</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="basics.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ...and further re-use it</span></span>
+<span id="cb22-2"><a href="basics.html#cb22-2" aria-hidden="true" tabindex="-1"></a>result<span class="sc">*</span><span class="dv">2</span></span></code></pre></div>
+<pre><code>## [1] 106</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="basics.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note that R is case-sensitive, &quot;result&quot; is different from &quot;reSult&quot;.</span></span>
+<span id="cb24-2"><a href="basics.html#cb24-2" aria-hidden="true" tabindex="-1"></a>reSult</span></code></pre></div>
+<pre><code>## Error in eval(expr, envir, enclos): object &#39;reSult&#39; not found</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="basics.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s clear the workspace before proceeding.</span></span>
+<span id="cb26-2"><a href="basics.html#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>())</span>
+<span id="cb26-3"><a href="basics.html#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="basics.html#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co"># The workspace is now empty.</span></span>
+<span id="cb26-5"><a href="basics.html#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span>()</span></code></pre></div>
+<pre><code>## character(0)</code></pre>
+</div>
+<div id="vector-and-matrix-objects" class="section level3" number="2.3.3">
+<h3><span class="header-section-number">2.3.3</span> Vector and matrix objects</h3>
+<ul>
+<li><strong>Vectors</strong> are the most basic objects you use in R. Vectors can be numeric (numerical data), logical (TRUE/FALSE data), or character (string data).</li>
+<li>The basic function to create a vector is <code>c</code> (<strong>concatenate</strong>).</li>
+<li>Other useful functions to create vectors: <code>rep</code> and <code>seq</code>.
+<ul>
+<li>Another function we’ll use to create vectors later in the workshop is <code>seq_along</code>. <code>seq_along(x)</code> creates a vector consisting of a sequence of integers from 1 to <code>length(x)</code> in steps of 1.</li>
+<li>Also keep in mind the <code>:</code> shortcut: <code>c(1, 2, 3, 4)</code> is the same as <code>1:4</code>.</li>
+</ul></li>
+<li>The <strong>length</strong> (number of elements) is a basic property of vectors: <code>length(x)</code> returns the length of vector <code>x</code>.</li>
+<li>When we <code>print</code> vectors, the numbers in square brackets indicate the positions of vector elements.</li>
+<li>To create a matrix: <code>matrix</code>. Its main arguments are the cell values (within <code>c()</code>), number of rows (<code>nrow</code>) and number of columns (<code>ncol</code>). Values are arranged in a <code>nrow</code> x <code>ncol</code> matrix <em>by column</em>. See <code>?matrix</code>.</li>
+<li>When we <code>print</code> matrices, the numbers in square brackets indicate the row and column numbers.</li>
+</ul>
+</div>
+<div id="dataframes" class="section level3" number="2.3.4">
+<h3><span class="header-section-number">2.3.4</span> Data frames</h3>
+<ul>
+<li>“Data frame” is R’s name for dataset. A dataset is a collection of cases (rows), and variables (columns) which are measured on those cases.</li>
+<li>When <code>print</code>ed in R, data frames look like matrices. However, unlike matrix columns, data frame columns can be of different types, e.g. a numeric variable and a character variable.</li>
+<li>On the other hand, just like matrix columns, data frame columns (variables) must all have the same <code>length</code> (number of cases). You can’t put together variables (vectors) of different length in the same data frame.</li>
+<li>Although data frames look like matrices, in R’s mind they are a specific kind of <em>list</em> (more about lists in Section <a href="structure.html#lists">5.3</a>). In fact, the <code>class</code> of a data frame is <code>data.frame</code>, but the <code>type</code> of a data frame is <code>list</code>. The list elements for a data frame are its variables (columns).</li>
+<li><strong>Tibbles.</strong> The tidyverse packages, which we use in this workshop, rely on a more efficient form of data frame, called <em>tibble</em>.
+<ul>
+<li>A tibble has class <code>tbl_df</code> <em>and</em> <code>data.frame</code>. This means that, to R, a tibble is <em>also</em> a data frame, and any function that works on data frames normally also works on tibbles.</li>
+<li>A tibble has a number of advantages over a traditional data frame, some of which we’ll see in this workshop.</li>
+<li>One of the advantages is the clearer and more informative way in which tibbles are printed. When we print a tibble data frame we can immediately see its number of rows, number of columns, names of variables, and type of each variable (numeric, integer, character, etc.).</li>
+<li>To convert an existing data frame to tibble: <code>as_tibble</code>. To create a tibble from scratch (similar to the <code>data.frame</code> function in base R): <code>tibble</code>.</li>
+</ul></li>
+<li>While data frames can be created manually in R (with the functions <code>data.frame</code> in base R and <code>tibble</code> in <code>tidyverse</code>), data are most commonly imported into R from external sources, like a csv or txt file.</li>
+<li>We’ll import data from csv files using the <code>read_csv()</code> function from <code>tidyverse</code>.
+<ul>
+<li><code>read_csv()</code> reads csv files (values separated by “,” or “;”). <code>read_delim()</code> reads files in which values are separated by any delimiter.</li>
+<li>These functions have many arguments that make them very flexible and allow users to import basically any kind of table stored in a text file. Check out <code>?read_delim</code>.</li>
+<li>In base R, the corresponding functions are <code>read.csv()</code> and <code>read.table()</code>.</li>
+</ul></li>
+<li>Data can also be imported into R from most external file formats (SAS, SPSS, Stata, Excel, etc.) using the tidyverse packages <code>readxl</code> and <code>haven</code>, or the <code>foreign</code> package in traditional R.</li>
+<li>Note that you can click on a data frame’s name in RStudio’s Environment pane. That will open the data frame in a window, similar to SPSS’s data view.</li>
+</ul>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="basics.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s create a simple vector.</span></span>
+<span id="cb28-2"><a href="basics.html#cb28-2" aria-hidden="true" tabindex="-1"></a>(x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>))</span></code></pre></div>
+<pre><code>## [1] 1 2 3 4</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="basics.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Shortcut for the same thing.</span></span>
+<span id="cb30-2"><a href="basics.html#cb30-2" aria-hidden="true" tabindex="-1"></a>(y <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span></code></pre></div>
+<pre><code>## [1] 1 2 3 4</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="basics.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># What&#39;s the length of x?</span></span>
+<span id="cb32-2"><a href="basics.html#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(x)</span></code></pre></div>
+<pre><code>## [1] 4</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="basics.html#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note that when we print vectors, numbers in square brackets indicate positions</span></span>
+<span id="cb34-2"><a href="basics.html#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co"># of the vector elements.</span></span>
+<span id="cb34-3"><a href="basics.html#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="basics.html#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a simple matrix.</span></span>
+<span id="cb34-5"><a href="basics.html#cb34-5" aria-hidden="true" tabindex="-1"></a>adj <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>, <span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>, <span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>), <span class="at">nrow=</span> <span class="dv">3</span>, <span class="at">ncol=</span><span class="dv">3</span>)</span>
+<span id="cb34-6"><a href="basics.html#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-7"><a href="basics.html#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="co"># This is what our matrix looks like:</span></span>
+<span id="cb34-8"><a href="basics.html#cb34-8" aria-hidden="true" tabindex="-1"></a>adj</span></code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    0    1    1
+## [2,]    1    0    1
+## [3,]    0    0    0</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="basics.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice the row and column numbers in square brackets. </span></span>
+<span id="cb36-2"><a href="basics.html#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="basics.html#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Normally we create data frames by importing data from external files, for</span></span>
+<span id="cb36-4"><a href="basics.html#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="co"># example csv files.</span></span>
+<span id="cb36-5"><a href="basics.html#cb36-5" aria-hidden="true" tabindex="-1"></a>ego.df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;./Data/raw_data/ego_data.csv&quot;</span>)</span></code></pre></div>
+<pre><code>## Rows: 102 Columns: 9</code></pre>
+<pre><code>## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (4): ego.sex, ego.edu, ego.empl.bin, ego.age.cat
+## dbl (5): ego_ID, ego.age, ego.arr, ego.inc, empl</code></pre>
+<pre><code>## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="basics.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View the result.</span></span>
+<span id="cb40-2"><a href="basics.html#cb40-2" aria-hidden="true" tabindex="-1"></a>ego.df</span></code></pre></div>
+<pre><code>## # A tibble: 102 × 9
+##    ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
+##     &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;      
+##  1     28 Male         61    2008 Second…     350     3 Yes          60+        
+##  2     29 Male         38    2000 Primary     900     4 Yes          36-40      
+##  3     33 Male         30    2010 Primary     200     3 Yes          26-30      
+##  4     35 Male         25    2009 Second…    1000     3 Yes          18-25      
+##  5     39 Male         29    2007 Primary       0     1 No           26-30      
+##  6     40 Male         56    2008 Second…     950     4 Yes          51-60      
+##  7     45 Male         52    1975 Primary    1600     3 Yes          51-60      
+##  8     46 Male         35    2002 Second…    1200     4 Yes          31-35      
+##  9     47 Male         22    2010 Second…     700     4 Yes          18-25      
+## 10     48 Male         51    2007 Primary     950     4 Yes          51-60      
+## # … with 92 more rows</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="basics.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note the many pieces of information that are displayed when printing a tibble</span></span>
+<span id="cb42-2"><a href="basics.html#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="co"># data frame.</span></span></code></pre></div>
+</div>
+</div>
+<div id="arithmetic-statistical-and-relational-operations" class="section level2" number="2.4">
+<h2><span class="header-section-number">2.4</span> Arithmetic, statistical, and relational operations</h2>
+<div id="arithmetic-operations-and-recycling" class="section level3" number="2.4.1">
+<h3><span class="header-section-number">2.4.1</span> Arithmetic operations and recycling</h3>
+<ul>
+<li>R can work as a normal calculator.
+<ul>
+<li>Addition/subtraction: <code>7+3</code></li>
+<li>Multiplication: <code>7*3</code></li>
+<li>Negative: <code>-7</code></li>
+<li>Division: <code>7/3</code></li>
+<li>Integer division: <code>7%/%3</code></li>
+<li>Integer remainder: <code>7%%3</code></li>
+<li>Exponentiation: <code>7^3</code></li>
+</ul></li>
+<li>Many operations involving vectors in R are performed <strong>element-wise</strong>, i.e., separately on each element of the vector (see examples below).</li>
+<li>Most operations on vectors use the <strong>recycling</strong> rule: if a vector is too short, its values are re-used the number of times needed to match the desired length (see examples below).</li>
+<li>Examples of vector operations and recycling:
+<ul>
+<li><code>[1 2 3 4] + [1 2 3 4] = [1+1 2+2 3+3 4+4]</code> (element-wise addition.)</li>
+<li><code>[1 2 3 4] + 1 = [1+1 2+1 3+1 4+1]</code> (<code>1</code> is recycled 3 times to match the <code>length</code> of the first vector.)</li>
+<li><code>[1 2 3 4] + [1 2] = [1+1 2+2 3+1 4+2]</code> (<code>[1 2]</code> is recycled once.)</li>
+<li><code>[1 2 3 4] + [1 2 3] = [1+1 2+2 3+3 4+1]</code> (<code>[1 2 3]</code> is recycled one third of a time: R will warn that the length of longer vector is not a multiple of the length of shorter vector.)</li>
+</ul></li>
+</ul>
+</div>
+<div id="relational-operations-and-logical-vectors" class="section level3" number="2.4.2">
+<h3><span class="header-section-number">2.4.2</span> Relational operations and logical vectors</h3>
+<ul>
+<li><strong>Relational</strong> operators: <code>&gt;</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;=</code>. Equal is <code>==</code> (NOT <code>=</code>). <em>Not</em> equal is <code>!=</code>.
+<ul>
+<li>Note: equal is <code>==</code>, whereas <code>=</code> has a different meaning. <code>=</code> is used to assign function arguments (e.g. <code>matrix(x, nrow = 3, ncol = 4)</code>), or to assign objects (<code>x &lt;- 2</code> is the same as <code>x = 2</code>).</li>
+</ul></li>
+<li>Relational operations result in <strong>logical</strong> vectors: vectors of <code>TRUE</code>/<code>FALSE</code> values.</li>
+<li>Like arithmetic operations, relational ones are performed element-wise on vectors, and recycling applies.</li>
+<li>Logical operators: <code>&amp;</code> for AND, <code>|</code> for OR.</li>
+<li>Negation (i.e. opposite) of a logical vector: <code>!</code>.</li>
+<li>Is value <em>x</em> in vector <em>y</em>? <code>x %in% y</code>.</li>
+<li>R can convert logical vectors to numeric (<code>as.numeric()</code>, <code>as.integer()</code>). In this conversion, <code>TRUE</code> becomes <code>1</code> and <code>FALSE</code> becomes <code>0</code>. Conversely, if converted to logical (<code>as.logical()</code>), <code>1/0</code> are <code>TRUE/FALSE</code>.
+<ul>
+<li>Therefore, if <code>x</code> is a logical vector, <code>sum(x)</code> gives the <em>count</em> of <code>TRUE</code>s in <code>x</code> (sum of <code>1</code>s in the vector).</li>
+<li><code>mean(x)</code> gives the <em>proportion</em> of <code>1</code>s in <code>x</code> (mean of a binary vector: sum of <code>1</code>s in the vector divided by number of elements in the vector).</li>
+</ul></li>
+</ul>
+</div>
+<div id="examples-of-arithmetic-and-statistical-functions" class="section level3" number="2.4.3">
+<h3><span class="header-section-number">2.4.3</span> Examples of arithmetic and statistical functions</h3>
+<ul>
+<li>Arithmetic <em>vector</em> functions are performed element-wise, and return a vector. Examples:
+<ul>
+<li>Exponential: <code>exp(x)</code>.</li>
+<li>Logarithm: <code>log(x)</code> (base <em>e</em>) or <code>log10(x)</code> (base 10).</li>
+</ul></li>
+<li>Statistical <em>scalar</em> functions are executed on the set of all vector elements taken together, and return a scalar. Examples:
+<ul>
+<li><code>mean(x)</code> and <code>median(x)</code>.</li>
+<li>Standard deviation and variance: <code>sd(x)</code>, <code>var(x)</code>.</li>
+<li>Minimum and maximum: <code>min(x)</code>, <code>max(x)</code>.</li>
+<li><code>sum(x)</code>: sum of all elements in <code>x</code>.</li>
+</ul></li>
+<li><code>table(x)</code> is another basic statistical function (but it’s not scalar):
+<ul>
+<li><code>table(x)</code> returns a <code>table</code> object with the absolute frequencies of values in <code>x</code>.</li>
+</ul></li>
+<li>Functions such as <code>sum()</code>, <code>mean()</code> and <code>table()</code> are very useful when programming in R (for example, when writing your own functions). However, if you just need descriptive statistics for the data, there are more convenient tools you can use. Some of these are the following functions, which work well with <code>tidyverse</code> (we’ll see them in Ch. <a href="composition.html#composition">4</a>):
+<ul>
+<li>The <code>skim</code> function (from the <code>skimr</code> package) for descriptive statistics of continuous/quantitative variables.</li>
+<li>The <code>tabyl</code> function (from the <code>janitor</code> package) for frequencies of categorical variables.</li>
+</ul></li>
+</ul>
+</div>
+<div id="missing-and-infinite-values" class="section level3" number="2.4.4">
+<h3><span class="header-section-number">2.4.4</span> Missing and infinite values</h3>
+<ul>
+<li>Missing values in R are represented by <code>NA</code> (Not Available).
+<ul>
+<li>If your data has a different code for missing values (e.g., -99), you’ll have to recode that to NA for R to properly handle missing values in your data.</li>
+</ul></li>
+<li>Infinity may result from arithmetic operations: <code>Inf</code> and <code>-Inf</code> (e.g. <code>3/0</code>). <code>NaN</code> also may result, meaning Not a Number (e.g. <code>0/0</code>).
+<ul>
+<li>While <code>NA</code>s can appear in any type of object, <code>Inf</code>, <code>-Inf</code> and <code>NaN</code> can only appear in numeric objects.</li>
+</ul></li>
+<li><code>is.na(x)</code> checks if each element of <code>x</code> is NA and returns TRUE if that’s the case, FALSE otherwise. It’s a vector function (its value has the same <code>length</code> as <code>x</code>).</li>
+</ul>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="basics.html#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Just a few arithmetic operations between vectors to demonstrate element-wise</span></span>
+<span id="cb43-2"><a href="basics.html#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="co"># calculations and the recycling rule.</span></span>
+<span id="cb43-3"><a href="basics.html#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-4"><a href="basics.html#cb43-4" aria-hidden="true" tabindex="-1"></a>(v1 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span></code></pre></div>
+<pre><code>## [1] 1 2 3 4</code></pre>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="basics.html#cb45-1" aria-hidden="true" tabindex="-1"></a>(v2 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span></code></pre></div>
+<pre><code>## [1] 1 2 3 4</code></pre>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="basics.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># [1 2 3 4] + [1 2 3 4]</span></span>
+<span id="cb47-2"><a href="basics.html#cb47-2" aria-hidden="true" tabindex="-1"></a>v1 <span class="sc">+</span> v2</span></code></pre></div>
+<pre><code>## [1] 2 4 6 8</code></pre>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="basics.html#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># [1 2 3 4] + 1</span></span>
+<span id="cb49-2"><a href="basics.html#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">4</span> <span class="sc">+</span> <span class="dv">1</span></span></code></pre></div>
+<pre><code>## [1] 2 3 4 5</code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="basics.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># [1 2 3 4] + [1 2]</span></span>
+<span id="cb51-2"><a href="basics.html#cb51-2" aria-hidden="true" tabindex="-1"></a>(v1 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span></code></pre></div>
+<pre><code>## [1] 1 2 3 4</code></pre>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="basics.html#cb53-1" aria-hidden="true" tabindex="-1"></a>(v2 <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## [1] 1 2</code></pre>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="basics.html#cb55-1" aria-hidden="true" tabindex="-1"></a>v1 <span class="sc">+</span> v2</span></code></pre></div>
+<pre><code>## [1] 2 4 4 6</code></pre>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="basics.html#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># [1 2 3 4] + [1 2 3]</span></span>
+<span id="cb57-2"><a href="basics.html#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">4</span> <span class="sc">+</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span></code></pre></div>
+<pre><code>## Warning in 1:4 + 1:3: longer object length is not a multiple of shorter object
+## length</code></pre>
+<pre><code>## [1] 2 4 6 5</code></pre>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="basics.html#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Relational operations.</span></span>
+<span id="cb60-2"><a href="basics.html#cb60-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-3"><a href="basics.html#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s take a single variable from the ego attribute data: ego&#39;s age (in years)</span></span>
+<span id="cb60-4"><a href="basics.html#cb60-4" aria-hidden="true" tabindex="-1"></a><span class="co"># for the first 10 respondents. Let&#39;s put the result in a separate vector. This</span></span>
+<span id="cb60-5"><a href="basics.html#cb60-5" aria-hidden="true" tabindex="-1"></a><span class="co"># code involves indexing, we&#39;ll explain it better below.</span></span>
+<span id="cb60-6"><a href="basics.html#cb60-6" aria-hidden="true" tabindex="-1"></a>age <span class="ot">&lt;-</span> ego.df<span class="sc">$</span>ego.age[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb60-7"><a href="basics.html#cb60-7" aria-hidden="true" tabindex="-1"></a>age</span></code></pre></div>
+<pre><code>##  [1] 61 38 30 25 29 56 52 35 22 51</code></pre>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="basics.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note how the following comparisons are performed element-wise, and the value</span></span>
+<span id="cb62-2"><a href="basics.html#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="co"># to which age is compared (30) is recycled.</span></span>
+<span id="cb62-3"><a href="basics.html#cb62-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-4"><a href="basics.html#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Is age equal to 30?</span></span>
+<span id="cb62-5"><a href="basics.html#cb62-5" aria-hidden="true" tabindex="-1"></a>age<span class="sc">==</span><span class="dv">30</span></span></code></pre></div>
+<pre><code>##  [1] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="basics.html#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The resulting logical vector is TRUE for those elements (i.e., respondents)</span></span>
+<span id="cb64-2"><a href="basics.html#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="co"># who meet the condition.</span></span>
+<span id="cb64-3"><a href="basics.html#cb64-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-4"><a href="basics.html#cb64-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Which respondent&#39;s age is greater than 40?</span></span>
+<span id="cb64-5"><a href="basics.html#cb64-5" aria-hidden="true" tabindex="-1"></a>age <span class="sc">&gt;</span> <span class="dv">40</span></span></code></pre></div>
+<pre><code>##  [1]  TRUE FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE FALSE  TRUE</code></pre>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="basics.html#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Which respondent age values are lower than 40 OR greater than 60?</span></span>
+<span id="cb66-2"><a href="basics.html#cb66-2" aria-hidden="true" tabindex="-1"></a>age <span class="sc">&lt;</span> <span class="dv">40</span> <span class="sc">|</span> age <span class="sc">&gt;</span> <span class="dv">60</span></span></code></pre></div>
+<pre><code>##  [1]  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE  TRUE  TRUE FALSE</code></pre>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="basics.html#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Which elements of &quot;age&quot; are lower than 40 AND greater than 30?</span></span>
+<span id="cb68-2"><a href="basics.html#cb68-2" aria-hidden="true" tabindex="-1"></a>age <span class="sc">&lt;</span> <span class="dv">40</span> <span class="sc">&amp;</span> age <span class="sc">&gt;</span> <span class="dv">30</span></span></code></pre></div>
+<pre><code>##  [1] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE</code></pre>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="basics.html#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Notice the difference between OR (|) and AND (&amp;).</span></span>
+<span id="cb70-2"><a href="basics.html#cb70-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-3"><a href="basics.html#cb70-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Is 30 in &quot;age&quot;? I.e., is one of the respondents of 30 years of age?</span></span>
+<span id="cb70-4"><a href="basics.html#cb70-4" aria-hidden="true" tabindex="-1"></a><span class="dv">30</span> <span class="sc">%in%</span> age</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="basics.html#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Is &quot;age&quot; in c(30, 35)? That is, which values of &quot;age&quot; are either 30 or 35?</span></span>
+<span id="cb72-2"><a href="basics.html#cb72-2" aria-hidden="true" tabindex="-1"></a>age <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">30</span>, <span class="dv">35</span>)</span></code></pre></div>
+<pre><code>##  [1] FALSE FALSE  TRUE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE</code></pre>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="basics.html#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A logical vector can be converted to numeric: TRUE becomes 1 and FALSE becomes</span></span>
+<span id="cb74-2"><a href="basics.html#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 0.</span></span>
+<span id="cb74-3"><a href="basics.html#cb74-3" aria-hidden="true" tabindex="-1"></a>age <span class="sc">&gt;</span> <span class="dv">45</span></span></code></pre></div>
+<pre><code>##  [1]  TRUE FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE FALSE  TRUE</code></pre>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="basics.html#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(age <span class="sc">&gt;</span> <span class="dv">45</span>)</span></code></pre></div>
+<pre><code>##  [1] 1 0 0 0 0 1 1 0 0 1</code></pre>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="basics.html#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This allows us to use the sum() and the mean() functions to get the count and</span></span>
+<span id="cb78-2"><a href="basics.html#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="co"># proportion of TRUE&#39;s in a logical vector.</span></span>
+<span id="cb78-3"><a href="basics.html#cb78-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-4"><a href="basics.html#cb78-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Count of TRUE&#39;s: Number of respondents (elements of &quot;age&quot;) that are older than</span></span>
+<span id="cb78-5"><a href="basics.html#cb78-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 40.</span></span>
+<span id="cb78-6"><a href="basics.html#cb78-6" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(age <span class="sc">&gt;</span> <span class="dv">45</span>)</span></code></pre></div>
+<pre><code>## [1] 4</code></pre>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="basics.html#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co"># How many respondents in the vector are older than 30?</span></span>
+<span id="cb80-2"><a href="basics.html#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(age <span class="sc">&gt;</span> <span class="dv">30</span>)</span></code></pre></div>
+<pre><code>## [1] 6</code></pre>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="basics.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Proportion of TRUE&#39;s: What&#39;s the proportion of &quot;age&quot; elements (respondents)</span></span>
+<span id="cb82-2"><a href="basics.html#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="co"># that are greater than 50?</span></span>
+<span id="cb82-3"><a href="basics.html#cb82-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(age <span class="sc">&gt;</span> <span class="dv">50</span>)</span></code></pre></div>
+<pre><code>## [1] 0.4</code></pre>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="basics.html#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ***** EXERCISES</span></span>
+<span id="cb84-2"><a href="basics.html#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb84-3"><a href="basics.html#cb84-3" aria-hidden="true" tabindex="-1"></a><span class="co"># (1) Obtain a logical vector indicating which elements of &quot;age&quot; are smaller than 30</span></span>
+<span id="cb84-4"><a href="basics.html#cb84-4" aria-hidden="true" tabindex="-1"></a><span class="co"># OR greater than 50. Then obtain a logical vector indicating which elements of</span></span>
+<span id="cb84-5"><a href="basics.html#cb84-5" aria-hidden="true" tabindex="-1"></a><span class="co"># &quot;age&quot; are smaller than 30 AND greater than 50. Why all elements are FALSE in</span></span>
+<span id="cb84-6"><a href="basics.html#cb84-6" aria-hidden="true" tabindex="-1"></a><span class="co"># the latter vector?</span></span>
+<span id="cb84-7"><a href="basics.html#cb84-7" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb84-8"><a href="basics.html#cb84-8" aria-hidden="true" tabindex="-1"></a><span class="co"># (2) Using the : shortcut, create a vector that goes from 1 to 100 in steps of 1.</span></span>
+<span id="cb84-9"><a href="basics.html#cb84-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtain a logical vector that is TRUE for the first 10 elements and the last 10</span></span>
+<span id="cb84-10"><a href="basics.html#cb84-10" aria-hidden="true" tabindex="-1"></a><span class="co"># elements of the vector.</span></span>
+<span id="cb84-11"><a href="basics.html#cb84-11" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb84-12"><a href="basics.html#cb84-12" aria-hidden="true" tabindex="-1"></a><span class="co"># (3) Use the age vector with relational operators and sum/mean to answer these</span></span>
+<span id="cb84-13"><a href="basics.html#cb84-13" aria-hidden="true" tabindex="-1"></a><span class="co"># questions: How many respondents are younger than 50? What percentage of</span></span>
+<span id="cb84-14"><a href="basics.html#cb84-14" aria-hidden="true" tabindex="-1"></a><span class="co"># respondents is between 30 and 40 years of age, including 30 and 40? Is there</span></span>
+<span id="cb84-15"><a href="basics.html#cb84-15" aria-hidden="true" tabindex="-1"></a><span class="co"># any respondent who is younger than 20 OR older than 70 (use any())?</span></span>
+<span id="cb84-16"><a href="basics.html#cb84-16" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb84-17"><a href="basics.html#cb84-17" aria-hidden="true" tabindex="-1"></a><span class="co"># (4) How many elements of the vector 1:100 are greater than the length of that </span></span>
+<span id="cb84-18"><a href="basics.html#cb84-18" aria-hidden="true" tabindex="-1"></a><span class="co"># vector divided by 2? Use sum().</span></span>
+<span id="cb84-19"><a href="basics.html#cb84-19" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb84-20"><a href="basics.html#cb84-20" aria-hidden="true" tabindex="-1"></a><span class="co"># *****</span></span></code></pre></div>
+</div>
+</div>
+<div id="indexing" class="section level2" number="2.5">
+<h2><span class="header-section-number">2.5</span> Indexing</h2>
+<ul>
+<li><strong>Indexing</strong> is crucial in R. Indexing means appending an index to an object to extract one (or more) of its elements or components. Indexing is also called subscripting.</li>
+<li>Indexing can be used to <strong>extract</strong> (view, query) the component of an object, or to <strong>replace</strong> it (assign a different value to that element).</li>
+<li>The basic notation for indexing in R is <code>[ ]</code>: <code>x[i]</code> gives you the <em>i</em>-th element of object <code>x</code>.</li>
+<li><strong>Numeric indexing</strong> uses integers in square brackets <code>[ ]</code>: e.g. <code>x[3]</code>. Note that you can use negative integers to index (select) everything <em>but</em> that element: e.g. <code>x[-3]</code>, <code>x[c(-2,-4)]</code>.</li>
+<li><strong>Logical indexing</strong> uses logical vectors in square brackets <code>[ ]</code>. It’s used to index objects according to a condition, e.g. to index all values in <code>x</code> that are greater than 3 (see example code below).</li>
+<li><strong>Name indexing</strong> uses element names. Elements in a vector, and rows or columns in a matrix can have names.
+<ul>
+<li>Names can be displayed and assigned using the <code>names</code> function in base R, or <code>set_names</code> (just to assign names) in tidyverse.</li>
+</ul></li>
+<li>When indexing you must take into account the <strong>number of dimensions</strong> of an object. For example, vectors have 1 dimension, matrices have 2. Arrays can be defined with 3 dimensions or more (e.g. three-way tables).
+<ul>
+<li>Square brackets typically contain a slot for each dimension of the object, separated by a comma:
+<ul>
+<li><code>x[i]</code> indexes the <em>i</em>-th element of the one-dimensional object <code>x</code>;</li>
+<li><code>x[i,j]</code> indexes the <em>i,j</em>-th element of the two-dimensional object <code>x</code> (e.g. <code>x</code> is a matrix, <em>i</em> refers to a row and <em>j</em> refers to a column);</li>
+<li><code>x[i,j,k]</code> indexes the <em>i,j,k</em>-th element of the three-dimensional object <code>x</code>, etc.</li>
+</ul></li>
+<li>Notice that a dimension’s slot may be empty, meaning that we index all elements in that dimension. So, if <code>x</code> is a matrix, <code>x[3,]</code> will index the whole 3rd row of the matrix – i.e. <code>[</code>row 3, all columns<code>]</code>.</li>
+<li>If <code>x</code> has more than one dimension (e.g. it’s a matrix), then <code>x[3]</code> (no comma, just one slot) is still valid, but it might give you unexpected results.</li>
+</ul></li>
+<li>Matrices have special functions that can be used for indexing, e.g. <code>diagonal()</code>, <code>upper.tri()</code>, <code>lower.tri()</code>. These can be useful for manipulating adjacency matrices.</li>
+<li>Particular indexing rules may apply to particular <code>class</code>es of objects, for example lists and data frames (see next Section <a href="basics.html#index-df">2.5.1</a>).</li>
+</ul>
+<div id="index-df" class="section level3" number="2.5.1">
+<h3><span class="header-section-number">2.5.1</span> Indexing and subsetting data frames</h3>
+<ul>
+<li><strong>List notations.</strong> Data frames are a special class of lists (see Section <a href="structure.html#lists">5.3</a> for more about lists). Just like any list, data frames can be indexed in the following 3 ways:
+<ol style="list-style-type: decimal">
+<li><code>[ ]</code> notation, e.g. <code>df[3]</code> or <code>df["variable.name"]</code>. This returns another data frame that only includes the indexed element(s), e.g. only the 3<sup>rd</sup> element. Note:
+<ul>
+<li>This notation <em>preserves the</em> <code>data.frame</code> <em>class</em>: the result is still a data frame.</li>
+<li>This notation can be used to index <em>multiple</em> elements of a data frame into a new data frame, e.g. <code>df[c(1,3,5)]</code> or <code>df[c("sex", "age")]</code></li>
+</ul></li>
+<li><code>[[ ]]</code> notation, e.g. <code>df[[3]]</code> or <code>df[["variable.name"]]</code>. This returns the specific element (column) selected, not as a data frame but as a vector with its own type and class, e.g. the numeric vector <em>within</em> the 3<sup>rd</sup> element of <code>df</code>. Note two differences from the <code>[ ]</code> notation:
+<ul>
+<li><code>[[ ]]</code> <em>does not</em> preserve the <code>data.frame</code> class. The result is <em>not</em> a data frame.</li>
+<li>Consistently, <code>[[ ]]</code> can only be used to index a <em>single</em> element (column) of the data frame, not multiple elements.</li>
+</ul></li>
+<li>The <code>$</code> notation. If <em>variable.name</em> is the name of a specific variable (column) in <code>df</code>, then <code>df$variable.name</code> indexes that variable. This is the same as the <code>[[ ]]</code> notation: <code>df$variable.name</code> is the same as <code>df[["variable.name"]]</code>, and it’s also the same as <code>df[[i]]</code> (where <code>i</code> is the position of the variable called <em>variable.name</em> in the data frame).</li>
+</ol></li>
+<li><strong>Matrix notation.</strong> Data frames can also be indexed like a matrix, with the <code>[ , ]</code> notation:
+<ul>
+<li><code>df[2,3]</code>, <code>df[2, ]</code>, <code>df[ ,3]</code>.</li>
+<li><code>df[,"age"]</code>, <code>df[,c("sex", "age")]</code>, <code>df[5,"age"]</code></li>
+</ul></li>
+<li><strong>Keep in mind the difference</strong> between the following:
+<ul>
+<li>Extracting a data frame’s variable (column) in itself, as a vector (numeric, character, etc.) — The single pepper packet by itself in the figure below (panel C). This is given by <code>df[[i]]</code>, <code>df[["variable.name"]]</code>, <code>df$variable.name</code>.</li>
+<li>Extracting another data frame of just one variable (column) – The single pepper packet <em>within</em> the pepper shaker in the figure below (panel B). This is given by <code>df[i]</code>, <code>df["variable.name"]</code>.</li>
+</ul></li>
+<li><strong>Subsetting data frames</strong>. In base R there are different ways to subset a dataframe’s rows (cases) and/or columns (variables) using indexing (some examples are in the code below). However, we’ll mostly use the subsetting functions introduced by the <code>dplyr</code> package in <code>tidyverse</code> (see <a href="#the-tidyverse-syntax">below</a>).</li>
+</ul>
+<p><a href="https://twitter.com/hadleywickham/status/643381054758363136?lang=en"><img src="Figures/wickham_indexing_tweet.png" style="width:50.0%" alt="Indexing lists/data frames" /></a></p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="basics.html#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Numeric indexing                                                          ----</span></span>
+<span id="cb85-2"><a href="basics.html#cb85-2" aria-hidden="true" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
+<span id="cb85-3"><a href="basics.html#cb85-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-4"><a href="basics.html#cb85-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s use our vector of ego ages again.</span></span>
+<span id="cb85-5"><a href="basics.html#cb85-5" aria-hidden="true" tabindex="-1"></a>age</span></code></pre></div>
+<pre><code>##  [1] 61 38 30 25 29 56 52 35 22 51</code></pre>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="basics.html#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Index its 2nd element: The age of the 2nd respondent.</span></span>
+<span id="cb87-2"><a href="basics.html#cb87-2" aria-hidden="true" tabindex="-1"></a>age[<span class="dv">2</span>]</span></code></pre></div>
+<pre><code>## [1] 38</code></pre>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="basics.html#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Its 2nd, 4th and 5th elements.</span></span>
+<span id="cb89-2"><a href="basics.html#cb89-2" aria-hidden="true" tabindex="-1"></a>age[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">5</span>)]</span></code></pre></div>
+<pre><code>## [1] 38 25 29</code></pre>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="basics.html#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fifth to sevents elements</span></span>
+<span id="cb91-2"><a href="basics.html#cb91-2" aria-hidden="true" tabindex="-1"></a>age[<span class="dv">5</span><span class="sc">:</span><span class="dv">7</span>]</span></code></pre></div>
+<pre><code>## [1] 29 56 52</code></pre>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="basics.html#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use indexing to assign (replace) an element.</span></span>
+<span id="cb93-2"><a href="basics.html#cb93-2" aria-hidden="true" tabindex="-1"></a>age[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">45</span></span>
+<span id="cb93-3"><a href="basics.html#cb93-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb93-4"><a href="basics.html#cb93-4" aria-hidden="true" tabindex="-1"></a><span class="co"># The content of x has now changed.</span></span>
+<span id="cb93-5"><a href="basics.html#cb93-5" aria-hidden="true" tabindex="-1"></a>age</span></code></pre></div>
+<pre><code>##  [1] 61 45 30 25 29 56 52 35 22 51</code></pre>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="basics.html#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s index the adjacency matrix we created before.</span></span>
+<span id="cb95-2"><a href="basics.html#cb95-2" aria-hidden="true" tabindex="-1"></a>adj</span></code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    0    1    1
+## [2,]    1    0    1
+## [3,]    0    0    0</code></pre>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="basics.html#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Its 2,3 cell: Edge from node 2 to node 3.</span></span>
+<span id="cb97-2"><a href="basics.html#cb97-2" aria-hidden="true" tabindex="-1"></a>adj[<span class="dv">2</span>,<span class="dv">3</span>]</span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="basics.html#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Its 2nd column: All edges to node 2.</span></span>
+<span id="cb99-2"><a href="basics.html#cb99-2" aria-hidden="true" tabindex="-1"></a>adj[,<span class="dv">2</span>]</span></code></pre></div>
+<pre><code>## [1] 1 0 0</code></pre>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="basics.html#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Its 2nd and 3rd row: All edges from nodes 2 and 3.</span></span>
+<span id="cb101-2"><a href="basics.html#cb101-2" aria-hidden="true" tabindex="-1"></a>adj[<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>,]</span></code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    0    1
+## [2,]    0    0    0</code></pre>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="basics.html#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Logical indexing                                                          ----</span></span>
+<span id="cb103-2"><a href="basics.html#cb103-2" aria-hidden="true" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
+<span id="cb103-3"><a href="basics.html#cb103-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-4"><a href="basics.html#cb103-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Which values of &quot;age&quot; are between 40 and 60?</span></span>
+<span id="cb103-5"><a href="basics.html#cb103-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-6"><a href="basics.html#cb103-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s create a logical index that flags these values.</span></span>
+<span id="cb103-7"><a href="basics.html#cb103-7" aria-hidden="true" tabindex="-1"></a>(ind <span class="ot">&lt;-</span> age <span class="sc">&gt;</span> <span class="dv">40</span> <span class="sc">&amp;</span> age <span class="sc">&lt;</span> <span class="dv">60</span>)</span></code></pre></div>
+<pre><code>##  [1] FALSE  TRUE FALSE FALSE FALSE  TRUE  TRUE FALSE FALSE  TRUE</code></pre>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="basics.html#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use this index to extract these values from vector &quot;age&quot; via logical indexing.</span></span>
+<span id="cb105-2"><a href="basics.html#cb105-2" aria-hidden="true" tabindex="-1"></a>age[ind]</span></code></pre></div>
+<pre><code>## [1] 45 56 52 51</code></pre>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="basics.html#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We could also have typed directly:</span></span>
+<span id="cb107-2"><a href="basics.html#cb107-2" aria-hidden="true" tabindex="-1"></a>age[age <span class="sc">&gt;</span> <span class="dv">40</span> <span class="sc">&amp;</span> age <span class="sc">&lt;</span> <span class="dv">60</span>]</span></code></pre></div>
+<pre><code>## [1] 45 56 52 51</code></pre>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="basics.html#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Indexing data frames: list notations                                      ---- </span></span>
+<span id="cb109-2"><a href="basics.html#cb109-2" aria-hidden="true" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
+<span id="cb109-3"><a href="basics.html#cb109-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb109-4"><a href="basics.html#cb109-4" aria-hidden="true" tabindex="-1"></a><span class="co"># We&#39;ll use our ego-level data frame.</span></span>
+<span id="cb109-5"><a href="basics.html#cb109-5" aria-hidden="true" tabindex="-1"></a>ego.df</span></code></pre></div>
+<pre><code>## # A tibble: 102 × 9
+##    ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
+##     &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;      
+##  1     28 Male         61    2008 Second…     350     3 Yes          60+        
+##  2     29 Male         38    2000 Primary     900     4 Yes          36-40      
+##  3     33 Male         30    2010 Primary     200     3 Yes          26-30      
+##  4     35 Male         25    2009 Second…    1000     3 Yes          18-25      
+##  5     39 Male         29    2007 Primary       0     1 No           26-30      
+##  6     40 Male         56    2008 Second…     950     4 Yes          51-60      
+##  7     45 Male         52    1975 Primary    1600     3 Yes          51-60      
+##  8     46 Male         35    2002 Second…    1200     4 Yes          31-35      
+##  9     47 Male         22    2010 Second…     700     4 Yes          18-25      
+## 10     48 Male         51    2007 Primary     950     4 Yes          51-60      
+## # … with 92 more rows</code></pre>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="basics.html#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The 3rd variable.</span></span>
+<span id="cb111-2"><a href="basics.html#cb111-2" aria-hidden="true" tabindex="-1"></a>ego.df[<span class="dv">3</span>]</span></code></pre></div>
+<pre><code>## # A tibble: 102 × 1
+##    ego.age
+##      &lt;dbl&gt;
+##  1      61
+##  2      38
+##  3      30
+##  4      25
+##  5      29
+##  6      56
+##  7      52
+##  8      35
+##  9      22
+## 10      51
+## # … with 92 more rows</code></pre>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="basics.html#cb113-1" aria-hidden="true" tabindex="-1"></a>ego.df[<span class="st">&quot;ego.age&quot;</span>]</span></code></pre></div>
+<pre><code>## # A tibble: 102 × 1
+##    ego.age
+##      &lt;dbl&gt;
+##  1      61
+##  2      38
+##  3      30
+##  4      25
+##  5      29
+##  6      56
+##  7      52
+##  8      35
+##  9      22
+## 10      51
+## # … with 92 more rows</code></pre>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="basics.html#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The second and third variables.</span></span>
+<span id="cb115-2"><a href="basics.html#cb115-2" aria-hidden="true" tabindex="-1"></a>ego.df[<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]</span></code></pre></div>
+<pre><code>## # A tibble: 102 × 2
+##    ego.sex ego.age
+##    &lt;chr&gt;     &lt;dbl&gt;
+##  1 Male         61
+##  2 Male         38
+##  3 Male         30
+##  4 Male         25
+##  5 Male         29
+##  6 Male         56
+##  7 Male         52
+##  8 Male         35
+##  9 Male         22
+## 10 Male         51
+## # … with 92 more rows</code></pre>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="basics.html#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The [[ ]] notation extracts the actual column as a vector, while [ ] keeps</span></span>
+<span id="cb117-2"><a href="basics.html#cb117-2" aria-hidden="true" tabindex="-1"></a><span class="co"># the data frame class.</span></span>
+<span id="cb117-3"><a href="basics.html#cb117-3" aria-hidden="true" tabindex="-1"></a>ego.df[[<span class="st">&quot;ego.age&quot;</span>]]</span></code></pre></div>
+<pre><code>##   [1] 61 38 30 25 29 56 52 35 22 51 50 45 51 32 57 42 32 55 44 25 28 60 54 30 37
+##  [26] 41 47 33 37 29 39 31 52 30 57 44 47 42 44 31 31 56 36 47 47 35 43 22 55 32
+##  [51] NA 60 51 53 25 33 38 37 27 34 32 26 36 53 42 45 36 54 49 35 27 32 58 51 55
+##  [76] 59 27 35 24 52 27 42 47 43 53 54 35 50 51 40 49 33 33 36 32 35 55 61 34 44
+## [101] 50 28</code></pre>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="basics.html#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The age variable, using the $ notation</span></span>
+<span id="cb119-2"><a href="basics.html#cb119-2" aria-hidden="true" tabindex="-1"></a>ego.df<span class="sc">$</span>ego.age</span></code></pre></div>
+<pre><code>##   [1] 61 38 30 25 29 56 52 35 22 51 50 45 51 32 57 42 32 55 44 25 28 60 54 30 37
+##  [26] 41 47 33 37 29 39 31 52 30 57 44 47 42 44 31 31 56 36 47 47 35 43 22 55 32
+##  [51] NA 60 51 53 25 33 38 37 27 34 32 26 36 53 42 45 36 54 49 35 27 32 58 51 55
+##  [76] 59 27 35 24 52 27 42 47 43 53 54 35 50 51 40 49 33 33 36 32 35 55 61 34 44
+## [101] 50 28</code></pre>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="basics.html#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note that this is the same as ego.df[[3]] or ego.df[[&quot;ego.age&quot;]]</span></span>
+<span id="cb121-2"><a href="basics.html#cb121-2" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(ego.df[[<span class="dv">3</span>]], ego.df<span class="sc">$</span>ego.age)</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="basics.html#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Indexing data frames: matrix notation                                     ----</span></span>
+<span id="cb123-2"><a href="basics.html#cb123-2" aria-hidden="true" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
+<span id="cb123-3"><a href="basics.html#cb123-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb123-4"><a href="basics.html#cb123-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Fifth row of the data frame</span></span>
+<span id="cb123-5"><a href="basics.html#cb123-5" aria-hidden="true" tabindex="-1"></a>ego.df[<span class="dv">5</span>,]</span></code></pre></div>
+<pre><code>## # A tibble: 1 × 9
+##   ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
+##    &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;      
+## 1     39 Male         29    2007 Primary       0     1 No           26-30</code></pre>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="basics.html#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiple rows (4th to 10th)</span></span>
+<span id="cb125-2"><a href="basics.html#cb125-2" aria-hidden="true" tabindex="-1"></a>ego.df[<span class="dv">4</span><span class="sc">:</span><span class="dv">10</span>,]</span></code></pre></div>
+<pre><code>## # A tibble: 7 × 9
+##   ego_ID ego.sex ego.age ego.arr ego.edu  ego.inc  empl ego.empl.bin ego.age.cat
+##    &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;      
+## 1     35 Male         25    2009 Seconda…    1000     3 Yes          18-25      
+## 2     39 Male         29    2007 Primary        0     1 No           26-30      
+## 3     40 Male         56    2008 Seconda…     950     4 Yes          51-60      
+## 4     45 Male         52    1975 Primary     1600     3 Yes          51-60      
+## 5     46 Male         35    2002 Seconda…    1200     4 Yes          31-35      
+## 6     47 Male         22    2010 Seconda…     700     4 Yes          18-25      
+## 7     48 Male         51    2007 Primary      950     4 Yes          51-60</code></pre>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="basics.html#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fifth adn sixth row, fourth variable.</span></span>
+<span id="cb127-2"><a href="basics.html#cb127-2" aria-hidden="true" tabindex="-1"></a>ego.df[<span class="dv">5</span><span class="sc">:</span><span class="dv">6</span>,<span class="dv">4</span>]</span></code></pre></div>
+<pre><code>## # A tibble: 2 × 1
+##   ego.arr
+##     &lt;dbl&gt;
+## 1    2007
+## 2    2008</code></pre>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="basics.html#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sex and age variables.</span></span>
+<span id="cb129-2"><a href="basics.html#cb129-2" aria-hidden="true" tabindex="-1"></a>ego.df[, <span class="fu">c</span>(<span class="st">&quot;ego.sex&quot;</span>, <span class="st">&quot;ego.age&quot;</span>)]</span></code></pre></div>
+<pre><code>## # A tibble: 102 × 2
+##    ego.sex ego.age
+##    &lt;chr&gt;     &lt;dbl&gt;
+##  1 Male         61
+##  2 Male         38
+##  3 Male         30
+##  4 Male         25
+##  5 Male         29
+##  6 Male         56
+##  7 Male         52
+##  8 Male         35
+##  9 Male         22
+## 10 Male         51
+## # … with 92 more rows</code></pre>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="basics.html#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ***** EXERCISES </span></span>
+<span id="cb131-2"><a href="basics.html#cb131-2" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb131-3"><a href="basics.html#cb131-3" aria-hidden="true" tabindex="-1"></a><span class="co"># (1) What&#39;s the mean age of respondents whose education is NOT &quot;Primary&quot;? Use</span></span>
+<span id="cb131-4"><a href="basics.html#cb131-4" aria-hidden="true" tabindex="-1"></a><span class="co"># the ego.age and ego.edu variables. Remember that the &quot;different from&quot;</span></span>
+<span id="cb131-5"><a href="basics.html#cb131-5" aria-hidden="true" tabindex="-1"></a><span class="co"># comparison operator is !=.</span></span>
+<span id="cb131-6"><a href="basics.html#cb131-6" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb131-7"><a href="basics.html#cb131-7" aria-hidden="true" tabindex="-1"></a><span class="co"># (2) What is the modal education level (i.e., the most common education level)</span></span>
+<span id="cb131-8"><a href="basics.html#cb131-8" aria-hidden="true" tabindex="-1"></a><span class="co"># of respondents who are older than 40? Use table() or tabyl().</span></span>
+<span id="cb131-9"><a href="basics.html#cb131-9" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb131-10"><a href="basics.html#cb131-10" aria-hidden="true" tabindex="-1"></a><span class="co"># (3) Create the fictitious variable var &lt;- c(1:30, rep(NA, 3), 34:50). Use is.na()</span></span>
+<span id="cb131-11"><a href="basics.html#cb131-11" aria-hidden="true" tabindex="-1"></a><span class="co"># to index all the NA values in the variable. Then use is.na() to index all</span></span>
+<span id="cb131-12"><a href="basics.html#cb131-12" aria-hidden="true" tabindex="-1"></a><span class="co"># values that are *not* NA. Hint: Remember the operator used to negate a logical</span></span>
+<span id="cb131-13"><a href="basics.html#cb131-13" aria-hidden="true" tabindex="-1"></a><span class="co"># vector. Finally, use this indexing to remove all NA values from var.</span></span>
+<span id="cb131-14"><a href="basics.html#cb131-14" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb131-15"><a href="basics.html#cb131-15" aria-hidden="true" tabindex="-1"></a><span class="co"># (4) Use the $ notation to extract the &quot;ego.arr&quot; variable in ego.df. Recode all </span></span>
+<span id="cb131-16"><a href="basics.html#cb131-16" aria-hidden="true" tabindex="-1"></a><span class="co"># values equal to 2008 as 99. Hint: Index all values equal to 2008, then replace </span></span>
+<span id="cb131-17"><a href="basics.html#cb131-17" aria-hidden="true" tabindex="-1"></a><span class="co"># them with 99 via the assignment operator. </span></span>
+<span id="cb131-18"><a href="basics.html#cb131-18" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb131-19"><a href="basics.html#cb131-19" aria-hidden="true" tabindex="-1"></a><span class="co"># *****</span></span></code></pre></div>
+</div>
+</div>
+<div id="the-tidyverse-grammar" class="section level2" number="2.6">
+<h2><span class="header-section-number">2.6</span> The <code>tidyverse</code> grammar</h2>
+<div id="pipes-and-the-operator" class="section level3" number="2.6.1">
+<h3><span class="header-section-number">2.6.1</span> Pipes and the <code>%&gt;%</code> operator</h3>
+<ul>
+<li>The pipe operator <code>%&gt;%</code> was introduced by the <code>magrittr</code> package and is adopted by <code>igraph</code> and <code>tidyverse</code>, which we’ll use in this workshop. The operator is becoming increasingly popular among R users.</li>
+<li>The idea behind pipes is in essence very simple:
+<ul>
+<li><code>f(g(x))</code> becomes <code>x %&gt;% g %&gt;% f</code>.</li>
+<li>For example: <code>mean(table(x))</code> becomes <code>x %&gt;% table %&gt;% mean</code>.</li>
+</ul></li>
+<li>So <code>%&gt;%</code> pipes the output of the previous function (e.g. <code>table</code>) into the input of the following function (e.g. <code>mean</code>). This turns inside-to-outside code into left-to-right code. Because left to right is the direction most of us are used to read in, pipes make R code less cumbersome and more readable.</li>
+<li>You may also see pipes concatenating multiple lines of code. That’s possible and a common coding style. Instead of</li>
+</ul>
+<pre><code>x %&gt;% table %&gt;% mean</code></pre>
+<p>you can write</p>
+<pre><code>x %&gt;%
+  table %&gt;%
+  mean</code></pre>
+<ul>
+<li>The <code>%&lt;&gt;%</code> operator combines <code>%&gt;%</code> (pipe) and <code>&lt;-</code> (assignment): it pipes the left-hand object on to the right-hand operations, and then assigns the operations’ final output to the original object. The following code:</li>
+</ul>
+<pre><code>x &lt;- x %&gt;%
+  table %&gt;%
+  mean</code></pre>
+<p>does the same thing as the following (more concise) code:</p>
+<pre><code>x %&lt;&gt;%
+  table %&gt;%
+  mean</code></pre>
+</div>
+<div id="subsetting-data-frames-in-tidyverse" class="section level3" number="2.6.2">
+<h3><span class="header-section-number">2.6.2</span> Subsetting data frames in <code>tidyverse</code></h3>
+<ul>
+<li>Tidyverse includes the <code>dplyr</code> package for data frame manipulation. This is a very powerful package for all kinds of data manipulation. To learn more, see the package <a href="https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf">cheatsheet</a> and <a href="https://dplyr.tidyverse.org/articles/index.html">vignettes</a>.</li>
+<li>Subsetting data frames with <code>dplyr</code>:
+<ul>
+<li><code>dplyr::filter()</code> is used to subset rows (cases) of a data frame based on one or multiple conditions (for example, respondents with certain values on one or more variables).</li>
+<li><code>dplyr::select()</code> is used to subset columns (variables) of a data frame. You can use full variable names or select variables in many other ways. See examples in the <code>select</code> <a href="https://dplyr.tidyverse.org/reference/select.html">manual page</a>.</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="basics.html#cb136-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s load the magrittr package</span></span>
+<span id="cb136-2"><a href="basics.html#cb136-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb136-3"><a href="basics.html#cb136-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb136-4"><a href="basics.html#cb136-4" aria-hidden="true" tabindex="-1"></a><span class="co"># The pipe operator                                                         ----</span></span>
+<span id="cb136-5"><a href="basics.html#cb136-5" aria-hidden="true" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
+<span id="cb136-6"><a href="basics.html#cb136-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb136-7"><a href="basics.html#cb136-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Ego education variable </span></span>
+<span id="cb136-8"><a href="basics.html#cb136-8" aria-hidden="true" tabindex="-1"></a>(edu <span class="ot">&lt;-</span> ego.df<span class="sc">$</span>ego.edu)</span></code></pre></div>
+<pre><code>##   [1] &quot;Secondary&quot;  &quot;Primary&quot;    &quot;Primary&quot;    &quot;Secondary&quot;  &quot;Primary&quot;   
+##   [6] &quot;Secondary&quot;  &quot;Primary&quot;    &quot;Secondary&quot;  &quot;Secondary&quot;  &quot;Primary&quot;   
+##  [11] &quot;Secondary&quot;  &quot;Secondary&quot;  &quot;University&quot; &quot;Primary&quot;    &quot;Secondary&quot; 
+##  [16] &quot;Primary&quot;    &quot;Primary&quot;    &quot;Secondary&quot;  &quot;Secondary&quot;  &quot;Primary&quot;   
+##  [21] &quot;University&quot; &quot;University&quot; &quot;Primary&quot;    &quot;Secondary&quot;  &quot;Primary&quot;   
+##  [26] &quot;Primary&quot;    &quot;Secondary&quot;  &quot;Primary&quot;    &quot;Primary&quot;    &quot;Primary&quot;   
+##  [31] &quot;Secondary&quot;  &quot;Secondary&quot;  &quot;Secondary&quot;  &quot;Primary&quot;    &quot;Primary&quot;   
+##  [36] &quot;Secondary&quot;  &quot;Secondary&quot;  &quot;Primary&quot;    &quot;Secondary&quot;  &quot;Primary&quot;   
+##  [41] &quot;Primary&quot;    &quot;Primary&quot;    &quot;Primary&quot;    &quot;Secondary&quot;  &quot;Primary&quot;   
+##  [46] &quot;Primary&quot;    &quot;Primary&quot;    &quot;University&quot; &quot;Primary&quot;    &quot;Secondary&quot; 
+##  [51] &quot;University&quot; &quot;Primary&quot;    &quot;University&quot; &quot;Secondary&quot;  &quot;Secondary&quot; 
+##  [56] &quot;University&quot; &quot;Primary&quot;    &quot;Primary&quot;    &quot;Secondary&quot;  &quot;Secondary&quot; 
+##  [61] &quot;Secondary&quot;  &quot;University&quot; &quot;University&quot; &quot;University&quot; &quot;Secondary&quot; 
+##  [66] &quot;Secondary&quot;  &quot;Secondary&quot;  &quot;University&quot; &quot;Primary&quot;    &quot;Secondary&quot; 
+##  [71] &quot;Secondary&quot;  &quot;Secondary&quot;  &quot;University&quot; &quot;Primary&quot;    &quot;Secondary&quot; 
+##  [76] &quot;Secondary&quot;  &quot;Secondary&quot;  &quot;Secondary&quot;  &quot;Secondary&quot;  &quot;Secondary&quot; 
+##  [81] &quot;Secondary&quot;  &quot;Primary&quot;    &quot;Primary&quot;    &quot;University&quot; &quot;Primary&quot;   
+##  [86] &quot;Primary&quot;    &quot;Secondary&quot;  &quot;Secondary&quot;  &quot;Secondary&quot;  &quot;University&quot;
+##  [91] &quot;Secondary&quot;  &quot;Secondary&quot;  &quot;Primary&quot;    &quot;Primary&quot;    &quot;University&quot;
+##  [96] &quot;Primary&quot;    &quot;Primary&quot;    &quot;Primary&quot;    &quot;Primary&quot;    &quot;Secondary&quot; 
+## [101] &quot;Primary&quot;    &quot;Secondary&quot;</code></pre>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="basics.html#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Frequency of educational categories in the data</span></span>
+<span id="cb138-2"><a href="basics.html#cb138-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(edu)</span></code></pre></div>
+<pre><code>## edu
+##    Primary  Secondary University 
+##         42         45         15</code></pre>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="basics.html#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Average frequency</span></span>
+<span id="cb140-2"><a href="basics.html#cb140-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">table</span>(edu))</span></code></pre></div>
+<pre><code>## [1] 34</code></pre>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="basics.html#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s re-write this with the pipe operator</span></span>
+<span id="cb142-2"><a href="basics.html#cb142-2" aria-hidden="true" tabindex="-1"></a>edu <span class="sc">%&gt;%</span></span>
+<span id="cb142-3"><a href="basics.html#cb142-3" aria-hidden="true" tabindex="-1"></a>  table <span class="sc">%&gt;%</span></span>
+<span id="cb142-4"><a href="basics.html#cb142-4" aria-hidden="true" tabindex="-1"></a>  mean</span></code></pre></div>
+<pre><code>## [1] 34</code></pre>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="basics.html#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If we want to assign the result to the initial vector</span></span>
+<span id="cb144-2"><a href="basics.html#cb144-2" aria-hidden="true" tabindex="-1"></a>edu <span class="sc">%&lt;&gt;%</span></span>
+<span id="cb144-3"><a href="basics.html#cb144-3" aria-hidden="true" tabindex="-1"></a>  table <span class="sc">%&gt;%</span></span>
+<span id="cb144-4"><a href="basics.html#cb144-4" aria-hidden="true" tabindex="-1"></a>  mean</span>
+<span id="cb144-5"><a href="basics.html#cb144-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb144-6"><a href="basics.html#cb144-6" aria-hidden="true" tabindex="-1"></a>edu</span></code></pre></div>
+<pre><code>## [1] 34</code></pre>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="basics.html#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subsetting data frames with dplyr: filter and select                      ----</span></span>
+<span id="cb146-2"><a href="basics.html#cb146-2" aria-hidden="true" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
+<span id="cb146-3"><a href="basics.html#cb146-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb146-4"><a href="basics.html#cb146-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter to egos who are older than 40</span></span>
+<span id="cb146-5"><a href="basics.html#cb146-5" aria-hidden="true" tabindex="-1"></a>ego.df <span class="sc">%&gt;%</span></span>
+<span id="cb146-6"><a href="basics.html#cb146-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ego.age <span class="sc">&gt;</span> <span class="dv">40</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 51 × 9
+##    ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
+##     &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;      
+##  1     28 Male         61    2008 Second…     350     3 Yes          60+        
+##  2     40 Male         56    2008 Second…     950     4 Yes          51-60      
+##  3     45 Male         52    1975 Primary    1600     3 Yes          51-60      
+##  4     48 Male         51    2007 Primary     950     4 Yes          51-60      
+##  5     49 Male         50    2001 Second…    1300     4 Yes          41-50      
+##  6     51 Male         45    2011 Second…     480     3 Yes          41-50      
+##  7     52 Male         51    2002 Univer…    1200     4 Yes          51-60      
+##  8     55 Male         57    1979 Second…     470     7 No           51-60      
+##  9     56 Male         42    1992 Primary    1100     4 Yes          41-50      
+## 10     58 Male         55    1990 Second…    1450     4 Yes          51-60      
+## # … with 41 more rows</code></pre>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="basics.html#cb148-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter to egos with Primary education</span></span>
+<span id="cb148-2"><a href="basics.html#cb148-2" aria-hidden="true" tabindex="-1"></a>ego.df <span class="sc">%&gt;%</span></span>
+<span id="cb148-3"><a href="basics.html#cb148-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ego.edu <span class="sc">==</span> <span class="st">&quot;Primary&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 42 × 9
+##    ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
+##     &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;      
+##  1     29 Male         38    2000 Primary     900     4 Yes          36-40      
+##  2     33 Male         30    2010 Primary     200     3 Yes          26-30      
+##  3     39 Male         29    2007 Primary       0     1 No           26-30      
+##  4     45 Male         52    1975 Primary    1600     3 Yes          51-60      
+##  5     48 Male         51    2007 Primary     950     4 Yes          51-60      
+##  6     53 Male         32    2003 Primary    1600     1 No           31-35      
+##  7     56 Male         42    1992 Primary    1100     4 Yes          41-50      
+##  8     57 Male         32    2000 Primary    1200     4 Yes          31-35      
+##  9     60 Male         25    2011 Primary       0     1 No           18-25      
+## 10     64 Male         54    1981 Primary     300     3 Yes          51-60      
+## # … with 32 more rows</code></pre>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="basics.html#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine the two conditions: Intersection.</span></span>
+<span id="cb150-2"><a href="basics.html#cb150-2" aria-hidden="true" tabindex="-1"></a>ego.df <span class="sc">%&gt;%</span></span>
+<span id="cb150-3"><a href="basics.html#cb150-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ego.age <span class="sc">&gt;</span> <span class="dv">40</span> <span class="sc">&amp;</span> ego.edu <span class="sc">==</span> <span class="st">&quot;Primary&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 21 × 9
+##    ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
+##     &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;      
+##  1     45 Male         52    1975 Primary    1600     3 Yes          51-60      
+##  2     48 Male         51    2007 Primary     950     4 Yes          51-60      
+##  3     56 Male         42    1992 Primary    1100     4 Yes          41-50      
+##  4     64 Male         54    1981 Primary     300     3 Yes          51-60      
+##  5     68 Male         41    2008 Primary     600     4 Yes          41-50      
+##  6     82 Male         57    1982 Primary    1190     4 Yes          51-60      
+##  7     85 Male         42    2008 Primary     400     2 No           41-50      
+##  8     90 Male         56    2004 Primary     450     4 Yes          51-60      
+##  9     93 Male         47    2010 Primary     880     4 Yes          41-50      
+## 10     95 Male         43    1997 Primary     800     4 Yes          41-50      
+## # … with 11 more rows</code></pre>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="basics.html#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine the two conditions: Union.</span></span>
+<span id="cb152-2"><a href="basics.html#cb152-2" aria-hidden="true" tabindex="-1"></a>ego.df <span class="sc">%&gt;%</span></span>
+<span id="cb152-3"><a href="basics.html#cb152-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ego.age <span class="sc">&gt;</span> <span class="dv">40</span> <span class="sc">|</span> ego.edu <span class="sc">==</span> <span class="st">&quot;Primary&quot;</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 72 × 9
+##    ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
+##     &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;      
+##  1     28 Male         61    2008 Second…     350     3 Yes          60+        
+##  2     29 Male         38    2000 Primary     900     4 Yes          36-40      
+##  3     33 Male         30    2010 Primary     200     3 Yes          26-30      
+##  4     39 Male         29    2007 Primary       0     1 No           26-30      
+##  5     40 Male         56    2008 Second…     950     4 Yes          51-60      
+##  6     45 Male         52    1975 Primary    1600     3 Yes          51-60      
+##  7     48 Male         51    2007 Primary     950     4 Yes          51-60      
+##  8     49 Male         50    2001 Second…    1300     4 Yes          41-50      
+##  9     51 Male         45    2011 Second…     480     3 Yes          41-50      
+## 10     52 Male         51    2002 Univer…    1200     4 Yes          51-60      
+## # … with 62 more rows</code></pre>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="basics.html#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note that the object ego.df hasn&#39;t changed. To re-use any of the filtered data</span></span>
+<span id="cb154-2"><a href="basics.html#cb154-2" aria-hidden="true" tabindex="-1"></a><span class="co"># frames above, we have to assign them to an object.</span></span>
+<span id="cb154-3"><a href="basics.html#cb154-3" aria-hidden="true" tabindex="-1"></a>ego.df<span class="fl">.40</span> <span class="ot">&lt;-</span> ego.df <span class="sc">%&gt;%</span></span>
+<span id="cb154-4"><a href="basics.html#cb154-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ego.age <span class="sc">&gt;</span> <span class="dv">40</span>)</span>
+<span id="cb154-5"><a href="basics.html#cb154-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb154-6"><a href="basics.html#cb154-6" aria-hidden="true" tabindex="-1"></a>ego.df<span class="fl">.40</span></span></code></pre></div>
+<pre><code>## # A tibble: 51 × 9
+##    ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
+##     &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;      
+##  1     28 Male         61    2008 Second…     350     3 Yes          60+        
+##  2     40 Male         56    2008 Second…     950     4 Yes          51-60      
+##  3     45 Male         52    1975 Primary    1600     3 Yes          51-60      
+##  4     48 Male         51    2007 Primary     950     4 Yes          51-60      
+##  5     49 Male         50    2001 Second…    1300     4 Yes          41-50      
+##  6     51 Male         45    2011 Second…     480     3 Yes          41-50      
+##  7     52 Male         51    2002 Univer…    1200     4 Yes          51-60      
+##  8     55 Male         57    1979 Second…     470     7 No           51-60      
+##  9     56 Male         42    1992 Primary    1100     4 Yes          41-50      
+## 10     58 Male         55    1990 Second…    1450     4 Yes          51-60      
+## # … with 41 more rows</code></pre>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="basics.html#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select specific variables</span></span>
+<span id="cb156-2"><a href="basics.html#cb156-2" aria-hidden="true" tabindex="-1"></a>ego.df<span class="fl">.40</span> <span class="sc">%&gt;%</span></span>
+<span id="cb156-3"><a href="basics.html#cb156-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(ego.sex, ego.age)</span></code></pre></div>
+<pre><code>## # A tibble: 51 × 2
+##    ego.sex ego.age
+##    &lt;chr&gt;     &lt;dbl&gt;
+##  1 Male         61
+##  2 Male         56
+##  3 Male         52
+##  4 Male         51
+##  5 Male         50
+##  6 Male         45
+##  7 Male         51
+##  8 Male         57
+##  9 Male         42
+## 10 Male         55
+## # … with 41 more rows</code></pre>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="basics.html#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We can use %&lt;&gt;% to re-assign the result to the same data object</span></span>
+<span id="cb158-2"><a href="basics.html#cb158-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Select specific variables</span></span>
+<span id="cb158-3"><a href="basics.html#cb158-3" aria-hidden="true" tabindex="-1"></a>ego.df<span class="fl">.40</span> <span class="sc">%&lt;&gt;%</span></span>
+<span id="cb158-4"><a href="basics.html#cb158-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(ego.sex, ego.age)</span>
+<span id="cb158-5"><a href="basics.html#cb158-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb158-6"><a href="basics.html#cb158-6" aria-hidden="true" tabindex="-1"></a>ego.df<span class="fl">.40</span></span></code></pre></div>
+<pre><code>## # A tibble: 51 × 2
+##    ego.sex ego.age
+##    &lt;chr&gt;     &lt;dbl&gt;
+##  1 Male         61
+##  2 Male         56
+##  3 Male         52
+##  4 Male         51
+##  5 Male         50
+##  6 Male         45
+##  7 Male         51
+##  8 Male         57
+##  9 Male         42
+## 10 Male         55
+## # … with 41 more rows</code></pre>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="basics.html#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This is the same as (but more concise than)</span></span>
+<span id="cb160-2"><a href="basics.html#cb160-2" aria-hidden="true" tabindex="-1"></a>ego.df<span class="fl">.40</span> <span class="ot">&lt;-</span> ego.df<span class="fl">.40</span> <span class="sc">%&gt;%</span></span>
+<span id="cb160-3"><a href="basics.html#cb160-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(ego.sex, ego.age)</span>
+<span id="cb160-4"><a href="basics.html#cb160-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb160-5"><a href="basics.html#cb160-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Pull a variable out of a data frame, as a vector</span></span>
+<span id="cb160-6"><a href="basics.html#cb160-6" aria-hidden="true" tabindex="-1"></a>ego.df <span class="sc">%&gt;%</span></span>
+<span id="cb160-7"><a href="basics.html#cb160-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(ego.age)</span></code></pre></div>
+<pre><code>##   [1] 61 38 30 25 29 56 52 35 22 51 50 45 51 32 57 42 32 55 44 25 28 60 54 30 37
+##  [26] 41 47 33 37 29 39 31 52 30 57 44 47 42 44 31 31 56 36 47 47 35 43 22 55 32
+##  [51] NA 60 51 53 25 33 38 37 27 34 32 26 36 53 42 45 36 54 49 35 27 32 58 51 55
+##  [76] 59 27 35 24 52 27 42 47 43 53 54 35 50 51 40 49 33 33 36 32 35 55 61 34 44
+## [101] 50 28</code></pre>
+<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb162-1"><a href="basics.html#cb162-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This is the same as</span></span>
+<span id="cb162-2"><a href="basics.html#cb162-2" aria-hidden="true" tabindex="-1"></a>ego.df<span class="sc">$</span>ego.age</span></code></pre></div>
+<pre><code>##   [1] 61 38 30 25 29 56 52 35 22 51 50 45 51 32 57 42 32 55 44 25 28 60 54 30 37
+##  [26] 41 47 33 37 29 39 31 52 30 57 44 47 42 44 31 31 56 36 47 47 35 43 22 55 32
+##  [51] NA 60 51 53 25 33 38 37 27 34 32 26 36 53 42 45 36 54 49 35 27 32 58 51 55
+##  [76] 59 27 35 24 52 27 42 47 43 53 54 35 50 51 40 49 33 33 36 32 35 55 61 34 44
+## [101] 50 28</code></pre>
+<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="basics.html#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ***** EXERCISES </span></span>
+<span id="cb164-2"><a href="basics.html#cb164-2" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb164-3"><a href="basics.html#cb164-3" aria-hidden="true" tabindex="-1"></a><span class="co"># (1) Use the [ , ] notation to extract the education level and income of egos who</span></span>
+<span id="cb164-4"><a href="basics.html#cb164-4" aria-hidden="true" tabindex="-1"></a><span class="co"># are younger than 30. Then do the same thing with the dplyr::filter() function.</span></span>
+<span id="cb164-5"><a href="basics.html#cb164-5" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb164-6"><a href="basics.html#cb164-6" aria-hidden="true" tabindex="-1"></a><span class="co"># *****</span></span></code></pre></div>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="represent.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Egocentric_R_bookdown.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+# Representing and visualizing ego-networks {#represent}
+
+
+```{r include=FALSE, cache=FALSE}
+knitr::read_chunk("./Scripts/03_Representing_egonets.R")
+```
+
+## Overview 
+
+After learning some basics of the R language, we now focus on R tools for egocentric network data. To make things simpler, we'll start by considering just one egocentric network. The following chapters will show you how to replicate the same type of analysis on many ego-networks at once.
+
+This chapter covers the following topics:
+
+* Representing ego-level attribute data and alter-level attribute data in R.
+* Joining (merging) ego-level and alter-level data frames.
+* Representing alter-alter tie data. 
+* Representing and manipulating an ego-network as an `igraph` object.
+* Visualizing an ego-network.
+
+***
+
+## Ego-level and alter-level data {#egocentric-data}
+* In this section we use the data objects described earlier in Section \@ref(data). All these objects are stored in the `data.rda` file. In sections \@ref(egor-import) and \@ref(import-igraph) we'll show how to create these objects from raw (csv) data using `egor` and `tidyverse`.
+* Egocentric network data typically include at least three types of data:
+    - **Ego-level attribute data**. This is a dataset with attributes of egos. Each row is an ego (typically, a survey respondent) and each column is a characteristic of the ego. Following multilevel modeling terminology, we call this "level 2" because, in the multilevel structure of ego-network data, egos are the higher-level "groups" in which alters are clustered. In personal network surveys, these data are obtained from standard survey questions asking individual information about the respondent.
+    - **Alter-level attribute data**. This is a dataset with attributes of alters and of ego-alter ties. It is also the dataset that links each alter to an ego, that is, lists all the ego-alter ties. In this dataset, each row is an alter and each column is a characteristic of the alter, or of the relationship between the alter and the ego who nominated him/her. Following multilevel modeling terminology, we call this "level 1" because alters are the most granular units in the data, clustered within egos. In personal network surveys, these data are obtained from the so-called _name generator_ questions, which elicit lists of alters from each ego; and from the _name interpreter_ questions, which elicit characteristics of each alter.
+    - **Alter-alter tie data**. These are the data about alter-alter ties as reported by the ego. In personal network surveys, these data are obtained from so-called _edge interpreter_ questions.
+* **File formats:**
+    - Ego-level attribute data. This is normally a single dataset (in a single file), with each row representing one ego, and different columns representing different ego-level attributes. This is similar to any respondent-level dataset you have in standard survey data.
+    - Alter-level attribute data. Depending on the data collection software, you might have a single dataset (in a single file) including alters nominated by all egos; or separate datasets (in separate files), one for each ego, with the alters nominated by that ego (and with the same variables in all datasets).
+    - Alter-alter tie data. These are typically in edge list format or in adjacency matrix format, depending on the data collection software. If the tie data are in adjacency matrices, you normally have a separate adjacency matrix for each ego, in a separate file. If they are in edge lists, you might have a single edge list including alters from all egos (with an additional column indicating the ego that nominated the two alters), or a separate edge list (in a separate file) for each ego.
+* The data format described above works well because, in standard egocentric data, the different ego-networks are **separate** (non-overlapping). This means that an alter can only "belong" to one and one only ego, and alter-alter ties only exist between alters nominated by the same egos. In other words, there are no links or overlaps between the networks of different egos. In particular, this means that there is a one-to-one correspondence between alters and ego-alter ties: for each ego-alter tie there is only one alter, and vice versa (so the level of alters is the same as the level of ego-alter ties).
+* In egocentric analysis you are frequently switching between level 1 and 2, and **joining** information from the two levels.
+* **Level-1 join.** For certain types of analysis you need to join ego attributes (level 2) into an alter-level data set (level 1).
+    - Because there is one ego for multiple alters, this is a one-to-many join, with the same value of an ego attribute (one ego row) being joined to multiple alters (multiple alter rows).
+    - The data frames are joined by ego ID. 
+* **Level-2 join.** In other cases you want to join alter attributes (level 1) into an ego-level dataset (level 2). 
+    - Because there are multiple alters for one ego, this requires that you first summarize or aggregate the alter attributes for each ego.
+    - If you have _continuous_ alter attributes, you typically summarize them by taking averages and dispersion measures (variance, standard deviation, etc.) of the alter attribute for each ego: for example, average alter age for each ego, or standard deviation of contact frequency between alters and each ego.
+    - If you have _categorical_ alter attributes, you normally summarize them by taking counts or proportions of certain categories, or qualitative diversity measures (e.g., generalized variance, entropy): for example, proportion of women, or ethnic diversity in each ego's network.
+    - Once you have these summary variables on ego-network _composition_, you can join them with an ego-level dataset by ego ID.
+    - The level-2 join can also involve summary variables on ego-network *structure*: for example, average alter degree, ego-network density, or number of components. These variables can be joined with an ego-level dataset by ego ID.
+    - We'll consider this type of ego-level summarization and the level-2 join in Chapters \@ref(composition) and \@ref(structure) about measures of ego-network composition and structure.
+* In base R, data frames can be joined using the `merge` function. However, we use the `dplyr` join functions, whose code is more efficient and readable:
+    - `left_join()` retains all rows in the *left* data frame, and discards any row in the right data frame that does not have a match with a row in the left data frame.
+    - `right_join()` retains all rows in the *right* data frame, and discards any row in the left data frame that does not have a match with a row in the right data frame.
+    - `full_join()` retains all rows from both data frames.
+* McCarty and colleagues (2019) provide a more detailed discussion of all types of egocentric network data, levels in egocentric data, and switching and joining operations between levels.
++ **What we do in the following code**.
+    * View ego-level data (level 2) and alter-level data (level 1) as stored in R data frames.
+    * Do the level-1 join: Bring ego attributes into an alter-level data frame.
+
+```{r levels, include=TRUE, cache=FALSE, tidy= FALSE}
+```
+
+## Networks in R
+
++ There are several packages for network analysis in R. The two main (collections of) R network packages are `igraph` and `statnet`. `igraph` is a single package. It represents networks as objects of class `igraph`. `statnet` is not a package, it's a collection of packages. It represents networks as objects of class `network`. 
++ `igraph` and `statnet` are in part overlapping, in part complementary. Historically, `igraph` has focused more on network methods developed in computer science and physics, while `statnet` has emphasized network methods developed in statistics and the social sciences. Many things can be done in _both_ `igraph` and `statnet`: basic network creation, importing network data, network manipulation, basic network metrics such as centrality, and network visualization. On the other hand, a few things can only be done in `igraph` (e.g., "community detection" algorithms and modularity analysis), and others can only be done in `statnet` (e.g., ERGMs). 
++ Most of this workshop uses the package `igraph`. This is because I personally find `igraph`'s syntax more intuitive for beginners, especially for simple operations on networks. In Chapter \@ref(statnet) we'll also briefly demonstrate how networks are represented in `statnet`'s `network` objects. You should keep in mind that everything we'll do here with `igraph`, can also be done with `statnet`. In general, you'll need to learn about `statnet` too if you want to master a complete toolkit for social network analysis with R.
++ We'll also briefly use the `ggraph` package for network visualization and the `tidygraph` package for easier display and manipulation of networks. We don't have time to go into much detail about these two packages, but you can find more tutorials and learning resources about them online.
+    * `ggraph` provides flexible and easy tools for network visualization by applying the `ggplot2` grammar of graphics to network data (learn more [here](https://github.com/thomasp85/ggraph)). In addition to `ggraph`, you can also visualize networks with `igraph`, which uses base R plotting (see Section \@ref(more-igraph)).
+    * `tidygraph` applies the `tidyverse` principles of [tidy data](https://r4ds.had.co.nz/tidy-data.html) to networks. This allows you to easily view and manipulate the basic components of network data in tabular format, i.e., edge data as an edge list and node attribute data as a case-by-variable dataset. More information about `tidygraph` is [here](https://www.data-imaginist.com/2017/introducing-tidygraph/).
+
+## Ego-networks as `igraph` objects
+
++ In `igraph`, networks are called **graphs** and are represented by objects of class `igraph`. Nodes are called **vertices** and ties are called **edges**.
++ Given an igraph object `gr`:
+    * `V(gr)` shows you the graph vertices (identified by `name`, if they have a `name` attribute, or by integers otherwise). This is an object of class _vertex sequence_ (`igraph.vs`).
+    * `E(gr)` shows you the graph edges. This is an object of class _edge sequence_ (`igraph.es`).
++ Vertices, edges and graphs have **attributes**. You can import them from external data files, or you can set them manually in R. If you import data into an `igraph` object with a vertex attribute called "age", an edge attribute called "strength", and a graph attribute called "size", then
+    * `V(gr)$age` returns the vertex attribute `age` as a vector; 
+    * `E(gr)$strength` returns the edge attribute `strength` as a vector; 
+    * `gr$size` returns the graph attribute `size`.
++ `print`ing an `igraph` object returns some **summary information** about the network. This includes the counts of vertices and edges, and whether the network is directed, named (i.e. if vertices have a `name` attribute), weighted (i.e. if edges have a `weight` attribute), or bipartite (also called two-mode).
++ **Querying vertices and edges**
+    * Based on attributes. You can query vertices and edges with specific characteristics (attribute values), and save them for re-use. E.g. `V(gr)[age=30]` returns all vertices whose `age` attribute equals 30; `E(gr)[strength=1]` returns all edges whose strength is 1.
+    * Based on network structure. The `V(gr)[...]` and `E(gr)[...]` syntax can also be used with specific functions that extract information on tie distribution: for example, to query all vertices that are adjacent to a given vertex _i_, or all edges between two particular subsets of vertices. The main functions here are `nei()`, `inc()` and `%--%` (see code below).
+    * More information on useful igraph syntax for vertex and edge indexing is [here](http://igraph.org/r/doc/igraph-vs-indexing.html) (vertex indexing) and [here](http://igraph.org/r/doc/igraph-es-indexing.html) (edge indexing).
++ **What we do in the following code**.
+    * Query vertex and edge attributes in an ego-network.
+    * Obtain descriptive statistics for attributes of alters (vertex attributes) and alter-alter ties (edge attributes) in the ego-network.
+    * Visualize an ego-network with `ggraph`, setting aesthetic parameters based on alter attributes.
+    * Query vertices and edges based on attributes.
+
+```{r igraph, include=TRUE, cache=FALSE, tidy= FALSE, out.width = "60%", fig.align="center", message=FALSE}
+```

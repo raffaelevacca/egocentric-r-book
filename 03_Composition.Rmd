@@ -1,0 +1,66 @@
+# Ego-network composition {#composition}
+
+
+```{r include=FALSE, cache=FALSE}
+knitr::read_chunk("./Scripts/04_Composition.R")
+```
+
+## Overview 
+
+Ego-network composition refers to the distribution of attributes of alters (for example, age and race/ethnicity) or attributes of ties between alters and the ego (for example, closeness or frequency of contact). For brevity, these are often called simply _alter attributes_ in the following text. Recall that, in typical egocentric network data, the level of alters is the same as the level of ego-alter ties: for each alter there is one and only one ego-alter tie, and vice versa. Like in other chapters, we consider composition by first analyzing just one ego-network, then replicating the same type of analysis on many ego-networks at once.
+
+This chapter covers the following topics:
+
+* Calculating measures of composition for one ego-network.
+* Representing data from multiple ego-networks as data frames.
+* Running the same operation on many ego-networks and combining results back together (split-apply-combine).
+* Split-apply-combine on data frames with `dplyr` to analyze the composition of many ego-networks at once.
+
+***
+
+## Measures of ego-network composition
+* Many different measures can be calculated in R to describe ego-network composition. 
+    - The result is typically an ego-level summary variable: one that assigns a number to each ego, with that number describing a characteristic of the ego-network composition for each ego.
+* To calculate compositional measures we don't need any network or relational data (data about alter-alter ties), we only need the alter-level attribute dataset (for example, with alter age, gender, ethnicity, frequency of contact, etc.). In other words, we only need, for each ego, a list of alters with their characteristics, and no information about ties between alters.
+    - So in this section, ego-networks are represented simply by alter-level data frames. We don't need to work with the `igraph` network objects until we want to analyze ego-network structure (alter-alter ties).
+* There are at least three types of compositional measures that we may want to calculate on ego networks. All these measures are calculated for each ego.
+    - Measures based on _one attribute_ of alters. For example, average alter age in the network.
+    - Measures based on _multiple attributes_ of alters. For example, average frequency of contact (attribute 1) between ego and alters who are family members (attribute 2).
+    - Measures of _ego-alter homophily_. These are summary measures of the extent to which alters are similar to the ego who nominated them, with respect to one or more attributes. For example, the proportion of alters who are of the same gender (ethnicity, age bracket) as the ego who nominated them.
++ **What we do in the following code**.
+    * Look at the alter attribute data frame for one ego.
+    * Using this data frame, calculate compositional measures based on one alter attribute.
+    * Calculate compositional measures based on two alter attributes.
+    * Do the level-1 join: join ego attributes into alter-level data.
+    * Using the joined data, calculate compositional measures of homophily between ego and alters.
+    * Calculate multiple compositional measures and put them together into one ego-level data frame.
+
+```{r composition, include=TRUE, cache=FALSE, tidy= FALSE}
+```
+
+## Analyzing the composition of many ego-networks {#comp-many}
+
+### Split-apply-combine in egocentric network analysis
+
++ Now that we've learned how to represent and analyze data on one ego-network, we're ready to scale these operations up to a *collection* of many ego-networks.
++ Often in social science data analaysis (or any data analysis), our data are in a single file, dataset or object, and we need to:
+    1. _Split_ the object into pieces based on one or multiple (combinations of) categorical variables or factors.
+    2. _Apply_ exactly the same type of calculation on each piece, identically and independently.
+    3. _Combine_ all results back together, for example into a new dataset.
++ This has been called the **split-apply-combine** strategy [@wickham_split-apply-combine_2011] and is essential in egocentric network analysis. With ego-networks, we are constantly (1) splitting the data into pieces, each piece typically corresponding to one ego; (2) performing identical and independent analyses on each piece (each ego-network); (3) combining the results back together, typically into a single ego-level dataset, to then associate them with other ego-level variables.
++ In base and traditional R, common tools to perform split-apply-combine operations include `for` loops, the `apply` family of functions, and `aggregate`.
++ The `tidyverse` packages provide new ways of conducting split-apply-combine operations with more efficient and readable code:
+    * Grouping and summarizing data frames with the `dplyr` package. This is particularly relevant to ego-network composition (next [section](#summarize-dplyr)).
+    * Applying the same function to all elements in a list with the `map` family of functions in the `purrr` package. This is more relevant to ego-network structure (see Section \@ref(apply-purrr))
+
+### Grouping and summarizing with `dplyr` {#summarize-dplyr}
++ Whenever we have a dataset in which rows (level 1) are clustered or grouped by values of a given factor (level 2), the package `dplyr` makes level-2 summarizations very easy. 
+    * In egocentric analysis, we typically have an alter attribute data frame whose rows (alters, level 1) are clustered by egos (level 2).
++ In general, the `dplyr::summarise` function allows us to calculate summary statistics on a single variable or on multiple variables in a data frame. To calculate the same summary statistic on multiple variables, we select them with `across()`.
++ If we run `summarise` after _grouping_ the data frame by a factor variable with `group_by`, then the data frame will be "split" by levels (categories) of that factor, and the summary statistics will be calculated on each piece: that is, for each unique level of the grouping factor. If the grouping factor is the ego ID, we can immediately obtain summary statistics for each of hundreds or thousands of egos in one line of code. The code below provides examples.
++ **What we do in the following code**. 
+    * Use `summarise` to calculate summary variables on network composition for all of the 102 egos at once.
+    * Join the results with other ego-level data (level-2 join).
+
+```{r split-df, include=TRUE, cache=FALSE, tidy= FALSE}
+```

@@ -1,0 +1,67 @@
+# Ego-network structure {#structure}
+
+```{r include=FALSE, cache=FALSE}
+knitr::read_chunk("./Scripts/05_Structure.R")
+```
+
+## Overview 
+
+Ego-network structure refers to the distribution of ties among alters. As usual, we first illustrate analyses on one ego-network, then replicate them on many ego-networks at once.
+
+This chapter covers the following topics:
+
+* Calculating measures of ego-network structure.
+* R lists and how they can be used to represent many ego-networks.
+* Split-apply-combine on lists with `purrr` to analyze the structure of many ego-networks at once.
+
+***
+
+## Measures of ego-network structure
+* Ego-network structure can be described using different measures, either at the alter level (e.g., alter centrality measures) or at the ego level (e.g., ego-network density).
+* Some of these structural measures are calculated on the alter-alter network *excluding* the ego. Other measures (e.g., ego betweenness, constraint) are calculated on the ego-network *including* the ego. We will see examples of both.
+* Certain measures combine information about both structure and composition: they are based on data about both the distribution of alter-alter ties and the distribution of alter attributes. An example is the average degree centrality (network structure) of alters who are family members (network composition).
+* Note that whenever ego-network structure is considered (whether by itself or in combination with composition), we need data on alter-alter ties. Unlike in Chapter \@ref(composition), just the alter attribute data frame will not be sufficient.
+    - So in this section we need to work with the `igraph` objects containing the alter-alter tie information for our ego-networks (and possibly also incorporate alter attribute data frames if our measures are a combination of structure and composition).
+* **What we do in the following code**.
+    * Consider ego-network structural measures based on the distribution of alter-alter ties, with the ego excluded: density, number of components, average alter degree, maximum alter betweenness, number of isolates. Calculate these using `igraph` functions.
+    * Consider structural measures that require the ego to be included in the `igraph` object: ego betweenness, constraint. Calculate these with `igraph`.
+    * Calculate measures combining ego-network structure and composition: type of relationship between ego and the most between-central alter; average degree centrality of alters who are family members; density of ties among alters in certain categories (e.g., alters who live in Sri Lanka).
+
+```{r structure, include=TRUE, cache=FALSE, tidy= FALSE, message=FALSE}
+```
+
+## R lists {#lists}
+
++ A lists is simply a **collection** of objects. It can contain any kind of object, with no restriction. A list can contain other lists.
++ Lists have `list` as `type` _and_ `class`.
++ Data frames are a type of list. Other complex objects in R are also _stored_ as lists (have `list` as `type`), although their `class` is not `list`: for example, results from statistical estimations or network community detection procedures.
++ Use `str(list)` to display the types and lengths of elements in a list.
++ List may be _named_, that is, have element names. You can view or assign names with the `names` function (base R) or the `set_names` function (tidyverse).
++ **Three different notations to index lists**:
+    1. `[ ]` notation, e.g. `my.list[3]`. 
+    2. `[[ ]]` notation, e.g. `my.list[[3]]` or `my.list[["element.name"]]`. 
+    3. The `$` notation. This only works for named lists. E.g., `list$element.name`. This is the same as the `[[ ]]` notation: `list$element.name` is the same as `list[["element.name"]]` or `list[[i]]` (where `i` is the position of the element called _element.name_ in the list).
++ These three indexing methods work in exactly the same way as for data frames (see Section \@ref(index-df)).
++ **What we do in the following code**. 
+    * Create, display, and index a list.
+
+```{r lists, include=TRUE, cache=FALSE, tidy= FALSE}
+```
+
+## Analyzing the structure of many ego-networks {#apply-purrr}
++ In base R, functions of the `apply` family, such as `lapply` and `sapply`, are the traditional way to take a function and apply it to every element of a list. In tidyverse, the `purrr` package does the same thing but in more efficient ways and with more readable code. 
++ We use `purrr` to apply the same function to each element of a list of ego-networks, that is, to each ego-network. Depending on the function, the result for each ego-network may be a single number or a more complex object (for example, a data frame).
++ `purrr` provides type-stable functions, which always return the same type of output: 
+    * `map` always returns a list. (This is the equivalent of `lapply` in base R).
+    * `map_dbl` always returns a vector of double-precision numbers. `map_int` returns a vector of integer numbers. `map_chr` returns a character vector. `map_lgl` returns a logical vector.
+    * `map_dfr` returns a data frame. It assumes that you are applying an operation to each list element, which returns one data frame row for that element. It then binds together the data frame rows obtained for each element, combining them into a single data frame.
++ In addition to type-stable output, the `map` functions also offer a convenient formula syntax: `~ f(.x)`, where: (1) `.x` represents each element of the input list; (2) `f` is the function to be executed on that element.
+    * For example, `map(L, ~ .x * 2)` takes each element of the list `L` (represented by `.x`) and multiplies it times 2.
++ The `map` functions preserve list names in their output. If we have a list of ego-networks whose names are the ego IDs, this means that ego IDs will be preserved in result lists and vectors.
++ `map` is also useful when you want to run functions that take a list element as argument (e.g. an `igraph` ego-network), and return another list element as output (e.g. another `igraph` object). This is the case whenever you want to manipulate the ego-networks (for example, only keep a certain type of ties or vertices in the networks) and store the results in a new list.
++ `map_dbl` is useful when you want to run functions that take a list element as argument (e.g. an `igraph` ego-network), and return a number as output. This is the case whenever you want to run a structural measure such as tie density or centralization on each network.
++ **What we do in the following code**. 
+    * Use `purrr` functions to calculate the same structural measures on every ego-network in the data.
+
+```{r split-list, include=TRUE, cache=FALSE, tidy= FALSE}
+```

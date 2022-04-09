@@ -1,0 +1,32 @@
+# The `egor` package {#egor}
+
+```{r include=FALSE, cache=FALSE}
+knitr::read_chunk("./Scripts/07_egor.R")
+```
+
+The `egor` package provides tools for data import, data manipulation, network measures and visualization for egocentric network analysis. This chapter currently focuses on egocentric data import, with Section \@ref(egor-import) showing how we can use `egor` to read raw csv files into the R data objects used throughout this workshop (those saved in the `data.rda` file). 
+
+More information about this package can be found in its [github website](https://github.com/tilltnet/egor) and [main vignette](https://cran.r-project.org/web/packages/egor/vignettes/using_egor.html). A list of all `egor` vignettes is [here](https://cran.r-project.org/web/packages/egor/index.html).
+
+## Importing ego-network data {#egor-import}
+
+* Here we show how to use `egor` to import egocentric data stored in csv files. This operation requires that all needed csv files are first imported into R data frames, using standard data import functions such as `read_csv()`. The `egor` functions then take these data frames as input and return an `egor` object as output. 
+* Once we have the data in an `egor` object, this can be manipulated and analyzed in various and powerful ways. It can also further be converted into the other types of objects we have used throughout this workshop, such as a data frame of alter attributes or a list of igraph objects.
+* In this example, we import the data with the function `threefiles_to_egor`. This assumes that the data are stored in three datasets: (1) a datasets with ego attributes for all egos; (2) a datasets with attributes of the alters and ego-alter ties, for all alters from all egos; (3) a datasets of alter-alter ties with a single edge list for all alters from all egos. These correspond to the three main components of egocentric data discussed in Section \@ref(egocentric-data): (1) ego attributes; (2) alter attributes; (3) alter-alter ties.
+* In some cases, these three components are combined into two or even one single dataset. `egor` offers functions to import data in these formats as well: `onefile_to_egor` and `twofiles_to_egor`. See their manual page for the contents and features that the functions assume in these data. 
+* Finally, `egor` has functions to import egocentric data obtained from popular data collection software, such as `read_openeddi`, `read_egoweb`, and `read_egonet`.
+* Regardless of the format of the original data, an `egor` object always stores the data in the three components indicated above (ego attributes, alter attributes, alter-alter ties). Each of the three components can be "activated" using the `activate` function, similar to the `tidygraph` package. After we select which of the three components we want to work on (via `activate`), an `egor` object can be easily manipulated with `dplyr` verbs.
+* **What we do in the following code**.
+    - Read three csv files (ego attributes, alter attributes, alter-alter ties) into R data frames.
+    - Create an `egor` object from these three data frames.
+    - Convert the `egor` object to a list of `igraph` ego-networks.
+* The resulting data objects are those that we used in the previous chapters (saved in the `data.rda` file).
+
+```{r egor, include=TRUE, cache=FALSE, tidy= FALSE, message=FALSE}
+```
+
+## Analyzing and visualizing ego-network data 
+
+In progress.
+
+`egor` also simplifies some of the analysis operations that we have seen in the previous chapters, such as the calculation of certain compositional and structural measures.

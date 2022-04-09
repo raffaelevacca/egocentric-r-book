@@ -1,0 +1,46 @@
+"alter_ID","ego_ID","alter_num","alter.sex","alter.age.cat","alter.rel","alter.nat","alter.res","alter.clo","alter.loan","alter.fam","alter.age"
+2801,28,1,"Female","51-60","Close family","Sri Lanka","Sri Lanka",NA,NA,"Yes",52
+2802,28,2,"Male","51-60","Other family","Sri Lanka","Sri Lanka",3,"No","Yes",54
+2803,28,3,"Male","51-60","Close family","Sri Lanka","Sri Lanka",NA,NA,"Yes",56
+2804,28,4,"Male","60+","Close family","Sri Lanka","Sri Lanka",NA,NA,"Yes",63
+2805,28,5,"Female","41-50","Close family","Sri Lanka","Sri Lanka",NA,NA,"Yes",47
+2806,28,6,"Female","60+","Close family","Sri Lanka","Sri Lanka",NA,NA,"Yes",81
+2807,28,7,"Male","41-50","Other family","Sri Lanka","Sri Lanka",5,"No","Yes",42
+2808,28,8,"Female","36-40","Other family","Sri Lanka","Sri Lanka",4,"Yes","Yes",38
+2809,28,9,"Female","51-60","Other family","Sri Lanka","Sri Lanka",5,"Yes","Yes",58
+2810,28,10,"Male","60+","Other family","Sri Lanka","Sri Lanka",5,"No","Yes",68
+2811,28,11,"Male","51-60","Friends","Sri Lanka","Sri Lanka",5,"Yes","No",58
+2812,28,12,"Male","41-50","Friends","Sri Lanka","Sri Lanka",4,"No","No",41
+2813,28,13,"Male","51-60","Friends","Sri Lanka","Italy",3,"Yes","No",52
+2814,28,14,"Male","41-50","Friends","Sri Lanka","Italy",5,"Yes","No",43
+2815,28,15,"Male","18-25","Friends","Sri Lanka","Italy",3,"Yes","No",22
+2816,28,16,"Male","31-35","Friends","Sri Lanka","Italy",3,"Yes","No",32
+2817,28,17,"Male","26-30","Acquaintances","Sri Lanka","Italy",1,"Yes","No",29
+2818,28,18,"Male","60+","Friends","Sri Lanka","Italy",5,"Yes","No",69
+2819,28,19,"Male","41-50","Acquaintances","Sri Lanka","Italy",4,"No","No",44
+2820,28,20,"Male","60+","Friends","Sri Lanka","Other",5,"Yes","No",77
+2821,28,21,"Male","60+","Friends","Sri Lanka","Italy",5,"Yes","No",83
+2822,28,22,"Male","41-50","Friends","Sri Lanka","Italy",5,"Yes","No",42
+2823,28,23,"Male","41-50","Friends","Sri Lanka","Italy",5,"Yes","No",49
+2824,28,24,"Male","18-25","Friends","Sri Lanka","Italy",5,"Yes","No",18
+2825,28,25,"Male","41-50","Acquaintances","Sri Lanka","Italy",2,"No","No",48
+2826,28,26,"Male","36-40","Acquaintances","Sri Lanka","Italy",3,"No","No",36
+2827,28,27,"Male","26-30","Friends","Sri Lanka","Sri Lanka",4,"No","No",28
+2828,28,28,"Female","31-35","Friends","Sri Lanka","Sri Lanka",5,"Yes","No",33
+2829,28,29,"Male","60+","Friends","Sri Lanka","Sri Lanka",5,"Yes","No",99
+2830,28,30,"Male","31-35","Friends","Sri Lanka","Italy",5,"Yes","No",34
+2831,28,31,"Male","41-50","Friends","Sri Lanka","Italy",5,"Yes","No",42
+2832,28,32,"Female","51-60","Acquaintances","Other","Italy",3,"No","No",59
+2833,28,33,"Male","51-60","Friends","Sri Lanka","Italy",5,"Yes","No",58
+2834,28,34,"Male","41-50","Acquaintances","Sri Lanka","Italy",3,"No","No",43
+2835,28,35,"Male","31-35","Friends","Sri Lanka","Italy",4,"No","No",32
+2836,28,36,"Male","51-60","Friends","Sri Lanka","Italy",5,"No","No",55
+2837,28,37,"Female","31-35","Friends","Other","Italy",5,"Yes","No",33
+2838,28,38,"Male","41-50","Friends","Sri Lanka","Italy",5,"No","No",44
+2839,28,39,"Male","41-50","Friends","Sri Lanka","Italy",5,"No","No",48
+2840,28,40,"Male","60+","Friends","Sri Lanka","Sri Lanka",3,"No","No",96
+2841,28,41,"Male","60+","Friends","Sri Lanka","Sri Lanka",3,"Yes","No",78
+2842,28,42,"Male","41-50","Acquaintances","Sri Lanka","Italy",3,"No","No",42
+2843,28,43,"Male","31-35","Acquaintances","Sri Lanka","Italy",3,"No","No",34
+2844,28,44,"Male","26-30","Friends","Sri Lanka","Italy",3,"No","No",28
+2845,28,45,"Male","51-60","Friends","Sri Lanka","Italy",5,"Yes","No",52

@@ -1,0 +1,42 @@
+# Multilevel modeling of ego-network data {#multilevel}
+
+```{r include=FALSE, cache=FALSE}
+knitr::read_chunk("./Scripts/06_Multilevel.R")
+```
+
+## Overview
+
+This chapter is still in progress, in the meantime see the multilevel modeling slides in the [workshop folder](http://www.raffaelevacca.com/teaching/egocentric-r/folder/) (`Slides` subfolder). @vacca_multilevel_2018 provides a review and illustration of multilevel modeling for ego-network data. The code below is drawn in part from that article.
+
+## Prepare the data
+
+```{r mm-setup, include=TRUE, cache=FALSE, tidy= FALSE, message=FALSE}
+```
+
+## Random intercept models
+
+```{r rand-intercept, include=TRUE, cache=FALSE, tidy= FALSE}
+```
+
+## Random slope models
+
+```{r rand-slope, include=TRUE, cache=FALSE, tidy= FALSE}
+```
+
+## Tests of significance
+
+```{r test-sign, include=TRUE, cache=FALSE, tidy= FALSE}
+```
+
+## Further readings
+
+In order of relevance to this chapter:
+
++ @vacca_multilevel_2018
++ @mccarty_conducting_2019, Ch. 13.
++ @perry_egocentric_2018, Ch. 8.
++ @crossley_social_2015, Ch. 6.
++ @vacca_cross-classified_2019
++ @simonoff_multilevel_2013 
++ @rasbash_lemma:_2008
++ @snijders_multilevel_2012

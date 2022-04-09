@@ -1,0 +1,142 @@
+# Supplementary topics {#supplementary}
+
+```{r include=FALSE, cache=FALSE}
+knitr::read_chunk("./Scripts/08_Supplementary.R")
+```
+
+## More R programming topics  
+
+### Types and classes of objects
+
+This is a quick summary of the basics about **types** and **classes** of objects in R.
+
++ Three functions are used to know what kind of object you are dealing with in R: `class()`, `mode()`, and `typeof()`.
++ For most purposes, you only need to know what the **class** of an object is. This is returned by `class()`. The class of an object determines what R functions you can or cannot run on that object, and how functions will behave when you run them on the object. In particular, if the function has a `method` for a specific class _A_ of objects, it will use that method whenever an object of class _A_ is given as its argument.
++ `typeof()` and `mode()` return the **type** and **mode** of an object, respectively. Although they refer to slightly different classifications of objects, type and mode give essentially the same kind of information --- the type of data structure in which the object is stored, also called the R "internal type" or "storage mode". For example, an object can be internally stored in R as double-precision numbers, integer numbers, or character strings. 
+    * You should prefer `typeof()` over `mode()`. `mode()` refers to the old S classification of types and is mostly used for S compatibility.
++ While most times all you need to know is the `class` of an object, there are a few cases in which knowing the `type` is useful too. For example, you may want to know the `type` of a matrix object (whose `class` is always `matrix`) to check if the values in the matrix are being stored as numbers or character strings (that will affect the result of some functions).
+
++ Main classes/types of objects
+    * `numeric`: Numerical data (integer, real or complex numbers).
+    * `logical`: `TRUE/FALSE` data.
+    * `character`: String data.
+    * `factor`: Categorical data, that is, integer numbers with string labels attached. May be _unordered_ factors (nominal data) or _ordered_ factors (ordinal data).
+
++ Special and complex classes/types
+    * `list`: A collection of elements of any type, including numeric, character, logical (see Section \@ref(lists)).
+    * `data.frame`: A dataset. In R, a data frame is a special kind of list (its type is `list` but its class is `data.frame`), where each variable (column) is a list element (see Section \@ref(dataframes))
+    * `matrix`: Matrix values can be numeric, character, logical etc. So an object can have `matrix` as class and `numeric`, `character` or `logical` as type. While data frames can contain variables of different type (e.g. a character variable and a numeric variable), matrices can only contain values of _one_ type.
+    * Functions (more on this in Section \@ref(functions)).
+    * Expressions.
+    * Formulas.
+    * Other objects: Statistical results (e.g. linear model estimates), dendrograms, graphics objects, etc.
++ Relevant functions
+    * `class()`, `typeof()` and `mode()`, as discussed above.
+    * `is.`_type_ functions verify that an object is in a specific type or class: e.g. `is.numeric(x)`, `is.character(x)` (they return `TRUE` or `FALSE`).
+    * `as.`_type_ functions convert objects between types or classes: e.g. `as.numeric()`, `as.character()`. If the conversion is impossible, the result is `NA`: e.g. `as.numeric("abc")` returns `NA`.
+
+```{r types, include=TRUE, cache=FALSE, tidy= FALSE}
+```
+
+### Writing your own R functions {#functions}
+
++ One of the most powerful tools in R is the ability to **write your own functions**.
++ A function is a **piece of code** that operates on one or multiple **arguments** (the _input_), and returns an _output_ (the function  **value** in R terminology). Everything that happens in R is done by a function. 
++ Many R functions have **default values** for their arguments: if you don't specify the argument's value, the function will use the default.
++ Once you write a function and define its arguments, you can run that function on any argument values you want --- provided that the function code actually works on those argument values. For example, if a function takes an `igraph` object as an argument, you'll be able to run that function on any network you like, provided that the network is an `igraph` object. If your network is a `network` object (created by a `statnet` function), the function will likely return an error.
++ R functions, combined with [functional](https://adv-r.hadley.nz/functionals.html) and summarization methods such as those seen in Sections \@ref(comp-many) and \@ref(apply-purrr), are the best way to run exactly the same code on many different objects (for example, many different ego-networks). Functions are  **crucial for code reproducibility** in R. If you write functions, you won't need to re-write (copy and paste) the same code over and over again --- you just write it once in the function, then run the function any time and on any arguments you need. This yields clearer, shorter, more readable code with less errors.
++ New functions are also commonly used to  **redefine existing functions** by pre-setting the value of specific arguments. For example, if you want all your plots to have `red` as color, you can take R's existing plotting function `plot`, and wrap it in a new function that always executes `plot` with the argument `col="red"`. Your function would be something like  `my.plot <- function(...) {plot(..., col="red")}` (examples below).
++ **Tips and tricks** with functions:
+    * `stopifnot()` is useful to check that function arguments are of the type that was intended by the function author. It stops the function if a certain condition is not met by a function argument (e.g. argument is _not_ an `igraph` object, if the function was written for `igraph` objects).
+    * `return()` allows you to explicitly set the output that the function will return (clearer code). It is also used to stop function execution earlier under certain conditions. Note: If you don't use `return()`, the function value (output) is the last object that is printed at the end of the function code.
+    * `if` is a flow control tool that is frequently used within functions: it specifies what the function should do `if` a certain condition is met at one point.
+    * First think particular, then generalize. When you want to write a function, it's a good idea to first try the code on a "real", specific existing object in your workspace. If the code does what you want on that object, you can then wrap it into a general function to be run on any similar object (see examples in the code below).
++ In ego-network analysis, we often want to write functions that calculate measures of ego-network composition and structure that we are interested in. These functions will have different arguments depending on whether they look at network composition or structure:
+    * Functions that calculate compositional measures typically require just the alter attribute data frame as argument.
+    * Functions that calculate structural measures require the ego-network as an `igraph` object (or `network` object in `statnet`), which store the alter-alter tie information.
+    * Functions that calculate measures combining composition and structure require the `igraph` object, with alter attributes incorporated in the object as vertex attributes.
++ **What we do in the following code**.
+    * Demonstrate the basics of R functions using simple examples.
+    * Consider some of the compositional and structural measures we calculated in previous chapters, and convert them to general functions that can be applied to any ego-network: average closeness of alters; proportion of female alters; proportion of alters of the same gender as ego; function that returns multiple compositional measures into a data frame; maximum alter betweenness; number of components and isolates in the ego-network; tie density between alters who live in Sri Lanka.
+
+```{r functions, include=TRUE, cache=FALSE, tidy=FALSE, error=TRUE}
+```
+
+## Importing ego-network data with `igraph` and `tidyverse` {#import-igraph}
+
+This section demonstrates how to import ego-network data into R "manually", without using `egor`. The `egor` packages has simplified many of these operations (see Section \@ref(egor)).
+
+### Importing data for one ego-network
+* Different functions exist to create `igraph` objects from data manually typed in R or (more typically) imported from external data sources -- such as adjacency matrices or edge lists in an external csv file. Some of these functions are `graph_from_edgelist`, `graph_from_adjacency_matrix`, `graph_from_data_frame`.
+* The following code assumes a common format for egocentric data (which, however, may not be the one you have): (1) a dataset with ego attributes for all egos; (2) a dataset with alter attributes for all alters from all egos; (3) a dataset of alter-alter ties with a single edge list for all alters from all egos.
++ **What we do in the following code**.
+    * Import an ego-network from 2 csv files: the csv file with the edge list (alter-alter ties) and the csv file with alter attributes for one ego. Convert it to igraph object with alter attributes: `graph_from_data_frame()`.
+
+```{r import_1, include=TRUE, cache=FALSE, tidy= FALSE}
+```
+
+### Importing data on many ego-networks as data frames and lists
++ **Lists** are very convenient objects to store multiple pieces of data, such as multiple adjacency matrices or multiple alter attribute data frames, one for each ego. Once we have all our data pieces (e.g. matrices or data frames) into a single list, we can very easily do two things:
+    * Run a function on _every_ piece in batch (see Sections \@ref(comp-many) and \@ref(apply-purrr)).
+    * Run a function on _all_ the pieces together, using `do.call()`. `do.call(function, list)` executes `function` using all the elements of `list` as its arguments.
++ In many cases, attributes of all alters from all the egos are stored in a single tabular dataset, e.g., a single csv file (such as `alter_attributes.csv` in our data). Alter tie data can also be stored in a single csv file, for example as an edge list with an additional column indicating the ego ID (such as `alter_ties.csv` in our data). Data of this type can be easily imported into R using the `read_csv` function in tidyverse.
++ In other cases, alter attributes or alter-alter edge lists are stored in different `csv` files, one for each ego. These can also be imported using `read_csv()` within a `for` loop. 
++ Regardless of the external csv data source, once the data are in R we might want to store them as a single *data frame* with all alters from all egos, or as a *list*  of separate data frames, one for each ego.
+    * While a single data frame is more compact, there are scenarios in which coding is simpler if data for different egos are located in different data frames, and all these data frames are gathered in a list.
++ In R it is easy to switch between a single data frame (pooling alters from all egos) and a list (with alters from each ego in a separate data frame)
+    * Separate data frames, say `df1` and `df2`, can be appended into a single data frame using `bind_rows`, which stacks their rows together: e.g. `bind_rows(df1, df2)`. If we have 100 egos, we will want to bind 100 data frames. If the data frames are part of a list, say `df.list`, this can be done simply as `bind_rows(df.list)`. The result is a single data frame in which all data from all egos are stacked together by rows. Note that this requires that all data frames in `df.list` have the same variables with the same names.
+    * A single data frame, say `df` can be split into a list of data frames (one for each ego) by running `split(df, f= df$egoID)` -- where `df$egoID` is the variable with the ego IDs. This splits the single data frame into a list of separate data frames, one for each value of `egoID` (i.e., one for each ego).
++ When you store ego data frames into a list, ego IDs can be conveniently saved as **names of list elements** (set via `names` or `set_names`). If you're using _numeric_ ego IDs, you should be careful to the order in which list elements are stored in the list. Depending on the sequence of your numeric ego IDs, the 53rd data frame in the list is not necessarily the data frame of ego ID=53. Thus, you need to keep in mind the difference between `list[[53]]` (numeric indexing: get the 53rd list element) and `list[["53"]]` (name indexing: get the list element named "53").
++ **What we do in the following code**. 
+    * Import the alter attribute data frame and edge list for all alters from `alter_attributes.csv` and `alter_ties.csv`.
+    * Demonstrate how alter attribute data frames and edge lists can be easily split by ego (using `split`) or combined into a single data frame with all alters (using `bind_rows`).
+
+```{r import_2, include=TRUE, cache=FALSE, tidy= FALSE}
+```
+
+### Creating lists of ego-networks as `igraph` objects with `purrr`
++ `purrr::map()` is useful when you want to run functions that take a list element as argument, e.g. an `igraph` ego network; and return another list element as output, e.g. another `igraph` object. This is the case whenever you want to manipulate the ego networks (e.g. only keep a certain type of ties or vertices), and store the results in a new list.
++ In certain cases, you want to run a function that takes *two* arguments from two different lists, say `L1` and `L2`, for each ego. For example, for each ego you may want to take its alter-alter edge list (argument 1, from `L1`), take its alter attributes (argument 2, from `L2`), and put them together into an `igraph` object. 
+    * The function `purrr::map2()` does this with very little code. For `i`= 1, ..., *I*, `map2()` takes the `i`-th element of `L1` and the `i`-th element of `L2`, and runs your function *I* times, one for each pair of arguments `L1[[i]]` and `L2[[i]]`.
+    * Note that `L1` and `L2` need to be two "parallel" lists: the first element of `L1` corresponds to (will be combined with) the first element of `L2`; the second element of `L1` with the second element of `L2`, ..., the *I*-the element of `L1` with the *I*-th element of `L2`.
+    * `map2()` has a formula notation too: `map2(L1, L2, ~ f(.x, .y)`, where `.x` refers to each element of `L1` and `.y` refers to each element of `L2`.
++ **What we do in the following code**.
+    * Use `map()` to convert each ego's edge list to an `igraph` object.
+    * Use `map2()` to convert each ego's edge list *and* alter attribute data frame to an `igraph` object.
+
+```{r import_3, include=TRUE, cache=FALSE, tidy= FALSE}
+```
+
+## More operations with `igraph` {#more-igraph}
+
+* More examples of network visualization with `igraph`.
+* Add vertices to `igraph` objects, for example to add the ego node.
+
+```{r more_igraph, include=TRUE, cache=FALSE, tidy= FALSE}
+```
+
+## The `statnet` suite of packages {#statnet}
+* `statnet` is a collection of different packages. The `statnet` packages we'll use in the following code are `network` and `sna`.
+* While `igraph` represents networks as objects of class `igraph`, `statnet` represents networks as objects of class `network`.
+* If your network is already stored in an `igraph` object but you want to analyze it with `statnet`, you can easily convert the `igraph` object into a `network` object using the `intergraph` package (function `asNetwork()`). The conversion preserves edge (adjacency) data, vertex attributes, edge attributes, and network attributes.
+* Of course, you can also create a `network` object from external data, such as an adjacency matrix stored in a csv file.
+* Similar to `igraph`, `statnet` allows you to import, set and view edge, vertex, and network attributes in addition to edge (adjacency) data.
+* `igraph` and `statnet` have overlapping function names. That is, there are `igraph` functions and `statnet` functions that have the same name, although they are obviously different functions. For example, both `igraph` and `statnet` have a function called `degree` to calculate vertex degree centrality. When both `igraph` and `statnet` are loaded, you should use the `package::function()` notation to specify which package you want to take the function from (see Section \@ref(starting-R-and-loading-packages)). 
+
+```{r statnet, include=TRUE, cache=FALSE, tidy= FALSE, error=TRUE, message=FALSE}
+```
+
+## Illustrative example: personal networks of Sri Lankan immigrants in Italy
+
+In this section, we'll apply some of the tools presented earlier to a specific case study about the personal networks of Sri Lankan immigrants in Italy. We will demonstrate the use of R in four major tasks of personal network analysis:
+
+1. **Visualization**. We'll write an R function that plots a personal network with specific graphical parameters. We'll then run this function on many personal networks and we'll export the output to an external pdf file.
+
+2. **Compositional analysis**. We'll calculate multiple measures on network composition for all our personal networks at once.
+
+3. **Structural analysis**. We'll write an R function that calculates multiple structural measures on a personal network and we'll run it on all the personal networks in our data at once. 
+
+4. **Association with ego-level variables**. We'll merge the results of personal network compositional and structural analysis with non-network ego-level data, and we'll analyze the association between ego-level attributes and personal network characteristics.
+
+```{r case-study, include=TRUE, cache=FALSE, tidy= FALSE, out.width = "70%"}
+```
