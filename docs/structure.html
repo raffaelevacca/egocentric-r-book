@@ -24,7 +24,7 @@
 <meta name="author" content="Raffaele Vacca" />
 
 
-<meta name="date" content="2022-02-08" />
+<meta name="date" content="2022-04-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -296,7 +296,7 @@ div.csl-indent {
 <ul>
 <li>Ego-network structure can be described using different measures, either at the alter level (e.g., alter centrality measures) or at the ego level (e.g., ego-network density).</li>
 <li>Some of these structural measures are calculated on the alter-alter network <em>excluding</em> the ego. Other measures (e.g., ego betweenness, constraint) are calculated on the ego-network <em>including</em> the ego. We will see examples of both.</li>
-<li>Certain measures are a combination of structure and composition: they are based on information about both the distribution of alter-alter ties and the distribution of alter attributes. An example is the average degree centrality (network structure) of alters who are family members (network composition).</li>
+<li>Certain measures combine information about both structure and composition: they are based on data about both the distribution of alter-alter ties and the distribution of alter attributes. An example is the average degree centrality (network structure) of alters who are family members (network composition).</li>
 <li>Note that whenever ego-network structure is considered (whether by itself or in combination with composition), we need data on alter-alter ties. Unlike in Chapter <a href="composition.html#composition">4</a>, just the alter attribute data frame will not be sufficient.
 <ul>
 <li>So in this section we need to work with the <code>igraph</code> objects containing the alter-alter tie information for our ego-networks (and possibly also incorporate alter attribute data frames if our measures are a combination of structure and composition).</li>
@@ -320,12 +320,12 @@ div.csl-indent {
 <span id="cb325-10"><a href="structure.html#cb325-10" aria-hidden="true" tabindex="-1"></a><span class="co"># The data.rda file, which we loaded earlier, includes the igraph object of</span></span>
 <span id="cb325-11"><a href="structure.html#cb325-11" aria-hidden="true" tabindex="-1"></a><span class="co"># ego ID 28&#39;s network.</span></span>
 <span id="cb325-12"><a href="structure.html#cb325-12" aria-hidden="true" tabindex="-1"></a>gr<span class="fl">.28</span></span></code></pre></div>
-<pre><code>## IGRAPH 2a1f0af UNW- 45 259 -- 
+<pre><code>## IGRAPH 94b40ec UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 2a1f0af (vertex names):
+## + edges from 94b40ec (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -412,12 +412,12 @@ div.csl-indent {
 <pre><code>## [1] 102</code></pre>
 <div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="structure.html#cb347-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gr.list)</span></code></pre></div>
 <pre><code>## $`28`
-## IGRAPH 2a1f0af UNW- 45 259 -- 
+## IGRAPH 94b40ec UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 2a1f0af (vertex names):
+## + edges from 94b40ec (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -426,12 +426,12 @@ div.csl-indent {
 ## + ... omitted several edges
 ## 
 ## $`29`
-## IGRAPH 4eccd2f UNW- 45 202 -- 
+## IGRAPH ba6bac0 UNW- 45 202 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 4eccd2f (vertex names):
+## + edges from ba6bac0 (vertex names):
 ##  [1] 2901--2902 2901--2904 2901--2906 2901--2907 2901--2908 2901--2909
 ##  [7] 2901--2910 2901--2911 2901--2915 2901--2916 2901--2917 2901--2918
 ## [13] 2901--2919 2901--2927 2901--2928 2901--2929 2901--2930 2901--2931
@@ -440,12 +440,12 @@ div.csl-indent {
 ## + ... omitted several edges
 ## 
 ## $`33`
-## IGRAPH 8518b4a UNW- 45 207 -- 
+## IGRAPH f12f0bd UNW- 45 207 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 8518b4a (vertex names):
+## + edges from f12f0bd (vertex names):
 ##  [1] 3301--3302 3301--3303 3301--3304 3301--3305 3301--3306 3301--3307
 ##  [7] 3301--3308 3301--3309 3301--3310 3301--3311 3301--3312 3301--3313
 ## [13] 3301--3314 3301--3315 3301--3316 3301--3317 3301--3318 3301--3319
@@ -454,12 +454,12 @@ div.csl-indent {
 ## + ... omitted several edges
 ## 
 ## $`35`
-## IGRAPH 533495a UNW- 45 221 -- 
+## IGRAPH 1bee943 UNW- 45 221 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 533495a (vertex names):
+## + edges from 1bee943 (vertex names):
 ##  [1] 3501--3502 3501--3503 3501--3504 3501--3505 3501--3506 3501--3507
 ##  [7] 3501--3508 3501--3509 3501--3510 3501--3512 3501--3513 3501--3514
 ## [13] 3501--3516 3501--3517 3501--3522 3501--3523 3501--3524 3501--3525
@@ -468,12 +468,12 @@ div.csl-indent {
 ## + ... omitted several edges
 ## 
 ## $`39`
-## IGRAPH 6b1842b UNW- 45 92 -- 
+## IGRAPH 3a4c53c UNW- 45 92 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 6b1842b (vertex names):
+## + edges from 3a4c53c (vertex names):
 ##  [1] 3901--3902 3901--3903 3901--3904 3901--3905 3901--3906 3901--3907
 ##  [7] 3901--3911 3901--3913 3901--3920 3901--3924 3901--3925 3901--3931
 ## [13] 3901--3932 3901--3933 3901--3937 3901--3938 3901--3940 3901--3941
@@ -482,12 +482,12 @@ div.csl-indent {
 ## + ... omitted several edges
 ## 
 ## $`40`
-## IGRAPH 32c9047 UNW- 45 255 -- 
+## IGRAPH 0c179bf UNW- 45 255 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 32c9047 (vertex names):
+## + edges from 0c179bf (vertex names):
 ##  [1] 4001--4003 4001--4007 4001--4008 4001--4009 4001--4036 4001--4040
 ##  [7] 4001--4045 4002--4003 4002--4004 4002--4006 4002--4008 4002--4009
 ## [13] 4002--4010 4002--4011 4002--4012 4002--4013 4002--4014 4002--4015
@@ -535,12 +535,12 @@ div.csl-indent {
 <span id="cb351-7"><a href="structure.html#cb351-7" aria-hidden="true" tabindex="-1"></a><span class="co"># We now need the ego-network with ego included. The file data.rda, loaded earlier,</span></span>
 <span id="cb351-8"><a href="structure.html#cb351-8" aria-hidden="true" tabindex="-1"></a><span class="co"># includes this ego-network for ego ID 28. </span></span>
 <span id="cb351-9"><a href="structure.html#cb351-9" aria-hidden="true" tabindex="-1"></a>gr.ego<span class="fl">.28</span></span></code></pre></div>
-<pre><code>## IGRAPH b4e369b UNW- 46 304 -- 
+<pre><code>## IGRAPH 895c4e1 UNW- 46 304 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from b4e369b (vertex names):
+## + edges from 895c4e1 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -563,17 +563,16 @@ div.csl-indent {
 <div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="structure.html#cb357-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Measures combining composition and structure: From structure to composition ----</span></span>
 <span id="cb357-2"><a href="structure.html#cb357-2" aria-hidden="true" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
 <span id="cb357-3"><a href="structure.html#cb357-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb357-4"><a href="structure.html#cb357-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Non-network attribute of alters selected based</span></span>
-<span id="cb357-5"><a href="structure.html#cb357-5" aria-hidden="true" tabindex="-1"></a><span class="co"># on structural characteristics.</span></span>
-<span id="cb357-6"><a href="structure.html#cb357-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb357-7"><a href="structure.html#cb357-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Type of relationship with alter with max betweenness.</span></span>
-<span id="cb357-8"><a href="structure.html#cb357-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb357-9"><a href="structure.html#cb357-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Logical index for alter with max betweenness.</span></span>
-<span id="cb357-10"><a href="structure.html#cb357-10" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="fu">betweenness</span>(gr, <span class="at">weights =</span> <span class="cn">NA</span>) <span class="sc">==</span> <span class="fu">max</span>(<span class="fu">betweenness</span>(gr, <span class="at">weights =</span> <span class="cn">NA</span>))</span>
-<span id="cb357-11"><a href="structure.html#cb357-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb357-12"><a href="structure.html#cb357-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Get that alter.</span></span>
-<span id="cb357-13"><a href="structure.html#cb357-13" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(gr)[ind]</span></code></pre></div>
-<pre><code>## + 1/45 vertex, named, from 2a1f0af:
+<span id="cb357-4"><a href="structure.html#cb357-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Non-network attribute of alters selected based on structural characteristics.</span></span>
+<span id="cb357-5"><a href="structure.html#cb357-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb357-6"><a href="structure.html#cb357-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Type of relationship with alter with max betweenness.</span></span>
+<span id="cb357-7"><a href="structure.html#cb357-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb357-8"><a href="structure.html#cb357-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Logical index for alter with max betweenness.</span></span>
+<span id="cb357-9"><a href="structure.html#cb357-9" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="fu">betweenness</span>(gr, <span class="at">weights =</span> <span class="cn">NA</span>) <span class="sc">==</span> <span class="fu">max</span>(<span class="fu">betweenness</span>(gr, <span class="at">weights =</span> <span class="cn">NA</span>))</span>
+<span id="cb357-10"><a href="structure.html#cb357-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb357-11"><a href="structure.html#cb357-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Get that alter.</span></span>
+<span id="cb357-12"><a href="structure.html#cb357-12" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(gr)[ind]</span></code></pre></div>
+<pre><code>## + 1/45 vertex, named, from 94b40ec:
 ## [1] 2801</code></pre>
 <div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="structure.html#cb359-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get type of relation of that alter.</span></span>
 <span id="cb359-2"><a href="structure.html#cb359-2" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(gr)[ind]<span class="sc">$</span>alter.rel</span></code></pre></div>
@@ -590,7 +589,7 @@ div.csl-indent {
 <span id="cb361-10"><a href="structure.html#cb361-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb361-11"><a href="structure.html#cb361-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Vertex sequence of Close family members.</span></span>
 <span id="cb361-12"><a href="structure.html#cb361-12" aria-hidden="true" tabindex="-1"></a>(clo.fam.vs <span class="ot">&lt;-</span> <span class="fu">V</span>(gr)[alter.rel<span class="sc">==</span><span class="st">&quot;Close family&quot;</span>])</span></code></pre></div>
-<pre><code>## + 5/45 vertices, named, from 2a1f0af:
+<pre><code>## + 5/45 vertices, named, from 94b40ec:
 ## [1] 2801 2803 2804 2805 2806</code></pre>
 <div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="structure.html#cb363-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get their average degree.</span></span>
 <span id="cb363-2"><a href="structure.html#cb363-2" aria-hidden="true" tabindex="-1"></a>gr <span class="sc">%&gt;%</span></span>
@@ -601,12 +600,12 @@ div.csl-indent {
 <span id="cb365-2"><a href="structure.html#cb365-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb365-3"><a href="structure.html#cb365-3" aria-hidden="true" tabindex="-1"></a><span class="co"># First get the vertex sequence of alters who live in Sri Lanka.</span></span>
 <span id="cb365-4"><a href="structure.html#cb365-4" aria-hidden="true" tabindex="-1"></a>(alters.sl <span class="ot">&lt;-</span> <span class="fu">V</span>(gr)[alter.res<span class="sc">==</span><span class="st">&quot;Sri Lanka&quot;</span>])</span></code></pre></div>
-<pre><code>## + 17/45 vertices, named, from 2a1f0af:
+<pre><code>## + 17/45 vertices, named, from 94b40ec:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2827 2828 2829
 ## [16] 2840 2841</code></pre>
 <div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb367-1"><a href="structure.html#cb367-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Then get the edges among them.</span></span>
 <span id="cb367-2"><a href="structure.html#cb367-2" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(gr)[alters.sl <span class="sc">%--%</span> alters.sl]</span></code></pre></div>
-<pre><code>## + 88/259 edges from 2a1f0af (vertex names):
+<pre><code>## + 88/259 edges from 94b40ec (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2827
 ## [13] 2801--2828 2801--2829 2801--2840 2801--2841 2802--2803 2802--2804
@@ -626,12 +625,12 @@ div.csl-indent {
 <span id="cb371-2"><a href="structure.html#cb371-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb371-3"><a href="structure.html#cb371-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Get subgraph of relevant alters</span></span>
 <span id="cb371-4"><a href="structure.html#cb371-4" aria-hidden="true" tabindex="-1"></a><span class="fu">induced_subgraph</span>(gr, <span class="at">vids =</span> alters.sl)</span></code></pre></div>
-<pre><code>## IGRAPH f256834 UNW- 17 88 -- 
+<pre><code>## IGRAPH ca294c4 UNW- 17 88 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from f256834 (vertex names):
+## + edges from ca294c4 (vertex names):
 ##  [1] 2801--2802 2801--2803 2802--2803 2801--2804 2802--2804 2803--2804
 ##  [7] 2801--2805 2802--2805 2803--2805 2804--2805 2801--2806 2802--2806
 ## [13] 2803--2806 2804--2806 2805--2806 2801--2807 2802--2807 2803--2807
