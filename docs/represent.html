@@ -301,7 +301,7 @@ div.csl-indent {
 <li>Egocentric network data typically include at least three types of data:
 <ul>
 <li><strong>Ego-level attribute data</strong>. This is a dataset with attributes of egos. Each row is an ego (typically, a survey respondent) and each column is a characteristic of the ego. Following multilevel modeling terminology, we call this “level 2” because, in the multilevel structure of ego-network data, egos are the higher-level “groups” in which alters are clustered. In personal network surveys, these data are obtained from standard survey questions asking individual information about the respondent.</li>
-<li><strong>Alter-level attribute data</strong>. This is a dataset with attributes of alters and of ego-alter ties. It is also the dataset that links each alter to an ego, that is, lists all the ego-alter ties. In this dataset, each row is an alter and each column is a characteristic of the alter, or of the relationship between the alter and the ego who nominated him/her. Following multilevel modeling terminology, we call this “level 1” because alters are the most granular units in the data, clustered within egos. In personal network surveys, these data are obtained from the so-called <em>name generator</em> questions, which elicit lists of alters from each ego; and from the <em>name interpreter</em> questions, which elicit characteristics of each alter.</li>
+<li><strong>Alter-level attribute data</strong>. This is a dataset with attributes of alters and of ego-alter ties. It is also the dataset that, for each alter, indicates who is the ego who nominated that alter: that is, it lists all the ego-alter ties. In this dataset, each row is an alter and each column is a characteristic of the alter, or of the relationship between the alter and the ego who nominated him/her. Following multilevel modeling terminology, we call this “level 1” because alters are the most granular units in the data, clustered within egos. In personal network surveys, these data are obtained from the so-called <em>name generator</em> questions, which elicit lists of alters from each ego; and from the <em>name interpreter</em> questions, which elicit characteristics of each alter.</li>
 <li><strong>Alter-alter tie data</strong>. These are the data about alter-alter ties as reported by the ego. In personal network surveys, these data are obtained from so-called <em>edge interpreter</em> questions.</li>
 </ul></li>
 <li><strong>File formats:</strong>
@@ -310,15 +310,22 @@ div.csl-indent {
 <li>Alter-level attribute data. Depending on the data collection software, you might have a single dataset (in a single file) including alters nominated by all egos; or separate datasets (in separate files), one for each ego, with the alters nominated by that ego (and with the same variables in all datasets).</li>
 <li>Alter-alter tie data. These are typically in edge list format or in adjacency matrix format, depending on the data collection software. If the tie data are in adjacency matrices, you normally have a separate adjacency matrix for each ego, in a separate file. If they are in edge lists, you might have a single edge list including alters from all egos (with an additional column indicating the ego that nominated the two alters), or a separate edge list (in a separate file) for each ego.</li>
 </ul></li>
-<li>The data format described above works well because, in standard egocentric data, the different ego-networks are <strong>separate</strong> (non-overlapping). This means that an alter can only “belong” to one and one only ego, and alter-alter ties only exist between alters nominated by the same egos. In other words, there are no links or overlaps between the networks of different egos. In particular, this means that there is a one-to-one correspondence between alters and ego-alter ties: for each ego-alter tie there is only one alter, and vice versa (so the level of alters is the same as the level of ego-alter ties).</li>
-<li>In egocentric analysis you are frequently switching between level 1 and 2, and <strong>joining</strong> information from the two levels.</li>
-<li><strong>Level-1 join.</strong> For certain types of analysis you need to join ego attributes (level 2) into an alter-level data set (level 1).
+<li>The data format described above works well because, in standard egocentric data, the different ego-networks are <strong>separate</strong> (non-overlapping). This means that an alter can only “belong” to one and one only ego, and alter-alter ties only exist between alters nominated by the same egos. In other words, there are no links or overlaps between the networks of different egos.
 <ul>
-<li>Because there is one ego for multiple alters, this is a one-to-many join, with the same value of an ego attribute (one ego row) being joined to multiple alters (multiple alter rows).</li>
+<li>In particular, this means that there is a one-to-one correspondence between alters and ego-alter ties: for each ego-alter tie there is only one alter, and vice versa (so the level of alters is the same as the level of ego-alter ties).</li>
+</ul></li>
+<li>In egocentric analysis you are frequently switching between level 1 and 2, and <strong>joining</strong> information from the two levels.</li>
+<li><strong>Level-1 join.</strong> Bring information from level 2 into the level-1 dataset.
+<ul>
+<li>For certain types of analysis you need to join ego attributes (level 2) into an alter-level data set (level 1).</li>
+<li>For example, you need to do this when estimating multilevel models in which the dependent variable is a characteristic of ego-alter ties (e.g., if the tie provides support), and some of the predictors are ego-level characteristics (e.g., gender of the ego).</li>
+<li>Because there is one ego for multiple alters, this is a one-to-many join, with the same value of an ego attribute (one ego row in the level-2 dataset) being joined to multiple alters (multiple alter rows in the level-1 dataset).</li>
 <li>The data frames are joined by ego ID.</li>
 </ul></li>
-<li><strong>Level-2 join.</strong> In other cases you want to join alter attributes (level 1) into an ego-level dataset (level 2).
+<li><strong>Level-2 join.</strong> Bring information from level 1 into the level-2 dataset.
 <ul>
+<li>In other cases you want to join alter attributes (level 1) into an ego-level dataset (level 2).</li>
+<li>For example, you need to do this when you want to analyze summary measures of ego-network characteristics (e.g. average age of alters) among the egos.</li>
 <li>Because there are multiple alters for one ego, this requires that you first summarize or aggregate the alter attributes for each ego.</li>
 <li>If you have <em>continuous</em> alter attributes, you typically summarize them by taking averages and dispersion measures (variance, standard deviation, etc.) of the alter attribute for each ego: for example, average alter age for each ego, or standard deviation of contact frequency between alters and each ego.</li>
 <li>If you have <em>categorical</em> alter attributes, you normally summarize them by taking counts or proportions of certain categories, or qualitative diversity measures (e.g., generalized variance, entropy): for example, proportion of women, or ethnic diversity in each ego’s network.</li>
@@ -427,7 +434,7 @@ div.csl-indent {
 <li>Most of this workshop uses the package <code>igraph</code>. This is because I personally find <code>igraph</code>’s syntax more intuitive for beginners, especially for simple operations on networks. In Chapter <a href="supplementary.html#statnet">8.4</a> we’ll also briefly demonstrate how networks are represented in <code>statnet</code>’s <code>network</code> objects. You should keep in mind that everything we’ll do here with <code>igraph</code>, can also be done with <code>statnet</code>. In general, you’ll need to learn about <code>statnet</code> too if you want to master a complete toolkit for social network analysis with R.</li>
 <li>We’ll also briefly use the <code>ggraph</code> package for network visualization and the <code>tidygraph</code> package for easier display and manipulation of networks. We don’t have time to go into much detail about these two packages, but you can find more tutorials and learning resources about them online.
 <ul>
-<li><code>ggraph</code> provides flexible and easy tools for network visualization by applying the <code>ggplot2</code> grammar of graphics to network data (learn more <a href="https://github.com/thomasp85/ggraph">here</a>). In addition to <code>ggraph</code>, you can also visualize networks with <code>igraph</code>, which uses base R plotting (see Section <a href="supplementary.html#more-igraph">8.3</a>).</li>
+<li><code>ggraph</code> flexible and easy tools for network visualization by applying the <a href="https://ggplot2.tidyverse.org/"><code>ggplot2</code> grammar</a> of graphics to network data (learn more <a href="https://github.com/thomasp85/ggraph">here</a>). In addition to <code>ggraph</code>, you can also visualize networks with <code>igraph</code>, which uses base R plotting (see Section <a href="supplementary.html#more-igraph">8.3</a>).</li>
 <li><code>tidygraph</code> applies the <code>tidyverse</code> principles of <a href="https://r4ds.had.co.nz/tidy-data.html">tidy data</a> to networks. This allows you to easily view and manipulate the basic components of network data in tabular format, i.e., edge data as an edge list and node attribute data as a case-by-variable dataset. More information about <code>tidygraph</code> is <a href="https://www.data-imaginist.com/2017/introducing-tidygraph/">here</a>.</li>
 </ul></li>
 </ul>
@@ -456,7 +463,8 @@ div.csl-indent {
 </ul></li>
 <li><strong>What we do in the following code</strong>.
 <ul>
-<li>Query vertex and edge attributes in an ego-network.</li>
+<li>View an ego-network as an <code>igraph</code> object.</li>
+<li>View vertex and edge attributes in an ego-network.</li>
 <li>Obtain descriptive statistics for attributes of alters (vertex attributes) and alter-alter ties (edge attributes) in the ego-network.</li>
 <li>Visualize an ego-network with <code>ggraph</code>, setting aesthetic parameters based on alter attributes.</li>
 <li>Query vertices and edges based on attributes.</li>
@@ -472,12 +480,12 @@ div.csl-indent {
 <span id="cb173-8"><a href="represent.html#cb173-8" aria-hidden="true" tabindex="-1"></a><span class="co"># The data.rda file, which we loaded earlier, also includes the ego-network of </span></span>
 <span id="cb173-9"><a href="represent.html#cb173-9" aria-hidden="true" tabindex="-1"></a><span class="co"># ego 28 (as igraph object)</span></span>
 <span id="cb173-10"><a href="represent.html#cb173-10" aria-hidden="true" tabindex="-1"></a>gr<span class="fl">.28</span></span></code></pre></div>
-<pre><code>## IGRAPH 48908cc UNW- 45 259 -- 
+<pre><code>## IGRAPH b89648d UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 48908cc (vertex names):
+## + edges from b89648d (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -496,12 +504,12 @@ div.csl-indent {
 <span id="cb175-10"><a href="represent.html#cb175-10" aria-hidden="true" tabindex="-1"></a><span class="co"># We also have the same network, with ego included: note the different number</span></span>
 <span id="cb175-11"><a href="represent.html#cb175-11" aria-hidden="true" tabindex="-1"></a><span class="co"># of vertices and edges compared to the previous graph.</span></span>
 <span id="cb175-12"><a href="represent.html#cb175-12" aria-hidden="true" tabindex="-1"></a>gr.ego<span class="fl">.28</span></span></code></pre></div>
-<pre><code>## IGRAPH c76ecc6 UNW- 46 304 -- 
+<pre><code>## IGRAPH cda44e5 UNW- 46 304 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from c76ecc6 (vertex names):
+## + edges from cda44e5 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -618,14 +626,14 @@ div.csl-indent {
 <span id="cb186-6"><a href="represent.html#cb186-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Vertex sequence of the whole graph. Notice that vertices are displayed by</span></span>
 <span id="cb186-7"><a href="represent.html#cb186-7" aria-hidden="true" tabindex="-1"></a><span class="co"># &quot;names&quot; (alter IDs in this case).</span></span>
 <span id="cb186-8"><a href="represent.html#cb186-8" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(gr)</span></code></pre></div>
-<pre><code>## + 45/45 vertices, named, from 48908cc:
+<pre><code>## + 45/45 vertices, named, from b89648d:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2813 2814 2815
 ## [16] 2816 2817 2818 2819 2820 2821 2822 2823 2824 2825 2826 2827 2828 2829 2830
 ## [31] 2831 2832 2833 2834 2835 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845</code></pre>
 <div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="represent.html#cb188-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Edge sequence of the whole graph. Notice that vertex names (alter IDs) are</span></span>
 <span id="cb188-2"><a href="represent.html#cb188-2" aria-hidden="true" tabindex="-1"></a><span class="co"># used here too.</span></span>
 <span id="cb188-3"><a href="represent.html#cb188-3" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(gr)</span></code></pre></div>
-<pre><code>## + 259/259 edges from 48908cc (vertex names):
+<pre><code>## + 259/259 edges from b89648d (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -699,12 +707,12 @@ div.csl-indent {
 <span id="cb204-3"><a href="represent.html#cb204-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb204-4"><a href="represent.html#cb204-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Now a new attribute is listed for the graph.</span></span>
 <span id="cb204-5"><a href="represent.html#cb204-5" aria-hidden="true" tabindex="-1"></a>gr</span></code></pre></div>
-<pre><code>## IGRAPH 48908cc UNW- 45 259 -- 
+<pre><code>## IGRAPH b89648d UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), new.attribute (v/n), weight (e/n)
-## + edges from 48908cc (vertex names):
+## + edges from b89648d (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -732,12 +740,12 @@ div.csl-indent {
 <span id="cb210-5"><a href="represent.html#cb210-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb210-6"><a href="represent.html#cb210-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Check that the new attribute was created</span></span>
 <span id="cb210-7"><a href="represent.html#cb210-7" aria-hidden="true" tabindex="-1"></a>gr</span></code></pre></div>
-<pre><code>## IGRAPH 48908cc UNW- 45 259 -- 
+<pre><code>## IGRAPH b89648d UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/n), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), new.attribute (v/n), weight (e/n)
-## + edges from 48908cc (vertex names):
+## + edges from b89648d (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -787,7 +795,7 @@ div.csl-indent {
 <span id="cb217-3"><a href="represent.html#cb217-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb217-4"><a href="represent.html#cb217-4" aria-hidden="true" tabindex="-1"></a><span class="co"># View only female alters.</span></span>
 <span id="cb217-5"><a href="represent.html#cb217-5" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(gr)[alter.sex<span class="sc">==</span><span class="st">&quot;Female&quot;</span>]</span></code></pre></div>
-<pre><code>## + 8/45 vertices, named, from 48908cc:
+<pre><code>## + 8/45 vertices, named, from b89648d:
 ## [1] 2801 2805 2806 2808 2809 2828 2832 2837</code></pre>
 <div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="represent.html#cb219-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View residence country just for female alters.</span></span>
 <span id="cb219-2"><a href="represent.html#cb219-2" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(gr)[alter.sex<span class="sc">==</span><span class="st">&quot;Female&quot;</span>]<span class="sc">$</span>alter.res</span></code></pre></div>
@@ -808,7 +816,7 @@ div.csl-indent {
 <span id="cb225-4"><a href="represent.html#cb225-4" aria-hidden="true" tabindex="-1"></a><span class="co"># View all alters who know alter 2833 (vertices that are adjacent to vertex</span></span>
 <span id="cb225-5"><a href="represent.html#cb225-5" aria-hidden="true" tabindex="-1"></a><span class="co"># &quot;2833&quot;).</span></span>
 <span id="cb225-6"><a href="represent.html#cb225-6" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(gr)[<span class="fu">nei</span>(<span class="st">&quot;2833&quot;</span>)]</span></code></pre></div>
-<pre><code>## + 16/45 vertices, named, from 48908cc:
+<pre><code>## + 16/45 vertices, named, from b89648d:
 ##  [1] 2814 2815 2821 2822 2823 2824 2825 2826 2832 2834 2835 2837 2838 2839 2843
 ## [16] 2845</code></pre>
 <div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="represent.html#cb227-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View the gender of all alters who know alter 2833.</span></span>
@@ -817,7 +825,7 @@ div.csl-indent {
 ##  [9] &quot;Female&quot; &quot;Male&quot;   &quot;Male&quot;   &quot;Female&quot; &quot;Male&quot;   &quot;Male&quot;   &quot;Male&quot;   &quot;Male&quot;</code></pre>
 <div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="represent.html#cb229-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View all edges that are incident on alter 2833</span></span>
 <span id="cb229-2"><a href="represent.html#cb229-2" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(gr)[<span class="fu">inc</span>(<span class="st">&quot;2833&quot;</span>)]</span></code></pre></div>
-<pre><code>## + 16/259 edges from 48908cc (vertex names):
+<pre><code>## + 16/259 edges from b89648d (vertex names):
 ##  [1] 2814--2833 2815--2833 2821--2833 2822--2833 2823--2833 2824--2833
 ##  [7] 2825--2833 2826--2833 2832--2833 2833--2834 2833--2835 2833--2837
 ## [13] 2833--2838 2833--2839 2833--2843 2833--2845</code></pre>
@@ -830,7 +838,7 @@ div.csl-indent {
 <pre><code>## [1] 2</code></pre>
 <div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="represent.html#cb235-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View all edges with weight==2 (alters who &quot;maybe&quot; know each other).</span></span>
 <span id="cb235-2"><a href="represent.html#cb235-2" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(gr)[weight<span class="sc">==</span><span class="dv">2</span>] </span></code></pre></div>
-<pre><code>## + 24/259 edges from 48908cc (vertex names):
+<pre><code>## + 24/259 edges from b89648d (vertex names):
 ##  [1] 2801--2818 2801--2829 2804--2811 2804--2840 2807--2811 2811--2812
 ##  [7] 2811--2828 2813--2841 2813--2845 2814--2833 2815--2833 2816--2835
 ## [13] 2817--2835 2821--2826 2821--2833 2821--2839 2823--2830 2825--2833
@@ -838,7 +846,7 @@ div.csl-indent {
 <div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="represent.html#cb237-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Conditions in R indexing can always be combined: view all &quot;maybe&quot; edges</span></span>
 <span id="cb237-2"><a href="represent.html#cb237-2" aria-hidden="true" tabindex="-1"></a><span class="co"># that are incident on alter 2833.</span></span>
 <span id="cb237-3"><a href="represent.html#cb237-3" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(gr)[weight<span class="sc">==</span><span class="dv">2</span> <span class="sc">&amp;</span> <span class="fu">inc</span>(<span class="st">&quot;2833&quot;</span>)]</span></code></pre></div>
-<pre><code>## + 5/259 edges from 48908cc (vertex names):
+<pre><code>## + 5/259 edges from b89648d (vertex names):
 ## [1] 2814--2833 2815--2833 2821--2833 2825--2833 2833--2843</code></pre>
 <div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="represent.html#cb239-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ***** EXERCISES</span></span>
 <span id="cb239-2"><a href="represent.html#cb239-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (1) Get the average alter closeness (vertex attribute $alter.clo) of Sri Lankan</span></span>

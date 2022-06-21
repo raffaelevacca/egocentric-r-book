@@ -721,9 +721,9 @@ div.csl-indent {
 <span id="cb608-14"><a href="supplementary.html#cb608-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb608-15"><a href="supplementary.html#cb608-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to igraph</span></span>
 <span id="cb608-16"><a href="supplementary.html#cb608-16" aria-hidden="true" tabindex="-1"></a><span class="fu">graph_from_adjacency_matrix</span>(adj<span class="fl">.28</span>, <span class="at">mode=</span><span class="st">&quot;upper&quot;</span>)</span></code></pre></div>
-<pre><code>## IGRAPH 2afbad4 UN-- 45 283 -- 
+<pre><code>## IGRAPH 799e00d UN-- 45 283 -- 
 ## + attr: name (v/c)
-## + edges from 2afbad4 (vertex names):
+## + edges from 799e00d (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2818 2801--2820 2801--2823
@@ -991,9 +991,9 @@ div.csl-indent {
 <span id="cb645-3"><a href="supplementary.html#cb645-3" aria-hidden="true" tabindex="-1"></a><span class="co"># of elist.all.list.</span></span>
 <span id="cb645-4"><a href="supplementary.html#cb645-4" aria-hidden="true" tabindex="-1"></a>elist <span class="ot">&lt;-</span> elist.all.list[[<span class="dv">1</span>]]</span>
 <span id="cb645-5"><a href="supplementary.html#cb645-5" aria-hidden="true" tabindex="-1"></a>(gr <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(<span class="at">d=</span> elist, <span class="at">directed=</span> <span class="cn">FALSE</span>))</span></code></pre></div>
-<pre><code>## IGRAPH 9cfec70 UNW- 45 259 -- 
+<pre><code>## IGRAPH 39e32bd UNW- 45 259 -- 
 ## + attr: name (v/c), ego_ID (e/n), weight (e/n)
-## + edges from 9cfec70 (vertex names):
+## + edges from 39e32bd (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -1026,9 +1026,9 @@ div.csl-indent {
 <div class="sourceCode" id="cb651"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb651-1"><a href="supplementary.html#cb651-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We can extract each ego&#39;s graph.</span></span>
 <span id="cb651-2"><a href="supplementary.html#cb651-2" aria-hidden="true" tabindex="-1"></a><span class="co"># By position.</span></span>
 <span id="cb651-3"><a href="supplementary.html#cb651-3" aria-hidden="true" tabindex="-1"></a>gr.list[[<span class="dv">1</span>]]</span></code></pre></div>
-<pre><code>## IGRAPH fc55d21 UNW- 45 259 -- 
+<pre><code>## IGRAPH fad1a84 UNW- 45 259 -- 
 ## + attr: name (v/c), ego_ID (e/n), weight (e/n)
-## + edges from fc55d21 (vertex names):
+## + edges from fad1a84 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -1040,9 +1040,9 @@ div.csl-indent {
 ## + ... omitted several edges</code></pre>
 <div class="sourceCode" id="cb653"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb653-1"><a href="supplementary.html#cb653-1" aria-hidden="true" tabindex="-1"></a><span class="co"># By name (ego ID).</span></span>
 <span id="cb653-2"><a href="supplementary.html#cb653-2" aria-hidden="true" tabindex="-1"></a>gr.list[[<span class="st">&quot;94&quot;</span>]]</span></code></pre></div>
-<pre><code>## IGRAPH ba66088 UNW- 42 265 -- 
+<pre><code>## IGRAPH 508e4d4 UNW- 42 265 -- 
 ## + attr: name (v/c), ego_ID (e/n), weight (e/n)
-## + edges from ba66088 (vertex names):
+## + edges from 508e4d4 (vertex names):
 ##  [1] 9401--9402 9401--9403 9401--9404 9401--9405 9401--9406 9401--9407
 ##  [7] 9401--9408 9401--9409 9401--9410 9401--9411 9401--9412 9401--9413
 ## [13] 9401--9414 9401--9415 9401--9438 9401--9443 9401--9444 9402--9403
@@ -1066,12 +1066,12 @@ div.csl-indent {
 <span id="cb659-2"><a href="supplementary.html#cb659-2" aria-hidden="true" tabindex="-1"></a><span class="co"># element of each of the two lists.</span></span>
 <span id="cb659-3"><a href="supplementary.html#cb659-3" aria-hidden="true" tabindex="-1"></a>(gr <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(<span class="at">d=</span> elist.all.list[[<span class="dv">1</span>]], </span>
 <span id="cb659-4"><a href="supplementary.html#cb659-4" aria-hidden="true" tabindex="-1"></a>                             <span class="at">vertices=</span> alter.attr.list[[<span class="dv">1</span>]], <span class="at">directed=</span> <span class="cn">FALSE</span>))</span></code></pre></div>
-<pre><code>## IGRAPH f6c697f UNW- 45 259 -- 
+<pre><code>## IGRAPH cf29ddf UNW- 45 259 -- 
 ## + attr: name (v/c), ego_ID (v/n), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), ego_ID (e/n), weight (e/n)
-## + edges from f6c697f (vertex names):
+## + edges from cf29ddf (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -1142,7 +1142,7 @@ div.csl-indent {
 <pre><code>## [1] 259</code></pre>
 <div class="sourceCode" id="cb675"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb675-1"><a href="supplementary.html#cb675-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ego is the 46th vertex.</span></span>
 <span id="cb675-2"><a href="supplementary.html#cb675-2" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(gr.ego)</span></code></pre></div>
-<pre><code>## + 46/46 vertices, named, from fc381af:
+<pre><code>## + 46/46 vertices, named, from 3f649ca:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2813 2814 2815
 ## [16] 2816 2817 2818 2819 2820 2821 2822 2823 2824 2825 2826 2827 2828 2829 2830
 ## [31] 2831 2832 2833 2834 2835 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845

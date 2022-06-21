@@ -2316,7 +2316,7 @@ This chapter covers the following topics:
   \item
     \textbf{Ego-level attribute data}. This is a dataset with attributes of egos. Each row is an ego (typically, a survey respondent) and each column is a characteristic of the ego. Following multilevel modeling terminology, we call this ``level 2'' because, in the multilevel structure of ego-network data, egos are the higher-level ``groups'' in which alters are clustered. In personal network surveys, these data are obtained from standard survey questions asking individual information about the respondent.
   \item
-    \textbf{Alter-level attribute data}. This is a dataset with attributes of alters and of ego-alter ties. It is also the dataset that links each alter to an ego, that is, lists all the ego-alter ties. In this dataset, each row is an alter and each column is a characteristic of the alter, or of the relationship between the alter and the ego who nominated him/her. Following multilevel modeling terminology, we call this ``level 1'' because alters are the most granular units in the data, clustered within egos. In personal network surveys, these data are obtained from the so-called \emph{name generator} questions, which elicit lists of alters from each ego; and from the \emph{name interpreter} questions, which elicit characteristics of each alter.
+    \textbf{Alter-level attribute data}. This is a dataset with attributes of alters and of ego-alter ties. It is also the dataset that, for each alter, indicates who is the ego who nominated that alter: that is, it lists all the ego-alter ties. In this dataset, each row is an alter and each column is a characteristic of the alter, or of the relationship between the alter and the ego who nominated him/her. Following multilevel modeling terminology, we call this ``level 1'' because alters are the most granular units in the data, clustered within egos. In personal network surveys, these data are obtained from the so-called \emph{name generator} questions, which elicit lists of alters from each ego; and from the \emph{name interpreter} questions, which elicit characteristics of each alter.
   \item
     \textbf{Alter-alter tie data}. These are the data about alter-alter ties as reported by the ego. In personal network surveys, these data are obtained from so-called \emph{edge interpreter} questions.
   \end{itemize}
@@ -2333,24 +2333,38 @@ This chapter covers the following topics:
     Alter-alter tie data. These are typically in edge list format or in adjacency matrix format, depending on the data collection software. If the tie data are in adjacency matrices, you normally have a separate adjacency matrix for each ego, in a separate file. If they are in edge lists, you might have a single edge list including alters from all egos (with an additional column indicating the ego that nominated the two alters), or a separate edge list (in a separate file) for each ego.
   \end{itemize}
 \item
-  The data format described above works well because, in standard egocentric data, the different ego-networks are \textbf{separate} (non-overlapping). This means that an alter can only ``belong'' to one and one only ego, and alter-alter ties only exist between alters nominated by the same egos. In other words, there are no links or overlaps between the networks of different egos. In particular, this means that there is a one-to-one correspondence between alters and ego-alter ties: for each ego-alter tie there is only one alter, and vice versa (so the level of alters is the same as the level of ego-alter ties).
-\item
-  In egocentric analysis you are frequently switching between level 1 and 2, and \textbf{joining} information from the two levels.
-\item
-  \textbf{Level-1 join.} For certain types of analysis you need to join ego attributes (level 2) into an alter-level data set (level 1).
+  The data format described above works well because, in standard egocentric data, the different ego-networks are \textbf{separate} (non-overlapping). This means that an alter can only ``belong'' to one and one only ego, and alter-alter ties only exist between alters nominated by the same egos. In other words, there are no links or overlaps between the networks of different egos.
 
   \begin{itemize}
   \tightlist
   \item
-    Because there is one ego for multiple alters, this is a one-to-many join, with the same value of an ego attribute (one ego row) being joined to multiple alters (multiple alter rows).
+    In particular, this means that there is a one-to-one correspondence between alters and ego-alter ties: for each ego-alter tie there is only one alter, and vice versa (so the level of alters is the same as the level of ego-alter ties).
+  \end{itemize}
+\item
+  In egocentric analysis you are frequently switching between level 1 and 2, and \textbf{joining} information from the two levels.
+\item
+  \textbf{Level-1 join.} Bring information from level 2 into the level-1 dataset.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    For certain types of analysis you need to join ego attributes (level 2) into an alter-level data set (level 1).
+  \item
+    For example, you need to do this when estimating multilevel models in which the dependent variable is a characteristic of ego-alter ties (e.g., if the tie provides support), and some of the predictors are ego-level characteristics (e.g., gender of the ego).
+  \item
+    Because there is one ego for multiple alters, this is a one-to-many join, with the same value of an ego attribute (one ego row in the level-2 dataset) being joined to multiple alters (multiple alter rows in the level-1 dataset).
   \item
     The data frames are joined by ego ID.
   \end{itemize}
 \item
-  \textbf{Level-2 join.} In other cases you want to join alter attributes (level 1) into an ego-level dataset (level 2).
+  \textbf{Level-2 join.} Bring information from level 1 into the level-2 dataset.
 
   \begin{itemize}
   \tightlist
+  \item
+    In other cases you want to join alter attributes (level 1) into an ego-level dataset (level 2).
+  \item
+    For example, you need to do this when you want to analyze summary measures of ego-network characteristics (e.g.~average age of alters) among the egos.
   \item
     Because there are multiple alters for one ego, this requires that you first summarize or aggregate the alter attributes for each ego.
   \item
@@ -2518,7 +2532,7 @@ This chapter covers the following topics:
   \begin{itemize}
   \tightlist
   \item
-    \texttt{ggraph} provides flexible and easy tools for network visualization by applying the \texttt{ggplot2} grammar of graphics to network data (learn more \href{https://github.com/thomasp85/ggraph}{here}). In addition to \texttt{ggraph}, you can also visualize networks with \texttt{igraph}, which uses base R plotting (see Section \ref{more-igraph}).
+    \texttt{ggraph} flexible and easy tools for network visualization by applying the \href{https://ggplot2.tidyverse.org/}{\texttt{ggplot2} grammar} of graphics to network data (learn more \href{https://github.com/thomasp85/ggraph}{here}). In addition to \texttt{ggraph}, you can also visualize networks with \texttt{igraph}, which uses base R plotting (see Section \ref{more-igraph}).
   \item
     \texttt{tidygraph} applies the \texttt{tidyverse} principles of \href{https://r4ds.had.co.nz/tidy-data.html}{tidy data} to networks. This allows you to easily view and manipulate the basic components of network data in tabular format, i.e., edge data as an edge list and node attribute data as a case-by-variable dataset. More information about \texttt{tidygraph} is \href{https://www.data-imaginist.com/2017/introducing-tidygraph/}{here}.
   \end{itemize}
@@ -2573,7 +2587,9 @@ This chapter covers the following topics:
   \begin{itemize}
   \tightlist
   \item
-    Query vertex and edge attributes in an ego-network.
+    View an ego-network as an \texttt{igraph} object.
+  \item
+    View vertex and edge attributes in an ego-network.
   \item
     Obtain descriptive statistics for attributes of alters (vertex attributes) and alter-alter ties (edge attributes) in the ego-network.
   \item
@@ -2599,12 +2615,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH f8d0ccb UNW- 45 259 -- 
+## IGRAPH 2d5106b UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from f8d0ccb (vertex names):
+## + edges from 2d5106b (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -2631,12 +2647,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 2b0003c UNW- 46 304 -- 
+## IGRAPH 9f08956 UNW- 46 304 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 2b0003c (vertex names):
+## + edges from 9f08956 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -2799,7 +2815,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 45/45 vertices, named, from f8d0ccb:
+## + 45/45 vertices, named, from 2d5106b:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2813 2814 2815
 ## [16] 2816 2817 2818 2819 2820 2821 2822 2823 2824 2825 2826 2827 2828 2829 2830
 ## [31] 2831 2832 2833 2834 2835 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845
@@ -2814,7 +2830,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 259/259 edges from f8d0ccb (vertex names):
+## + 259/259 edges from 2d5106b (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -2952,12 +2968,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH f8d0ccb UNW- 45 259 -- 
+## IGRAPH 2d5106b UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), new.attribute (v/n), weight (e/n)
-## + edges from f8d0ccb (vertex names):
+## + edges from 2d5106b (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -3009,12 +3025,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH f8d0ccb UNW- 45 259 -- 
+## IGRAPH 2d5106b UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/n), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), new.attribute (v/n), weight (e/n)
-## + edges from f8d0ccb (vertex names):
+## + edges from 2d5106b (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -3098,7 +3114,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 8/45 vertices, named, from f8d0ccb:
+## + 8/45 vertices, named, from 2d5106b:
 ## [1] 2801 2805 2806 2808 2809 2828 2832 2837
 \end{verbatim}
 
@@ -3151,7 +3167,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 16/45 vertices, named, from f8d0ccb:
+## + 16/45 vertices, named, from 2d5106b:
 ##  [1] 2814 2815 2821 2822 2823 2824 2825 2826 2832 2834 2835 2837 2838 2839 2843
 ## [16] 2845
 \end{verbatim}
@@ -3176,7 +3192,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 16/259 edges from f8d0ccb (vertex names):
+## + 16/259 edges from 2d5106b (vertex names):
 ##  [1] 2814--2833 2815--2833 2821--2833 2822--2833 2823--2833 2824--2833
 ##  [7] 2825--2833 2826--2833 2832--2833 2833--2834 2833--2835 2833--2837
 ## [13] 2833--2838 2833--2839 2833--2843 2833--2845
@@ -3213,7 +3229,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 24/259 edges from f8d0ccb (vertex names):
+## + 24/259 edges from 2d5106b (vertex names):
 ##  [1] 2801--2818 2801--2829 2804--2811 2804--2840 2807--2811 2811--2812
 ##  [7] 2811--2828 2813--2841 2813--2845 2814--2833 2815--2833 2816--2835
 ## [13] 2817--2835 2821--2826 2821--2833 2821--2839 2823--2830 2825--2833
@@ -3229,7 +3245,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 5/259 edges from f8d0ccb (vertex names):
+## + 5/259 edges from 2d5106b (vertex names):
 ## [1] 2814--2833 2815--2833 2821--2833 2825--2833 2833--2843
 \end{verbatim}
 
@@ -3872,9 +3888,21 @@ This chapter covers the following topics:
     In egocentric analysis, we typically have an alter attribute data frame whose rows (alters, level 1) are clustered by egos (level 2).
   \end{itemize}
 \item
-  In general, the \texttt{dplyr::summarise} function allows us to calculate summary statistics on a single variable or on multiple variables in a data frame. To calculate the same summary statistic on multiple variables, we select them with \texttt{across()}.
+  In general, the \texttt{dplyr::summarise} function allows us to calculate summary statistics on a single variable or on multiple variables in a data frame.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    To calculate the same summary statistic on multiple variables, we select them with \texttt{across()}.
+  \end{itemize}
 \item
-  If we run \texttt{summarise} after \emph{grouping} the data frame by a factor variable with \texttt{group\_by}, then the data frame will be ``split'' by levels (categories) of that factor, and the summary statistics will be calculated on each piece: that is, for each unique level of the grouping factor. If the grouping factor is the ego ID, we can immediately obtain summary statistics for each of hundreds or thousands of egos in one line of code. The code below provides examples.
+  If we run \texttt{summarise} after \emph{grouping} the data frame by a factor variable with \texttt{group\_by}, then the data frame will be ``split'' by levels (categories) of that factor, and the summary statistics will be calculated on each piece: that is, for each unique level of the grouping factor.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    So if the grouping factor is the ego ID, we can immediately obtain summary statistics for each of hundreds or thousands of egos in one line of code. The code below provides examples.
+  \end{itemize}
 \item
   \textbf{What we do in the following code}.
 
@@ -4312,12 +4340,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH f8d0ccb UNW- 45 259 -- 
+## IGRAPH 2d5106b UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from f8d0ccb (vertex names):
+## + edges from 2d5106b (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -4492,12 +4520,12 @@ This chapter covers the following topics:
 
 \begin{verbatim}
 ## $`28`
-## IGRAPH f8d0ccb UNW- 45 259 -- 
+## IGRAPH 2d5106b UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from f8d0ccb (vertex names):
+## + edges from 2d5106b (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -4506,12 +4534,12 @@ This chapter covers the following topics:
 ## + ... omitted several edges
 ## 
 ## $`29`
-## IGRAPH b21a963 UNW- 45 202 -- 
+## IGRAPH a652944 UNW- 45 202 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from b21a963 (vertex names):
+## + edges from a652944 (vertex names):
 ##  [1] 2901--2902 2901--2904 2901--2906 2901--2907 2901--2908 2901--2909
 ##  [7] 2901--2910 2901--2911 2901--2915 2901--2916 2901--2917 2901--2918
 ## [13] 2901--2919 2901--2927 2901--2928 2901--2929 2901--2930 2901--2931
@@ -4520,12 +4548,12 @@ This chapter covers the following topics:
 ## + ... omitted several edges
 ## 
 ## $`33`
-## IGRAPH fe68c7b UNW- 45 207 -- 
+## IGRAPH 7c0f991 UNW- 45 207 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from fe68c7b (vertex names):
+## + edges from 7c0f991 (vertex names):
 ##  [1] 3301--3302 3301--3303 3301--3304 3301--3305 3301--3306 3301--3307
 ##  [7] 3301--3308 3301--3309 3301--3310 3301--3311 3301--3312 3301--3313
 ## [13] 3301--3314 3301--3315 3301--3316 3301--3317 3301--3318 3301--3319
@@ -4534,12 +4562,12 @@ This chapter covers the following topics:
 ## + ... omitted several edges
 ## 
 ## $`35`
-## IGRAPH 0ba72a8 UNW- 45 221 -- 
+## IGRAPH 100bcba UNW- 45 221 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 0ba72a8 (vertex names):
+## + edges from 100bcba (vertex names):
 ##  [1] 3501--3502 3501--3503 3501--3504 3501--3505 3501--3506 3501--3507
 ##  [7] 3501--3508 3501--3509 3501--3510 3501--3512 3501--3513 3501--3514
 ## [13] 3501--3516 3501--3517 3501--3522 3501--3523 3501--3524 3501--3525
@@ -4548,12 +4576,12 @@ This chapter covers the following topics:
 ## + ... omitted several edges
 ## 
 ## $`39`
-## IGRAPH 1aeae9f UNW- 45 92 -- 
+## IGRAPH cefb7cf UNW- 45 92 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 1aeae9f (vertex names):
+## + edges from cefb7cf (vertex names):
 ##  [1] 3901--3902 3901--3903 3901--3904 3901--3905 3901--3906 3901--3907
 ##  [7] 3901--3911 3901--3913 3901--3920 3901--3924 3901--3925 3901--3931
 ## [13] 3901--3932 3901--3933 3901--3937 3901--3938 3901--3940 3901--3941
@@ -4562,12 +4590,12 @@ This chapter covers the following topics:
 ## + ... omitted several edges
 ## 
 ## $`40`
-## IGRAPH 3a363a8 UNW- 45 255 -- 
+## IGRAPH c5488d8 UNW- 45 255 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 3a363a8 (vertex names):
+## + edges from c5488d8 (vertex names):
 ##  [1] 4001--4003 4001--4007 4001--4008 4001--4009 4001--4036 4001--4040
 ##  [7] 4001--4045 4002--4003 4002--4004 4002--4006 4002--4008 4002--4009
 ## [13] 4002--4010 4002--4011 4002--4012 4002--4013 4002--4014 4002--4015
@@ -4631,12 +4659,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 2b0003c UNW- 46 304 -- 
+## IGRAPH 9f08956 UNW- 46 304 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 2b0003c (vertex names):
+## + edges from 9f08956 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -4692,7 +4720,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 1/45 vertex, named, from f8d0ccb:
+## + 1/45 vertex, named, from 2d5106b:
 ## [1] 2801
 \end{verbatim}
 
@@ -4725,7 +4753,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 5/45 vertices, named, from f8d0ccb:
+## + 5/45 vertices, named, from 2d5106b:
 ## [1] 2801 2803 2804 2805 2806
 \end{verbatim}
 
@@ -4752,7 +4780,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 17/45 vertices, named, from f8d0ccb:
+## + 17/45 vertices, named, from 2d5106b:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2827 2828 2829
 ## [16] 2840 2841
 \end{verbatim}
@@ -4765,7 +4793,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 88/259 edges from f8d0ccb (vertex names):
+## + 88/259 edges from 2d5106b (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2827
 ## [13] 2801--2828 2801--2829 2801--2840 2801--2841 2802--2803 2802--2804
@@ -4801,12 +4829,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 22142c1 UNW- 17 88 -- 
+## IGRAPH 16bdeec UNW- 17 88 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 22142c1 (vertex names):
+## + edges from 16bdeec (vertex names):
 ##  [1] 2801--2802 2801--2803 2802--2803 2801--2804 2802--2804 2803--2804
 ##  [7] 2801--2805 2802--2805 2803--2805 2804--2805 2801--2806 2802--2806
 ## [13] 2803--2806 2804--2806 2805--2806 2801--2807 2802--2807 2803--2807
@@ -5084,7 +5112,8 @@ This chapter covers the following topics:
 \CommentTok{\# A simple structural measure such as network density can be applied to every}
 \CommentTok{\# ego{-}network (i.e., every element of our list), and returns a scalar for each}
 \CommentTok{\# network. All the scalars can be put in a vector.}
-\NormalTok{purrr}\SpecialCharTok{::}\FunctionTok{map\_dbl}\NormalTok{(gr.list, edge\_density) }
+\NormalTok{gr.list }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  purrr}\SpecialCharTok{::}\FunctionTok{map\_dbl}\NormalTok{(edge\_density) }
 \end{Highlighting}
 \end{Shaded}
 
@@ -5126,25 +5155,26 @@ This chapter covers the following topics:
 \CommentTok{\# Note that the vector names (taken from gr.list names) are the ego IDs.}
 
 \CommentTok{\# If you want the same result as a nice data frame with ego IDs, use enframe().}
-\FunctionTok{map\_dbl}\NormalTok{(gr.list, edge\_density) }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{enframe}\NormalTok{()}
+\NormalTok{gr.list }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{map\_dbl}\NormalTok{(edge\_density) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{enframe}\NormalTok{(}\AttributeTok{name =} \StringTok{"ego\_ID"}\NormalTok{, }\AttributeTok{value =} \StringTok{"density"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ## # A tibble: 102 x 2
-##    name   value
-##    <chr>  <dbl>
-##  1 28    0.262 
-##  2 29    0.204 
-##  3 33    0.209 
-##  4 35    0.223 
-##  5 39    0.0929
-##  6 40    0.258 
-##  7 45    0.185 
-##  8 46    0.270 
-##  9 47    0.537 
-## 10 48    0.203 
+##    ego_ID density
+##    <chr>    <dbl>
+##  1 28      0.262 
+##  2 29      0.204 
+##  3 33      0.209 
+##  4 35      0.223 
+##  5 39      0.0929
+##  6 40      0.258 
+##  7 45      0.185 
+##  8 46      0.270 
+##  9 47      0.537 
+## 10 48      0.203 
 ## # ... with 92 more rows
 \end{verbatim}
 
@@ -5152,7 +5182,8 @@ This chapter covers the following topics:
 \begin{Highlighting}[]
 \CommentTok{\# Same thing, with number of components in each ego network. Note the \textasciitilde{} .x }
 \CommentTok{\# syntax}
-\FunctionTok{map\_dbl}\NormalTok{(gr.list, }\SpecialCharTok{\textasciitilde{}} \FunctionTok{components}\NormalTok{(.x)}\SpecialCharTok{$}\NormalTok{no) }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{gr.list }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{map\_dbl}\NormalTok{(}\SpecialCharTok{\textasciitilde{}} \FunctionTok{components}\NormalTok{(.x)}\SpecialCharTok{$}\NormalTok{no) }\SpecialCharTok{\%\textgreater{}\%} 
   \FunctionTok{enframe}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
@@ -5177,8 +5208,7 @@ This chapter covers the following topics:
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Equivalently}
-\NormalTok{gr.list }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{map\_dbl}\NormalTok{(}\SpecialCharTok{\textasciitilde{}} \FunctionTok{components}\NormalTok{(.x)}\SpecialCharTok{$}\NormalTok{no) }\SpecialCharTok{\%\textgreater{}\%} 
+\FunctionTok{map\_dbl}\NormalTok{(gr.list, }\SpecialCharTok{\textasciitilde{}} \FunctionTok{components}\NormalTok{(.x)}\SpecialCharTok{$}\NormalTok{no) }\SpecialCharTok{\%\textgreater{}\%} 
   \FunctionTok{enframe}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
@@ -6376,12 +6406,12 @@ More information about this package can be found in its \href{https://github.com
 
 \begin{verbatim}
 ## $`28`
-## IGRAPH 5159500 UNW- 45 259 -- 
+## IGRAPH 228c2e4 UNW- 45 259 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from 5159500 (vertex names):
+## + edges from 228c2e4 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -6390,12 +6420,12 @@ More information about this package can be found in its \href{https://github.com
 ## + ... omitted several edges
 ## 
 ## $`29`
-## IGRAPH b665dda UNW- 45 202 -- 
+## IGRAPH 12bcc6f UNW- 45 202 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from b665dda (vertex names):
+## + edges from 12bcc6f (vertex names):
 ##  [1] 2901--2902 2901--2904 2901--2906 2901--2907 2901--2908 2901--2909
 ##  [7] 2901--2910 2901--2911 2901--2915 2901--2916 2901--2917 2901--2918
 ## [13] 2901--2919 2901--2927 2901--2928 2901--2929 2901--2930 2901--2931
@@ -6404,12 +6434,12 @@ More information about this package can be found in its \href{https://github.com
 ## + ... omitted several edges
 ## 
 ## $`33`
-## IGRAPH a997ca2 UNW- 45 207 -- 
+## IGRAPH 7aaa750 UNW- 45 207 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from a997ca2 (vertex names):
+## + edges from 7aaa750 (vertex names):
 ##  [1] 3301--3302 3301--3303 3301--3304 3301--3305 3301--3306 3301--3307
 ##  [7] 3301--3308 3301--3309 3301--3310 3301--3311 3301--3312 3301--3313
 ## [13] 3301--3314 3301--3315 3301--3316 3301--3317 3301--3318 3301--3319
@@ -6418,12 +6448,12 @@ More information about this package can be found in its \href{https://github.com
 ## + ... omitted several edges
 ## 
 ## $`35`
-## IGRAPH 30b6001 UNW- 45 221 -- 
+## IGRAPH a2b07b4 UNW- 45 221 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from 30b6001 (vertex names):
+## + edges from a2b07b4 (vertex names):
 ##  [1] 3501--3502 3501--3503 3501--3504 3501--3505 3501--3506 3501--3507
 ##  [7] 3501--3508 3501--3509 3501--3510 3501--3512 3501--3513 3501--3514
 ## [13] 3501--3516 3501--3517 3501--3522 3501--3523 3501--3524 3501--3525
@@ -6432,12 +6462,12 @@ More information about this package can be found in its \href{https://github.com
 ## + ... omitted several edges
 ## 
 ## $`39`
-## IGRAPH da47b95 UNW- 45 92 -- 
+## IGRAPH c4dd407 UNW- 45 92 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from da47b95 (vertex names):
+## + edges from c4dd407 (vertex names):
 ##  [1] 3901--3902 3901--3903 3901--3904 3901--3905 3901--3906 3901--3907
 ##  [7] 3901--3911 3901--3913 3901--3920 3901--3924 3901--3925 3901--3931
 ## [13] 3901--3932 3901--3933 3901--3937 3901--3938 3901--3940 3901--3941
@@ -6446,12 +6476,12 @@ More information about this package can be found in its \href{https://github.com
 ## + ... omitted several edges
 ## 
 ## $`40`
-## IGRAPH 2696e94 UNW- 45 255 -- 
+## IGRAPH e5d5b15 UNW- 45 255 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from 2696e94 (vertex names):
+## + edges from e5d5b15 (vertex names):
 ##  [1] 4001--4003 4001--4007 4001--4008 4001--4009 4001--4036 4001--4040
 ##  [7] 4001--4045 4002--4003 4002--4004 4002--4006 4002--4008 4002--4009
 ## [13] 4002--4010 4002--4011 4002--4012 4002--4013 4002--4014 4002--4015
@@ -6494,12 +6524,12 @@ More information about this package can be found in its \href{https://github.com
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 5159500 UNW- 45 259 -- 
+## IGRAPH 228c2e4 UNW- 45 259 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from 5159500 (vertex names):
+## + edges from 228c2e4 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -6516,7 +6546,7 @@ More information about this package can be found in its \href{https://github.com
 \end{Shaded}
 
 \begin{verbatim}
-## + 45/45 vertices, named, from 5159500:
+## + 45/45 vertices, named, from 228c2e4:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2813 2814 2815
 ## [16] 2816 2817 2818 2819 2820 2821 2822 2823 2824 2825 2826 2827 2828 2829 2830
 ## [31] 2831 2832 2833 2834 2835 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845
@@ -6530,12 +6560,12 @@ More information about this package can be found in its \href{https://github.com
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 991c8ca UNW- 46 304 -- 
+## IGRAPH 0e1376f UNW- 46 304 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from 991c8ca (vertex names):
+## + edges from 0e1376f (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -6552,7 +6582,7 @@ More information about this package can be found in its \href{https://github.com
 \end{Shaded}
 
 \begin{verbatim}
-## + 46/46 vertices, named, from 991c8ca:
+## + 46/46 vertices, named, from 0e1376f:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2813 2814 2815
 ## [16] 2816 2817 2818 2819 2820 2821 2822 2823 2824 2825 2826 2827 2828 2829 2830
 ## [31] 2831 2832 2833 2834 2835 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845
@@ -6703,12 +6733,12 @@ More information about this package can be found in its \href{https://github.com
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 5159500 UNW- 45 259 -- 
+## IGRAPH 228c2e4 UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 5159500 (vertex names):
+## + edges from 228c2e4 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -7633,9 +7663,9 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH a19787e UN-- 45 283 -- 
+## IGRAPH d08313f UN-- 45 283 -- 
 ## + attr: name (v/c)
-## + edges from a19787e (vertex names):
+## + edges from d08313f (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2818 2801--2820 2801--2823
@@ -8080,9 +8110,9 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 86714c3 UNW- 45 259 -- 
+## IGRAPH d4e10d5 UNW- 45 259 -- 
 ## + attr: name (v/c), ego_ID (e/n), weight (e/n)
-## + edges from 86714c3 (vertex names):
+## + edges from d4e10d5 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -8139,9 +8169,9 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH cff8713 UNW- 45 259 -- 
+## IGRAPH a49881b UNW- 45 259 -- 
 ## + attr: name (v/c), ego_ID (e/n), weight (e/n)
-## + edges from cff8713 (vertex names):
+## + edges from a49881b (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -8161,9 +8191,9 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 20cb70d UNW- 42 265 -- 
+## IGRAPH c827311 UNW- 42 265 -- 
 ## + attr: name (v/c), ego_ID (e/n), weight (e/n)
-## + edges from 20cb70d (vertex names):
+## + edges from c827311 (vertex names):
 ##  [1] 9401--9402 9401--9403 9401--9404 9401--9405 9401--9406 9401--9407
 ##  [7] 9401--9408 9401--9409 9401--9410 9401--9411 9401--9412 9401--9413
 ## [13] 9401--9414 9401--9415 9401--9438 9401--9443 9401--9444 9402--9403
@@ -8211,12 +8241,12 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH bd60750 UNW- 45 259 -- 
+## IGRAPH 73abd67 UNW- 45 259 -- 
 ## + attr: name (v/c), ego_ID (v/n), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), ego_ID (e/n), weight (e/n)
-## + edges from bd60750 (vertex names):
+## + edges from 73abd67 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -8357,7 +8387,7 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## + 46/46 vertices, named, from d481ef4:
+## + 46/46 vertices, named, from 01c9202:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2813 2814 2815
 ## [16] 2816 2817 2818 2819 2820 2821 2822 2823 2824 2825 2826 2827 2828 2829 2830
 ## [31] 2831 2832 2833 2834 2835 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845

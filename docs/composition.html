@@ -628,8 +628,14 @@ div.csl-indent {
 <ul>
 <li>In egocentric analysis, we typically have an alter attribute data frame whose rows (alters, level 1) are clustered by egos (level 2).</li>
 </ul></li>
-<li>In general, the <code>dplyr::summarise</code> function allows us to calculate summary statistics on a single variable or on multiple variables in a data frame. To calculate the same summary statistic on multiple variables, we select them with <code>across()</code>.</li>
-<li>If we run <code>summarise</code> after <em>grouping</em> the data frame by a factor variable with <code>group_by</code>, then the data frame will be “split” by levels (categories) of that factor, and the summary statistics will be calculated on each piece: that is, for each unique level of the grouping factor. If the grouping factor is the ego ID, we can immediately obtain summary statistics for each of hundreds or thousands of egos in one line of code. The code below provides examples.</li>
+<li>In general, the <code>dplyr::summarise</code> function allows us to calculate summary statistics on a single variable or on multiple variables in a data frame.
+<ul>
+<li>To calculate the same summary statistic on multiple variables, we select them with <code>across()</code>.</li>
+</ul></li>
+<li>If we run <code>summarise</code> after <em>grouping</em> the data frame by a factor variable with <code>group_by</code>, then the data frame will be “split” by levels (categories) of that factor, and the summary statistics will be calculated on each piece: that is, for each unique level of the grouping factor.
+<ul>
+<li>So if the grouping factor is the ego ID, we can immediately obtain summary statistics for each of hundreds or thousands of egos in one line of code. The code below provides examples.</li>
+</ul></li>
 <li><strong>What we do in the following code</strong>.
 <ul>
 <li>Use <code>summarise</code> to calculate summary variables on network composition for all of the 102 egos at once.</li>

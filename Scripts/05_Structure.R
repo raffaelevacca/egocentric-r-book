@@ -212,22 +212,24 @@ str(L)
 # A simple structural measure such as network density can be applied to every
 # ego-network (i.e., every element of our list), and returns a scalar for each
 # network. All the scalars can be put in a vector.
-purrr::map_dbl(gr.list, edge_density) 
+gr.list %>%
+  purrr::map_dbl(edge_density) 
 
 # Note that the vector names (taken from gr.list names) are the ego IDs.
 
 # If you want the same result as a nice data frame with ego IDs, use enframe().
-map_dbl(gr.list, edge_density) %>% 
-  enframe()
+gr.list %>%
+  map_dbl(edge_density) %>% 
+  enframe(name = "ego_ID", value = "density")
 
 # Same thing, with number of components in each ego network. Note the ~ .x 
 # syntax
-map_dbl(gr.list, ~ components(.x)$no) %>% 
+gr.list %>%
+  map_dbl(~ components(.x)$no) %>% 
   enframe()
 
 # Equivalently
-gr.list %>%
-  map_dbl(~ components(.x)$no) %>% 
+map_dbl(gr.list, ~ components(.x)$no) %>% 
   enframe()
 
 # With map_dfr() we can calculate multiple structural measures at once on every 

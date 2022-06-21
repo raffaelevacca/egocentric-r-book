@@ -5,7 +5,7 @@
 knitr::read_chunk("./Scripts/04_Composition.R")
 ```
 
-## Overview 
+## Overview
 
 Ego-network composition refers to the distribution of attributes of alters (for example, age and race/ethnicity) or attributes of ties between alters and the ego (for example, closeness or frequency of contact). For brevity, these are often called simply _alter attributes_ in the following text. Recall that, in typical egocentric network data, the level of alters is the same as the level of ego-alter ties: for each alter there is one and only one ego-alter tie, and vice versa. Like in other chapters, we consider composition by first analyzing just one ego-network, then replicating the same type of analysis on many ego-networks at once.
 
@@ -56,8 +56,10 @@ This chapter covers the following topics:
 ### Grouping and summarizing with `dplyr` {#summarize-dplyr}
 + Whenever we have a dataset in which rows (level 1) are clustered or grouped by values of a given factor (level 2), the package `dplyr` makes level-2 summarizations very easy. 
     * In egocentric analysis, we typically have an alter attribute data frame whose rows (alters, level 1) are clustered by egos (level 2).
-+ In general, the `dplyr::summarise` function allows us to calculate summary statistics on a single variable or on multiple variables in a data frame. To calculate the same summary statistic on multiple variables, we select them with `across()`.
-+ If we run `summarise` after _grouping_ the data frame by a factor variable with `group_by`, then the data frame will be "split" by levels (categories) of that factor, and the summary statistics will be calculated on each piece: that is, for each unique level of the grouping factor. If the grouping factor is the ego ID, we can immediately obtain summary statistics for each of hundreds or thousands of egos in one line of code. The code below provides examples.
++ In general, the `dplyr::summarise` function allows us to calculate summary statistics on a single variable or on multiple variables in a data frame. 
+    * To calculate the same summary statistic on multiple variables, we select them with `across()`.
++ If we run `summarise` after _grouping_ the data frame by a factor variable with `group_by`, then the data frame will be "split" by levels (categories) of that factor, and the summary statistics will be calculated on each piece: that is, for each unique level of the grouping factor. 
+    * So if the grouping factor is the ego ID, we can immediately obtain summary statistics for each of hundreds or thousands of egos in one line of code. The code below provides examples.
 + **What we do in the following code**. 
     * Use `summarise` to calculate summary variables on network composition for all of the 102 egos at once.
     * Join the results with other ego-level data (level-2 join).
