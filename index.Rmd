@@ -18,25 +18,7 @@ A Spanish translation of part of this book has appeared in the journal [REDES - 
 
 Feel free to [contact me](http://www.raffaelevacca.com/) to know more about this workshop and how to take it, or to give me feedback or report any issue about this book.
 
-[![Indexing lists/data frames](./Figures/McCarty_et_al_2019_cover.jpg){width=50%}](https://www.guilford.com/books/Conducting-Personal-Network-Research/McCarty-Lubbers-Vacca-Molina/9781462538386/authors)
-
-## Workshop materials {#materials}
-The materials for this workshop consist of this book and the **workshop folder**. The workshop folder can be downloaded [here](http://www.raffaelevacca.com/teaching/egocentric-r/folder/) and includes: 
-
-* `Scripts` subfolder: all code shown in this book. 
-* `Data` subfolder: all data we're going to use.
-* `Slides` subfolder: the workshop slides. 
-* `Egocentric_R.Rproj`: the workshop's R project file.
-
-The `Scripts` subfolder includes different R script (.R) files. You can access and run the R code in each script by opening the corresponding .R file in RStudio. Each script in `Scripts` (and slideshow file in `Slides`) corresponds to one of the following chapters (see the table of contents):
-
-2. [Basics of the R language](#basics) (`02_Basics` script and slideshow).
-3. [Representing and visualizing ego-networks in R](#represent) (`03_Representing_egonets.R` script and slideshow).
-4. [Analyzing ego-network composition](#composition) (`04_Composition` script and slideshow).
-5. [Analyzing ego-network structure](#structure) (`05_Structure` script and slideshow).
-6. [Modeling tie- or alter-level variables with multilevel models](#multilevel) (`06_Multilevel` script and slideshow).
-7. [Introduction to the `egor` package](#egor) (`07_egor` script and slideshow).
-8. [Supplementary topics](#supplementary) (`08_Supplementary` script and slideshow). 
+[![Conducting personal network research](./Figures/McCarty_et_al_2019_cover.jpg){width=50%}](https://www.guilford.com/books/Conducting-Personal-Network-Research/McCarty-Lubbers-Vacca-Molina/9781462538386/authors)
 
 ## Workshop setup {#setup}
 
@@ -50,13 +32,40 @@ To take this workshop you need to:
     * Open RStudio and go to `Top menu > Tools > Install packages...`
     * Install each package in the list
 4. Bring your **laptop** to the workshop
-5. Download the **workshop folder** [here](http://www.raffaelevacca.com/teaching/egocentric-r/folder/) (I recommend that you do this in class at the beginning of the workshop so as to download the most updated version of the folder).
-    * Click on the link > Click on Download in the top-right > Click on Direct download
-    * Then save the folder to your computer
+5. Download the **workshop folder** and save it to your computer: see [below](#materials) 
+    * I recommend that you do this in class at the beginning of the workshop so as to download the most updated version of the folder.
+6. Once in class, go to the workshop folder on your computer (point 5 above) and double-click on the _R project_ file in it (`.Rproj` extension). 
+    * That will open RStudio: you're all set!
 
-Once in class, go to the workshop folder (point 5 above) and double-click on the workshop _R project_ file (`Egocentric_R.Rproj`) in it. That will open RStudio.
+**NOTE:** It's very important that you save the workshop folder _as downloaded_ to a location in your computer, and open the `.Rproj` _within that folder_. By doing so, you will be opening RStudio _and_ setting the workshop folder as your [R working directory](#starting-R-and-loading-packages). All our R scripts assume that working directory. In particular, they assume that the `Data` subfolder is in your R working directory. You can type `getwd()` in your R console to see the path to your R working directory and make sure that it's correctly pointed to the location of the workshop folder in your computer. 
 
-**NOTE:** It's very important that you save the workshop folder _as downloaded_ to a location in your computer, and open `Egocentric_R.Rproj` _within that folder_. By doing so, you will be opening RStudio _and_ setting the workshop folder as your [R working directory](#starting-R-and-loading-packages). All our R scripts assume that working directory. In particular, they assume that the `Data` subfolder is in your R working directory. You can type `getwd()` in your R console to see the path to your R working directory and make sure that it's correctly pointed to the location of the workshop folder in your computer. 
+## Workshop materials {#materials}
+The materials for this workshop consist of this book and the workshop folder. 
+
+You can **download the workshop folder** from [this GitHub repository](https://github.com/raffaelevacca/egocentric-r-book): 
+
+1. Click on the `Code` green button > Download ZIP
+2. Unzip the folder and save it to your computer
+
+The workshop folder includes: 
+
+* `Data` subfolder: all data we're going to use.
+* `egocentric-r.Rproj`: the workshop's R project file.
+* `Scripts` subfolder: all code shown in this book. 
+
+The `Scripts` subfolder includes different R script (.R) files. You can access and run the R code in each script by opening the corresponding .R file in RStudio. Each script in `Scripts` corresponds to one of the following chapters (see the table of contents):
+
+2. [Basics of the R language](#basics) (`02_Basics` script and slideshow).
+3. [Representing and visualizing ego-networks in R](#represent) (`03_Representing_egonets.R` script and slideshow).
+4. [Analyzing ego-network composition](#composition) (`04_Composition` script and slideshow).
+5. [Analyzing ego-network structure](#structure) (`05_Structure` script and slideshow).
+6. [Modeling tie- or alter-level variables with multilevel models](#multilevel) (`06_Multilevel` script and slideshow).
+7. [Introduction to the `egor` package](#egor) (`07_egor` script and slideshow).
+8. [Supplementary topics](#supplementary) (`08_Supplementary` script and slideshow). 
+
+The **slides** used for this workshop can be downloaded [here](https://www.dropbox.com/sh/o8rncfrtks1sx3s/AACyzgkwbhTDWsPIKST_2e6Ya?dl=0).
+
+## R settings
 
 ### Required R packages {#packages}
 
@@ -79,7 +88,7 @@ Once in class, go to the workshop folder (point 5 above) and double-click on the
     - [`magrittr`](https://magrittr.tidyverse.org/)
     - [`tidyverse`](https://www.tidyverse.org/). This is a collection of different packages that share a common language and set of principles, including `dplyr`, `ggplot2`, and `purrr`. See [Wickham and Grolemund (2017)](http://r4ds.had.co.nz/) for more information.
 
-### RStudio settings
+### RStudio options
 
 RStudio gives you the ability to select and change various settings and features of its interface: see the `Preferences...` menu option. These are some of the settings you should pay attention to:
 

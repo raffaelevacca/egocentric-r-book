@@ -24,7 +24,7 @@
 <meta name="author" content="Raffaele Vacca" />
 
 
-<meta name="date" content="2022-04-09" />
+<meta name="date" content="2022-06-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -161,14 +161,15 @@ div.csl-indent {
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#materials"><i class="fa fa-check"></i><b>1.1</b> Workshop materials</a></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#setup"><i class="fa fa-check"></i><b>1.2</b> Workshop setup</a>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#setup"><i class="fa fa-check"></i><b>1.1</b> Workshop setup</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#materials"><i class="fa fa-check"></i><b>1.2</b> Workshop materials</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#r-settings"><i class="fa fa-check"></i><b>1.3</b> R settings</a>
 <ul>
-<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#packages"><i class="fa fa-check"></i><b>1.2.1</b> Required R packages</a></li>
-<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#rstudio-settings"><i class="fa fa-check"></i><b>1.2.2</b> RStudio settings</a></li>
+<li class="chapter" data-level="1.3.1" data-path="index.html"><a href="index.html#packages"><i class="fa fa-check"></i><b>1.3.1</b> Required R packages</a></li>
+<li class="chapter" data-level="1.3.2" data-path="index.html"><a href="index.html#rstudio-options"><i class="fa fa-check"></i><b>1.3.2</b> RStudio options</a></li>
 </ul></li>
-<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#data"><i class="fa fa-check"></i><b>1.3</b> Data</a></li>
-<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#author-and-contacts"><i class="fa fa-check"></i><b>1.4</b> Author and contacts</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#data"><i class="fa fa-check"></i><b>1.4</b> Data</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#author-and-contacts"><i class="fa fa-check"></i><b>1.5</b> Author and contacts</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="basics.html"><a href="basics.html"><i class="fa fa-check"></i><b>2</b> R basics</a>
 <ul>
@@ -296,7 +297,7 @@ div.csl-indent {
 <div id="egocentric-data" class="section level2" number="3.2">
 <h2><span class="header-section-number">3.2</span> Ego-level and alter-level data</h2>
 <ul>
-<li>In this section we use the data objects described earlier in Section <a href="index.html#data">1.3</a>. All these objects are stored in the <code>data.rda</code> file. In sections <a href="egor.html#egor-import">7.1</a> and <a href="supplementary.html#import-igraph">8.2</a> we’ll show how to create these objects from raw (csv) data using <code>egor</code> and <code>tidyverse</code>.</li>
+<li>In this section we use the data objects described earlier in Section <a href="index.html#data">1.4</a>. All these objects are stored in the <code>data.rda</code> file. In sections <a href="egor.html#egor-import">7.1</a> and <a href="supplementary.html#import-igraph">8.2</a> we’ll show how to create these objects from raw (csv) data using <code>egor</code> and <code>tidyverse</code>.</li>
 <li>Egocentric network data typically include at least three types of data:
 <ul>
 <li><strong>Ego-level attribute data</strong>. This is a dataset with attributes of egos. Each row is an ego (typically, a survey respondent) and each column is a characteristic of the ego. Following multilevel modeling terminology, we call this “level 2” because, in the multilevel structure of ego-network data, egos are the higher-level “groups” in which alters are clustered. In personal network surveys, these data are obtained from standard survey questions asking individual information about the respondent.</li>
@@ -471,12 +472,12 @@ div.csl-indent {
 <span id="cb173-8"><a href="represent.html#cb173-8" aria-hidden="true" tabindex="-1"></a><span class="co"># The data.rda file, which we loaded earlier, also includes the ego-network of </span></span>
 <span id="cb173-9"><a href="represent.html#cb173-9" aria-hidden="true" tabindex="-1"></a><span class="co"># ego 28 (as igraph object)</span></span>
 <span id="cb173-10"><a href="represent.html#cb173-10" aria-hidden="true" tabindex="-1"></a>gr<span class="fl">.28</span></span></code></pre></div>
-<pre><code>## IGRAPH b5f4827 UNW- 45 259 -- 
+<pre><code>## IGRAPH 48908cc UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from b5f4827 (vertex names):
+## + edges from 48908cc (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -495,12 +496,12 @@ div.csl-indent {
 <span id="cb175-10"><a href="represent.html#cb175-10" aria-hidden="true" tabindex="-1"></a><span class="co"># We also have the same network, with ego included: note the different number</span></span>
 <span id="cb175-11"><a href="represent.html#cb175-11" aria-hidden="true" tabindex="-1"></a><span class="co"># of vertices and edges compared to the previous graph.</span></span>
 <span id="cb175-12"><a href="represent.html#cb175-12" aria-hidden="true" tabindex="-1"></a>gr.ego<span class="fl">.28</span></span></code></pre></div>
-<pre><code>## IGRAPH c0cf7e7 UNW- 46 304 -- 
+<pre><code>## IGRAPH c76ecc6 UNW- 46 304 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from c0cf7e7 (vertex names):
+## + edges from c76ecc6 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -617,14 +618,14 @@ div.csl-indent {
 <span id="cb186-6"><a href="represent.html#cb186-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Vertex sequence of the whole graph. Notice that vertices are displayed by</span></span>
 <span id="cb186-7"><a href="represent.html#cb186-7" aria-hidden="true" tabindex="-1"></a><span class="co"># &quot;names&quot; (alter IDs in this case).</span></span>
 <span id="cb186-8"><a href="represent.html#cb186-8" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(gr)</span></code></pre></div>
-<pre><code>## + 45/45 vertices, named, from b5f4827:
+<pre><code>## + 45/45 vertices, named, from 48908cc:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2813 2814 2815
 ## [16] 2816 2817 2818 2819 2820 2821 2822 2823 2824 2825 2826 2827 2828 2829 2830
 ## [31] 2831 2832 2833 2834 2835 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845</code></pre>
 <div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="represent.html#cb188-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Edge sequence of the whole graph. Notice that vertex names (alter IDs) are</span></span>
 <span id="cb188-2"><a href="represent.html#cb188-2" aria-hidden="true" tabindex="-1"></a><span class="co"># used here too.</span></span>
 <span id="cb188-3"><a href="represent.html#cb188-3" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(gr)</span></code></pre></div>
-<pre><code>## + 259/259 edges from b5f4827 (vertex names):
+<pre><code>## + 259/259 edges from 48908cc (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -698,12 +699,12 @@ div.csl-indent {
 <span id="cb204-3"><a href="represent.html#cb204-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb204-4"><a href="represent.html#cb204-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Now a new attribute is listed for the graph.</span></span>
 <span id="cb204-5"><a href="represent.html#cb204-5" aria-hidden="true" tabindex="-1"></a>gr</span></code></pre></div>
-<pre><code>## IGRAPH b5f4827 UNW- 45 259 -- 
+<pre><code>## IGRAPH 48908cc UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), new.attribute (v/n), weight (e/n)
-## + edges from b5f4827 (vertex names):
+## + edges from 48908cc (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -731,12 +732,12 @@ div.csl-indent {
 <span id="cb210-5"><a href="represent.html#cb210-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb210-6"><a href="represent.html#cb210-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Check that the new attribute was created</span></span>
 <span id="cb210-7"><a href="represent.html#cb210-7" aria-hidden="true" tabindex="-1"></a>gr</span></code></pre></div>
-<pre><code>## IGRAPH b5f4827 UNW- 45 259 -- 
+<pre><code>## IGRAPH 48908cc UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/n), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), new.attribute (v/n), weight (e/n)
-## + edges from b5f4827 (vertex names):
+## + edges from 48908cc (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -786,7 +787,7 @@ div.csl-indent {
 <span id="cb217-3"><a href="represent.html#cb217-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb217-4"><a href="represent.html#cb217-4" aria-hidden="true" tabindex="-1"></a><span class="co"># View only female alters.</span></span>
 <span id="cb217-5"><a href="represent.html#cb217-5" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(gr)[alter.sex<span class="sc">==</span><span class="st">&quot;Female&quot;</span>]</span></code></pre></div>
-<pre><code>## + 8/45 vertices, named, from b5f4827:
+<pre><code>## + 8/45 vertices, named, from 48908cc:
 ## [1] 2801 2805 2806 2808 2809 2828 2832 2837</code></pre>
 <div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="represent.html#cb219-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View residence country just for female alters.</span></span>
 <span id="cb219-2"><a href="represent.html#cb219-2" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(gr)[alter.sex<span class="sc">==</span><span class="st">&quot;Female&quot;</span>]<span class="sc">$</span>alter.res</span></code></pre></div>
@@ -807,7 +808,7 @@ div.csl-indent {
 <span id="cb225-4"><a href="represent.html#cb225-4" aria-hidden="true" tabindex="-1"></a><span class="co"># View all alters who know alter 2833 (vertices that are adjacent to vertex</span></span>
 <span id="cb225-5"><a href="represent.html#cb225-5" aria-hidden="true" tabindex="-1"></a><span class="co"># &quot;2833&quot;).</span></span>
 <span id="cb225-6"><a href="represent.html#cb225-6" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(gr)[<span class="fu">nei</span>(<span class="st">&quot;2833&quot;</span>)]</span></code></pre></div>
-<pre><code>## + 16/45 vertices, named, from b5f4827:
+<pre><code>## + 16/45 vertices, named, from 48908cc:
 ##  [1] 2814 2815 2821 2822 2823 2824 2825 2826 2832 2834 2835 2837 2838 2839 2843
 ## [16] 2845</code></pre>
 <div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="represent.html#cb227-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View the gender of all alters who know alter 2833.</span></span>
@@ -816,7 +817,7 @@ div.csl-indent {
 ##  [9] &quot;Female&quot; &quot;Male&quot;   &quot;Male&quot;   &quot;Female&quot; &quot;Male&quot;   &quot;Male&quot;   &quot;Male&quot;   &quot;Male&quot;</code></pre>
 <div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="represent.html#cb229-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View all edges that are incident on alter 2833</span></span>
 <span id="cb229-2"><a href="represent.html#cb229-2" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(gr)[<span class="fu">inc</span>(<span class="st">&quot;2833&quot;</span>)]</span></code></pre></div>
-<pre><code>## + 16/259 edges from b5f4827 (vertex names):
+<pre><code>## + 16/259 edges from 48908cc (vertex names):
 ##  [1] 2814--2833 2815--2833 2821--2833 2822--2833 2823--2833 2824--2833
 ##  [7] 2825--2833 2826--2833 2832--2833 2833--2834 2833--2835 2833--2837
 ## [13] 2833--2838 2833--2839 2833--2843 2833--2845</code></pre>
@@ -829,7 +830,7 @@ div.csl-indent {
 <pre><code>## [1] 2</code></pre>
 <div class="sourceCode" id="cb235"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb235-1"><a href="represent.html#cb235-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View all edges with weight==2 (alters who &quot;maybe&quot; know each other).</span></span>
 <span id="cb235-2"><a href="represent.html#cb235-2" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(gr)[weight<span class="sc">==</span><span class="dv">2</span>] </span></code></pre></div>
-<pre><code>## + 24/259 edges from b5f4827 (vertex names):
+<pre><code>## + 24/259 edges from 48908cc (vertex names):
 ##  [1] 2801--2818 2801--2829 2804--2811 2804--2840 2807--2811 2811--2812
 ##  [7] 2811--2828 2813--2841 2813--2845 2814--2833 2815--2833 2816--2835
 ## [13] 2817--2835 2821--2826 2821--2833 2821--2839 2823--2830 2825--2833
@@ -837,7 +838,7 @@ div.csl-indent {
 <div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="represent.html#cb237-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Conditions in R indexing can always be combined: view all &quot;maybe&quot; edges</span></span>
 <span id="cb237-2"><a href="represent.html#cb237-2" aria-hidden="true" tabindex="-1"></a><span class="co"># that are incident on alter 2833.</span></span>
 <span id="cb237-3"><a href="represent.html#cb237-3" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(gr)[weight<span class="sc">==</span><span class="dv">2</span> <span class="sc">&amp;</span> <span class="fu">inc</span>(<span class="st">&quot;2833&quot;</span>)]</span></code></pre></div>
-<pre><code>## + 5/259 edges from b5f4827 (vertex names):
+<pre><code>## + 5/259 edges from 48908cc (vertex names):
 ## [1] 2814--2833 2815--2833 2821--2833 2825--2833 2833--2843</code></pre>
 <div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="represent.html#cb239-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ***** EXERCISES</span></span>
 <span id="cb239-2"><a href="represent.html#cb239-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (1) Get the average alter closeness (vertex attribute $alter.clo) of Sri Lankan</span></span>

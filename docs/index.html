@@ -24,7 +24,7 @@
 <meta name="author" content="Raffaele Vacca" />
 
 
-<meta name="date" content="2022-04-09" />
+<meta name="date" content="2022-06-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -161,14 +161,15 @@ div.csl-indent {
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#materials"><i class="fa fa-check"></i><b>1.1</b> Workshop materials</a></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#setup"><i class="fa fa-check"></i><b>1.2</b> Workshop setup</a>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#setup"><i class="fa fa-check"></i><b>1.1</b> Workshop setup</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#materials"><i class="fa fa-check"></i><b>1.2</b> Workshop materials</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#r-settings"><i class="fa fa-check"></i><b>1.3</b> R settings</a>
 <ul>
-<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#packages"><i class="fa fa-check"></i><b>1.2.1</b> Required R packages</a></li>
-<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#rstudio-settings"><i class="fa fa-check"></i><b>1.2.2</b> RStudio settings</a></li>
+<li class="chapter" data-level="1.3.1" data-path="index.html"><a href="index.html#packages"><i class="fa fa-check"></i><b>1.3.1</b> Required R packages</a></li>
+<li class="chapter" data-level="1.3.2" data-path="index.html"><a href="index.html#rstudio-options"><i class="fa fa-check"></i><b>1.3.2</b> RStudio options</a></li>
 </ul></li>
-<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#data"><i class="fa fa-check"></i><b>1.3</b> Data</a></li>
-<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#author-and-contacts"><i class="fa fa-check"></i><b>1.4</b> Author and contacts</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#data"><i class="fa fa-check"></i><b>1.4</b> Data</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#author-and-contacts"><i class="fa fa-check"></i><b>1.5</b> Author and contacts</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="basics.html"><a href="basics.html"><i class="fa fa-check"></i><b>2</b> R basics</a>
 <ul>
@@ -281,36 +282,16 @@ div.csl-indent {
 <div id="header">
 <h1 class="title">Egocentric network analysis with R</h1>
 <p class="author"><em><a href="http://www.raffaelevacca.com/">Raffaele Vacca</a></em></p>
-<p class="date"><em>2022-04-09</em></p>
+<p class="date"><em>2022-06-21</em></p>
 </div>
 <div id="introduction" class="section level1" number="1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction</h1>
 <p>This book is a companion to <a href="http://www.raffaelevacca.com/teaching/egocentric-r/">my workshop</a> on egocentric network analysis with R. Over the past several years I have taught this workshop at different conferences and summer schools on social network analysis, personal networks, and network science – such as <a href="https://www.insna.org/">INSNA Sunbelt</a> conferences, <a href="https://netscisociety.net/home">NetSci</a> conferences, and the <a href="https://sway.office.com/1TpXMhGqKa7fTsAC">UAB Barcelona Course on Personal Network Analysis</a>. The book is a work in progress and I’ll keep updating it as I continue to teach the workshop and related courses.</p>
 <p>A Spanish translation of part of this book has appeared in the journal <a href="https://revistes.uab.cat/redes/article/view/v31-n2-vacca">REDES - Revista hispana para el análisis de redes sociales</a>. My colleagues and I provide a more in-depth discussion of personal network analysis and the methods covered in this workshop in our textbook on personal network research <span class="citation">(<a href="#ref-mccarty_conducting_2019" role="doc-biblioref">McCarty et al. 2019</a>)</span>. See the bibliography at the end of the book for a list of other useful references on egocentric or personal network analysis.</p>
 <p>Feel free to <a href="http://www.raffaelevacca.com/">contact me</a> to know more about this workshop and how to take it, or to give me feedback or report any issue about this book.</p>
-<p><a href="https://www.guilford.com/books/Conducting-Personal-Network-Research/McCarty-Lubbers-Vacca-Molina/9781462538386/authors"><img src="Figures/McCarty_et_al_2019_cover.jpg" style="width:50.0%" alt="Indexing lists/data frames" /></a></p>
-<div id="materials" class="section level2" number="1.1">
-<h2><span class="header-section-number">1.1</span> Workshop materials</h2>
-<p>The materials for this workshop consist of this book and the <strong>workshop folder</strong>. The workshop folder can be downloaded <a href="http://www.raffaelevacca.com/teaching/egocentric-r/folder/">here</a> and includes:</p>
-<ul>
-<li><code>Scripts</code> subfolder: all code shown in this book.</li>
-<li><code>Data</code> subfolder: all data we’re going to use.</li>
-<li><code>Slides</code> subfolder: the workshop slides.</li>
-<li><code>Egocentric_R.Rproj</code>: the workshop’s R project file.</li>
-</ul>
-<p>The <code>Scripts</code> subfolder includes different R script (.R) files. You can access and run the R code in each script by opening the corresponding .R file in RStudio. Each script in <code>Scripts</code> (and slideshow file in <code>Slides</code>) corresponds to one of the following chapters (see the table of contents):</p>
-<ol start="2" style="list-style-type: decimal">
-<li><a href="basics.html#basics">Basics of the R language</a> (<code>02_Basics</code> script and slideshow).</li>
-<li><a href="represent.html#represent">Representing and visualizing ego-networks in R</a> (<code>03_Representing_egonets.R</code> script and slideshow).</li>
-<li><a href="composition.html#composition">Analyzing ego-network composition</a> (<code>04_Composition</code> script and slideshow).</li>
-<li><a href="structure.html#structure">Analyzing ego-network structure</a> (<code>05_Structure</code> script and slideshow).</li>
-<li><a href="multilevel.html#multilevel">Modeling tie- or alter-level variables with multilevel models</a> (<code>06_Multilevel</code> script and slideshow).</li>
-<li><a href="egor.html#egor">Introduction to the <code>egor</code> package</a> (<code>07_egor</code> script and slideshow).</li>
-<li><a href="supplementary.html#supplementary">Supplementary topics</a> (<code>08_Supplementary</code> script and slideshow).</li>
-</ol>
-</div>
-<div id="setup" class="section level2" number="1.2">
-<h2><span class="header-section-number">1.2</span> Workshop setup</h2>
+<p><a href="https://www.guilford.com/books/Conducting-Personal-Network-Research/McCarty-Lubbers-Vacca-Molina/9781462538386/authors"><img src="Figures/McCarty_et_al_2019_cover.jpg" style="width:50.0%" alt="Conducting personal network research" /></a></p>
+<div id="setup" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Workshop setup</h2>
 <p>To take this workshop you need to:</p>
 <ol style="list-style-type: decimal">
 <li>Download the last version of <strong>R</strong> <a href="https://cran.r-project.org/mirrors.html">here</a> (select a location near you)
@@ -327,16 +308,47 @@ div.csl-indent {
 <li>Install each package in the list</li>
 </ul></li>
 <li>Bring your <strong>laptop</strong> to the workshop</li>
-<li>Download the <strong>workshop folder</strong> <a href="http://www.raffaelevacca.com/teaching/egocentric-r/folder/">here</a> (I recommend that you do this in class at the beginning of the workshop so as to download the most updated version of the folder).
+<li>Download the <strong>workshop folder</strong> and save it to your computer: see <a href="index.html#materials">below</a>
 <ul>
-<li>Click on the link &gt; Click on Download in the top-right &gt; Click on Direct download</li>
-<li>Then save the folder to your computer</li>
+<li>I recommend that you do this in class at the beginning of the workshop so as to download the most updated version of the folder.</li>
+</ul></li>
+<li>Once in class, go to the workshop folder on your computer (point 5 above) and double-click on the <em>R project</em> file in it (<code>.Rproj</code> extension).
+<ul>
+<li>That will open RStudio: you’re all set!</li>
 </ul></li>
 </ol>
-<p>Once in class, go to the workshop folder (point 5 above) and double-click on the workshop <em>R project</em> file (<code>Egocentric_R.Rproj</code>) in it. That will open RStudio.</p>
-<p><strong>NOTE:</strong> It’s very important that you save the workshop folder <em>as downloaded</em> to a location in your computer, and open <code>Egocentric_R.Rproj</code> <em>within that folder</em>. By doing so, you will be opening RStudio <em>and</em> setting the workshop folder as your <a href="basics.html#starting-R-and-loading-packages">R working directory</a>. All our R scripts assume that working directory. In particular, they assume that the <code>Data</code> subfolder is in your R working directory. You can type <code>getwd()</code> in your R console to see the path to your R working directory and make sure that it’s correctly pointed to the location of the workshop folder in your computer.</p>
-<div id="packages" class="section level3" number="1.2.1">
-<h3><span class="header-section-number">1.2.1</span> Required R packages</h3>
+<p><strong>NOTE:</strong> It’s very important that you save the workshop folder <em>as downloaded</em> to a location in your computer, and open the <code>.Rproj</code> <em>within that folder</em>. By doing so, you will be opening RStudio <em>and</em> setting the workshop folder as your <a href="basics.html#starting-R-and-loading-packages">R working directory</a>. All our R scripts assume that working directory. In particular, they assume that the <code>Data</code> subfolder is in your R working directory. You can type <code>getwd()</code> in your R console to see the path to your R working directory and make sure that it’s correctly pointed to the location of the workshop folder in your computer.</p>
+</div>
+<div id="materials" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Workshop materials</h2>
+<p>The materials for this workshop consist of this book and the workshop folder.</p>
+<p>You can <strong>download the workshop folder</strong> from <a href="https://github.com/raffaelevacca/egocentric-r-book">this GitHub repository</a>:</p>
+<ol style="list-style-type: decimal">
+<li>Click on the <code>Code</code> green button &gt; Download ZIP</li>
+<li>Unzip the folder and save it to your computer</li>
+</ol>
+<p>The workshop folder includes:</p>
+<ul>
+<li><code>Data</code> subfolder: all data we’re going to use.</li>
+<li><code>egocentric-r.Rproj</code>: the workshop’s R project file.</li>
+<li><code>Scripts</code> subfolder: all code shown in this book.</li>
+</ul>
+<p>The <code>Scripts</code> subfolder includes different R script (.R) files. You can access and run the R code in each script by opening the corresponding .R file in RStudio. Each script in <code>Scripts</code> corresponds to one of the following chapters (see the table of contents):</p>
+<ol start="2" style="list-style-type: decimal">
+<li><a href="basics.html#basics">Basics of the R language</a> (<code>02_Basics</code> script and slideshow).</li>
+<li><a href="represent.html#represent">Representing and visualizing ego-networks in R</a> (<code>03_Representing_egonets.R</code> script and slideshow).</li>
+<li><a href="composition.html#composition">Analyzing ego-network composition</a> (<code>04_Composition</code> script and slideshow).</li>
+<li><a href="structure.html#structure">Analyzing ego-network structure</a> (<code>05_Structure</code> script and slideshow).</li>
+<li><a href="multilevel.html#multilevel">Modeling tie- or alter-level variables with multilevel models</a> (<code>06_Multilevel</code> script and slideshow).</li>
+<li><a href="egor.html#egor">Introduction to the <code>egor</code> package</a> (<code>07_egor</code> script and slideshow).</li>
+<li><a href="supplementary.html#supplementary">Supplementary topics</a> (<code>08_Supplementary</code> script and slideshow).</li>
+</ol>
+<p>The <strong>slides</strong> used for this workshop can be downloaded <a href="https://www.dropbox.com/sh/o8rncfrtks1sx3s/AACyzgkwbhTDWsPIKST_2e6Ya?dl=0">here</a>.</p>
+</div>
+<div id="r-settings" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> R settings</h2>
+<div id="packages" class="section level3" number="1.3.1">
+<h3><span class="header-section-number">1.3.1</span> Required R packages</h3>
 <ul>
 <li>For descriptive statistics
 <ul>
@@ -366,8 +378,8 @@ div.csl-indent {
 </ul></li>
 </ul>
 </div>
-<div id="rstudio-settings" class="section level3" number="1.2.2">
-<h3><span class="header-section-number">1.2.2</span> RStudio settings</h3>
+<div id="rstudio-options" class="section level3" number="1.3.2">
+<h3><span class="header-section-number">1.3.2</span> RStudio options</h3>
 <p>RStudio gives you the ability to select and change various settings and features of its interface: see the <code>Preferences...</code> menu option. These are some of the settings you should pay attention to:</p>
 <ul>
 <li><code>Preferences... &gt; Code &gt; Editing &gt; Soft-wrap R source file</code>. Here you can decide whether or not to wrap long code lines in the editor. When code lines in a script are <em>not</em> wrapped, be aware that some code will be hidden if script lines are longer than your editor window’s width (you’ll have to scroll right to see the rest of the code). With a script (<code>.R</code>) file open in the editor, try both options (checked and unchecked) to see what you’re more comfortable with.</li>
@@ -375,8 +387,8 @@ div.csl-indent {
 </ul>
 </div>
 </div>
-<div id="data" class="section level2" number="1.3">
-<h2><span class="header-section-number">1.3</span> Data</h2>
+<div id="data" class="section level2" number="1.4">
+<h2><span class="header-section-number">1.4</span> Data</h2>
 <p>This workshop uses real-world data collected in 2012 with a personal network survey among 107 Sri Lankan immigrants in Milan, Italy. Out of the 107 respondents, 102 reported their personal network. All data are in the <code>Data</code> subfolder.</p>
 <p>The data files include ego-level data (gender, age, educational level, etc. for each Sri Lankan respondent), alter attributes (alter’s nationality, country of residence, closeness to ego etc.), and information on alter-alter ties. Each personal network has a fixed size of 45 alters. Information about data variables and categories is available in <code>./Data/codebook.xlsx</code>.</p>
 <p>All data objects are saved as R objects in the R data file <code>data.rda</code>. Data objects are the following:</p>
@@ -399,8 +411,8 @@ div.csl-indent {
 </ul>
 <p>For most of the workshop we will directly use R data objects in <code>data.rda</code>. We will <em>not</em> focus on importing ego-network data from outside sources (for example, csv files). However, Section <a href="egor.html#egor-import">7.1</a> shows you how the data objects in <code>data.rda</code> were created by importing csv files with the <code>egor</code> package. Section <a href="supplementary.html#import-igraph">8.2</a> covers importing ego-network data using just <code>tidyverse</code> and <code>igraph</code>.</p>
 </div>
-<div id="author-and-contacts" class="section level2" number="1.4">
-<h2><span class="header-section-number">1.4</span> Author and contacts</h2>
+<div id="author-and-contacts" class="section level2" number="1.5">
+<h2><span class="header-section-number">1.5</span> Author and contacts</h2>
 <p>I am an assistant professor of sociology at the <a href="https://www.unimi.it/en">University of Milan</a> in the <a href="http://eng.sps.unimi.it/ecm/home">Deparment of Social and Political Sciences</a>. My main research and teaching interests are social networks, migration, health inequalities, and studies of science. I also teach and do research on data science, statistics, and computational methods for the social sciences. More information about me, my work and my contact details is <a href="http://www.raffaelevacca.com/about-me/">here</a>.</p>
 
 </div>
