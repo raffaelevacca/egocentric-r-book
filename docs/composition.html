@@ -196,7 +196,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="2.5.1" data-path="basics.html"><a href="basics.html#index-df"><i class="fa fa-check"></i><b>2.5.1</b> Indexing and subsetting data frames</a></li>
 </ul></li>
-<li class="chapter" data-level="2.6" data-path="basics.html"><a href="basics.html#the-tidyverse-grammar"><i class="fa fa-check"></i><b>2.6</b> The <code>tidyverse</code> grammar</a>
+<li class="chapter" data-level="2.6" data-path="basics.html"><a href="basics.html#the-tidyverse-syntax"><i class="fa fa-check"></i><b>2.6</b> The <code>tidyverse</code> syntax</a>
 <ul>
 <li class="chapter" data-level="2.6.1" data-path="basics.html"><a href="basics.html#pipes-and-the-operator"><i class="fa fa-check"></i><b>2.6.1</b> Pipes and the <code>%&gt;%</code> operator</a></li>
 <li class="chapter" data-level="2.6.2" data-path="basics.html"><a href="basics.html#subsetting-data-frames-in-tidyverse"><i class="fa fa-check"></i><b>2.6.2</b> Subsetting data frames in <code>tidyverse</code></a></li>
@@ -670,7 +670,10 @@ div.csl-indent {
 <span id="cb301-2"><a href="composition.html#cb301-2" aria-hidden="true" tabindex="-1"></a><span class="co"># age bracket variables. In this case, we apply the same summarizing function</span></span>
 <span id="cb301-3"><a href="composition.html#cb301-3" aria-hidden="true" tabindex="-1"></a><span class="co"># to multiple variables (not just one), to be selected via across().</span></span>
 <span id="cb301-4"><a href="composition.html#cb301-4" aria-hidden="true" tabindex="-1"></a>alter.attr.all <span class="sc">%&gt;%</span></span>
-<span id="cb301-5"><a href="composition.html#cb301-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(., <span class="fu">across</span>(<span class="fu">c</span>(alter.nat, alter.res, alter.age.cat), n_distinct))</span></code></pre></div>
+<span id="cb301-5"><a href="composition.html#cb301-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb301-6"><a href="composition.html#cb301-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(<span class="fu">c</span>(alter.nat, alter.res, alter.age.cat), </span>
+<span id="cb301-7"><a href="composition.html#cb301-7" aria-hidden="true" tabindex="-1"></a>           n_distinct)</span>
+<span id="cb301-8"><a href="composition.html#cb301-8" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 3
 ##   alter.nat alter.res alter.age.cat
 ##       &lt;int&gt;     &lt;int&gt;         &lt;int&gt;
@@ -729,7 +732,10 @@ div.csl-indent {
 <span id="cb307-6"><a href="composition.html#cb307-6" aria-hidden="true" tabindex="-1"></a><span class="co"># * N of distinct values in the alter nationality, country of residence, and</span></span>
 <span id="cb307-7"><a href="composition.html#cb307-7" aria-hidden="true" tabindex="-1"></a><span class="co"># age bracket variables:</span></span>
 <span id="cb307-8"><a href="composition.html#cb307-8" aria-hidden="true" tabindex="-1"></a>alter.attr.all <span class="sc">%&gt;%</span></span>
-<span id="cb307-9"><a href="composition.html#cb307-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(., <span class="fu">across</span>(<span class="fu">c</span>(alter.nat, alter.res, alter.age.cat), n_distinct))</span></code></pre></div>
+<span id="cb307-9"><a href="composition.html#cb307-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb307-10"><a href="composition.html#cb307-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(<span class="fu">c</span>(alter.nat, alter.res, alter.age.cat), </span>
+<span id="cb307-11"><a href="composition.html#cb307-11" aria-hidden="true" tabindex="-1"></a>           n_distinct)</span>
+<span id="cb307-12"><a href="composition.html#cb307-12" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
 <pre><code>## # A tibble: 102 × 4
 ##    ego_ID alter.nat alter.res alter.age.cat
 ##     &lt;dbl&gt;     &lt;int&gt;     &lt;int&gt;         &lt;int&gt;
@@ -840,8 +846,8 @@ div.csl-indent {
 <div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="composition.html#cb325-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We can then ungroup alter.attr.all by ego ID to remove the grouping information.</span></span>
 <span id="cb325-2"><a href="composition.html#cb325-2" aria-hidden="true" tabindex="-1"></a>alter.attr.all <span class="ot">&lt;-</span> <span class="fu">ungroup</span>(alter.attr.all)</span>
 <span id="cb325-3"><a href="composition.html#cb325-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb325-4"><a href="composition.html#cb325-4" aria-hidden="true" tabindex="-1"></a><span class="co"># To get the size of each personal network, we can use the count() function,</span></span>
-<span id="cb325-5"><a href="composition.html#cb325-5" aria-hidden="true" tabindex="-1"></a><span class="co"># which counts the number of rows for each unique value of a variable. The</span></span>
+<span id="cb325-4"><a href="composition.html#cb325-4" aria-hidden="true" tabindex="-1"></a><span class="co"># To get the size of each personal network, we can simpy use the count() function:</span></span>
+<span id="cb325-5"><a href="composition.html#cb325-5" aria-hidden="true" tabindex="-1"></a><span class="co"># it counts the number of rows for each unique value of a variable. The</span></span>
 <span id="cb325-6"><a href="composition.html#cb325-6" aria-hidden="true" tabindex="-1"></a><span class="co"># number of rows for each unique value of ego_ID in alter.attr.all is the number</span></span>
 <span id="cb325-7"><a href="composition.html#cb325-7" aria-hidden="true" tabindex="-1"></a><span class="co"># of alters for each ego (personal network size).</span></span>
 <span id="cb325-8"><a href="composition.html#cb325-8" aria-hidden="true" tabindex="-1"></a>alter.attr.all <span class="sc">%&gt;%</span> </span>

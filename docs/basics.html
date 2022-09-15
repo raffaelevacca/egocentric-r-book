@@ -196,7 +196,7 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="2.5.1" data-path="basics.html"><a href="basics.html#index-df"><i class="fa fa-check"></i><b>2.5.1</b> Indexing and subsetting data frames</a></li>
 </ul></li>
-<li class="chapter" data-level="2.6" data-path="basics.html"><a href="basics.html#the-tidyverse-grammar"><i class="fa fa-check"></i><b>2.6</b> The <code>tidyverse</code> grammar</a>
+<li class="chapter" data-level="2.6" data-path="basics.html"><a href="basics.html#the-tidyverse-syntax"><i class="fa fa-check"></i><b>2.6</b> The <code>tidyverse</code> syntax</a>
 <ul>
 <li class="chapter" data-level="2.6.1" data-path="basics.html"><a href="basics.html#pipes-and-the-operator"><i class="fa fa-check"></i><b>2.6.1</b> Pipes and the <code>%&gt;%</code> operator</a></li>
 <li class="chapter" data-level="2.6.2" data-path="basics.html"><a href="basics.html#subsetting-data-frames-in-tidyverse"><i class="fa fa-check"></i><b>2.6.2</b> Subsetting data frames in <code>tidyverse</code></a></li>
@@ -817,13 +817,13 @@ div.csl-indent {
 <li>Extracting a data frame’s variable (column) in itself, as a vector (numeric, character, etc.) — The single pepper packet by itself in the figure below (panel C). This is given by <code>df[[i]]</code>, <code>df[["variable.name"]]</code>, <code>df$variable.name</code>.</li>
 <li>Extracting another data frame of just one variable (column) – The single pepper packet <em>within</em> the pepper shaker in the figure below (panel B). This is given by <code>df[i]</code>, <code>df["variable.name"]</code>.</li>
 </ul></li>
-<li><strong>Subsetting data frames</strong>. In base R there are different ways to subset a dataframe’s rows (cases) and/or columns (variables) using indexing (some examples are in the code below). However, we’ll mostly use the subsetting functions introduced by the <code>dplyr</code> package in <code>tidyverse</code> (see <a href="#the-tidyverse-syntax">below</a>).</li>
+<li><strong>Subsetting data frames</strong>. In base R there are different ways to subset a dataframe’s rows (cases) and/or columns (variables) using indexing (some examples are in the code below). However, we’ll mostly use the subsetting functions introduced by the <code>dplyr</code> package in <code>tidyverse</code> (see <a href="basics.html#the-tidyverse-syntax">below</a>).</li>
 </ul>
 <p><a href="https://twitter.com/hadleywickham/status/643381054758363136?lang=en"><img src="Figures/wickham_indexing_tweet.png" style="width:50.0%" alt="Indexing lists/data frames" /></a></p>
 <div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="basics.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Numeric indexing                                                          ----</span></span>
 <span id="cb82-2"><a href="basics.html#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
 <span id="cb82-3"><a href="basics.html#cb82-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb82-4"><a href="basics.html#cb82-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s use our vector of ego ages again.</span></span>
+<span id="cb82-4"><a href="basics.html#cb82-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s use our vector of ego age values again.</span></span>
 <span id="cb82-5"><a href="basics.html#cb82-5" aria-hidden="true" tabindex="-1"></a>age</span></code></pre></div>
 <pre><code>##  [1] 61 38 30 25 29 56 52 35 22 51</code></pre>
 <div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="basics.html#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Index its 2nd element: The age of the 2nd respondent.</span></span>
@@ -872,7 +872,7 @@ div.csl-indent {
 <div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="basics.html#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We could also have typed directly:</span></span>
 <span id="cb104-2"><a href="basics.html#cb104-2" aria-hidden="true" tabindex="-1"></a>age[age <span class="sc">&gt;</span> <span class="dv">40</span> <span class="sc">&amp;</span> age <span class="sc">&lt;</span> <span class="dv">60</span>]</span></code></pre></div>
 <pre><code>## [1] 45 56 52 51</code></pre>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="basics.html#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Indexing data frames: list notations                                      ---- </span></span>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="basics.html#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Indexing data frames                                                     ---- </span></span>
 <span id="cb106-2"><a href="basics.html#cb106-2" aria-hidden="true" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
 <span id="cb106-3"><a href="basics.html#cb106-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb106-4"><a href="basics.html#cb106-4" aria-hidden="true" tabindex="-1"></a><span class="co"># We&#39;ll use our ego-level data frame.</span></span>
@@ -891,8 +891,10 @@ div.csl-indent {
 ##  9     47 Male         22    2010 Secondary     700     4 Yes          18-25    
 ## 10     48 Male         51    2007 Primary       950     4 Yes          51-60    
 ## # … with 92 more rows, and abbreviated variable name ¹​ego.age.cat</code></pre>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="basics.html#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The 3rd variable.</span></span>
-<span id="cb108-2"><a href="basics.html#cb108-2" aria-hidden="true" tabindex="-1"></a>ego.df[<span class="dv">3</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="basics.html#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Numeric indexing works on data frames too: it allows you to index variables.</span></span>
+<span id="cb108-2"><a href="basics.html#cb108-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb108-3"><a href="basics.html#cb108-3" aria-hidden="true" tabindex="-1"></a><span class="co"># The 3rd variable.</span></span>
+<span id="cb108-4"><a href="basics.html#cb108-4" aria-hidden="true" tabindex="-1"></a>ego.df[<span class="dv">3</span>]</span></code></pre></div>
 <pre><code>## # A tibble: 102 × 1
 ##    ego.age
 ##      &lt;dbl&gt;
@@ -907,23 +909,24 @@ div.csl-indent {
 ##  9      22
 ## 10      51
 ## # … with 92 more rows</code></pre>
-<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="basics.html#cb110-1" aria-hidden="true" tabindex="-1"></a>ego.df[<span class="st">&quot;ego.age&quot;</span>]</span></code></pre></div>
-<pre><code>## # A tibble: 102 × 1
-##    ego.age
-##      &lt;dbl&gt;
-##  1      61
-##  2      38
-##  3      30
-##  4      25
-##  5      29
-##  6      56
-##  7      52
-##  8      35
-##  9      22
-## 10      51
-## # … with 92 more rows</code></pre>
-<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="basics.html#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The second and third variables.</span></span>
-<span id="cb112-2"><a href="basics.html#cb112-2" aria-hidden="true" tabindex="-1"></a>ego.df[<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="basics.html#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note the difference with the double square bracket.</span></span>
+<span id="cb110-2"><a href="basics.html#cb110-2" aria-hidden="true" tabindex="-1"></a>ego.df[[<span class="dv">3</span>]]</span></code></pre></div>
+<pre><code>##   [1] 61 38 30 25 29 56 52 35 22 51 50 45 51 32 57 42 32 55 44 25 28 60 54 30 37
+##  [26] 41 47 33 37 29 39 31 52 30 57 44 47 42 44 31 31 56 36 47 47 35 43 22 55 32
+##  [51] NA 60 51 53 25 33 38 37 27 34 32 26 36 53 42 45 36 54 49 35 27 32 58 51 55
+##  [76] 59 27 35 24 52 27 42 47 43 53 54 35 50 51 40 49 33 33 36 32 35 55 61 34 44
+## [101] 50 28</code></pre>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="basics.html#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="co"># What do you think is the difference?</span></span>
+<span id="cb112-2"><a href="basics.html#cb112-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(ego.df[<span class="dv">3</span>])</span></code></pre></div>
+<pre><code>## [1] &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</code></pre>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="basics.html#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(ego.df[[<span class="dv">3</span>]])</span></code></pre></div>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="basics.html#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The [[ ]] notation extracts the actual column as a vector, while [ ] keeps</span></span>
+<span id="cb116-2"><a href="basics.html#cb116-2" aria-hidden="true" tabindex="-1"></a><span class="co"># the data frame class.</span></span>
+<span id="cb116-3"><a href="basics.html#cb116-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb116-4"><a href="basics.html#cb116-4" aria-hidden="true" tabindex="-1"></a><span class="co"># We can also index data frames as matrices.</span></span>
+<span id="cb116-5"><a href="basics.html#cb116-5" aria-hidden="true" tabindex="-1"></a><span class="co"># The second and third columns.</span></span>
+<span id="cb116-6"><a href="basics.html#cb116-6" aria-hidden="true" tabindex="-1"></a>ego.df[,<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]</span></code></pre></div>
 <pre><code>## # A tibble: 102 × 2
 ##    ego.sex ego.age
 ##    &lt;chr&gt;     &lt;dbl&gt;
@@ -938,92 +941,77 @@ div.csl-indent {
 ##  9 Male         22
 ## 10 Male         51
 ## # … with 92 more rows</code></pre>
-<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="basics.html#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The [[ ]] notation extracts the actual column as a vector, while [ ] keeps</span></span>
-<span id="cb114-2"><a href="basics.html#cb114-2" aria-hidden="true" tabindex="-1"></a><span class="co"># the data frame class.</span></span>
-<span id="cb114-3"><a href="basics.html#cb114-3" aria-hidden="true" tabindex="-1"></a>ego.df[[<span class="st">&quot;ego.age&quot;</span>]]</span></code></pre></div>
-<pre><code>##   [1] 61 38 30 25 29 56 52 35 22 51 50 45 51 32 57 42 32 55 44 25 28 60 54 30 37
-##  [26] 41 47 33 37 29 39 31 52 30 57 44 47 42 44 31 31 56 36 47 47 35 43 22 55 32
-##  [51] NA 60 51 53 25 33 38 37 27 34 32 26 36 53 42 45 36 54 49 35 27 32 58 51 55
-##  [76] 59 27 35 24 52 27 42 47 43 53 54 35 50 51 40 49 33 33 36 32 35 55 61 34 44
-## [101] 50 28</code></pre>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="basics.html#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The age variable, using the $ notation</span></span>
-<span id="cb116-2"><a href="basics.html#cb116-2" aria-hidden="true" tabindex="-1"></a>ego.df<span class="sc">$</span>ego.age</span></code></pre></div>
-<pre><code>##   [1] 61 38 30 25 29 56 52 35 22 51 50 45 51 32 57 42 32 55 44 25 28 60 54 30 37
-##  [26] 41 47 33 37 29 39 31 52 30 57 44 47 42 44 31 31 56 36 47 47 35 43 22 55 32
-##  [51] NA 60 51 53 25 33 38 37 27 34 32 26 36 53 42 45 36 54 49 35 27 32 58 51 55
-##  [76] 59 27 35 24 52 27 42 47 43 53 54 35 50 51 40 49 33 33 36 32 35 55 61 34 44
-## [101] 50 28</code></pre>
-<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="basics.html#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note that this is the same as ego.df[[3]] or ego.df[[&quot;ego.age&quot;]]</span></span>
-<span id="cb118-2"><a href="basics.html#cb118-2" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(ego.df[[<span class="dv">3</span>]], ego.df<span class="sc">$</span>ego.age)</span></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="basics.html#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Indexing data frames: matrix notation                                     ----</span></span>
-<span id="cb120-2"><a href="basics.html#cb120-2" aria-hidden="true" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
-<span id="cb120-3"><a href="basics.html#cb120-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb120-4"><a href="basics.html#cb120-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Fifth row of the data frame</span></span>
-<span id="cb120-5"><a href="basics.html#cb120-5" aria-hidden="true" tabindex="-1"></a>ego.df[<span class="dv">5</span>,]</span></code></pre></div>
-<pre><code>## # A tibble: 1 × 9
-##   ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
-##    &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;      
-## 1     39 Male         29    2007 Primary       0     1 No           26-30</code></pre>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="basics.html#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiple rows (4th to 10th)</span></span>
-<span id="cb122-2"><a href="basics.html#cb122-2" aria-hidden="true" tabindex="-1"></a>ego.df[<span class="dv">4</span><span class="sc">:</span><span class="dv">10</span>,]</span></code></pre></div>
-<pre><code>## # A tibble: 7 × 9
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="basics.html#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lines 1 to 3</span></span>
+<span id="cb118-2"><a href="basics.html#cb118-2" aria-hidden="true" tabindex="-1"></a>ego.df[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,]</span></code></pre></div>
+<pre><code>## # A tibble: 3 × 9
 ##   ego_ID ego.sex ego.age ego.arr ego.edu   ego.inc  empl ego.empl.bin ego.age.…¹
 ##    &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;     
-## 1     35 Male         25    2009 Secondary    1000     3 Yes          18-25     
-## 2     39 Male         29    2007 Primary         0     1 No           26-30     
-## 3     40 Male         56    2008 Secondary     950     4 Yes          51-60     
-## 4     45 Male         52    1975 Primary      1600     3 Yes          51-60     
-## 5     46 Male         35    2002 Secondary    1200     4 Yes          31-35     
-## 6     47 Male         22    2010 Secondary     700     4 Yes          18-25     
-## 7     48 Male         51    2007 Primary       950     4 Yes          51-60     
+## 1     28 Male         61    2008 Secondary     350     3 Yes          60+       
+## 2     29 Male         38    2000 Primary       900     4 Yes          36-40     
+## 3     33 Male         30    2010 Primary       200     3 Yes          26-30     
 ## # … with abbreviated variable name ¹​ego.age.cat</code></pre>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="basics.html#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fifth adn sixth row, fourth variable.</span></span>
-<span id="cb124-2"><a href="basics.html#cb124-2" aria-hidden="true" tabindex="-1"></a>ego.df[<span class="dv">5</span><span class="sc">:</span><span class="dv">6</span>,<span class="dv">4</span>]</span></code></pre></div>
-<pre><code>## # A tibble: 2 × 1
-##   ego.arr
-##     &lt;dbl&gt;
-## 1    2007
-## 2    2008</code></pre>
-<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="basics.html#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sex and age variables.</span></span>
-<span id="cb126-2"><a href="basics.html#cb126-2" aria-hidden="true" tabindex="-1"></a>ego.df[, <span class="fu">c</span>(<span class="st">&quot;ego.sex&quot;</span>, <span class="st">&quot;ego.age&quot;</span>)]</span></code></pre></div>
-<pre><code>## # A tibble: 102 × 2
-##    ego.sex ego.age
-##    &lt;chr&gt;     &lt;dbl&gt;
-##  1 Male         61
-##  2 Male         38
-##  3 Male         30
-##  4 Male         25
-##  5 Male         29
-##  6 Male         56
-##  7 Male         52
-##  8 Male         35
-##  9 Male         22
-## 10 Male         51
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="basics.html#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We can use name indexing with data frames, selecting variables by name</span></span>
+<span id="cb120-2"><a href="basics.html#cb120-2" aria-hidden="true" tabindex="-1"></a>ego.df[<span class="st">&quot;ego.age&quot;</span>]</span></code></pre></div>
+<pre><code>## # A tibble: 102 × 1
+##    ego.age
+##      &lt;dbl&gt;
+##  1      61
+##  2      38
+##  3      30
+##  4      25
+##  5      29
+##  6      56
+##  7      52
+##  8      35
+##  9      22
+## 10      51
 ## # … with 92 more rows</code></pre>
-<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="basics.html#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ***** EXERCISES </span></span>
-<span id="cb128-2"><a href="basics.html#cb128-2" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb128-3"><a href="basics.html#cb128-3" aria-hidden="true" tabindex="-1"></a><span class="co"># (1) What&#39;s the mean age of respondents whose education is NOT &quot;Primary&quot;? Use</span></span>
-<span id="cb128-4"><a href="basics.html#cb128-4" aria-hidden="true" tabindex="-1"></a><span class="co"># the ego.age and ego.edu variables. Remember that the &quot;different from&quot;</span></span>
-<span id="cb128-5"><a href="basics.html#cb128-5" aria-hidden="true" tabindex="-1"></a><span class="co"># comparison operator is !=.</span></span>
-<span id="cb128-6"><a href="basics.html#cb128-6" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb128-7"><a href="basics.html#cb128-7" aria-hidden="true" tabindex="-1"></a><span class="co"># (2) What is the modal education level (i.e., the most common education level)</span></span>
-<span id="cb128-8"><a href="basics.html#cb128-8" aria-hidden="true" tabindex="-1"></a><span class="co"># of respondents who are older than 40? Use table() or tabyl().</span></span>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="basics.html#cb122-1" aria-hidden="true" tabindex="-1"></a>ego.df[[<span class="st">&quot;ego.age&quot;</span>]]</span></code></pre></div>
+<pre><code>##   [1] 61 38 30 25 29 56 52 35 22 51 50 45 51 32 57 42 32 55 44 25 28 60 54 30 37
+##  [26] 41 47 33 37 29 39 31 52 30 57 44 47 42 44 31 31 56 36 47 47 35 43 22 55 32
+##  [51] NA 60 51 53 25 33 38 37 27 34 32 26 36 53 42 45 36 54 49 35 27 32 58 51 55
+##  [76] 59 27 35 24 52 27 42 47 43 53 54 35 50 51 40 49 33 33 36 32 35 55 61 34 44
+## [101] 50 28</code></pre>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="basics.html#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The $ notation is very common and concise. It&#39;s equivalent to the [[ notation.</span></span>
+<span id="cb124-2"><a href="basics.html#cb124-2" aria-hidden="true" tabindex="-1"></a>ego.df<span class="sc">$</span>ego.age</span></code></pre></div>
+<pre><code>##   [1] 61 38 30 25 29 56 52 35 22 51 50 45 51 32 57 42 32 55 44 25 28 60 54 30 37
+##  [26] 41 47 33 37 29 39 31 52 30 57 44 47 42 44 31 31 56 36 47 47 35 43 22 55 32
+##  [51] NA 60 51 53 25 33 38 37 27 34 32 26 36 53 42 45 36 54 49 35 27 32 58 51 55
+##  [76] 59 27 35 24 52 27 42 47 43 53 54 35 50 51 40 49 33 33 36 32 35 55 61 34 44
+## [101] 50 28</code></pre>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="basics.html#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This is the same as ego.df[[3]] or ego.df[[&quot;ego.age&quot;]]</span></span>
+<span id="cb126-2"><a href="basics.html#cb126-2" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(ego.df[[<span class="dv">3</span>]], ego.df<span class="sc">$</span>ego.age)</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="basics.html#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="co"># With tidyverse, this type of indexing syntax is replaced by new &quot;verbs&quot; </span></span>
+<span id="cb128-2"><a href="basics.html#cb128-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (see section below):</span></span>
+<span id="cb128-3"><a href="basics.html#cb128-3" aria-hidden="true" tabindex="-1"></a><span class="co"># * Index data frame rows: filter() instead of []</span></span>
+<span id="cb128-4"><a href="basics.html#cb128-4" aria-hidden="true" tabindex="-1"></a><span class="co"># * Index data frame columns: select() instead of []</span></span>
+<span id="cb128-5"><a href="basics.html#cb128-5" aria-hidden="true" tabindex="-1"></a><span class="co"># * Extract data frame variable as a vector: pull() instead of [[]] or $</span></span>
+<span id="cb128-6"><a href="basics.html#cb128-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb128-7"><a href="basics.html#cb128-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb128-8"><a href="basics.html#cb128-8" aria-hidden="true" tabindex="-1"></a><span class="co"># ***** EXERCISES </span></span>
 <span id="cb128-9"><a href="basics.html#cb128-9" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb128-10"><a href="basics.html#cb128-10" aria-hidden="true" tabindex="-1"></a><span class="co"># (3) Create the fictitious variable var &lt;- c(1:30, rep(NA, 3), 34:50). Use is.na()</span></span>
-<span id="cb128-11"><a href="basics.html#cb128-11" aria-hidden="true" tabindex="-1"></a><span class="co"># to index all the NA values in the variable. Then use is.na() to index all</span></span>
-<span id="cb128-12"><a href="basics.html#cb128-12" aria-hidden="true" tabindex="-1"></a><span class="co"># values that are *not* NA. Hint: Remember the operator used to negate a logical</span></span>
-<span id="cb128-13"><a href="basics.html#cb128-13" aria-hidden="true" tabindex="-1"></a><span class="co"># vector. Finally, use this indexing to remove all NA values from var.</span></span>
-<span id="cb128-14"><a href="basics.html#cb128-14" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb128-15"><a href="basics.html#cb128-15" aria-hidden="true" tabindex="-1"></a><span class="co"># (4) Use the $ notation to extract the &quot;ego.arr&quot; variable in ego.df. Recode all </span></span>
-<span id="cb128-16"><a href="basics.html#cb128-16" aria-hidden="true" tabindex="-1"></a><span class="co"># values equal to 2008 as 99. Hint: Index all values equal to 2008, then replace </span></span>
-<span id="cb128-17"><a href="basics.html#cb128-17" aria-hidden="true" tabindex="-1"></a><span class="co"># them with 99 via the assignment operator. </span></span>
-<span id="cb128-18"><a href="basics.html#cb128-18" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb128-19"><a href="basics.html#cb128-19" aria-hidden="true" tabindex="-1"></a><span class="co"># *****</span></span></code></pre></div>
+<span id="cb128-10"><a href="basics.html#cb128-10" aria-hidden="true" tabindex="-1"></a><span class="co"># (1) What&#39;s the mean age of respondents whose education is NOT &quot;Primary&quot;? Use</span></span>
+<span id="cb128-11"><a href="basics.html#cb128-11" aria-hidden="true" tabindex="-1"></a><span class="co"># the ego.age and ego.edu variables. Remember that the &quot;different from&quot;</span></span>
+<span id="cb128-12"><a href="basics.html#cb128-12" aria-hidden="true" tabindex="-1"></a><span class="co"># comparison operator is !=.</span></span>
+<span id="cb128-13"><a href="basics.html#cb128-13" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb128-14"><a href="basics.html#cb128-14" aria-hidden="true" tabindex="-1"></a><span class="co"># (2) What is the modal education level (i.e., the most common education level)</span></span>
+<span id="cb128-15"><a href="basics.html#cb128-15" aria-hidden="true" tabindex="-1"></a><span class="co"># of respondents who are older than 40? Use table() or tabyl().</span></span>
+<span id="cb128-16"><a href="basics.html#cb128-16" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb128-17"><a href="basics.html#cb128-17" aria-hidden="true" tabindex="-1"></a><span class="co"># (3) Create the fictitious variable var &lt;- c(1:30, rep(NA, 3), 34:50). Use is.na()</span></span>
+<span id="cb128-18"><a href="basics.html#cb128-18" aria-hidden="true" tabindex="-1"></a><span class="co"># to index all the NA values in the variable. Then use is.na() to index all</span></span>
+<span id="cb128-19"><a href="basics.html#cb128-19" aria-hidden="true" tabindex="-1"></a><span class="co"># values that are *not* NA. Hint: Remember the operator used to negate a logical</span></span>
+<span id="cb128-20"><a href="basics.html#cb128-20" aria-hidden="true" tabindex="-1"></a><span class="co"># vector. Finally, use this indexing to remove all NA values from var.</span></span>
+<span id="cb128-21"><a href="basics.html#cb128-21" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb128-22"><a href="basics.html#cb128-22" aria-hidden="true" tabindex="-1"></a><span class="co"># (4) Use the $ notation to extract the &quot;ego.arr&quot; variable in ego.df. Recode all </span></span>
+<span id="cb128-23"><a href="basics.html#cb128-23" aria-hidden="true" tabindex="-1"></a><span class="co"># values equal to 2008 as 99. Hint: Index all values equal to 2008, then replace </span></span>
+<span id="cb128-24"><a href="basics.html#cb128-24" aria-hidden="true" tabindex="-1"></a><span class="co"># them with 99 via the assignment operator. </span></span>
+<span id="cb128-25"><a href="basics.html#cb128-25" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb128-26"><a href="basics.html#cb128-26" aria-hidden="true" tabindex="-1"></a><span class="co"># *****</span></span></code></pre></div>
 </div>
 </div>
-<div id="the-tidyverse-grammar" class="section level2 hasAnchor" number="2.6">
-<h2><span class="header-section-number">2.6</span> The <code>tidyverse</code> grammar<a href="basics.html#the-tidyverse-grammar" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="the-tidyverse-syntax" class="section level2 hasAnchor" number="2.6">
+<h2><span class="header-section-number">2.6</span> The <code>tidyverse</code> syntax<a href="basics.html#the-tidyverse-syntax" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="pipes-and-the-operator" class="section level3 hasAnchor" number="2.6.1">
 <h3><span class="header-section-number">2.6.1</span> Pipes and the <code>%&gt;%</code> operator<a href="basics.html#pipes-and-the-operator" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
@@ -1058,8 +1046,9 @@ div.csl-indent {
 <li>Tidyverse includes the <code>dplyr</code> package for data frame manipulation. This is a very powerful package for all kinds of data manipulation. To learn more, see the package <a href="https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf">cheatsheet</a> and <a href="https://dplyr.tidyverse.org/articles/index.html">vignettes</a>.</li>
 <li>Subsetting data frames with <code>dplyr</code>:
 <ul>
-<li><code>dplyr::filter()</code> is used to subset rows (cases) of a data frame based on one or multiple conditions (for example, respondents with certain values on one or more variables).</li>
-<li><code>dplyr::select()</code> is used to subset columns (variables) of a data frame. You can use full variable names or select variables in many other ways. See examples in the <code>select</code> <a href="https://dplyr.tidyverse.org/reference/select.html">manual page</a>.</li>
+<li><code>dplyr::filter()</code> is used to subset rows (cases) of a data frame based on one or multiple conditions (for example, respondents with certain values on one or more variables). This preserves the data frame class, similar to <code>[ ]</code> indexing.</li>
+<li><code>dplyr::select()</code> is used to subset columns (variables) of a data frame. You can use full variable names or select variables in many other ways (see examples in the <code>select</code> <a href="https://dplyr.tidyverse.org/reference/select.html">manual page</a>). This preserves the data frame class, similar to <code>[ ]</code> indexing.</li>
+<li><code>dplyr::pull()</code> is used to extract a column as a vector. This does <em>not</em> preserve the data frame class, similar to <code>[[ ]]</code> or <code>$</code>.</li>
 </ul></li>
 </ul>
 <div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="basics.html#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s load the magrittr package</span></span>
@@ -1104,12 +1093,13 @@ div.csl-indent {
 <span id="cb139-3"><a href="basics.html#cb139-3" aria-hidden="true" tabindex="-1"></a>  table <span class="sc">%&gt;%</span></span>
 <span id="cb139-4"><a href="basics.html#cb139-4" aria-hidden="true" tabindex="-1"></a>  mean</span></code></pre></div>
 <pre><code>## [1] 34</code></pre>
-<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="basics.html#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If we want to assign the result to the initial vector</span></span>
-<span id="cb141-2"><a href="basics.html#cb141-2" aria-hidden="true" tabindex="-1"></a>edu <span class="sc">%&lt;&gt;%</span></span>
-<span id="cb141-3"><a href="basics.html#cb141-3" aria-hidden="true" tabindex="-1"></a>  table <span class="sc">%&gt;%</span></span>
-<span id="cb141-4"><a href="basics.html#cb141-4" aria-hidden="true" tabindex="-1"></a>  mean</span>
-<span id="cb141-5"><a href="basics.html#cb141-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb141-6"><a href="basics.html#cb141-6" aria-hidden="true" tabindex="-1"></a>edu</span></code></pre></div>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="basics.html#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If we want to pipe edu to following code AND re-assign the final result to </span></span>
+<span id="cb141-2"><a href="basics.html#cb141-2" aria-hidden="true" tabindex="-1"></a><span class="co"># edu again, we can use %&lt;&gt;% (requires magrittr package).</span></span>
+<span id="cb141-3"><a href="basics.html#cb141-3" aria-hidden="true" tabindex="-1"></a>edu <span class="sc">%&lt;&gt;%</span></span>
+<span id="cb141-4"><a href="basics.html#cb141-4" aria-hidden="true" tabindex="-1"></a>  table <span class="sc">%&gt;%</span></span>
+<span id="cb141-5"><a href="basics.html#cb141-5" aria-hidden="true" tabindex="-1"></a>  mean</span>
+<span id="cb141-6"><a href="basics.html#cb141-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb141-7"><a href="basics.html#cb141-7" aria-hidden="true" tabindex="-1"></a>edu</span></code></pre></div>
 <pre><code>## [1] 34</code></pre>
 <div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="basics.html#cb143-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subsetting data frames with dplyr: filter and select                      ----</span></span>
 <span id="cb143-2"><a href="basics.html#cb143-2" aria-hidden="true" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
@@ -1220,11 +1210,10 @@ div.csl-indent {
 ## 10 Male         55
 ## # … with 41 more rows</code></pre>
 <div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="basics.html#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We can use %&lt;&gt;% to re-assign the result to the same data object</span></span>
-<span id="cb155-2"><a href="basics.html#cb155-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Select specific variables</span></span>
-<span id="cb155-3"><a href="basics.html#cb155-3" aria-hidden="true" tabindex="-1"></a>ego.df<span class="fl">.40</span> <span class="sc">%&lt;&gt;%</span></span>
-<span id="cb155-4"><a href="basics.html#cb155-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(ego.sex, ego.age)</span>
-<span id="cb155-5"><a href="basics.html#cb155-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb155-6"><a href="basics.html#cb155-6" aria-hidden="true" tabindex="-1"></a>ego.df<span class="fl">.40</span></span></code></pre></div>
+<span id="cb155-2"><a href="basics.html#cb155-2" aria-hidden="true" tabindex="-1"></a>ego.df<span class="fl">.40</span> <span class="sc">%&lt;&gt;%</span></span>
+<span id="cb155-3"><a href="basics.html#cb155-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(ego.sex, ego.age)</span>
+<span id="cb155-4"><a href="basics.html#cb155-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb155-5"><a href="basics.html#cb155-5" aria-hidden="true" tabindex="-1"></a>ego.df<span class="fl">.40</span></span></code></pre></div>
 <pre><code>## # A tibble: 51 × 2
 ##    ego.sex ego.age
 ##    &lt;chr&gt;     &lt;dbl&gt;

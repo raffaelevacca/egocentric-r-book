@@ -1487,7 +1487,7 @@ In R, everything that \textbf{exists} is an object. Everything that \textbf{happ
 \CommentTok{\# Numeric indexing                                                          {-}{-}{-}{-}}
 \CommentTok{\# {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} }
 
-\CommentTok{\# Let\textquotesingle{}s use our vector of ego ages again.}
+\CommentTok{\# Let\textquotesingle{}s use our vector of ego age values again.}
 \NormalTok{age}
 \end{Highlighting}
 \end{Shaded}
@@ -1632,7 +1632,7 @@ In R, everything that \textbf{exists} is an object. Everything that \textbf{happ
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Indexing data frames: list notations                                      {-}{-}{-}{-} }
+\CommentTok{\# Indexing data frames                                                     {-}{-}{-}{-} }
 \CommentTok{\# {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} }
 
 \CommentTok{\# We\textquotesingle{}ll use our ego{-}level data frame.}
@@ -1659,6 +1659,8 @@ In R, everything that \textbf{exists} is an object. Everything that \textbf{happ
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\CommentTok{\# Numeric indexing works on data frames too: it allows you to index variables.}
+
 \CommentTok{\# The 3rd variable.}
 \NormalTok{ego.df[}\DecValTok{3}\NormalTok{]}
 \end{Highlighting}
@@ -1683,6 +1685,88 @@ In R, everything that \textbf{exists} is an object. Everything that \textbf{happ
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\CommentTok{\# Note the difference with the double square bracket.}
+\NormalTok{ego.df[[}\DecValTok{3}\NormalTok{]]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   [1] 61 38 30 25 29 56 52 35 22 51 50 45 51 32 57 42 32 55 44 25 28 60 54 30 37
+##  [26] 41 47 33 37 29 39 31 52 30 57 44 47 42 44 31 31 56 36 47 47 35 43 22 55 32
+##  [51] NA 60 51 53 25 33 38 37 27 34 32 26 36 53 42 45 36 54 49 35 27 32 58 51 55
+##  [76] 59 27 35 24 52 27 42 47 43 53 54 35 50 51 40 49 33 33 36 32 35 55 61 34 44
+## [101] 50 28
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# What do you think is the difference?}
+\FunctionTok{class}\NormalTok{(ego.df[}\DecValTok{3}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "tbl_df"     "tbl"        "data.frame"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{class}\NormalTok{(ego.df[[}\DecValTok{3}\NormalTok{]])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "numeric"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# The [[ ]] notation extracts the actual column as a vector, while [ ] keeps}
+\CommentTok{\# the data frame class.}
+
+\CommentTok{\# We can also index data frames as matrices.}
+\CommentTok{\# The second and third columns.}
+\NormalTok{ego.df[,}\DecValTok{2}\SpecialCharTok{:}\DecValTok{3}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 102 x 2
+##    ego.sex ego.age
+##    <chr>     <dbl>
+##  1 Male         61
+##  2 Male         38
+##  3 Male         30
+##  4 Male         25
+##  5 Male         29
+##  6 Male         56
+##  7 Male         52
+##  8 Male         35
+##  9 Male         22
+## 10 Male         51
+## # ... with 92 more rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Lines 1 to 3}
+\NormalTok{ego.df[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{,]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 3 x 9
+##   ego_ID ego.sex ego.age ego.arr ego.edu   ego.inc  empl ego.empl.bin ego.age.~1
+##    <dbl> <chr>     <dbl>   <dbl> <chr>       <dbl> <dbl> <chr>        <chr>     
+## 1     28 Male         61    2008 Secondary     350     3 Yes          60+       
+## 2     29 Male         38    2000 Primary       900     4 Yes          36-40     
+## 3     33 Male         30    2010 Primary       200     3 Yes          26-30     
+## # ... with abbreviated variable name 1: ego.age.cat
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# We can use name indexing with data frames, selecting variables by name}
 \NormalTok{ego.df[}\StringTok{"ego.age"}\NormalTok{]}
 \end{Highlighting}
 \end{Shaded}
@@ -1706,32 +1790,6 @@ In R, everything that \textbf{exists} is an object. Everything that \textbf{happ
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# The second and third variables.}
-\NormalTok{ego.df[}\DecValTok{2}\SpecialCharTok{:}\DecValTok{3}\NormalTok{]}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## # A tibble: 102 x 2
-##    ego.sex ego.age
-##    <chr>     <dbl>
-##  1 Male         61
-##  2 Male         38
-##  3 Male         30
-##  4 Male         25
-##  5 Male         29
-##  6 Male         56
-##  7 Male         52
-##  8 Male         35
-##  9 Male         22
-## 10 Male         51
-## # ... with 92 more rows
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# The [[ ]] notation extracts the actual column as a vector, while [ ] keeps}
-\CommentTok{\# the data frame class.}
 \NormalTok{ego.df[[}\StringTok{"ego.age"}\NormalTok{]]}
 \end{Highlighting}
 \end{Shaded}
@@ -1746,7 +1804,7 @@ In R, everything that \textbf{exists} is an object. Everything that \textbf{happ
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# The age variable, using the $ notation}
+\CommentTok{\# The $ notation is very common and concise. It\textquotesingle{}s equivalent to the [[ notation.}
 \NormalTok{ego.df}\SpecialCharTok{$}\NormalTok{ego.age}
 \end{Highlighting}
 \end{Shaded}
@@ -1761,7 +1819,7 @@ In R, everything that \textbf{exists} is an object. Everything that \textbf{happ
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Note that this is the same as ego.df[[3]] or ego.df[["ego.age"]]}
+\CommentTok{\# This is the same as ego.df[[3]] or ego.df[["ego.age"]]}
 \FunctionTok{identical}\NormalTok{(ego.df[[}\DecValTok{3}\NormalTok{]], ego.df}\SpecialCharTok{$}\NormalTok{ego.age)}
 \end{Highlighting}
 \end{Shaded}
@@ -1772,83 +1830,13 @@ In R, everything that \textbf{exists} is an object. Everything that \textbf{happ
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Indexing data frames: matrix notation                                     {-}{-}{-}{-}}
-\CommentTok{\# {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} }
+\CommentTok{\# With tidyverse, this type of indexing syntax is replaced by new "verbs" }
+\CommentTok{\# (see section below):}
+\CommentTok{\# * Index data frame rows: filter() instead of []}
+\CommentTok{\# * Index data frame columns: select() instead of []}
+\CommentTok{\# * Extract data frame variable as a vector: pull() instead of [[]] or $}
 
-\CommentTok{\# Fifth row of the data frame}
-\NormalTok{ego.df[}\DecValTok{5}\NormalTok{,]}
-\end{Highlighting}
-\end{Shaded}
 
-\begin{verbatim}
-## # A tibble: 1 x 9
-##   ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
-##    <dbl> <chr>     <dbl>   <dbl> <chr>     <dbl> <dbl> <chr>        <chr>      
-## 1     39 Male         29    2007 Primary       0     1 No           26-30
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Multiple rows (4th to 10th)}
-\NormalTok{ego.df[}\DecValTok{4}\SpecialCharTok{:}\DecValTok{10}\NormalTok{,]}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## # A tibble: 7 x 9
-##   ego_ID ego.sex ego.age ego.arr ego.edu   ego.inc  empl ego.empl.bin ego.age.~1
-##    <dbl> <chr>     <dbl>   <dbl> <chr>       <dbl> <dbl> <chr>        <chr>     
-## 1     35 Male         25    2009 Secondary    1000     3 Yes          18-25     
-## 2     39 Male         29    2007 Primary         0     1 No           26-30     
-## 3     40 Male         56    2008 Secondary     950     4 Yes          51-60     
-## 4     45 Male         52    1975 Primary      1600     3 Yes          51-60     
-## 5     46 Male         35    2002 Secondary    1200     4 Yes          31-35     
-## 6     47 Male         22    2010 Secondary     700     4 Yes          18-25     
-## 7     48 Male         51    2007 Primary       950     4 Yes          51-60     
-## # ... with abbreviated variable name 1: ego.age.cat
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Fifth adn sixth row, fourth variable.}
-\NormalTok{ego.df[}\DecValTok{5}\SpecialCharTok{:}\DecValTok{6}\NormalTok{,}\DecValTok{4}\NormalTok{]}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## # A tibble: 2 x 1
-##   ego.arr
-##     <dbl>
-## 1    2007
-## 2    2008
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# sex and age variables.}
-\NormalTok{ego.df[, }\FunctionTok{c}\NormalTok{(}\StringTok{"ego.sex"}\NormalTok{, }\StringTok{"ego.age"}\NormalTok{)]}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## # A tibble: 102 x 2
-##    ego.sex ego.age
-##    <chr>     <dbl>
-##  1 Male         61
-##  2 Male         38
-##  3 Male         30
-##  4 Male         25
-##  5 Male         29
-##  6 Male         56
-##  7 Male         52
-##  8 Male         35
-##  9 Male         22
-## 10 Male         51
-## # ... with 92 more rows
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \CommentTok{\# ***** EXERCISES }
 \CommentTok{\#}
 \CommentTok{\# (1) What\textquotesingle{}s the mean age of respondents whose education is NOT "Primary"? Use}
@@ -1871,8 +1859,8 @@ In R, everything that \textbf{exists} is an object. Everything that \textbf{happ
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{the-tidyverse-grammar}{%
-\section{\texorpdfstring{The \texttt{tidyverse} grammar}{The tidyverse grammar}}\label{the-tidyverse-grammar}}
+\hypertarget{the-tidyverse-syntax}{%
+\section{\texorpdfstring{The \texttt{tidyverse} syntax}{The tidyverse syntax}}\label{the-tidyverse-syntax}}
 
 \hypertarget{pipes-and-the-operator}{%
 \subsection{\texorpdfstring{Pipes and the \texttt{\%\textgreater{}\%} operator}{Pipes and the \%\textgreater\% operator}}\label{pipes-and-the-operator}}
@@ -1942,9 +1930,11 @@ x %<>%
   \begin{itemize}
   \tightlist
   \item
-    \texttt{dplyr::filter()} is used to subset rows (cases) of a data frame based on one or multiple conditions (for example, respondents with certain values on one or more variables).
+    \texttt{dplyr::filter()} is used to subset rows (cases) of a data frame based on one or multiple conditions (for example, respondents with certain values on one or more variables). This preserves the data frame class, similar to \texttt{{[}\ {]}} indexing.
   \item
-    \texttt{dplyr::select()} is used to subset columns (variables) of a data frame. You can use full variable names or select variables in many other ways. See examples in the \texttt{select} \href{https://dplyr.tidyverse.org/reference/select.html}{manual page}.
+    \texttt{dplyr::select()} is used to subset columns (variables) of a data frame. You can use full variable names or select variables in many other ways (see examples in the \texttt{select} \href{https://dplyr.tidyverse.org/reference/select.html}{manual page}). This preserves the data frame class, similar to \texttt{{[}\ {]}} indexing.
+  \item
+    \texttt{dplyr::pull()} is used to extract a column as a vector. This does \emph{not} preserve the data frame class, similar to \texttt{{[}{[}\ {]}{]}} or \texttt{\$}.
   \end{itemize}
 \end{itemize}
 
@@ -2024,7 +2014,8 @@ x %<>%
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# If we want to assign the result to the initial vector}
+\CommentTok{\# If we want to pipe edu to following code AND re{-}assign the final result to }
+\CommentTok{\# edu again, we can use \%\textless{}\textgreater{}\% (requires magrittr package).}
 \NormalTok{edu }\SpecialCharTok{\%\textless{}\textgreater{}\%}
 \NormalTok{  table }\SpecialCharTok{\%\textgreater{}\%}
 \NormalTok{  mean}
@@ -2196,7 +2187,6 @@ x %<>%
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# We can use \%\textless{}\textgreater{}\% to re{-}assign the result to the same data object}
-\CommentTok{\# Select specific variables}
 \NormalTok{ego.df}\FloatTok{.40} \SpecialCharTok{\%\textless{}\textgreater{}\%}
 \NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(ego.sex, ego.age)}
 
@@ -2609,12 +2599,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 7455371 UNW- 45 259 -- 
+## IGRAPH e7db69e UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 7455371 (vertex names):
+## + edges from e7db69e (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -2641,12 +2631,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH b245b58 UNW- 46 304 -- 
+## IGRAPH 658911d UNW- 46 304 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from b245b58 (vertex names):
+## + edges from 658911d (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -2808,7 +2798,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 45/45 vertices, named, from 7455371:
+## + 45/45 vertices, named, from e7db69e:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2813 2814 2815
 ## [16] 2816 2817 2818 2819 2820 2821 2822 2823 2824 2825 2826 2827 2828 2829 2830
 ## [31] 2831 2832 2833 2834 2835 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845
@@ -2823,7 +2813,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 259/259 edges from 7455371 (vertex names):
+## + 259/259 edges from e7db69e (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -2959,12 +2949,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 7455371 UNW- 45 259 -- 
+## IGRAPH e7db69e UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), new.attribute (v/n), weight (e/n)
-## + edges from 7455371 (vertex names):
+## + edges from e7db69e (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -3016,12 +3006,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 7455371 UNW- 45 259 -- 
+## IGRAPH e7db69e UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/n), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), new.attribute (v/n), weight (e/n)
-## + edges from 7455371 (vertex names):
+## + edges from e7db69e (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -3105,7 +3095,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 8/45 vertices, named, from 7455371:
+## + 8/45 vertices, named, from e7db69e:
 ## [1] 2801 2805 2806 2808 2809 2828 2832 2837
 \end{verbatim}
 
@@ -3164,7 +3154,7 @@ This chapter covers the following topics:
 \end{verbatim}
 
 \begin{verbatim}
-## + 16/45 vertices, named, from 7455371:
+## + 16/45 vertices, named, from e7db69e:
 ##  [1] 2814 2815 2821 2822 2823 2824 2825 2826 2832 2834 2835 2837 2838 2839 2843
 ## [16] 2845
 \end{verbatim}
@@ -3201,7 +3191,7 @@ This chapter covers the following topics:
 \end{verbatim}
 
 \begin{verbatim}
-## + 16/259 edges from 7455371 (vertex names):
+## + 16/259 edges from e7db69e (vertex names):
 ##  [1] 2814--2833 2815--2833 2821--2833 2822--2833 2823--2833 2824--2833
 ##  [7] 2825--2833 2826--2833 2832--2833 2833--2834 2833--2835 2833--2837
 ## [13] 2833--2838 2833--2839 2833--2843 2833--2845
@@ -3250,7 +3240,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 24/259 edges from 7455371 (vertex names):
+## + 24/259 edges from e7db69e (vertex names):
 ##  [1] 2801--2818 2801--2829 2804--2811 2804--2840 2807--2811 2811--2812
 ##  [7] 2811--2828 2813--2841 2813--2845 2814--2833 2815--2833 2816--2835
 ## [13] 2817--2835 2821--2826 2821--2833 2821--2839 2823--2830 2825--2833
@@ -3272,7 +3262,7 @@ This chapter covers the following topics:
 \end{verbatim}
 
 \begin{verbatim}
-## + 5/259 edges from 7455371 (vertex names):
+## + 5/259 edges from e7db69e (vertex names):
 ## [1] 2814--2833 2815--2833 2821--2833 2825--2833 2833--2843
 \end{verbatim}
 
@@ -3986,7 +3976,10 @@ This chapter covers the following topics:
 \CommentTok{\# age bracket variables. In this case, we apply the same summarizing function}
 \CommentTok{\# to multiple variables (not just one), to be selected via across().}
 \NormalTok{alter.attr.all }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{summarise}\NormalTok{(., }\FunctionTok{across}\NormalTok{(}\FunctionTok{c}\NormalTok{(alter.nat, alter.res, alter.age.cat), n\_distinct))}
+  \FunctionTok{summarise}\NormalTok{(}
+    \FunctionTok{across}\NormalTok{(}\FunctionTok{c}\NormalTok{(alter.nat, alter.res, alter.age.cat), }
+\NormalTok{           n\_distinct)}
+\NormalTok{    )}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4069,7 +4062,10 @@ This chapter covers the following topics:
 \CommentTok{\# * N of distinct values in the alter nationality, country of residence, and}
 \CommentTok{\# age bracket variables:}
 \NormalTok{alter.attr.all }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{summarise}\NormalTok{(., }\FunctionTok{across}\NormalTok{(}\FunctionTok{c}\NormalTok{(alter.nat, alter.res, alter.age.cat), n\_distinct))}
+  \FunctionTok{summarise}\NormalTok{(}
+    \FunctionTok{across}\NormalTok{(}\FunctionTok{c}\NormalTok{(alter.nat, alter.res, alter.age.cat), }
+\NormalTok{           n\_distinct)}
+\NormalTok{    )}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4252,8 +4248,8 @@ This chapter covers the following topics:
 \CommentTok{\# We can then ungroup alter.attr.all by ego ID to remove the grouping information.}
 \NormalTok{alter.attr.all }\OtherTok{\textless{}{-}} \FunctionTok{ungroup}\NormalTok{(alter.attr.all)}
 
-\CommentTok{\# To get the size of each personal network, we can use the count() function,}
-\CommentTok{\# which counts the number of rows for each unique value of a variable. The}
+\CommentTok{\# To get the size of each personal network, we can simpy use the count() function:}
+\CommentTok{\# it counts the number of rows for each unique value of a variable. The}
 \CommentTok{\# number of rows for each unique value of ego\_ID in alter.attr.all is the number}
 \CommentTok{\# of alters for each ego (personal network size).}
 \NormalTok{alter.attr.all }\SpecialCharTok{\%\textgreater{}\%} 
@@ -4369,12 +4365,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 7455371 UNW- 45 259 -- 
+## IGRAPH e7db69e UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 7455371 (vertex names):
+## + edges from e7db69e (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -4496,36 +4492,23 @@ This chapter covers the following topics:
 \CommentTok{\# All sorts of more complicated structural analyses can be run on an ego{-}network}
 \CommentTok{\# using igraph or statnet functions. For example, here are the results of the}
 \CommentTok{\# Girvan{-}Newman community{-}detection algorithm on the ego{-}network.}
-\FunctionTok{cluster\_edge\_betweenness}\NormalTok{(gr, }\AttributeTok{weights=} \ConstantTok{NULL}\NormalTok{)}
+\FunctionTok{cluster\_edge\_betweenness}\NormalTok{(gr, }\AttributeTok{weights=} \ConstantTok{NA}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## Warning in cluster_edge_betweenness(gr, weights = NULL): At core/community/
-## edge_betweenness.c:486 : Membership vector will be selected based on the highest
-## modularity score.
-\end{verbatim}
-
-\begin{verbatim}
-## Warning in cluster_edge_betweenness(gr, weights = NULL): At core/community/
-## edge_betweenness.c:493 : Modularity calculation with weighted edge betweenness
-## community detection might not make sense -- modularity treats edge weights as
-## similarities while edge betwenness treats them as distances.
-\end{verbatim}
-
-\begin{verbatim}
-## IGRAPH clustering edge betweenness, groups: 3, mod: 0.4
+## IGRAPH clustering edge betweenness, groups: 10, mod: 0.41
 ## + groups:
 ##   $`1`
 ##    [1] "2801" "2802" "2803" "2804" "2805" "2806" "2807" "2808" "2809" "2810"
-##   [11] "2811" "2812" "2820" "2827" "2828" "2829" "2840" "2841"
+##   [11] "2811" "2812" "2840" "2841"
 ##   
 ##   $`2`
-##    [1] "2813" "2814" "2815" "2816" "2817" "2818" "2821" "2822" "2823" "2824"
-##   [11] "2825" "2826" "2830" "2831" "2832" "2833" "2834" "2835" "2837" "2838"
-##   [21] "2839" "2842" "2843" "2844" "2845"
+##   [1] "2813" "2814" "2815" "2816" "2817" "2818" "2824" "2831"
 ##   
 ##   $`3`
+##   [1] "2819" "2836"
+##   
 ##   + ... omitted several groups/vertices
 \end{verbatim}
 
@@ -4562,12 +4545,12 @@ This chapter covers the following topics:
 
 \begin{verbatim}
 ## $`28`
-## IGRAPH 7455371 UNW- 45 259 -- 
+## IGRAPH e7db69e UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 7455371 (vertex names):
+## + edges from e7db69e (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -4576,12 +4559,12 @@ This chapter covers the following topics:
 ## + ... omitted several edges
 ## 
 ## $`29`
-## IGRAPH c8fdedf UNW- 45 202 -- 
+## IGRAPH 9549fee UNW- 45 202 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from c8fdedf (vertex names):
+## + edges from 9549fee (vertex names):
 ##  [1] 2901--2902 2901--2904 2901--2906 2901--2907 2901--2908 2901--2909
 ##  [7] 2901--2910 2901--2911 2901--2915 2901--2916 2901--2917 2901--2918
 ## [13] 2901--2919 2901--2927 2901--2928 2901--2929 2901--2930 2901--2931
@@ -4590,12 +4573,12 @@ This chapter covers the following topics:
 ## + ... omitted several edges
 ## 
 ## $`33`
-## IGRAPH 778b949 UNW- 45 207 -- 
+## IGRAPH c81168f UNW- 45 207 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 778b949 (vertex names):
+## + edges from c81168f (vertex names):
 ##  [1] 3301--3302 3301--3303 3301--3304 3301--3305 3301--3306 3301--3307
 ##  [7] 3301--3308 3301--3309 3301--3310 3301--3311 3301--3312 3301--3313
 ## [13] 3301--3314 3301--3315 3301--3316 3301--3317 3301--3318 3301--3319
@@ -4604,12 +4587,12 @@ This chapter covers the following topics:
 ## + ... omitted several edges
 ## 
 ## $`35`
-## IGRAPH 995ae82 UNW- 45 221 -- 
+## IGRAPH 5b4030c UNW- 45 221 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 995ae82 (vertex names):
+## + edges from 5b4030c (vertex names):
 ##  [1] 3501--3502 3501--3503 3501--3504 3501--3505 3501--3506 3501--3507
 ##  [7] 3501--3508 3501--3509 3501--3510 3501--3512 3501--3513 3501--3514
 ## [13] 3501--3516 3501--3517 3501--3522 3501--3523 3501--3524 3501--3525
@@ -4618,12 +4601,12 @@ This chapter covers the following topics:
 ## + ... omitted several edges
 ## 
 ## $`39`
-## IGRAPH 5d7f20e UNW- 45 92 -- 
+## IGRAPH 7301ed4 UNW- 45 92 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 5d7f20e (vertex names):
+## + edges from 7301ed4 (vertex names):
 ##  [1] 3901--3902 3901--3903 3901--3904 3901--3905 3901--3906 3901--3907
 ##  [7] 3901--3911 3901--3913 3901--3920 3901--3924 3901--3925 3901--3931
 ## [13] 3901--3932 3901--3933 3901--3937 3901--3938 3901--3940 3901--3941
@@ -4632,12 +4615,12 @@ This chapter covers the following topics:
 ## + ... omitted several edges
 ## 
 ## $`40`
-## IGRAPH 7abdf84 UNW- 45 255 -- 
+## IGRAPH 0159698 UNW- 45 255 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 7abdf84 (vertex names):
+## + edges from 0159698 (vertex names):
 ##  [1] 4001--4003 4001--4007 4001--4008 4001--4009 4001--4036 4001--4040
 ##  [7] 4001--4045 4002--4003 4002--4004 4002--4006 4002--4008 4002--4009
 ## [13] 4002--4010 4002--4011 4002--4012 4002--4013 4002--4014 4002--4015
@@ -4701,12 +4684,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH b245b58 UNW- 46 304 -- 
+## IGRAPH 658911d UNW- 46 304 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from b245b58 (vertex names):
+## + edges from 658911d (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -4762,7 +4745,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 1/45 vertex, named, from 7455371:
+## + 1/45 vertex, named, from e7db69e:
 ## [1] 2801
 \end{verbatim}
 
@@ -4795,7 +4778,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 5/45 vertices, named, from 7455371:
+## + 5/45 vertices, named, from e7db69e:
 ## [1] 2801 2803 2804 2805 2806
 \end{verbatim}
 
@@ -4822,7 +4805,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 17/45 vertices, named, from 7455371:
+## + 17/45 vertices, named, from e7db69e:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2827 2828 2829
 ## [16] 2840 2841
 \end{verbatim}
@@ -4835,7 +4818,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 88/259 edges from 7455371 (vertex names):
+## + 88/259 edges from e7db69e (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2827
 ## [13] 2801--2828 2801--2829 2801--2840 2801--2841 2802--2803 2802--2804
@@ -4871,12 +4854,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 40feb96 UNW- 17 88 -- 
+## IGRAPH e1831c6 UNW- 17 88 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 40feb96 (vertex names):
+## + edges from e1831c6 (vertex names):
 ##  [1] 2801--2802 2801--2803 2802--2803 2801--2804 2802--2804 2803--2804
 ##  [7] 2801--2805 2802--2805 2803--2805 2804--2805 2801--2806 2802--2806
 ## [13] 2803--2806 2804--2806 2805--2806 2801--2807 2802--2807 2803--2807
@@ -5226,31 +5209,6 @@ This chapter covers the following topics:
 \CommentTok{\# syntax}
 \NormalTok{gr.list }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{map\_dbl}\NormalTok{(}\SpecialCharTok{\textasciitilde{}} \FunctionTok{components}\NormalTok{(.x)}\SpecialCharTok{$}\NormalTok{no) }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{enframe}\NormalTok{()}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## # A tibble: 102 x 2
-##    name  value
-##    <chr> <dbl>
-##  1 28        1
-##  2 29        4
-##  3 33        7
-##  4 35        2
-##  5 39       20
-##  6 40        2
-##  7 45        1
-##  8 46        2
-##  9 47        1
-## 10 48        1
-## # ... with 92 more rows
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Equivalently}
-\FunctionTok{map\_dbl}\NormalTok{(gr.list, }\SpecialCharTok{\textasciitilde{}} \FunctionTok{components}\NormalTok{(.x)}\SpecialCharTok{$}\NormalTok{no) }\SpecialCharTok{\%\textgreater{}\%} 
   \FunctionTok{enframe}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
@@ -6466,12 +6424,12 @@ More information about this package can be found in its \href{https://github.com
 
 \begin{verbatim}
 ## $`28`
-## IGRAPH c0376c2 UNW- 45 259 -- 
+## IGRAPH 214a161 UNW- 45 259 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from c0376c2 (vertex names):
+## + edges from 214a161 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -6480,12 +6438,12 @@ More information about this package can be found in its \href{https://github.com
 ## + ... omitted several edges
 ## 
 ## $`29`
-## IGRAPH ee98f7c UNW- 45 202 -- 
+## IGRAPH 0c5acc4 UNW- 45 202 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from ee98f7c (vertex names):
+## + edges from 0c5acc4 (vertex names):
 ##  [1] 2901--2902 2901--2904 2901--2906 2901--2907 2901--2908 2901--2909
 ##  [7] 2901--2910 2901--2911 2901--2915 2901--2916 2901--2917 2901--2918
 ## [13] 2901--2919 2901--2927 2901--2928 2901--2929 2901--2930 2901--2931
@@ -6494,12 +6452,12 @@ More information about this package can be found in its \href{https://github.com
 ## + ... omitted several edges
 ## 
 ## $`33`
-## IGRAPH a135871 UNW- 45 207 -- 
+## IGRAPH a38844e UNW- 45 207 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from a135871 (vertex names):
+## + edges from a38844e (vertex names):
 ##  [1] 3301--3302 3301--3303 3301--3304 3301--3305 3301--3306 3301--3307
 ##  [7] 3301--3308 3301--3309 3301--3310 3301--3311 3301--3312 3301--3313
 ## [13] 3301--3314 3301--3315 3301--3316 3301--3317 3301--3318 3301--3319
@@ -6508,12 +6466,12 @@ More information about this package can be found in its \href{https://github.com
 ## + ... omitted several edges
 ## 
 ## $`35`
-## IGRAPH ba7c1a6 UNW- 45 221 -- 
+## IGRAPH c22cb3a UNW- 45 221 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from ba7c1a6 (vertex names):
+## + edges from c22cb3a (vertex names):
 ##  [1] 3501--3502 3501--3503 3501--3504 3501--3505 3501--3506 3501--3507
 ##  [7] 3501--3508 3501--3509 3501--3510 3501--3512 3501--3513 3501--3514
 ## [13] 3501--3516 3501--3517 3501--3522 3501--3523 3501--3524 3501--3525
@@ -6522,12 +6480,12 @@ More information about this package can be found in its \href{https://github.com
 ## + ... omitted several edges
 ## 
 ## $`39`
-## IGRAPH 38520fe UNW- 45 92 -- 
+## IGRAPH c1672eb UNW- 45 92 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from 38520fe (vertex names):
+## + edges from c1672eb (vertex names):
 ##  [1] 3901--3902 3901--3903 3901--3904 3901--3905 3901--3906 3901--3907
 ##  [7] 3901--3911 3901--3913 3901--3920 3901--3924 3901--3925 3901--3931
 ## [13] 3901--3932 3901--3933 3901--3937 3901--3938 3901--3940 3901--3941
@@ -6536,12 +6494,12 @@ More information about this package can be found in its \href{https://github.com
 ## + ... omitted several edges
 ## 
 ## $`40`
-## IGRAPH b508692 UNW- 45 255 -- 
+## IGRAPH c82df41 UNW- 45 255 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from b508692 (vertex names):
+## + edges from c82df41 (vertex names):
 ##  [1] 4001--4003 4001--4007 4001--4008 4001--4009 4001--4036 4001--4040
 ##  [7] 4001--4045 4002--4003 4002--4004 4002--4006 4002--4008 4002--4009
 ## [13] 4002--4010 4002--4011 4002--4012 4002--4013 4002--4014 4002--4015
@@ -6584,12 +6542,12 @@ More information about this package can be found in its \href{https://github.com
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH c0376c2 UNW- 45 259 -- 
+## IGRAPH 214a161 UNW- 45 259 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from c0376c2 (vertex names):
+## + edges from 214a161 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -6606,7 +6564,7 @@ More information about this package can be found in its \href{https://github.com
 \end{Shaded}
 
 \begin{verbatim}
-## + 45/45 vertices, named, from c0376c2:
+## + 45/45 vertices, named, from 214a161:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2813 2814 2815
 ## [16] 2816 2817 2818 2819 2820 2821 2822 2823 2824 2825 2826 2827 2828 2829 2830
 ## [31] 2831 2832 2833 2834 2835 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845
@@ -6620,12 +6578,12 @@ More information about this package can be found in its \href{https://github.com
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH ee0334e UNW- 46 304 -- 
+## IGRAPH 3449dd6 UNW- 46 304 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from ee0334e (vertex names):
+## + edges from 3449dd6 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -6642,7 +6600,7 @@ More information about this package can be found in its \href{https://github.com
 \end{Shaded}
 
 \begin{verbatim}
-## + 46/46 vertices, named, from ee0334e:
+## + 46/46 vertices, named, from 3449dd6:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2813 2814 2815
 ## [16] 2816 2817 2818 2819 2820 2821 2822 2823 2824 2825 2826 2827 2828 2829 2830
 ## [31] 2831 2832 2833 2834 2835 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845
@@ -6805,12 +6763,12 @@ More information about this package can be found in its \href{https://github.com
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH c0376c2 UNW- 45 259 -- 
+## IGRAPH 214a161 UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from c0376c2 (vertex names):
+## + edges from 214a161 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -7724,9 +7682,9 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 7ae597e UN-- 45 283 -- 
+## IGRAPH 22ca1c6 UN-- 45 283 -- 
 ## + attr: name (v/c)
-## + edges from 7ae597e (vertex names):
+## + edges from 22ca1c6 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2818 2801--2820 2801--2823
@@ -8156,9 +8114,9 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH bcf9a34 UNW- 45 259 -- 
+## IGRAPH 06a8c9c UNW- 45 259 -- 
 ## + attr: name (v/c), ego_ID (e/n), weight (e/n)
-## + edges from bcf9a34 (vertex names):
+## + edges from 06a8c9c (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -8215,9 +8173,9 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 5a8d998 UNW- 45 259 -- 
+## IGRAPH 87e2957 UNW- 45 259 -- 
 ## + attr: name (v/c), ego_ID (e/n), weight (e/n)
-## + edges from 5a8d998 (vertex names):
+## + edges from 87e2957 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -8237,9 +8195,9 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 728f2be UNW- 42 265 -- 
+## IGRAPH 496ee7d UNW- 42 265 -- 
 ## + attr: name (v/c), ego_ID (e/n), weight (e/n)
-## + edges from 728f2be (vertex names):
+## + edges from 496ee7d (vertex names):
 ##  [1] 9401--9402 9401--9403 9401--9404 9401--9405 9401--9406 9401--9407
 ##  [7] 9401--9408 9401--9409 9401--9410 9401--9411 9401--9412 9401--9413
 ## [13] 9401--9414 9401--9415 9401--9438 9401--9443 9401--9444 9402--9403
@@ -8287,12 +8245,12 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 2647f51 UNW- 45 259 -- 
+## IGRAPH b67063d UNW- 45 259 -- 
 ## + attr: name (v/c), ego_ID (v/n), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), ego_ID (e/n), weight (e/n)
-## + edges from 2647f51 (vertex names):
+## + edges from b67063d (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -8433,7 +8391,7 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## + 46/46 vertices, named, from 4f8807e:
+## + 46/46 vertices, named, from 58b45cb:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2813 2814 2815
 ## [16] 2816 2817 2818 2819 2820 2821 2822 2823 2824 2825 2826 2827 2828 2829 2830
 ## [31] 2831 2832 2833 2834 2835 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845

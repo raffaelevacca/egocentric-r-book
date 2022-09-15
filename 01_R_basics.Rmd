@@ -192,7 +192,7 @@ rm(list=ls())
 ```{r operations, include=TRUE, cache=FALSE, tidy= FALSE}
 ```
 
-## Indexing 
+## Indexing
 
 + **Indexing** is crucial in R. Indexing means appending an index to an object to extract one (or more) of its elements or components. Indexing is also called subscripting.
 + Indexing can be used to **extract** (view, query) the component of an object, or to **replace** it (assign a different value to that element).
@@ -234,7 +234,7 @@ rm(list=ls())
 ```{r indexing, include=TRUE, cache=FALSE, tidy= FALSE, error=TRUE}
 ```
 
-## The `tidyverse` grammar
+## The `tidyverse` syntax
 
 ### Pipes and the `%>%` operator
 + The pipe operator `%>%` was introduced by the `magrittr` package and is adopted by `igraph` and `tidyverse`, which we'll use in this workshop. The operator is becoming increasingly popular among R users.
@@ -268,8 +268,9 @@ x %<>%
 ### Subsetting data frames in `tidyverse`
 + Tidyverse includes the `dplyr` package for data frame manipulation. This is a very powerful package for all kinds of data manipulation. To learn more, see the package [cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf) and [vignettes](https://dplyr.tidyverse.org/articles/index.html).
 + Subsetting data frames with `dplyr`:
-    * `dplyr::filter()` is used to subset rows (cases) of a data frame based on one or multiple conditions (for example, respondents with certain values on one or more variables).
-    * `dplyr::select()` is used to subset columns (variables) of a data frame. You can use full variable names or select variables in many other ways. See examples in the `select` [manual page](https://dplyr.tidyverse.org/reference/select.html).
+    * `dplyr::filter()` is used to subset rows (cases) of a data frame based on one or multiple conditions (for example, respondents with certain values on one or more variables). This preserves the data frame class, similar to `[ ]` indexing.
+    * `dplyr::select()` is used to subset columns (variables) of a data frame. You can use full variable names or select variables in many other ways (see examples in the `select` [manual page](https://dplyr.tidyverse.org/reference/select.html)). This preserves the data frame class, similar to `[ ]` indexing.
+    * `dplyr::pull()` is used to extract a column as a vector. This does _not_ preserve the data frame class, similar to `[[ ]]` or `$`.
 
 ```{r tidyverse, include=TRUE, cache=FALSE, tidy=FALSE, error=TRUE, message=FALSE}
 ```

@@ -200,7 +200,10 @@ alter.attr.all %>%
 # age bracket variables. In this case, we apply the same summarizing function
 # to multiple variables (not just one), to be selected via across().
 alter.attr.all %>%
-  summarise(., across(c(alter.nat, alter.res, alter.age.cat), n_distinct))
+  summarise(
+    across(c(alter.nat, alter.res, alter.age.cat), 
+           n_distinct)
+    )
 
 # Because we ran this without previously grouping the data frame by ego ID, each
 # function is calculated on all alters from all egos pooled (all rows of the
@@ -230,7 +233,10 @@ alter.attr.all %<>%
 # * N of distinct values in the alter nationality, country of residence, and
 # age bracket variables:
 alter.attr.all %>%
-  summarise(., across(c(alter.nat, alter.res, alter.age.cat), n_distinct))
+  summarise(
+    across(c(alter.nat, alter.res, alter.age.cat), 
+           n_distinct)
+    )
 
 # We can also use summarise to run more complex functions on alter attributes
 # by ego.
@@ -273,8 +279,8 @@ ego.df %>%
 # We can then ungroup alter.attr.all by ego ID to remove the grouping information.
 alter.attr.all <- ungroup(alter.attr.all)
 
-# To get the size of each personal network, we can use the count() function,
-# which counts the number of rows for each unique value of a variable. The
+# To get the size of each personal network, we can simpy use the count() function:
+# it counts the number of rows for each unique value of a variable. The
 # number of rows for each unique value of ego_ID in alter.attr.all is the number
 # of alters for each ego (personal network size).
 alter.attr.all %>% 

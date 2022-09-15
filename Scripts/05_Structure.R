@@ -63,7 +63,7 @@ sum(degree(gr)==0)
 # All sorts of more complicated structural analyses can be run on an ego-network
 # using igraph or statnet functions. For example, here are the results of the
 # Girvan-Newman community-detection algorithm on the ego-network.
-cluster_edge_betweenness(gr, weights= NULL)
+cluster_edge_betweenness(gr, weights= NA)
 
 # What if we want to calculate the same structural measure (e.g. density) on all
 # ego-networks? We can take the list of all ego-networks and run the same 
@@ -226,10 +226,6 @@ gr.list %>%
 # syntax
 gr.list %>%
   map_dbl(~ components(.x)$no) %>% 
-  enframe()
-
-# Equivalently
-map_dbl(gr.list, ~ components(.x)$no) %>% 
   enframe()
 
 # With map_dfr() we can calculate multiple structural measures at once on every 

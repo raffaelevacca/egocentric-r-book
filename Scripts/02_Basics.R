@@ -232,7 +232,7 @@ mean(age > 50)
 # Numeric indexing                                                          ----
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-# Let's use our vector of ego ages again.
+# Let's use our vector of ego age values again.
 age
 
 # Index its 2nd element: The age of the 2nd respondent.
@@ -275,44 +275,48 @@ age[ind]
 age[age > 40 & age < 60]
 
 
-# Indexing data frames: list notations                                      ---- 
+# Indexing data frames                                                     ---- 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 # We'll use our ego-level data frame.
 ego.df
 
+# Numeric indexing works on data frames too: it allows you to index variables.
+
 # The 3rd variable.
 ego.df[3]
-ego.df["ego.age"]
 
-# The second and third variables.
-ego.df[2:3]
+# Note the difference with the double square bracket.
+ego.df[[3]]
+
+# What do you think is the difference?
+class(ego.df[3])
+class(ego.df[[3]])
 
 # The [[ ]] notation extracts the actual column as a vector, while [ ] keeps
 # the data frame class.
+
+# We can also index data frames as matrices.
+# The second and third columns.
+ego.df[,2:3]
+# Lines 1 to 3
+ego.df[1:3,]
+
+# We can use name indexing with data frames, selecting variables by name
+ego.df["ego.age"]
 ego.df[["ego.age"]]
 
-# The age variable, using the $ notation
+# The $ notation is very common and concise. It's equivalent to the [[ notation.
 ego.df$ego.age
 
-# Note that this is the same as ego.df[[3]] or ego.df[["ego.age"]]
+# This is the same as ego.df[[3]] or ego.df[["ego.age"]]
 identical(ego.df[[3]], ego.df$ego.age)
 
-# Indexing data frames: matrix notation                                     ----
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-
-# Fifth row of the data frame
-ego.df[5,]
-
-# Multiple rows (4th to 10th)
-ego.df[4:10,]
-
-# Fifth adn sixth row, fourth variable.
-ego.df[5:6,4]
-
-# sex and age variables.
-ego.df[, c("ego.sex", "ego.age")]
-
+# With tidyverse, this type of indexing syntax is replaced by new "verbs" 
+# (see section below):
+# * Index data frame rows: filter() instead of []
+# * Index data frame columns: select() instead of []
+# * Extract data frame variable as a vector: pull() instead of [[]] or $
 
 
 # ***** EXERCISES 
@@ -362,7 +366,8 @@ edu %>%
   table %>%
   mean
 
-# If we want to assign the result to the initial vector
+# If we want to pipe edu to following code AND re-assign the final result to 
+# edu again, we can use %<>% (requires magrittr package).
 edu %<>%
   table %>%
   mean
@@ -400,7 +405,6 @@ ego.df.40 %>%
   dplyr::select(ego.sex, ego.age)
 
 # We can use %<>% to re-assign the result to the same data object
-# Select specific variables
 ego.df.40 %<>%
   dplyr::select(ego.sex, ego.age)
 

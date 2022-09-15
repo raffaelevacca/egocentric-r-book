@@ -23,7 +23,7 @@ examples-of-arithmetic-and-statistical-functions
 missing-and-infinite-values
 indexing
 index-df
-the-tidyverse-grammar
+the-tidyverse-syntax
 pipes-and-the-operator
 subsetting-data-frames-in-tidyverse
 represent
