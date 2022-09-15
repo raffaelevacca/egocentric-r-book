@@ -43,12 +43,13 @@ measures-of-ego-network-structure
 lists
 apply-purrr
 multilevel
-overview-4
+resources
+multilevel-models-for-egocentric-network-data
+multilevel-modeling-in-general
 prepare-the-data
 random-intercept-models
 random-slope-models
 tests-of-significance
-further-readings
 egor
 egor-import
 analyzing-and-visualizing-ego-network-data

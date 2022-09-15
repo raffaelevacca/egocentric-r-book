@@ -4,9 +4,30 @@
 knitr::read_chunk("./Scripts/06_Multilevel.R")
 ```
 
-## Overview
+In progress.
 
-This chapter is still in progress, in the meantime see the multilevel modeling slides in the [workshop folder](http://www.raffaelevacca.com/teaching/egocentric-r/folder/) (`Slides` subfolder). @vacca_multilevel_2018 provides a review and illustration of multilevel modeling for ego-network data. The code below is drawn in part from that article.
+## Resources
+
+### Multilevel models for egocentric network data
+
+Specific resources on multilevel modeling of egocentric/personal network data:
+
+* [@vacca_multilevel_2018](https://www.sa-ijas.org/ojs/index.php/sa-ijas/article/view/30-3): overview of multilevel modeling for egocentric/personal network data, with R demo (the code below is drawn in part from this article).
+* @simonoff_multilevel_2013: overview of multilevel modeling for egocentric and sociocentric data.
+* [@vacca_cross-classified_2019](http://journals.sagepub.com/doi/10.1177/0049124119882450): multilevel models for overlapping egocentric networks.
+* @mccarty_conducting_2019: Ch. 13.
+* @perry_egocentric_2018: Ch. 8.
+* @crossley_social_2015: Ch. 6.
+
+### Multilevel modeling in general
+
+General resources on multilevel models:
+
+* [@rasbash_lemma:_2008](https://www.cmm.bris.ac.uk/lemma): Extensive online course on multilevel modeling for the social sciences, including Stata and R implementation.
+* @snijders_multilevel_2012: mode in-depth statistical treatment, social science focus.
+* @goldstein_multilevel_2010
+* @fox_r_2018: Ch. 7, R implementation with `lme4`.
+* [GLMM FAQ](http://bbolker.github.io/mixedmodels-misc/glmmFAQ.html) by Ben Bolker and others: online list of R packages and resources on linear and generalized linear mixed models.
 
 ## Prepare the data
 
@@ -27,16 +48,3 @@ This chapter is still in progress, in the meantime see the multilevel modeling s
 
 ```{r test-sign, include=TRUE, cache=FALSE, tidy= FALSE}
 ```
-
-## Further readings
-
-In order of relevance to this chapter:
-
-+ @vacca_multilevel_2018
-+ @mccarty_conducting_2019, Ch. 13.
-+ @perry_egocentric_2018, Ch. 8.
-+ @crossley_social_2015, Ch. 6.
-+ @vacca_cross-classified_2019
-+ @simonoff_multilevel_2013 
-+ @rasbash_lemma:_2008
-+ @snijders_multilevel_2012

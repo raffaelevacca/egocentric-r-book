@@ -228,12 +228,15 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="6" data-path="multilevel.html"><a href="multilevel.html"><i class="fa fa-check"></i><b>6</b> Multilevel modeling of ego-network data</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="multilevel.html"><a href="multilevel.html#overview-4"><i class="fa fa-check"></i><b>6.1</b> Overview</a></li>
+<li class="chapter" data-level="6.1" data-path="multilevel.html"><a href="multilevel.html#resources"><i class="fa fa-check"></i><b>6.1</b> Resources</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="multilevel.html"><a href="multilevel.html#multilevel-models-for-egocentric-network-data"><i class="fa fa-check"></i><b>6.1.1</b> Multilevel models for egocentric network data</a></li>
+<li class="chapter" data-level="6.1.2" data-path="multilevel.html"><a href="multilevel.html#multilevel-modeling-in-general"><i class="fa fa-check"></i><b>6.1.2</b> Multilevel modeling in general</a></li>
+</ul></li>
 <li class="chapter" data-level="6.2" data-path="multilevel.html"><a href="multilevel.html#prepare-the-data"><i class="fa fa-check"></i><b>6.2</b> Prepare the data</a></li>
 <li class="chapter" data-level="6.3" data-path="multilevel.html"><a href="multilevel.html#random-intercept-models"><i class="fa fa-check"></i><b>6.3</b> Random intercept models</a></li>
 <li class="chapter" data-level="6.4" data-path="multilevel.html"><a href="multilevel.html#random-slope-models"><i class="fa fa-check"></i><b>6.4</b> Random slope models</a></li>
 <li class="chapter" data-level="6.5" data-path="multilevel.html"><a href="multilevel.html#tests-of-significance"><i class="fa fa-check"></i><b>6.5</b> Tests of significance</a></li>
-<li class="chapter" data-level="6.6" data-path="multilevel.html"><a href="multilevel.html#further-readings"><i class="fa fa-check"></i><b>6.6</b> Further readings</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="egor.html"><a href="egor.html"><i class="fa fa-check"></i><b>7</b> The <code>egor</code> package</a>
 <ul>
@@ -612,7 +615,7 @@ div.csl-indent {
 <li><em>Apply</em> exactly the same type of calculation on each piece, identically and independently.</li>
 <li><em>Combine</em> all results back together, for example into a new dataset.</li>
 </ol></li>
-<li>This has been called the <strong>split-apply-combine</strong> strategy <span class="citation">(<a href="#ref-wickham_split-apply-combine_2011" role="doc-biblioref">Wickham 2011</a>)</span> and is essential in egocentric network analysis. With ego-networks, we are constantly (1) splitting the data into pieces, each piece typically corresponding to one ego; (2) performing identical and independent analyses on each piece (each ego-network); (3) combining the results back together, typically into a single ego-level dataset, to then associate them with other ego-level variables.</li>
+<li>This has been called the <strong>split-apply-combine</strong> strategy <span class="citation">(<a href="#ref-wickham_split-apply-combine_2011" role="doc-biblioref">Wickham, 2011</a>)</span> and is essential in egocentric network analysis. With ego-networks, we are constantly (1) splitting the data into pieces, each piece typically corresponding to one ego; (2) performing identical and independent analyses on each piece (each ego-network); (3) combining the results back together, typically into a single ego-level dataset, to then associate them with other ego-level variables.</li>
 <li>In base and traditional R, common tools to perform split-apply-combine operations include <code>for</code> loops, the <code>apply</code> family of functions, and <code>aggregate</code>.</li>
 <li>The <code>tidyverse</code> packages provide new ways of conducting split-apply-combine operations with more efficient and readable code:
 <ul>
@@ -875,9 +878,9 @@ div.csl-indent {
 </div>
 </div>
 <h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
 <div id="ref-wickham_split-apply-combine_2011" class="csl-entry">
-Wickham, Hadley. 2011. <span>“The <span>Split</span>-<span>Apply</span>-<span>Combine</span> <span>Strategy</span> for <span>Data</span> <span>Analysis</span>.”</span> <em>Journal of Statistical Software</em> 40 (1): 1–29. <a href="http://www.jstatsoft.org/v40/i01">http://www.jstatsoft.org/v40/i01</a>.
+Wickham, H. (2011). The <span>Split</span>-<span>Apply</span>-<span>Combine</span> <span>Strategy</span> for <span>Data</span> <span>Analysis</span>. <em>Journal of Statistical Software</em>, <em>40</em>(1), 1–29. <a href="http://www.jstatsoft.org/v40/i01">http://www.jstatsoft.org/v40/i01</a>
 </div>
 </div>
             </section>
