@@ -33,14 +33,6 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{xcolor}
-\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
-\hypersetup{
-  pdftitle={Egocentric network analysis with R},
-  pdfauthor={Raffaele Vacca},
-  hidelinks,
-  pdfcreator={LaTeX via pandoc}}
-\urlstyle{same} % disable monospaced font for URLs
 \usepackage{color}
 \usepackage{fancyvrb}
 \newcommand{\VerbBar}{|}
@@ -114,10 +106,18 @@
 \fi
 \usepackage[]{natbib}
 \bibliographystyle{apalike}
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Egocentric network analysis with R},
+  pdfauthor={Raffaele Vacca},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
 
 \title{Egocentric network analysis with R}
 \author{\href{http://www.raffaelevacca.com/}{Raffaele Vacca}}
-\date{2022-06-21}
+\date{2022-09-15}
 
 \begin{document}
 \maketitle
@@ -209,16 +209,16 @@ You can \textbf{download the workshop folder} from \href{https://github.com/raff
   Unzip the folder and save it to your computer
 \end{enumerate}
 
-The workshop folder includes:
+The workshop folder contains several files and folders, but you only need to focus on the following:
 
 \begin{itemize}
 \tightlist
 \item
-  \texttt{Data} subfolder: all data we're going to use.
+  \texttt{Scripts} subfolder: all the R code shown in this book.
 \item
-  \texttt{egocentric-r.Rproj}: the workshop's R project file.
+  \texttt{Data} subfolder: all the data we're going to use.
 \item
-  \texttt{Scripts} subfolder: all code shown in this book.
+  \texttt{egocentric-r.Rproj}: the workshop's R project file (you use this to launch RStudio).
 \end{itemize}
 
 The \texttt{Scripts} subfolder includes different R script (.R) files. You can access and run the R code in each script by opening the corresponding .R file in RStudio. Each script in \texttt{Scripts} corresponds to one of the following chapters (see the table of contents):
@@ -564,17 +564,14 @@ The script covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
+## -- Attaching packages --------------------------------------- tidyverse 1.3.2 --
 \end{verbatim}
 
 \begin{verbatim}
-## v ggplot2 3.3.5     v purrr   0.3.4
-## v tibble  3.1.6     v dplyr   1.0.7
-## v tidyr   1.1.4     v stringr 1.4.0
-## v readr   2.1.1     v forcats 0.5.1
-\end{verbatim}
-
-\begin{verbatim}
+## v ggplot2 3.3.6     v purrr   0.3.4
+## v tibble  3.1.8     v dplyr   1.0.9
+## v tidyr   1.2.0     v stringr 1.4.1
+## v readr   2.1.2     v forcats 0.5.2
 ## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
 ## x dplyr::as_data_frame() masks tibble::as_data_frame(), igraph::as_data_frame()
 ## x purrr::compose()       masks igraph::compose()
@@ -910,16 +907,10 @@ In R, everything that \textbf{exists} is an object. Everything that \textbf{happ
 
 \begin{verbatim}
 ## Rows: 102 Columns: 9
-\end{verbatim}
-
-\begin{verbatim}
 ## -- Column specification --------------------------------------------------------
 ## Delimiter: ","
 ## chr (4): ego.sex, ego.edu, ego.empl.bin, ego.age.cat
 ## dbl (5): ego_ID, ego.age, ego.arr, ego.inc, empl
-\end{verbatim}
-
-\begin{verbatim}
 ## 
 ## i Use `spec()` to retrieve the full column specification for this data.
 ## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
@@ -934,19 +925,19 @@ In R, everything that \textbf{exists} is an object. Everything that \textbf{happ
 
 \begin{verbatim}
 ## # A tibble: 102 x 9
-##    ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
-##     <dbl> <chr>     <dbl>   <dbl> <chr>     <dbl> <dbl> <chr>        <chr>      
-##  1     28 Male         61    2008 Second~     350     3 Yes          60+        
-##  2     29 Male         38    2000 Primary     900     4 Yes          36-40      
-##  3     33 Male         30    2010 Primary     200     3 Yes          26-30      
-##  4     35 Male         25    2009 Second~    1000     3 Yes          18-25      
-##  5     39 Male         29    2007 Primary       0     1 No           26-30      
-##  6     40 Male         56    2008 Second~     950     4 Yes          51-60      
-##  7     45 Male         52    1975 Primary    1600     3 Yes          51-60      
-##  8     46 Male         35    2002 Second~    1200     4 Yes          31-35      
-##  9     47 Male         22    2010 Second~     700     4 Yes          18-25      
-## 10     48 Male         51    2007 Primary     950     4 Yes          51-60      
-## # ... with 92 more rows
+##    ego_ID ego.sex ego.age ego.arr ego.edu   ego.inc  empl ego.empl.bin ego.age~1
+##     <dbl> <chr>     <dbl>   <dbl> <chr>       <dbl> <dbl> <chr>        <chr>    
+##  1     28 Male         61    2008 Secondary     350     3 Yes          60+      
+##  2     29 Male         38    2000 Primary       900     4 Yes          36-40    
+##  3     33 Male         30    2010 Primary       200     3 Yes          26-30    
+##  4     35 Male         25    2009 Secondary    1000     3 Yes          18-25    
+##  5     39 Male         29    2007 Primary         0     1 No           26-30    
+##  6     40 Male         56    2008 Secondary     950     4 Yes          51-60    
+##  7     45 Male         52    1975 Primary      1600     3 Yes          51-60    
+##  8     46 Male         35    2002 Secondary    1200     4 Yes          31-35    
+##  9     47 Male         22    2010 Secondary     700     4 Yes          18-25    
+## 10     48 Male         51    2007 Primary       950     4 Yes          51-60    
+## # ... with 92 more rows, and abbreviated variable name 1: ego.age.cat
 \end{verbatim}
 
 \begin{Shaded}
@@ -1651,19 +1642,19 @@ In R, everything that \textbf{exists} is an object. Everything that \textbf{happ
 
 \begin{verbatim}
 ## # A tibble: 102 x 9
-##    ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
-##     <dbl> <chr>     <dbl>   <dbl> <chr>     <dbl> <dbl> <chr>        <chr>      
-##  1     28 Male         61    2008 Second~     350     3 Yes          60+        
-##  2     29 Male         38    2000 Primary     900     4 Yes          36-40      
-##  3     33 Male         30    2010 Primary     200     3 Yes          26-30      
-##  4     35 Male         25    2009 Second~    1000     3 Yes          18-25      
-##  5     39 Male         29    2007 Primary       0     1 No           26-30      
-##  6     40 Male         56    2008 Second~     950     4 Yes          51-60      
-##  7     45 Male         52    1975 Primary    1600     3 Yes          51-60      
-##  8     46 Male         35    2002 Second~    1200     4 Yes          31-35      
-##  9     47 Male         22    2010 Second~     700     4 Yes          18-25      
-## 10     48 Male         51    2007 Primary     950     4 Yes          51-60      
-## # ... with 92 more rows
+##    ego_ID ego.sex ego.age ego.arr ego.edu   ego.inc  empl ego.empl.bin ego.age~1
+##     <dbl> <chr>     <dbl>   <dbl> <chr>       <dbl> <dbl> <chr>        <chr>    
+##  1     28 Male         61    2008 Secondary     350     3 Yes          60+      
+##  2     29 Male         38    2000 Primary       900     4 Yes          36-40    
+##  3     33 Male         30    2010 Primary       200     3 Yes          26-30    
+##  4     35 Male         25    2009 Secondary    1000     3 Yes          18-25    
+##  5     39 Male         29    2007 Primary         0     1 No           26-30    
+##  6     40 Male         56    2008 Secondary     950     4 Yes          51-60    
+##  7     45 Male         52    1975 Primary      1600     3 Yes          51-60    
+##  8     46 Male         35    2002 Secondary    1200     4 Yes          31-35    
+##  9     47 Male         22    2010 Secondary     700     4 Yes          18-25    
+## 10     48 Male         51    2007 Primary       950     4 Yes          51-60    
+## # ... with 92 more rows, and abbreviated variable name 1: ego.age.cat
 \end{verbatim}
 
 \begin{Shaded}
@@ -1805,15 +1796,16 @@ In R, everything that \textbf{exists} is an object. Everything that \textbf{happ
 
 \begin{verbatim}
 ## # A tibble: 7 x 9
-##   ego_ID ego.sex ego.age ego.arr ego.edu  ego.inc  empl ego.empl.bin ego.age.cat
-##    <dbl> <chr>     <dbl>   <dbl> <chr>      <dbl> <dbl> <chr>        <chr>      
-## 1     35 Male         25    2009 Seconda~    1000     3 Yes          18-25      
-## 2     39 Male         29    2007 Primary        0     1 No           26-30      
-## 3     40 Male         56    2008 Seconda~     950     4 Yes          51-60      
-## 4     45 Male         52    1975 Primary     1600     3 Yes          51-60      
-## 5     46 Male         35    2002 Seconda~    1200     4 Yes          31-35      
-## 6     47 Male         22    2010 Seconda~     700     4 Yes          18-25      
-## 7     48 Male         51    2007 Primary      950     4 Yes          51-60
+##   ego_ID ego.sex ego.age ego.arr ego.edu   ego.inc  empl ego.empl.bin ego.age.~1
+##    <dbl> <chr>     <dbl>   <dbl> <chr>       <dbl> <dbl> <chr>        <chr>     
+## 1     35 Male         25    2009 Secondary    1000     3 Yes          18-25     
+## 2     39 Male         29    2007 Primary         0     1 No           26-30     
+## 3     40 Male         56    2008 Secondary     950     4 Yes          51-60     
+## 4     45 Male         52    1975 Primary      1600     3 Yes          51-60     
+## 5     46 Male         35    2002 Secondary    1200     4 Yes          31-35     
+## 6     47 Male         22    2010 Secondary     700     4 Yes          18-25     
+## 7     48 Male         51    2007 Primary       950     4 Yes          51-60     
+## # ... with abbreviated variable name 1: ego.age.cat
 \end{verbatim}
 
 \begin{Shaded}
@@ -2058,19 +2050,19 @@ x %<>%
 
 \begin{verbatim}
 ## # A tibble: 51 x 9
-##    ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
-##     <dbl> <chr>     <dbl>   <dbl> <chr>     <dbl> <dbl> <chr>        <chr>      
-##  1     28 Male         61    2008 Second~     350     3 Yes          60+        
-##  2     40 Male         56    2008 Second~     950     4 Yes          51-60      
-##  3     45 Male         52    1975 Primary    1600     3 Yes          51-60      
-##  4     48 Male         51    2007 Primary     950     4 Yes          51-60      
-##  5     49 Male         50    2001 Second~    1300     4 Yes          41-50      
-##  6     51 Male         45    2011 Second~     480     3 Yes          41-50      
-##  7     52 Male         51    2002 Univer~    1200     4 Yes          51-60      
-##  8     55 Male         57    1979 Second~     470     7 No           51-60      
-##  9     56 Male         42    1992 Primary    1100     4 Yes          41-50      
-## 10     58 Male         55    1990 Second~    1450     4 Yes          51-60      
-## # ... with 41 more rows
+##    ego_ID ego.sex ego.age ego.arr ego.edu    ego.inc  empl ego.empl.bin ego.ag~1
+##     <dbl> <chr>     <dbl>   <dbl> <chr>        <dbl> <dbl> <chr>        <chr>   
+##  1     28 Male         61    2008 Secondary      350     3 Yes          60+     
+##  2     40 Male         56    2008 Secondary      950     4 Yes          51-60   
+##  3     45 Male         52    1975 Primary       1600     3 Yes          51-60   
+##  4     48 Male         51    2007 Primary        950     4 Yes          51-60   
+##  5     49 Male         50    2001 Secondary     1300     4 Yes          41-50   
+##  6     51 Male         45    2011 Secondary      480     3 Yes          41-50   
+##  7     52 Male         51    2002 University    1200     4 Yes          51-60   
+##  8     55 Male         57    1979 Secondary      470     7 No           51-60   
+##  9     56 Male         42    1992 Primary       1100     4 Yes          41-50   
+## 10     58 Male         55    1990 Secondary     1450     4 Yes          51-60   
+## # ... with 41 more rows, and abbreviated variable name 1: ego.age.cat
 \end{verbatim}
 
 \begin{Shaded}
@@ -2133,19 +2125,19 @@ x %<>%
 
 \begin{verbatim}
 ## # A tibble: 72 x 9
-##    ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
-##     <dbl> <chr>     <dbl>   <dbl> <chr>     <dbl> <dbl> <chr>        <chr>      
-##  1     28 Male         61    2008 Second~     350     3 Yes          60+        
-##  2     29 Male         38    2000 Primary     900     4 Yes          36-40      
-##  3     33 Male         30    2010 Primary     200     3 Yes          26-30      
-##  4     39 Male         29    2007 Primary       0     1 No           26-30      
-##  5     40 Male         56    2008 Second~     950     4 Yes          51-60      
-##  6     45 Male         52    1975 Primary    1600     3 Yes          51-60      
-##  7     48 Male         51    2007 Primary     950     4 Yes          51-60      
-##  8     49 Male         50    2001 Second~    1300     4 Yes          41-50      
-##  9     51 Male         45    2011 Second~     480     3 Yes          41-50      
-## 10     52 Male         51    2002 Univer~    1200     4 Yes          51-60      
-## # ... with 62 more rows
+##    ego_ID ego.sex ego.age ego.arr ego.edu    ego.inc  empl ego.empl.bin ego.ag~1
+##     <dbl> <chr>     <dbl>   <dbl> <chr>        <dbl> <dbl> <chr>        <chr>   
+##  1     28 Male         61    2008 Secondary      350     3 Yes          60+     
+##  2     29 Male         38    2000 Primary        900     4 Yes          36-40   
+##  3     33 Male         30    2010 Primary        200     3 Yes          26-30   
+##  4     39 Male         29    2007 Primary          0     1 No           26-30   
+##  5     40 Male         56    2008 Secondary      950     4 Yes          51-60   
+##  6     45 Male         52    1975 Primary       1600     3 Yes          51-60   
+##  7     48 Male         51    2007 Primary        950     4 Yes          51-60   
+##  8     49 Male         50    2001 Secondary     1300     4 Yes          41-50   
+##  9     51 Male         45    2011 Secondary      480     3 Yes          41-50   
+## 10     52 Male         51    2002 University    1200     4 Yes          51-60   
+## # ... with 62 more rows, and abbreviated variable name 1: ego.age.cat
 \end{verbatim}
 
 \begin{Shaded}
@@ -2161,19 +2153,19 @@ x %<>%
 
 \begin{verbatim}
 ## # A tibble: 51 x 9
-##    ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
-##     <dbl> <chr>     <dbl>   <dbl> <chr>     <dbl> <dbl> <chr>        <chr>      
-##  1     28 Male         61    2008 Second~     350     3 Yes          60+        
-##  2     40 Male         56    2008 Second~     950     4 Yes          51-60      
-##  3     45 Male         52    1975 Primary    1600     3 Yes          51-60      
-##  4     48 Male         51    2007 Primary     950     4 Yes          51-60      
-##  5     49 Male         50    2001 Second~    1300     4 Yes          41-50      
-##  6     51 Male         45    2011 Second~     480     3 Yes          41-50      
-##  7     52 Male         51    2002 Univer~    1200     4 Yes          51-60      
-##  8     55 Male         57    1979 Second~     470     7 No           51-60      
-##  9     56 Male         42    1992 Primary    1100     4 Yes          41-50      
-## 10     58 Male         55    1990 Second~    1450     4 Yes          51-60      
-## # ... with 41 more rows
+##    ego_ID ego.sex ego.age ego.arr ego.edu    ego.inc  empl ego.empl.bin ego.ag~1
+##     <dbl> <chr>     <dbl>   <dbl> <chr>        <dbl> <dbl> <chr>        <chr>   
+##  1     28 Male         61    2008 Secondary      350     3 Yes          60+     
+##  2     40 Male         56    2008 Secondary      950     4 Yes          51-60   
+##  3     45 Male         52    1975 Primary       1600     3 Yes          51-60   
+##  4     48 Male         51    2007 Primary        950     4 Yes          51-60   
+##  5     49 Male         50    2001 Secondary     1300     4 Yes          41-50   
+##  6     51 Male         45    2011 Secondary      480     3 Yes          41-50   
+##  7     52 Male         51    2002 University    1200     4 Yes          51-60   
+##  8     55 Male         57    1979 Secondary      470     7 No           51-60   
+##  9     56 Male         42    1992 Primary       1100     4 Yes          41-50   
+## 10     58 Male         55    1990 Secondary     1450     4 Yes          51-60   
+## # ... with 41 more rows, and abbreviated variable name 1: ego.age.cat
 \end{verbatim}
 
 \begin{Shaded}
@@ -2421,19 +2413,19 @@ This chapter covers the following topics:
 
 \begin{verbatim}
 ## # A tibble: 102 x 9
-##    ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
-##     <dbl> <fct>     <dbl>   <dbl> <fct>     <dbl> <dbl> <fct>        <fct>      
-##  1     28 Male         61    2008 Second~     350     3 Yes          60+        
-##  2     29 Male         38    2000 Primary     900     4 Yes          36-40      
-##  3     33 Male         30    2010 Primary     200     3 Yes          26-30      
-##  4     35 Male         25    2009 Second~    1000     3 Yes          18-25      
-##  5     39 Male         29    2007 Primary       0     1 No           26-30      
-##  6     40 Male         56    2008 Second~     950     4 Yes          51-60      
-##  7     45 Male         52    1975 Primary    1600     3 Yes          51-60      
-##  8     46 Male         35    2002 Second~    1200     4 Yes          31-35      
-##  9     47 Male         22    2010 Second~     700     4 Yes          18-25      
-## 10     48 Male         51    2007 Primary     950     4 Yes          51-60      
-## # ... with 92 more rows
+##    ego_ID ego.sex ego.age ego.arr ego.edu   ego.inc  empl ego.empl.bin ego.age~1
+##     <dbl> <fct>     <dbl>   <dbl> <fct>       <dbl> <dbl> <fct>        <fct>    
+##  1     28 Male         61    2008 Secondary     350     3 Yes          60+      
+##  2     29 Male         38    2000 Primary       900     4 Yes          36-40    
+##  3     33 Male         30    2010 Primary       200     3 Yes          26-30    
+##  4     35 Male         25    2009 Secondary    1000     3 Yes          18-25    
+##  5     39 Male         29    2007 Primary         0     1 No           26-30    
+##  6     40 Male         56    2008 Secondary     950     4 Yes          51-60    
+##  7     45 Male         52    1975 Primary      1600     3 Yes          51-60    
+##  8     46 Male         35    2002 Secondary    1200     4 Yes          31-35    
+##  9     47 Male         22    2010 Secondary     700     4 Yes          18-25    
+## 10     48 Male         51    2007 Primary       950     4 Yes          51-60    
+## # ... with 92 more rows, and abbreviated variable name 1: ego.age.cat
 \end{verbatim}
 
 \begin{Shaded}
@@ -2446,20 +2438,21 @@ This chapter covers the following topics:
 
 \begin{verbatim}
 ## # A tibble: 4,590 x 12
-##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
-##       <dbl>  <dbl>     <dbl> <fct>     <fct>         <fct>        <fct>    
-##  1     2801     28         1 Female    51-60         Close family Sri Lanka
-##  2     2802     28         2 Male      51-60         Other family Sri Lanka
-##  3     2803     28         3 Male      51-60         Close family Sri Lanka
-##  4     2804     28         4 Male      60+           Close family Sri Lanka
-##  5     2805     28         5 Female    41-50         Close family Sri Lanka
-##  6     2806     28         6 Female    60+           Close family Sri Lanka
-##  7     2807     28         7 Male      41-50         Other family Sri Lanka
-##  8     2808     28         8 Female    36-40         Other family Sri Lanka
-##  9     2809     28         9 Female    51-60         Other family Sri Lanka
-## 10     2810     28        10 Male      60+           Other family Sri Lanka
-## # ... with 4,580 more rows, and 5 more variables: alter.res <fct>,
-## #   alter.clo <dbl>, alter.loan <fct>, alter.fam <fct>, alter.age <dbl>
+##    alter_ID ego_ID alter_num alter.sex alter.a~1 alter~2 alter~3 alter~4 alter~5
+##       <dbl>  <dbl>     <dbl> <fct>     <fct>     <fct>   <fct>   <fct>     <dbl>
+##  1     2801     28         1 Female    51-60     Close ~ Sri La~ Sri La~      NA
+##  2     2802     28         2 Male      51-60     Other ~ Sri La~ Sri La~       3
+##  3     2803     28         3 Male      51-60     Close ~ Sri La~ Sri La~      NA
+##  4     2804     28         4 Male      60+       Close ~ Sri La~ Sri La~      NA
+##  5     2805     28         5 Female    41-50     Close ~ Sri La~ Sri La~      NA
+##  6     2806     28         6 Female    60+       Close ~ Sri La~ Sri La~      NA
+##  7     2807     28         7 Male      41-50     Other ~ Sri La~ Sri La~       5
+##  8     2808     28         8 Female    36-40     Other ~ Sri La~ Sri La~       4
+##  9     2809     28         9 Female    51-60     Other ~ Sri La~ Sri La~       5
+## 10     2810     28        10 Male      60+       Other ~ Sri La~ Sri La~       5
+## # ... with 4,580 more rows, 3 more variables: alter.loan <fct>,
+## #   alter.fam <fct>, alter.age <dbl>, and abbreviated variable names
+## #   1: alter.age.cat, 2: alter.rel, 3: alter.nat, 4: alter.res, 5: alter.clo
 \end{verbatim}
 
 \begin{Shaded}
@@ -2471,22 +2464,23 @@ This chapter covers the following topics:
 
 \begin{verbatim}
 ## # A tibble: 4,590 x 20
-##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
-##       <dbl>  <dbl>     <dbl> <fct>     <fct>         <fct>        <fct>    
-##  1     2801     28         1 Female    51-60         Close family Sri Lanka
-##  2     2802     28         2 Male      51-60         Other family Sri Lanka
-##  3     2803     28         3 Male      51-60         Close family Sri Lanka
-##  4     2804     28         4 Male      60+           Close family Sri Lanka
-##  5     2805     28         5 Female    41-50         Close family Sri Lanka
-##  6     2806     28         6 Female    60+           Close family Sri Lanka
-##  7     2807     28         7 Male      41-50         Other family Sri Lanka
-##  8     2808     28         8 Female    36-40         Other family Sri Lanka
-##  9     2809     28         9 Female    51-60         Other family Sri Lanka
-## 10     2810     28        10 Male      60+           Other family Sri Lanka
-## # ... with 4,580 more rows, and 13 more variables: alter.res <fct>,
-## #   alter.clo <dbl>, alter.loan <fct>, alter.fam <fct>, alter.age <dbl>,
-## #   ego.sex <fct>, ego.age <dbl>, ego.arr <dbl>, ego.edu <fct>, ego.inc <dbl>,
-## #   empl <dbl>, ego.empl.bin <fct>, ego.age.cat <fct>
+##    alter_ID ego_ID alter_num alter.sex alter.a~1 alter~2 alter~3 alter~4 alter~5
+##       <dbl>  <dbl>     <dbl> <fct>     <fct>     <fct>   <fct>   <fct>     <dbl>
+##  1     2801     28         1 Female    51-60     Close ~ Sri La~ Sri La~      NA
+##  2     2802     28         2 Male      51-60     Other ~ Sri La~ Sri La~       3
+##  3     2803     28         3 Male      51-60     Close ~ Sri La~ Sri La~      NA
+##  4     2804     28         4 Male      60+       Close ~ Sri La~ Sri La~      NA
+##  5     2805     28         5 Female    41-50     Close ~ Sri La~ Sri La~      NA
+##  6     2806     28         6 Female    60+       Close ~ Sri La~ Sri La~      NA
+##  7     2807     28         7 Male      41-50     Other ~ Sri La~ Sri La~       5
+##  8     2808     28         8 Female    36-40     Other ~ Sri La~ Sri La~       4
+##  9     2809     28         9 Female    51-60     Other ~ Sri La~ Sri La~       5
+## 10     2810     28        10 Male      60+       Other ~ Sri La~ Sri La~       5
+## # ... with 4,580 more rows, 11 more variables: alter.loan <fct>,
+## #   alter.fam <fct>, alter.age <dbl>, ego.sex <fct>, ego.age <dbl>,
+## #   ego.arr <dbl>, ego.edu <fct>, ego.inc <dbl>, empl <dbl>,
+## #   ego.empl.bin <fct>, ego.age.cat <fct>, and abbreviated variable names
+## #   1: alter.age.cat, 2: alter.rel, 3: alter.nat, 4: alter.res, 5: alter.clo
 \end{verbatim}
 
 \begin{Shaded}
@@ -2615,12 +2609,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 2d5106b UNW- 45 259 -- 
+## IGRAPH 4bd73ec UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 2d5106b (vertex names):
+## + edges from 4bd73ec (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -2647,12 +2641,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 9f08956 UNW- 46 304 -- 
+## IGRAPH 952aaf2 UNW- 46 304 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 9f08956 (vertex names):
+## + edges from 952aaf2 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -2781,16 +2775,15 @@ This chapter covers the following topics:
 ## # An undirected simple graph with 1 component
 ## #
 ## # Node Data: 45 x 11 (active)
-##   name  alter_num alter.sex alter.age.cat alter.rel alter.nat alter.res
-##   <chr>     <dbl> <chr>     <chr>         <chr>     <chr>     <chr>    
-## 1 2801          1 Female    51-60         Close fa~ Sri Lanka Sri Lanka
-## 2 2802          2 Male      51-60         Other fa~ Sri Lanka Sri Lanka
-## 3 2803          3 Male      51-60         Close fa~ Sri Lanka Sri Lanka
-## 4 2804          4 Male      60+           Close fa~ Sri Lanka Sri Lanka
-## 5 2805          5 Female    41-50         Close fa~ Sri Lanka Sri Lanka
-## 6 2806          6 Female    60+           Close fa~ Sri Lanka Sri Lanka
-## # ... with 39 more rows, and 4 more variables: alter.clo <dbl>,
-## #   alter.loan <chr>, alter.fam <chr>, alter.age <dbl>
+##   name  alter_~ alter.~ alter.~ alter.~ alter.~ alter.~ alter.~ alter.~ alter.~
+##   <chr>   <dbl> <chr>   <chr>   <chr>   <chr>   <chr>     <dbl> <chr>   <chr>  
+## 1 2801        1 Female  51-60   Close ~ Sri La~ Sri La~      NA <NA>    Yes    
+## 2 2802        2 Male    51-60   Other ~ Sri La~ Sri La~       3 No      Yes    
+## 3 2803        3 Male    51-60   Close ~ Sri La~ Sri La~      NA <NA>    Yes    
+## 4 2804        4 Male    60+     Close ~ Sri La~ Sri La~      NA <NA>    Yes    
+## 5 2805        5 Female  41-50   Close ~ Sri La~ Sri La~      NA <NA>    Yes    
+## 6 2806        6 Female  60+     Close ~ Sri La~ Sri La~      NA <NA>    Yes    
+## # ... with 39 more rows, and 1 more variable: alter.age <dbl>
 ## #
 ## # Edge Data: 259 x 3
 ##    from    to weight
@@ -2815,7 +2808,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 45/45 vertices, named, from 2d5106b:
+## + 45/45 vertices, named, from 4bd73ec:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2813 2814 2815
 ## [16] 2816 2817 2818 2819 2820 2821 2822 2823 2824 2825 2826 2827 2828 2829 2830
 ## [31] 2831 2832 2833 2834 2835 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845
@@ -2830,7 +2823,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 259/259 edges from 2d5106b (vertex names):
+## + 259/259 edges from 4bd73ec (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -2889,10 +2882,8 @@ This chapter covers the following topics:
 ## Group variables            None  
 ## 
 ## -- Variable type: numeric ------------------------------------------------------
-##   skim_variable n_missing complete_rate  mean    sd    p0   p25   p50   p75
-## 1 data                  5         0.889   4.1  1.08     1     3     5     5
-##    p100 hist 
-## 1     5 ▁▁▅▂▇
+##   skim_variable n_missing complete_rate mean   sd p0 p25 p50 p75 p100 hist 
+## 1 data                  5         0.889  4.1 1.08  1   3   5   5    5 ▁▁▅▂▇
 \end{verbatim}
 
 \begin{Shaded}
@@ -2968,12 +2959,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 2d5106b UNW- 45 259 -- 
+## IGRAPH 4bd73ec UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), new.attribute (v/n), weight (e/n)
-## + edges from 2d5106b (vertex names):
+## + edges from 4bd73ec (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -3025,12 +3016,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 2d5106b UNW- 45 259 -- 
+## IGRAPH 4bd73ec UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/n), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), new.attribute (v/n), weight (e/n)
-## + edges from 2d5106b (vertex names):
+## + edges from 4bd73ec (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -3114,7 +3105,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 8/45 vertices, named, from 2d5106b:
+## + 8/45 vertices, named, from 4bd73ec:
 ## [1] 2801 2805 2806 2808 2809 2828 2832 2837
 \end{verbatim}
 
@@ -3167,7 +3158,13 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 16/45 vertices, named, from 2d5106b:
+## Warning: 'nei' is deprecated.
+## Use '.nei' instead.
+## See help("Deprecated")
+\end{verbatim}
+
+\begin{verbatim}
+## + 16/45 vertices, named, from 4bd73ec:
 ##  [1] 2814 2815 2821 2822 2823 2824 2825 2826 2832 2834 2835 2837 2838 2839 2843
 ## [16] 2845
 \end{verbatim}
@@ -3178,6 +3175,12 @@ This chapter covers the following topics:
 \FunctionTok{V}\NormalTok{(gr)[}\FunctionTok{nei}\NormalTok{(}\StringTok{"2833"}\NormalTok{)]}\SpecialCharTok{$}\NormalTok{alter.sex}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+## Warning: 'nei' is deprecated.
+## Use '.nei' instead.
+## See help("Deprecated")
+\end{verbatim}
 
 \begin{verbatim}
 ##  [1] "Male"   "Male"   "Male"   "Male"   "Male"   "Male"   "Male"   "Male"  
@@ -3192,7 +3195,13 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 16/259 edges from 2d5106b (vertex names):
+## Warning: 'inc' is deprecated.
+## Use '.inc' instead.
+## See help("Deprecated")
+\end{verbatim}
+
+\begin{verbatim}
+## + 16/259 edges from 4bd73ec (vertex names):
 ##  [1] 2814--2833 2815--2833 2821--2833 2822--2833 2823--2833 2824--2833
 ##  [7] 2825--2833 2826--2833 2832--2833 2833--2834 2833--2835 2833--2837
 ## [13] 2833--2838 2833--2839 2833--2843 2833--2845
@@ -3204,6 +3213,12 @@ This chapter covers the following topics:
 \FunctionTok{E}\NormalTok{(gr)[}\FunctionTok{inc}\NormalTok{(}\StringTok{"2833"}\NormalTok{)]}\SpecialCharTok{$}\NormalTok{weight}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+## Warning: 'inc' is deprecated.
+## Use '.inc' instead.
+## See help("Deprecated")
+\end{verbatim}
 
 \begin{verbatim}
 ##  [1] 2 2 2 1 1 1 2 1 1 1 1 1 1 1 2 1
@@ -3218,6 +3233,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
+## Warning: 'inc' is deprecated.
+## Use '.inc' instead.
+## See help("Deprecated")
+\end{verbatim}
+
+\begin{verbatim}
 ## [1] 2
 \end{verbatim}
 
@@ -3229,7 +3250,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 24/259 edges from 2d5106b (vertex names):
+## + 24/259 edges from 4bd73ec (vertex names):
 ##  [1] 2801--2818 2801--2829 2804--2811 2804--2840 2807--2811 2811--2812
 ##  [7] 2811--2828 2813--2841 2813--2845 2814--2833 2815--2833 2816--2835
 ## [13] 2817--2835 2821--2826 2821--2833 2821--2839 2823--2830 2825--2833
@@ -3245,7 +3266,13 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 5/259 edges from 2d5106b (vertex names):
+## Warning: 'inc' is deprecated.
+## Use '.inc' instead.
+## See help("Deprecated")
+\end{verbatim}
+
+\begin{verbatim}
+## + 5/259 edges from 4bd73ec (vertex names):
 ## [1] 2814--2833 2815--2833 2821--2833 2825--2833 2833--2843
 \end{verbatim}
 
@@ -3360,20 +3387,21 @@ This chapter covers the following topics:
 
 \begin{verbatim}
 ## # A tibble: 45 x 12
-##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
-##       <dbl>  <dbl>     <dbl> <fct>     <fct>         <fct>        <fct>    
-##  1     2801     28         1 Female    51-60         Close family Sri Lanka
-##  2     2802     28         2 Male      51-60         Other family Sri Lanka
-##  3     2803     28         3 Male      51-60         Close family Sri Lanka
-##  4     2804     28         4 Male      60+           Close family Sri Lanka
-##  5     2805     28         5 Female    41-50         Close family Sri Lanka
-##  6     2806     28         6 Female    60+           Close family Sri Lanka
-##  7     2807     28         7 Male      41-50         Other family Sri Lanka
-##  8     2808     28         8 Female    36-40         Other family Sri Lanka
-##  9     2809     28         9 Female    51-60         Other family Sri Lanka
-## 10     2810     28        10 Male      60+           Other family Sri Lanka
-## # ... with 35 more rows, and 5 more variables: alter.res <fct>,
-## #   alter.clo <dbl>, alter.loan <fct>, alter.fam <fct>, alter.age <dbl>
+##    alter_ID ego_ID alter_num alter.sex alter.a~1 alter~2 alter~3 alter~4 alter~5
+##       <dbl>  <dbl>     <dbl> <fct>     <fct>     <fct>   <fct>   <fct>     <dbl>
+##  1     2801     28         1 Female    51-60     Close ~ Sri La~ Sri La~      NA
+##  2     2802     28         2 Male      51-60     Other ~ Sri La~ Sri La~       3
+##  3     2803     28         3 Male      51-60     Close ~ Sri La~ Sri La~      NA
+##  4     2804     28         4 Male      60+       Close ~ Sri La~ Sri La~      NA
+##  5     2805     28         5 Female    41-50     Close ~ Sri La~ Sri La~      NA
+##  6     2806     28         6 Female    60+       Close ~ Sri La~ Sri La~      NA
+##  7     2807     28         7 Male      41-50     Other ~ Sri La~ Sri La~       5
+##  8     2808     28         8 Female    36-40     Other ~ Sri La~ Sri La~       4
+##  9     2809     28         9 Female    51-60     Other ~ Sri La~ Sri La~       5
+## 10     2810     28        10 Male      60+       Other ~ Sri La~ Sri La~       5
+## # ... with 35 more rows, 3 more variables: alter.loan <fct>, alter.fam <fct>,
+## #   alter.age <dbl>, and abbreviated variable names 1: alter.age.cat,
+## #   2: alter.rel, 3: alter.nat, 4: alter.res, 5: alter.clo
 \end{verbatim}
 
 \begin{Shaded}
@@ -3427,10 +3455,8 @@ This chapter covers the following topics:
 ## Group variables            None  
 ## 
 ## -- Variable type: numeric ------------------------------------------------------
-##   skim_variable n_missing complete_rate  mean    sd    p0   p25   p50   p75
-## 1 alter.clo             5         0.889   4.1  1.08     1     3     5     5
-##    p100 hist 
-## 1     5 ▁▁▅▂▇
+##   skim_variable n_missing complete_rate mean   sd p0 p25 p50 p75 p100 hist 
+## 1 alter.clo             5         0.889  4.1 1.08  1   3   5   5    5 ▁▁▅▂▇
 \end{verbatim}
 
 \begin{Shaded}
@@ -3545,20 +3571,21 @@ This chapter covers the following topics:
 
 \begin{verbatim}
 ## # A tibble: 4,590 x 12
-##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
-##       <dbl>  <dbl>     <dbl> <fct>     <fct>         <fct>        <fct>    
-##  1     2801     28         1 Female    51-60         Close family Sri Lanka
-##  2     2802     28         2 Male      51-60         Other family Sri Lanka
-##  3     2803     28         3 Male      51-60         Close family Sri Lanka
-##  4     2804     28         4 Male      60+           Close family Sri Lanka
-##  5     2805     28         5 Female    41-50         Close family Sri Lanka
-##  6     2806     28         6 Female    60+           Close family Sri Lanka
-##  7     2807     28         7 Male      41-50         Other family Sri Lanka
-##  8     2808     28         8 Female    36-40         Other family Sri Lanka
-##  9     2809     28         9 Female    51-60         Other family Sri Lanka
-## 10     2810     28        10 Male      60+           Other family Sri Lanka
-## # ... with 4,580 more rows, and 5 more variables: alter.res <fct>,
-## #   alter.clo <dbl>, alter.loan <fct>, alter.fam <fct>, alter.age <dbl>
+##    alter_ID ego_ID alter_num alter.sex alter.a~1 alter~2 alter~3 alter~4 alter~5
+##       <dbl>  <dbl>     <dbl> <fct>     <fct>     <fct>   <fct>   <fct>     <dbl>
+##  1     2801     28         1 Female    51-60     Close ~ Sri La~ Sri La~      NA
+##  2     2802     28         2 Male      51-60     Other ~ Sri La~ Sri La~       3
+##  3     2803     28         3 Male      51-60     Close ~ Sri La~ Sri La~      NA
+##  4     2804     28         4 Male      60+       Close ~ Sri La~ Sri La~      NA
+##  5     2805     28         5 Female    41-50     Close ~ Sri La~ Sri La~      NA
+##  6     2806     28         6 Female    60+       Close ~ Sri La~ Sri La~      NA
+##  7     2807     28         7 Male      41-50     Other ~ Sri La~ Sri La~       5
+##  8     2808     28         8 Female    36-40     Other ~ Sri La~ Sri La~       4
+##  9     2809     28         9 Female    51-60     Other ~ Sri La~ Sri La~       5
+## 10     2810     28        10 Male      60+       Other ~ Sri La~ Sri La~       5
+## # ... with 4,580 more rows, 3 more variables: alter.loan <fct>,
+## #   alter.fam <fct>, alter.age <dbl>, and abbreviated variable names
+## #   1: alter.age.cat, 2: alter.rel, 3: alter.nat, 4: alter.res, 5: alter.clo
 \end{verbatim}
 
 \begin{Shaded}
@@ -3730,22 +3757,23 @@ This chapter covers the following topics:
 
 \begin{verbatim}
 ## # A tibble: 45 x 20
-##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
-##       <dbl>  <dbl>     <dbl> <fct>     <fct>         <fct>        <fct>    
-##  1     2801     28         1 Female    51-60         Close family Sri Lanka
-##  2     2802     28         2 Male      51-60         Other family Sri Lanka
-##  3     2803     28         3 Male      51-60         Close family Sri Lanka
-##  4     2804     28         4 Male      60+           Close family Sri Lanka
-##  5     2805     28         5 Female    41-50         Close family Sri Lanka
-##  6     2806     28         6 Female    60+           Close family Sri Lanka
-##  7     2807     28         7 Male      41-50         Other family Sri Lanka
-##  8     2808     28         8 Female    36-40         Other family Sri Lanka
-##  9     2809     28         9 Female    51-60         Other family Sri Lanka
-## 10     2810     28        10 Male      60+           Other family Sri Lanka
-## # ... with 35 more rows, and 13 more variables: alter.res <fct>,
-## #   alter.clo <dbl>, alter.loan <fct>, alter.fam <fct>, alter.age <dbl>,
-## #   ego.sex <fct>, ego.age <dbl>, ego.arr <dbl>, ego.edu <fct>, ego.inc <dbl>,
-## #   empl <dbl>, ego.empl.bin <fct>, ego.age.cat <fct>
+##    alter_ID ego_ID alter_num alter.sex alter.a~1 alter~2 alter~3 alter~4 alter~5
+##       <dbl>  <dbl>     <dbl> <fct>     <fct>     <fct>   <fct>   <fct>     <dbl>
+##  1     2801     28         1 Female    51-60     Close ~ Sri La~ Sri La~      NA
+##  2     2802     28         2 Male      51-60     Other ~ Sri La~ Sri La~       3
+##  3     2803     28         3 Male      51-60     Close ~ Sri La~ Sri La~      NA
+##  4     2804     28         4 Male      60+       Close ~ Sri La~ Sri La~      NA
+##  5     2805     28         5 Female    41-50     Close ~ Sri La~ Sri La~      NA
+##  6     2806     28         6 Female    60+       Close ~ Sri La~ Sri La~      NA
+##  7     2807     28         7 Male      41-50     Other ~ Sri La~ Sri La~       5
+##  8     2808     28         8 Female    36-40     Other ~ Sri La~ Sri La~       4
+##  9     2809     28         9 Female    51-60     Other ~ Sri La~ Sri La~       5
+## 10     2810     28        10 Male      60+       Other ~ Sri La~ Sri La~       5
+## # ... with 35 more rows, 11 more variables: alter.loan <fct>, alter.fam <fct>,
+## #   alter.age <dbl>, ego.sex <fct>, ego.age <dbl>, ego.arr <dbl>,
+## #   ego.edu <fct>, ego.inc <dbl>, empl <dbl>, ego.empl.bin <fct>,
+## #   ego.age.cat <fct>, and abbreviated variable names 1: alter.age.cat,
+## #   2: alter.rel, 3: alter.nat, 4: alter.res, 5: alter.clo
 \end{verbatim}
 
 \begin{Shaded}
@@ -4077,20 +4105,21 @@ This chapter covers the following topics:
 
 \begin{verbatim}
 ## # A tibble: 45 x 12
-##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
-##       <dbl>  <dbl>     <dbl> <fct>     <fct>         <fct>        <fct>    
-##  1     2801     28         1 Female    51-60         Close family Sri Lanka
-##  2     2802     28         2 Male      51-60         Other family Sri Lanka
-##  3     2803     28         3 Male      51-60         Close family Sri Lanka
-##  4     2804     28         4 Male      60+           Close family Sri Lanka
-##  5     2805     28         5 Female    41-50         Close family Sri Lanka
-##  6     2806     28         6 Female    60+           Close family Sri Lanka
-##  7     2807     28         7 Male      41-50         Other family Sri Lanka
-##  8     2808     28         8 Female    36-40         Other family Sri Lanka
-##  9     2809     28         9 Female    51-60         Other family Sri Lanka
-## 10     2810     28        10 Male      60+           Other family Sri Lanka
-## # ... with 35 more rows, and 5 more variables: alter.res <fct>,
-## #   alter.clo <dbl>, alter.loan <fct>, alter.fam <fct>, alter.age <dbl>
+##    alter_ID ego_ID alter_num alter.sex alter.a~1 alter~2 alter~3 alter~4 alter~5
+##       <dbl>  <dbl>     <dbl> <fct>     <fct>     <fct>   <fct>   <fct>     <dbl>
+##  1     2801     28         1 Female    51-60     Close ~ Sri La~ Sri La~      NA
+##  2     2802     28         2 Male      51-60     Other ~ Sri La~ Sri La~       3
+##  3     2803     28         3 Male      51-60     Close ~ Sri La~ Sri La~      NA
+##  4     2804     28         4 Male      60+       Close ~ Sri La~ Sri La~      NA
+##  5     2805     28         5 Female    41-50     Close ~ Sri La~ Sri La~      NA
+##  6     2806     28         6 Female    60+       Close ~ Sri La~ Sri La~      NA
+##  7     2807     28         7 Male      41-50     Other ~ Sri La~ Sri La~       5
+##  8     2808     28         8 Female    36-40     Other ~ Sri La~ Sri La~       4
+##  9     2809     28         9 Female    51-60     Other ~ Sri La~ Sri La~       5
+## 10     2810     28        10 Male      60+       Other ~ Sri La~ Sri La~       5
+## # ... with 35 more rows, 3 more variables: alter.loan <fct>, alter.fam <fct>,
+## #   alter.age <dbl>, and abbreviated variable names 1: alter.age.cat,
+## #   2: alter.rel, 3: alter.nat, 4: alter.res, 5: alter.clo
 \end{verbatim}
 
 \begin{Shaded}
@@ -4202,20 +4231,20 @@ This chapter covers the following topics:
 
 \begin{verbatim}
 ## # A tibble: 102 x 12
-##    ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
-##     <dbl> <fct>     <dbl>   <dbl> <fct>     <dbl> <dbl> <fct>        <fct>      
-##  1     28 Male         61    2008 Second~     350     3 Yes          60+        
-##  2     29 Male         38    2000 Primary     900     4 Yes          36-40      
-##  3     33 Male         30    2010 Primary     200     3 Yes          26-30      
-##  4     35 Male         25    2009 Second~    1000     3 Yes          18-25      
-##  5     39 Male         29    2007 Primary       0     1 No           26-30      
-##  6     40 Male         56    2008 Second~     950     4 Yes          51-60      
-##  7     45 Male         52    1975 Primary    1600     3 Yes          51-60      
-##  8     46 Male         35    2002 Second~    1200     4 Yes          31-35      
-##  9     47 Male         22    2010 Second~     700     4 Yes          18-25      
-## 10     48 Male         51    2007 Primary     950     4 Yes          51-60      
-## # ... with 92 more rows, and 3 more variables: N.clo.fam <int>,
-## #   N.oth.fam <int>, N.fri <int>
+##    ego_ID ego.sex ego.age ego.arr ego.edu  ego.inc  empl ego.e~1 ego.a~2 N.clo~3
+##     <dbl> <fct>     <dbl>   <dbl> <fct>      <dbl> <dbl> <fct>   <fct>     <int>
+##  1     28 Male         61    2008 Seconda~     350     3 Yes     60+           5
+##  2     29 Male         38    2000 Primary      900     4 Yes     36-40         5
+##  3     33 Male         30    2010 Primary      200     3 Yes     26-30         3
+##  4     35 Male         25    2009 Seconda~    1000     3 Yes     18-25         4
+##  5     39 Male         29    2007 Primary        0     1 No      26-30         4
+##  6     40 Male         56    2008 Seconda~     950     4 Yes     51-60         5
+##  7     45 Male         52    1975 Primary     1600     3 Yes     51-60         3
+##  8     46 Male         35    2002 Seconda~    1200     4 Yes     31-35         3
+##  9     47 Male         22    2010 Seconda~     700     4 Yes     18-25         1
+## 10     48 Male         51    2007 Primary      950     4 Yes     51-60         4
+## # ... with 92 more rows, 2 more variables: N.oth.fam <int>, N.fri <int>, and
+## #   abbreviated variable names 1: ego.empl.bin, 2: ego.age.cat, 3: N.clo.fam
 \end{verbatim}
 
 \begin{Shaded}
@@ -4340,12 +4369,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 2d5106b UNW- 45 259 -- 
+## IGRAPH 4bd73ec UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 2d5106b (vertex names):
+## + edges from 4bd73ec (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -4472,18 +4501,31 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH clustering edge betweenness, groups: 10, mod: 0.41
+## Warning in cluster_edge_betweenness(gr, weights = NULL): At core/community/
+## edge_betweenness.c:486 : Membership vector will be selected based on the highest
+## modularity score.
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in cluster_edge_betweenness(gr, weights = NULL): At core/community/
+## edge_betweenness.c:493 : Modularity calculation with weighted edge betweenness
+## community detection might not make sense -- modularity treats edge weights as
+## similarities while edge betwenness treats them as distances.
+\end{verbatim}
+
+\begin{verbatim}
+## IGRAPH clustering edge betweenness, groups: 3, mod: 0.4
 ## + groups:
 ##   $`1`
 ##    [1] "2801" "2802" "2803" "2804" "2805" "2806" "2807" "2808" "2809" "2810"
-##   [11] "2811" "2812" "2840" "2841"
+##   [11] "2811" "2812" "2820" "2827" "2828" "2829" "2840" "2841"
 ##   
 ##   $`2`
-##   [1] "2813" "2814" "2815" "2816" "2817" "2818" "2824" "2831"
+##    [1] "2813" "2814" "2815" "2816" "2817" "2818" "2821" "2822" "2823" "2824"
+##   [11] "2825" "2826" "2830" "2831" "2832" "2833" "2834" "2835" "2837" "2838"
+##   [21] "2839" "2842" "2843" "2844" "2845"
 ##   
 ##   $`3`
-##   [1] "2819" "2836"
-##   
 ##   + ... omitted several groups/vertices
 \end{verbatim}
 
@@ -4520,12 +4562,12 @@ This chapter covers the following topics:
 
 \begin{verbatim}
 ## $`28`
-## IGRAPH 2d5106b UNW- 45 259 -- 
+## IGRAPH 4bd73ec UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 2d5106b (vertex names):
+## + edges from 4bd73ec (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -4534,12 +4576,12 @@ This chapter covers the following topics:
 ## + ... omitted several edges
 ## 
 ## $`29`
-## IGRAPH a652944 UNW- 45 202 -- 
+## IGRAPH e769192 UNW- 45 202 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from a652944 (vertex names):
+## + edges from e769192 (vertex names):
 ##  [1] 2901--2902 2901--2904 2901--2906 2901--2907 2901--2908 2901--2909
 ##  [7] 2901--2910 2901--2911 2901--2915 2901--2916 2901--2917 2901--2918
 ## [13] 2901--2919 2901--2927 2901--2928 2901--2929 2901--2930 2901--2931
@@ -4548,12 +4590,12 @@ This chapter covers the following topics:
 ## + ... omitted several edges
 ## 
 ## $`33`
-## IGRAPH 7c0f991 UNW- 45 207 -- 
+## IGRAPH 0387500 UNW- 45 207 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 7c0f991 (vertex names):
+## + edges from 0387500 (vertex names):
 ##  [1] 3301--3302 3301--3303 3301--3304 3301--3305 3301--3306 3301--3307
 ##  [7] 3301--3308 3301--3309 3301--3310 3301--3311 3301--3312 3301--3313
 ## [13] 3301--3314 3301--3315 3301--3316 3301--3317 3301--3318 3301--3319
@@ -4562,12 +4604,12 @@ This chapter covers the following topics:
 ## + ... omitted several edges
 ## 
 ## $`35`
-## IGRAPH 100bcba UNW- 45 221 -- 
+## IGRAPH 630a371 UNW- 45 221 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 100bcba (vertex names):
+## + edges from 630a371 (vertex names):
 ##  [1] 3501--3502 3501--3503 3501--3504 3501--3505 3501--3506 3501--3507
 ##  [7] 3501--3508 3501--3509 3501--3510 3501--3512 3501--3513 3501--3514
 ## [13] 3501--3516 3501--3517 3501--3522 3501--3523 3501--3524 3501--3525
@@ -4576,12 +4618,12 @@ This chapter covers the following topics:
 ## + ... omitted several edges
 ## 
 ## $`39`
-## IGRAPH cefb7cf UNW- 45 92 -- 
+## IGRAPH 07be3b3 UNW- 45 92 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from cefb7cf (vertex names):
+## + edges from 07be3b3 (vertex names):
 ##  [1] 3901--3902 3901--3903 3901--3904 3901--3905 3901--3906 3901--3907
 ##  [7] 3901--3911 3901--3913 3901--3920 3901--3924 3901--3925 3901--3931
 ## [13] 3901--3932 3901--3933 3901--3937 3901--3938 3901--3940 3901--3941
@@ -4590,12 +4632,12 @@ This chapter covers the following topics:
 ## + ... omitted several edges
 ## 
 ## $`40`
-## IGRAPH c5488d8 UNW- 45 255 -- 
+## IGRAPH de68dbc UNW- 45 255 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from c5488d8 (vertex names):
+## + edges from de68dbc (vertex names):
 ##  [1] 4001--4003 4001--4007 4001--4008 4001--4009 4001--4036 4001--4040
 ##  [7] 4001--4045 4002--4003 4002--4004 4002--4006 4002--4008 4002--4009
 ## [13] 4002--4010 4002--4011 4002--4012 4002--4013 4002--4014 4002--4015
@@ -4659,12 +4701,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 9f08956 UNW- 46 304 -- 
+## IGRAPH 952aaf2 UNW- 46 304 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 9f08956 (vertex names):
+## + edges from 952aaf2 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -4720,7 +4762,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 1/45 vertex, named, from 2d5106b:
+## + 1/45 vertex, named, from 4bd73ec:
 ## [1] 2801
 \end{verbatim}
 
@@ -4753,7 +4795,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 5/45 vertices, named, from 2d5106b:
+## + 5/45 vertices, named, from 4bd73ec:
 ## [1] 2801 2803 2804 2805 2806
 \end{verbatim}
 
@@ -4780,7 +4822,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 17/45 vertices, named, from 2d5106b:
+## + 17/45 vertices, named, from 4bd73ec:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2827 2828 2829
 ## [16] 2840 2841
 \end{verbatim}
@@ -4793,7 +4835,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 88/259 edges from 2d5106b (vertex names):
+## + 88/259 edges from 4bd73ec (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2827
 ## [13] 2801--2828 2801--2829 2801--2840 2801--2841 2802--2803 2802--2804
@@ -4829,12 +4871,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 16bdeec UNW- 17 88 -- 
+## IGRAPH a158cbf UNW- 17 88 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 16bdeec (vertex names):
+## + edges from a158cbf (vertex names):
 ##  [1] 2801--2802 2801--2803 2802--2803 2801--2804 2802--2804 2803--2804
 ##  [7] 2801--2805 2802--2805 2803--2805 2804--2805 2801--2806 2802--2806
 ## [13] 2803--2806 2804--2806 2805--2806 2801--2807 2802--2807 2803--2807
@@ -5338,22 +5380,23 @@ This chapter is still in progress, in the meantime see the multilevel modeling s
 
 \begin{verbatim}
 ## # A tibble: 4,590 x 20
-##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
-##       <dbl>  <dbl>     <dbl> <fct>     <fct>         <fct>        <fct>    
-##  1     2801     28         1 Female    51-60         Close family Sri Lanka
-##  2     2802     28         2 Male      51-60         Other family Sri Lanka
-##  3     2803     28         3 Male      51-60         Close family Sri Lanka
-##  4     2804     28         4 Male      60+           Close family Sri Lanka
-##  5     2805     28         5 Female    41-50         Close family Sri Lanka
-##  6     2806     28         6 Female    60+           Close family Sri Lanka
-##  7     2807     28         7 Male      41-50         Other family Sri Lanka
-##  8     2808     28         8 Female    36-40         Other family Sri Lanka
-##  9     2809     28         9 Female    51-60         Other family Sri Lanka
-## 10     2810     28        10 Male      60+           Other family Sri Lanka
-## # ... with 4,580 more rows, and 13 more variables: alter.res <fct>,
-## #   alter.clo <dbl>, alter.loan <fct>, alter.fam <fct>, alter.age <dbl>,
-## #   ego.sex <fct>, ego.age <dbl>, ego.arr <dbl>, ego.edu <fct>, ego.inc <dbl>,
-## #   empl <dbl>, ego.empl.bin <fct>, ego.age.cat <fct>
+##    alter_ID ego_ID alter_num alter.sex alter.a~1 alter~2 alter~3 alter~4 alter~5
+##       <dbl>  <dbl>     <dbl> <fct>     <fct>     <fct>   <fct>   <fct>     <dbl>
+##  1     2801     28         1 Female    51-60     Close ~ Sri La~ Sri La~      NA
+##  2     2802     28         2 Male      51-60     Other ~ Sri La~ Sri La~       3
+##  3     2803     28         3 Male      51-60     Close ~ Sri La~ Sri La~      NA
+##  4     2804     28         4 Male      60+       Close ~ Sri La~ Sri La~      NA
+##  5     2805     28         5 Female    41-50     Close ~ Sri La~ Sri La~      NA
+##  6     2806     28         6 Female    60+       Close ~ Sri La~ Sri La~      NA
+##  7     2807     28         7 Male      41-50     Other ~ Sri La~ Sri La~       5
+##  8     2808     28         8 Female    36-40     Other ~ Sri La~ Sri La~       4
+##  9     2809     28         9 Female    51-60     Other ~ Sri La~ Sri La~       5
+## 10     2810     28        10 Male      60+       Other ~ Sri La~ Sri La~       5
+## # ... with 4,580 more rows, 11 more variables: alter.loan <fct>,
+## #   alter.fam <fct>, alter.age <dbl>, ego.sex <fct>, ego.age <dbl>,
+## #   ego.arr <dbl>, ego.edu <fct>, ego.inc <dbl>, empl <dbl>,
+## #   ego.empl.bin <fct>, ego.age.cat <fct>, and abbreviated variable names
+## #   1: alter.age.cat, 2: alter.rel, 3: alter.nat, 4: alter.res, 5: alter.clo
 \end{verbatim}
 
 \begin{Shaded}
@@ -5567,10 +5610,10 @@ This chapter is still in progress, in the meantime see the multilevel modeling s
 ## Group variables            None  
 ## 
 ## -- Variable type: numeric ------------------------------------------------------
-##   skim_variable n_missing complete_rate     mean    sd    p0   p25     p50   p75
-## 1 V1                   45         0.990 3.00e-16  2.14 -3.85 -1.85 -0.0515  1.95
-##    p100 hist 
-## 1  3.95 ▃▇▅▆▅
+##   skim_variable n_missing complete_rate     mean   sd    p0   p25     p50  p75
+## 1 V1                   45         0.990 3.00e-16 2.14 -3.85 -1.85 -0.0515 1.95
+##   p100 hist 
+## 1 3.95 ▃▇▅▆▅
 \end{verbatim}
 
 \begin{Shaded}
@@ -5685,10 +5728,10 @@ This chapter is still in progress, in the meantime see the multilevel modeling s
 ## Group variables            None  
 ## 
 ## -- Variable type: numeric ------------------------------------------------------
-##   skim_variable n_missing complete_rate      mean    sd    p0   p25    p50   p75
-## 1 V1                    8         0.998 -3.65e-16  1.64 -3.13 -1.13 -0.126 0.874
-##    p100 hist 
-## 1  2.87 ▆▅▆▇▆
+##   skim_variable n_missing complete_rate      mean   sd    p0   p25    p50   p75
+## 1 V1                    8         0.998 -3.65e-16 1.64 -3.13 -1.13 -0.126 0.874
+##   p100 hist 
+## 1 2.87 ▆▅▆▇▆
 \end{verbatim}
 
 \begin{Shaded}
@@ -5771,10 +5814,10 @@ This chapter is still in progress, in the meantime see the multilevel modeling s
 ## Group variables            None  
 ## 
 ## -- Variable type: numeric ------------------------------------------------------
-##   skim_variable n_missing complete_rate     mean    sd    p0    p25    p50   p75
-## 1 V1                    0             1 7.24e-17  1.02 -1.72 -0.722 -0.122 0.478
-##    p100 hist 
-## 1  2.88 ▃▇▅▂▁
+##   skim_variable n_missing complete_rate     mean   sd    p0    p25    p50   p75
+## 1 V1                    0             1 7.24e-17 1.02 -1.72 -0.722 -0.122 0.478
+##   p100 hist 
+## 1 2.88 ▃▇▅▂▁
 \end{verbatim}
 
 \begin{Shaded}
@@ -6030,21 +6073,22 @@ This chapter is still in progress, in the meantime see the multilevel modeling s
 
 \begin{verbatim}
 ## # A tibble: 13 x 7
-##    effect   group  term                   estimate std.error statistic   p.value
-##    <chr>    <chr>  <chr>                     <dbl>     <dbl>     <dbl>     <dbl>
-##  1 fixed    <NA>   (Intercept)             -0.920     0.246     -3.74   1.86e- 4
-##  2 fixed    <NA>   alter.famYes             1.10      0.123      8.96   3.13e-19
-##  3 fixed    <NA>   alter.same.ageYes        0.190     0.0807     2.35   1.87e- 2
-##  4 fixed    <NA>   ego.age.cen             -0.0293    0.0456    -0.643  5.20e- 1
-##  5 fixed    <NA>   ego.empl.binYes          0.166     0.252      0.659  5.10e- 1
-##  6 fixed    <NA>   ego.eduSecondary         0.525     0.211      2.49   1.28e- 2
-##  7 fixed    <NA>   ego.eduUniversity        1.00      0.307      3.25   1.14e- 3
-##  8 fixed    <NA>   alter.sexMale            0.259     0.0869     2.98   2.87e- 3
-##  9 fixed    <NA>   alter.age.cat.cen        0.0423    0.0251     1.68   9.26e- 2
-## 10 fixed    <NA>   net.count.fam.cen       -0.185     0.0969    -1.91   5.57e- 2
-## 11 ran_pars ego_ID sd__(Intercept)          0.905    NA         NA     NA       
-## 12 ran_pars ego_ID cor__(Intercept).alte~  -0.275    NA         NA     NA       
-## 13 ran_pars ego_ID sd__alter.famYes         0.670    NA         NA     NA
+##    effect   group  term                        estim~1 std.e~2 stati~3   p.value
+##    <chr>    <chr>  <chr>                         <dbl>   <dbl>   <dbl>     <dbl>
+##  1 fixed    <NA>   (Intercept)                 -0.920   0.246   -3.74   1.86e- 4
+##  2 fixed    <NA>   alter.famYes                 1.10    0.123    8.96   3.13e-19
+##  3 fixed    <NA>   alter.same.ageYes            0.190   0.0807   2.35   1.87e- 2
+##  4 fixed    <NA>   ego.age.cen                 -0.0293  0.0456  -0.643  5.20e- 1
+##  5 fixed    <NA>   ego.empl.binYes              0.166   0.252    0.659  5.10e- 1
+##  6 fixed    <NA>   ego.eduSecondary             0.525   0.211    2.49   1.28e- 2
+##  7 fixed    <NA>   ego.eduUniversity            1.00    0.307    3.25   1.14e- 3
+##  8 fixed    <NA>   alter.sexMale                0.259   0.0869   2.98   2.87e- 3
+##  9 fixed    <NA>   alter.age.cat.cen            0.0423  0.0251   1.68   9.26e- 2
+## 10 fixed    <NA>   net.count.fam.cen           -0.185   0.0969  -1.91   5.57e- 2
+## 11 ran_pars ego_ID sd__(Intercept)              0.905  NA       NA     NA       
+## 12 ran_pars ego_ID cor__(Intercept).alter.fam~ -0.275  NA       NA     NA       
+## 13 ran_pars ego_ID sd__alter.famYes             0.670  NA       NA     NA       
+## # ... with abbreviated variable names 1: estimate, 2: std.error, 3: statistic
 \end{verbatim}
 
 \hypertarget{tests-of-significance}{%
@@ -6235,19 +6279,19 @@ More information about this package can be found in its \href{https://github.com
 
 \begin{verbatim}
 ## # A tibble: 102 x 9
-##    ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
-##     <dbl> <chr>     <dbl>   <dbl> <chr>     <dbl> <dbl> <chr>        <chr>      
-##  1     28 Male         61    2008 Second~     350     3 Yes          60+        
-##  2     29 Male         38    2000 Primary     900     4 Yes          36-40      
-##  3     33 Male         30    2010 Primary     200     3 Yes          26-30      
-##  4     35 Male         25    2009 Second~    1000     3 Yes          18-25      
-##  5     39 Male         29    2007 Primary       0     1 No           26-30      
-##  6     40 Male         56    2008 Second~     950     4 Yes          51-60      
-##  7     45 Male         52    1975 Primary    1600     3 Yes          51-60      
-##  8     46 Male         35    2002 Second~    1200     4 Yes          31-35      
-##  9     47 Male         22    2010 Second~     700     4 Yes          18-25      
-## 10     48 Male         51    2007 Primary     950     4 Yes          51-60      
-## # ... with 92 more rows
+##    ego_ID ego.sex ego.age ego.arr ego.edu   ego.inc  empl ego.empl.bin ego.age~1
+##     <dbl> <chr>     <dbl>   <dbl> <chr>       <dbl> <dbl> <chr>        <chr>    
+##  1     28 Male         61    2008 Secondary     350     3 Yes          60+      
+##  2     29 Male         38    2000 Primary       900     4 Yes          36-40    
+##  3     33 Male         30    2010 Primary       200     3 Yes          26-30    
+##  4     35 Male         25    2009 Secondary    1000     3 Yes          18-25    
+##  5     39 Male         29    2007 Primary         0     1 No           26-30    
+##  6     40 Male         56    2008 Secondary     950     4 Yes          51-60    
+##  7     45 Male         52    1975 Primary      1600     3 Yes          51-60    
+##  8     46 Male         35    2002 Secondary    1200     4 Yes          31-35    
+##  9     47 Male         22    2010 Secondary     700     4 Yes          18-25    
+## 10     48 Male         51    2007 Primary       950     4 Yes          51-60    
+## # ... with 92 more rows, and abbreviated variable name 1: ego.age.cat
 \end{verbatim}
 
 \begin{Shaded}
@@ -6267,20 +6311,21 @@ More information about this package can be found in its \href{https://github.com
 
 \begin{verbatim}
 ## # A tibble: 4,590 x 12
-##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
-##       <dbl>  <dbl>     <dbl> <chr>     <chr>         <chr>        <chr>    
-##  1     2801     28         1 Female    51-60         Close family Sri Lanka
-##  2     2802     28         2 Male      51-60         Other family Sri Lanka
-##  3     2803     28         3 Male      51-60         Close family Sri Lanka
-##  4     2804     28         4 Male      60+           Close family Sri Lanka
-##  5     2805     28         5 Female    41-50         Close family Sri Lanka
-##  6     2806     28         6 Female    60+           Close family Sri Lanka
-##  7     2807     28         7 Male      41-50         Other family Sri Lanka
-##  8     2808     28         8 Female    36-40         Other family Sri Lanka
-##  9     2809     28         9 Female    51-60         Other family Sri Lanka
-## 10     2810     28        10 Male      60+           Other family Sri Lanka
-## # ... with 4,580 more rows, and 5 more variables: alter.res <chr>,
-## #   alter.clo <dbl>, alter.loan <chr>, alter.fam <chr>, alter.age <dbl>
+##    alter_ID ego_ID alter_num alter.sex alter.a~1 alter~2 alter~3 alter~4 alter~5
+##       <dbl>  <dbl>     <dbl> <chr>     <chr>     <chr>   <chr>   <chr>     <dbl>
+##  1     2801     28         1 Female    51-60     Close ~ Sri La~ Sri La~      NA
+##  2     2802     28         2 Male      51-60     Other ~ Sri La~ Sri La~       3
+##  3     2803     28         3 Male      51-60     Close ~ Sri La~ Sri La~      NA
+##  4     2804     28         4 Male      60+       Close ~ Sri La~ Sri La~      NA
+##  5     2805     28         5 Female    41-50     Close ~ Sri La~ Sri La~      NA
+##  6     2806     28         6 Female    60+       Close ~ Sri La~ Sri La~      NA
+##  7     2807     28         7 Male      41-50     Other ~ Sri La~ Sri La~       5
+##  8     2808     28         8 Female    36-40     Other ~ Sri La~ Sri La~       4
+##  9     2809     28         9 Female    51-60     Other ~ Sri La~ Sri La~       5
+## 10     2810     28        10 Male      60+       Other ~ Sri La~ Sri La~       5
+## # ... with 4,580 more rows, 3 more variables: alter.loan <chr>,
+## #   alter.fam <chr>, alter.age <dbl>, and abbreviated variable names
+## #   1: alter.age.cat, 2: alter.rel, 3: alter.nat, 4: alter.res, 5: alter.clo
 \end{verbatim}
 
 \begin{Shaded}
@@ -6406,12 +6451,12 @@ More information about this package can be found in its \href{https://github.com
 
 \begin{verbatim}
 ## $`28`
-## IGRAPH 228c2e4 UNW- 45 259 -- 
+## IGRAPH 0cc8fc3 UNW- 45 259 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from 228c2e4 (vertex names):
+## + edges from 0cc8fc3 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -6420,12 +6465,12 @@ More information about this package can be found in its \href{https://github.com
 ## + ... omitted several edges
 ## 
 ## $`29`
-## IGRAPH 12bcc6f UNW- 45 202 -- 
+## IGRAPH cdaf19e UNW- 45 202 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from 12bcc6f (vertex names):
+## + edges from cdaf19e (vertex names):
 ##  [1] 2901--2902 2901--2904 2901--2906 2901--2907 2901--2908 2901--2909
 ##  [7] 2901--2910 2901--2911 2901--2915 2901--2916 2901--2917 2901--2918
 ## [13] 2901--2919 2901--2927 2901--2928 2901--2929 2901--2930 2901--2931
@@ -6434,12 +6479,12 @@ More information about this package can be found in its \href{https://github.com
 ## + ... omitted several edges
 ## 
 ## $`33`
-## IGRAPH 7aaa750 UNW- 45 207 -- 
+## IGRAPH 5cb815a UNW- 45 207 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from 7aaa750 (vertex names):
+## + edges from 5cb815a (vertex names):
 ##  [1] 3301--3302 3301--3303 3301--3304 3301--3305 3301--3306 3301--3307
 ##  [7] 3301--3308 3301--3309 3301--3310 3301--3311 3301--3312 3301--3313
 ## [13] 3301--3314 3301--3315 3301--3316 3301--3317 3301--3318 3301--3319
@@ -6448,12 +6493,12 @@ More information about this package can be found in its \href{https://github.com
 ## + ... omitted several edges
 ## 
 ## $`35`
-## IGRAPH a2b07b4 UNW- 45 221 -- 
+## IGRAPH 7e15cf5 UNW- 45 221 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from a2b07b4 (vertex names):
+## + edges from 7e15cf5 (vertex names):
 ##  [1] 3501--3502 3501--3503 3501--3504 3501--3505 3501--3506 3501--3507
 ##  [7] 3501--3508 3501--3509 3501--3510 3501--3512 3501--3513 3501--3514
 ## [13] 3501--3516 3501--3517 3501--3522 3501--3523 3501--3524 3501--3525
@@ -6462,12 +6507,12 @@ More information about this package can be found in its \href{https://github.com
 ## + ... omitted several edges
 ## 
 ## $`39`
-## IGRAPH c4dd407 UNW- 45 92 -- 
+## IGRAPH 7058f0a UNW- 45 92 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from c4dd407 (vertex names):
+## + edges from 7058f0a (vertex names):
 ##  [1] 3901--3902 3901--3903 3901--3904 3901--3905 3901--3906 3901--3907
 ##  [7] 3901--3911 3901--3913 3901--3920 3901--3924 3901--3925 3901--3931
 ## [13] 3901--3932 3901--3933 3901--3937 3901--3938 3901--3940 3901--3941
@@ -6476,12 +6521,12 @@ More information about this package can be found in its \href{https://github.com
 ## + ... omitted several edges
 ## 
 ## $`40`
-## IGRAPH e5d5b15 UNW- 45 255 -- 
+## IGRAPH 50ce7d6 UNW- 45 255 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from e5d5b15 (vertex names):
+## + edges from 50ce7d6 (vertex names):
 ##  [1] 4001--4003 4001--4007 4001--4008 4001--4009 4001--4036 4001--4040
 ##  [7] 4001--4045 4002--4003 4002--4004 4002--4006 4002--4008 4002--4009
 ## [13] 4002--4010 4002--4011 4002--4012 4002--4013 4002--4014 4002--4015
@@ -6524,12 +6569,12 @@ More information about this package can be found in its \href{https://github.com
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 228c2e4 UNW- 45 259 -- 
+## IGRAPH 0cc8fc3 UNW- 45 259 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from 228c2e4 (vertex names):
+## + edges from 0cc8fc3 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -6546,7 +6591,7 @@ More information about this package can be found in its \href{https://github.com
 \end{Shaded}
 
 \begin{verbatim}
-## + 45/45 vertices, named, from 228c2e4:
+## + 45/45 vertices, named, from 0cc8fc3:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2813 2814 2815
 ## [16] 2816 2817 2818 2819 2820 2821 2822 2823 2824 2825 2826 2827 2828 2829 2830
 ## [31] 2831 2832 2833 2834 2835 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845
@@ -6560,12 +6605,12 @@ More information about this package can be found in its \href{https://github.com
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 0e1376f UNW- 46 304 -- 
+## IGRAPH 4158392 UNW- 46 304 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from 0e1376f (vertex names):
+## + edges from 4158392 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -6582,7 +6627,7 @@ More information about this package can be found in its \href{https://github.com
 \end{Shaded}
 
 \begin{verbatim}
-## + 46/46 vertices, named, from 0e1376f:
+## + 46/46 vertices, named, from 4158392:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2813 2814 2815
 ## [16] 2816 2817 2818 2819 2820 2821 2822 2823 2824 2825 2826 2827 2828 2829 2830
 ## [31] 2831 2832 2833 2834 2835 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845
@@ -6638,6 +6683,12 @@ More information about this package can be found in its \href{https://github.com
 \end{Shaded}
 
 \begin{verbatim}
+## Warning: 'inc' is deprecated.
+## Use '.inc' instead.
+## See help("Deprecated")
+\end{verbatim}
+
+\begin{verbatim}
 ##  [1] NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
 ## [26] NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
 \end{verbatim}
@@ -6672,6 +6723,12 @@ More information about this package can be found in its \href{https://github.com
 \FunctionTok{E}\NormalTok{(gr.ego)[}\FunctionTok{inc}\NormalTok{(}\StringTok{"ego"}\NormalTok{)]}\SpecialCharTok{$}\NormalTok{weight}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+## Warning: 'inc' is deprecated.
+## Use '.inc' instead.
+## See help("Deprecated")
+\end{verbatim}
 
 \begin{verbatim}
 ##  [1] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
@@ -6733,12 +6790,12 @@ More information about this package can be found in its \href{https://github.com
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 228c2e4 UNW- 45 259 -- 
+## IGRAPH 0cc8fc3 UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 228c2e4 (vertex names):
+## + edges from 0cc8fc3 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -7568,15 +7625,9 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 
 \begin{verbatim}
 ## Rows: 259 Columns: 3
-\end{verbatim}
-
-\begin{verbatim}
 ## -- Column specification --------------------------------------------------------
 ## Delimiter: ","
 ## dbl (3): from, to, weight
-\end{verbatim}
-
-\begin{verbatim}
 ## 
 ## i Use `spec()` to retrieve the full column specification for this data.
 ## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
@@ -7608,16 +7659,10 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 
 \begin{verbatim}
 ## Rows: 45 Columns: 12
-\end{verbatim}
-
-\begin{verbatim}
 ## -- Column specification --------------------------------------------------------
 ## Delimiter: ","
 ## chr (7): alter.sex, alter.age.cat, alter.rel, alter.nat, alter.res, alter.lo...
 ## dbl (5): alter_ID, ego_ID, alter_num, alter.clo, alter.age
-\end{verbatim}
-
-\begin{verbatim}
 ## 
 ## i Use `spec()` to retrieve the full column specification for this data.
 ## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
@@ -7625,20 +7670,21 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 
 \begin{verbatim}
 ## # A tibble: 45 x 12
-##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
-##       <dbl>  <dbl>     <dbl> <chr>     <chr>         <chr>        <chr>    
-##  1     2801     28         1 Female    51-60         Close family Sri Lanka
-##  2     2802     28         2 Male      51-60         Other family Sri Lanka
-##  3     2803     28         3 Male      51-60         Close family Sri Lanka
-##  4     2804     28         4 Male      60+           Close family Sri Lanka
-##  5     2805     28         5 Female    41-50         Close family Sri Lanka
-##  6     2806     28         6 Female    60+           Close family Sri Lanka
-##  7     2807     28         7 Male      41-50         Other family Sri Lanka
-##  8     2808     28         8 Female    36-40         Other family Sri Lanka
-##  9     2809     28         9 Female    51-60         Other family Sri Lanka
-## 10     2810     28        10 Male      60+           Other family Sri Lanka
-## # ... with 35 more rows, and 5 more variables: alter.res <chr>,
-## #   alter.clo <dbl>, alter.loan <chr>, alter.fam <chr>, alter.age <dbl>
+##    alter_ID ego_ID alter_num alter.sex alter.a~1 alter~2 alter~3 alter~4 alter~5
+##       <dbl>  <dbl>     <dbl> <chr>     <chr>     <chr>   <chr>   <chr>     <dbl>
+##  1     2801     28         1 Female    51-60     Close ~ Sri La~ Sri La~      NA
+##  2     2802     28         2 Male      51-60     Other ~ Sri La~ Sri La~       3
+##  3     2803     28         3 Male      51-60     Close ~ Sri La~ Sri La~      NA
+##  4     2804     28         4 Male      60+       Close ~ Sri La~ Sri La~      NA
+##  5     2805     28         5 Female    41-50     Close ~ Sri La~ Sri La~      NA
+##  6     2806     28         6 Female    60+       Close ~ Sri La~ Sri La~      NA
+##  7     2807     28         7 Male      41-50     Other ~ Sri La~ Sri La~       5
+##  8     2808     28         8 Female    36-40     Other ~ Sri La~ Sri La~       4
+##  9     2809     28         9 Female    51-60     Other ~ Sri La~ Sri La~       5
+## 10     2810     28        10 Male      60+       Other ~ Sri La~ Sri La~       5
+## # ... with 35 more rows, 3 more variables: alter.loan <chr>, alter.fam <chr>,
+## #   alter.age <dbl>, and abbreviated variable names 1: alter.age.cat,
+## #   2: alter.rel, 3: alter.nat, 4: alter.res, 5: alter.clo
 \end{verbatim}
 
 \begin{Shaded}
@@ -7663,9 +7709,9 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH d08313f UN-- 45 283 -- 
+## IGRAPH d9e5241 UN-- 45 283 -- 
 ## + attr: name (v/c)
-## + edges from d08313f (vertex names):
+## + edges from d9e5241 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2818 2801--2820 2801--2823
@@ -7742,16 +7788,10 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 
 \begin{verbatim}
 ## Rows: 102 Columns: 9
-\end{verbatim}
-
-\begin{verbatim}
 ## -- Column specification --------------------------------------------------------
 ## Delimiter: ","
 ## chr (4): ego.sex, ego.edu, ego.empl.bin, ego.age.cat
 ## dbl (5): ego_ID, ego.age, ego.arr, ego.inc, empl
-\end{verbatim}
-
-\begin{verbatim}
 ## 
 ## i Use `spec()` to retrieve the full column specification for this data.
 ## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
@@ -7759,19 +7799,19 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 
 \begin{verbatim}
 ## # A tibble: 102 x 9
-##    ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
-##     <dbl> <chr>     <dbl>   <dbl> <chr>     <dbl> <dbl> <chr>        <chr>      
-##  1     28 Male         61    2008 Second~     350     3 Yes          60+        
-##  2     29 Male         38    2000 Primary     900     4 Yes          36-40      
-##  3     33 Male         30    2010 Primary     200     3 Yes          26-30      
-##  4     35 Male         25    2009 Second~    1000     3 Yes          18-25      
-##  5     39 Male         29    2007 Primary       0     1 No           26-30      
-##  6     40 Male         56    2008 Second~     950     4 Yes          51-60      
-##  7     45 Male         52    1975 Primary    1600     3 Yes          51-60      
-##  8     46 Male         35    2002 Second~    1200     4 Yes          31-35      
-##  9     47 Male         22    2010 Second~     700     4 Yes          18-25      
-## 10     48 Male         51    2007 Primary     950     4 Yes          51-60      
-## # ... with 92 more rows
+##    ego_ID ego.sex ego.age ego.arr ego.edu   ego.inc  empl ego.empl.bin ego.age~1
+##     <dbl> <chr>     <dbl>   <dbl> <chr>       <dbl> <dbl> <chr>        <chr>    
+##  1     28 Male         61    2008 Secondary     350     3 Yes          60+      
+##  2     29 Male         38    2000 Primary       900     4 Yes          36-40    
+##  3     33 Male         30    2010 Primary       200     3 Yes          26-30    
+##  4     35 Male         25    2009 Secondary    1000     3 Yes          18-25    
+##  5     39 Male         29    2007 Primary         0     1 No           26-30    
+##  6     40 Male         56    2008 Secondary     950     4 Yes          51-60    
+##  7     45 Male         52    1975 Primary      1600     3 Yes          51-60    
+##  8     46 Male         35    2002 Secondary    1200     4 Yes          31-35    
+##  9     47 Male         22    2010 Secondary     700     4 Yes          18-25    
+## 10     48 Male         51    2007 Primary       950     4 Yes          51-60    
+## # ... with 92 more rows, and abbreviated variable name 1: ego.age.cat
 \end{verbatim}
 
 \begin{Shaded}
@@ -7783,16 +7823,10 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 
 \begin{verbatim}
 ## Rows: 4590 Columns: 12
-\end{verbatim}
-
-\begin{verbatim}
 ## -- Column specification --------------------------------------------------------
 ## Delimiter: ","
 ## chr (7): alter.sex, alter.age.cat, alter.rel, alter.nat, alter.res, alter.lo...
 ## dbl (5): alter_ID, ego_ID, alter_num, alter.clo, alter.age
-\end{verbatim}
-
-\begin{verbatim}
 ## 
 ## i Use `spec()` to retrieve the full column specification for this data.
 ## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
@@ -7800,20 +7834,21 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 
 \begin{verbatim}
 ## # A tibble: 4,590 x 12
-##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
-##       <dbl>  <dbl>     <dbl> <chr>     <chr>         <chr>        <chr>    
-##  1     2801     28         1 Female    51-60         Close family Sri Lanka
-##  2     2802     28         2 Male      51-60         Other family Sri Lanka
-##  3     2803     28         3 Male      51-60         Close family Sri Lanka
-##  4     2804     28         4 Male      60+           Close family Sri Lanka
-##  5     2805     28         5 Female    41-50         Close family Sri Lanka
-##  6     2806     28         6 Female    60+           Close family Sri Lanka
-##  7     2807     28         7 Male      41-50         Other family Sri Lanka
-##  8     2808     28         8 Female    36-40         Other family Sri Lanka
-##  9     2809     28         9 Female    51-60         Other family Sri Lanka
-## 10     2810     28        10 Male      60+           Other family Sri Lanka
-## # ... with 4,580 more rows, and 5 more variables: alter.res <chr>,
-## #   alter.clo <dbl>, alter.loan <chr>, alter.fam <chr>, alter.age <dbl>
+##    alter_ID ego_ID alter_num alter.sex alter.a~1 alter~2 alter~3 alter~4 alter~5
+##       <dbl>  <dbl>     <dbl> <chr>     <chr>     <chr>   <chr>   <chr>     <dbl>
+##  1     2801     28         1 Female    51-60     Close ~ Sri La~ Sri La~      NA
+##  2     2802     28         2 Male      51-60     Other ~ Sri La~ Sri La~       3
+##  3     2803     28         3 Male      51-60     Close ~ Sri La~ Sri La~      NA
+##  4     2804     28         4 Male      60+       Close ~ Sri La~ Sri La~      NA
+##  5     2805     28         5 Female    41-50     Close ~ Sri La~ Sri La~      NA
+##  6     2806     28         6 Female    60+       Close ~ Sri La~ Sri La~      NA
+##  7     2807     28         7 Male      41-50     Other ~ Sri La~ Sri La~       5
+##  8     2808     28         8 Female    36-40     Other ~ Sri La~ Sri La~       4
+##  9     2809     28         9 Female    51-60     Other ~ Sri La~ Sri La~       5
+## 10     2810     28        10 Male      60+       Other ~ Sri La~ Sri La~       5
+## # ... with 4,580 more rows, 3 more variables: alter.loan <chr>,
+## #   alter.fam <chr>, alter.age <dbl>, and abbreviated variable names
+## #   1: alter.age.cat, 2: alter.rel, 3: alter.nat, 4: alter.res, 5: alter.clo
 \end{verbatim}
 
 \begin{Shaded}
@@ -7863,20 +7898,21 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 
 \begin{verbatim}
 ## # A tibble: 45 x 12
-##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
-##       <dbl>  <dbl>     <dbl> <chr>     <chr>         <chr>        <chr>    
-##  1     9401     94         1 Male      60+           Close family Sri Lanka
-##  2     9402     94         2 Female    60+           Close family Sri Lanka
-##  3     9403     94         3 Female    26-30         Close family Sri Lanka
-##  4     9404     94         4 Male      26-30         Close family Sri Lanka
-##  5     9405     94         5 Male      31-35         Close family Sri Lanka
-##  6     9406     94         6 Female    60+           Other family Sri Lanka
-##  7     9407     94         7 Male      51-60         Other family Sri Lanka
-##  8     9408     94         8 Female    36-40         Other family Sri Lanka
-##  9     9409     94         9 Female    51-60         Other family Sri Lanka
-## 10     9410     94        10 Male      18-25         Other family Sri Lanka
-## # ... with 35 more rows, and 5 more variables: alter.res <chr>,
-## #   alter.clo <dbl>, alter.loan <chr>, alter.fam <chr>, alter.age <dbl>
+##    alter_ID ego_ID alter_num alter.sex alter.a~1 alter~2 alter~3 alter~4 alter~5
+##       <dbl>  <dbl>     <dbl> <chr>     <chr>     <chr>   <chr>   <chr>     <dbl>
+##  1     9401     94         1 Male      60+       Close ~ Sri La~ Sri La~      NA
+##  2     9402     94         2 Female    60+       Close ~ Sri La~ Sri La~      NA
+##  3     9403     94         3 Female    26-30     Close ~ Sri La~ Sri La~      NA
+##  4     9404     94         4 Male      26-30     Close ~ Sri La~ Sri La~      NA
+##  5     9405     94         5 Male      31-35     Close ~ Sri La~ Sri La~      NA
+##  6     9406     94         6 Female    60+       Other ~ Sri La~ Sri La~       4
+##  7     9407     94         7 Male      51-60     Other ~ Sri La~ Sri La~       5
+##  8     9408     94         8 Female    36-40     Other ~ Sri La~ Sri La~       5
+##  9     9409     94         9 Female    51-60     Other ~ Sri La~ Sri La~       5
+## 10     9410     94        10 Male      18-25     Other ~ Sri La~ Sri La~       5
+## # ... with 35 more rows, 3 more variables: alter.loan <chr>, alter.fam <chr>,
+## #   alter.age <dbl>, and abbreviated variable names 1: alter.age.cat,
+## #   2: alter.rel, 3: alter.nat, 4: alter.res, 5: alter.clo
 \end{verbatim}
 
 \begin{Shaded}
@@ -7894,20 +7930,21 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 
 \begin{verbatim}
 ## # A tibble: 4,590 x 12
-##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
-##       <dbl>  <dbl>     <dbl> <chr>     <chr>         <chr>        <chr>    
-##  1     2801     28         1 Female    51-60         Close family Sri Lanka
-##  2     2802     28         2 Male      51-60         Other family Sri Lanka
-##  3     2803     28         3 Male      51-60         Close family Sri Lanka
-##  4     2804     28         4 Male      60+           Close family Sri Lanka
-##  5     2805     28         5 Female    41-50         Close family Sri Lanka
-##  6     2806     28         6 Female    60+           Close family Sri Lanka
-##  7     2807     28         7 Male      41-50         Other family Sri Lanka
-##  8     2808     28         8 Female    36-40         Other family Sri Lanka
-##  9     2809     28         9 Female    51-60         Other family Sri Lanka
-## 10     2810     28        10 Male      60+           Other family Sri Lanka
-## # ... with 4,580 more rows, and 5 more variables: alter.res <chr>,
-## #   alter.clo <dbl>, alter.loan <chr>, alter.fam <chr>, alter.age <dbl>
+##    alter_ID ego_ID alter_num alter.sex alter.a~1 alter~2 alter~3 alter~4 alter~5
+##       <dbl>  <dbl>     <dbl> <chr>     <chr>     <chr>   <chr>   <chr>     <dbl>
+##  1     2801     28         1 Female    51-60     Close ~ Sri La~ Sri La~      NA
+##  2     2802     28         2 Male      51-60     Other ~ Sri La~ Sri La~       3
+##  3     2803     28         3 Male      51-60     Close ~ Sri La~ Sri La~      NA
+##  4     2804     28         4 Male      60+       Close ~ Sri La~ Sri La~      NA
+##  5     2805     28         5 Female    41-50     Close ~ Sri La~ Sri La~      NA
+##  6     2806     28         6 Female    60+       Close ~ Sri La~ Sri La~      NA
+##  7     2807     28         7 Male      41-50     Other ~ Sri La~ Sri La~       5
+##  8     2808     28         8 Female    36-40     Other ~ Sri La~ Sri La~       4
+##  9     2809     28         9 Female    51-60     Other ~ Sri La~ Sri La~       5
+## 10     2810     28        10 Male      60+       Other ~ Sri La~ Sri La~       5
+## # ... with 4,580 more rows, 3 more variables: alter.loan <chr>,
+## #   alter.fam <chr>, alter.age <dbl>, and abbreviated variable names
+## #   1: alter.age.cat, 2: alter.rel, 3: alter.nat, 4: alter.res, 5: alter.clo
 \end{verbatim}
 
 \begin{Shaded}
@@ -7925,15 +7962,9 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 
 \begin{verbatim}
 ## Rows: 30064 Columns: 4
-\end{verbatim}
-
-\begin{verbatim}
 ## -- Column specification --------------------------------------------------------
 ## Delimiter: ","
 ## dbl (4): from, to, ego_ID, weight
-\end{verbatim}
-
-\begin{verbatim}
 ## 
 ## i Use `spec()` to retrieve the full column specification for this data.
 ## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
@@ -8110,9 +8141,9 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH d4e10d5 UNW- 45 259 -- 
+## IGRAPH f93ed3f UNW- 45 259 -- 
 ## + attr: name (v/c), ego_ID (e/n), weight (e/n)
-## + edges from d4e10d5 (vertex names):
+## + edges from f93ed3f (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -8169,9 +8200,9 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH a49881b UNW- 45 259 -- 
+## IGRAPH e13d90e UNW- 45 259 -- 
 ## + attr: name (v/c), ego_ID (e/n), weight (e/n)
-## + edges from a49881b (vertex names):
+## + edges from e13d90e (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -8191,9 +8222,9 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH c827311 UNW- 42 265 -- 
+## IGRAPH c9599b7 UNW- 42 265 -- 
 ## + attr: name (v/c), ego_ID (e/n), weight (e/n)
-## + edges from c827311 (vertex names):
+## + edges from c9599b7 (vertex names):
 ##  [1] 9401--9402 9401--9403 9401--9404 9401--9405 9401--9406 9401--9407
 ##  [7] 9401--9408 9401--9409 9401--9410 9401--9411 9401--9412 9401--9413
 ## [13] 9401--9414 9401--9415 9401--9438 9401--9443 9401--9444 9402--9403
@@ -8241,12 +8272,12 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 73abd67 UNW- 45 259 -- 
+## IGRAPH 1b541c3 UNW- 45 259 -- 
 ## + attr: name (v/c), ego_ID (v/n), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), ego_ID (e/n), weight (e/n)
-## + edges from 73abd67 (vertex names):
+## + edges from 1b541c3 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -8387,7 +8418,7 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## + 46/46 vertices, named, from 01c9202:
+## + 46/46 vertices, named, from 18eb187:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2813 2814 2815
 ## [16] 2816 2817 2818 2819 2820 2821 2822 2823 2824 2825 2826 2827 2828 2829 2830
 ## [31] 2831 2832 2833 2834 2835 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845
@@ -9116,19 +9147,19 @@ In this section, we'll apply some of the tools presented earlier to a specific c
 
 \begin{verbatim}
 ## # A tibble: 102 x 9
-##    ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
-##     <dbl> <fct>     <dbl>   <dbl> <fct>     <dbl> <dbl> <fct>        <fct>      
-##  1     28 Male         61    2008 Second~     350     3 Yes          60+        
-##  2     29 Male         38    2000 Primary     900     4 Yes          36-40      
-##  3     33 Male         30    2010 Primary     200     3 Yes          26-30      
-##  4     35 Male         25    2009 Second~    1000     3 Yes          18-25      
-##  5     39 Male         29    2007 Primary       0     1 No           26-30      
-##  6     40 Male         56    2008 Second~     950     4 Yes          51-60      
-##  7     45 Male         52    1975 Primary    1600     3 Yes          51-60      
-##  8     46 Male         35    2002 Second~    1200     4 Yes          31-35      
-##  9     47 Male         22    2010 Second~     700     4 Yes          18-25      
-## 10     48 Male         51    2007 Primary     950     4 Yes          51-60      
-## # ... with 92 more rows
+##    ego_ID ego.sex ego.age ego.arr ego.edu   ego.inc  empl ego.empl.bin ego.age~1
+##     <dbl> <fct>     <dbl>   <dbl> <fct>       <dbl> <dbl> <fct>        <fct>    
+##  1     28 Male         61    2008 Secondary     350     3 Yes          60+      
+##  2     29 Male         38    2000 Primary       900     4 Yes          36-40    
+##  3     33 Male         30    2010 Primary       200     3 Yes          26-30    
+##  4     35 Male         25    2009 Secondary    1000     3 Yes          18-25    
+##  5     39 Male         29    2007 Primary         0     1 No           26-30    
+##  6     40 Male         56    2008 Secondary     950     4 Yes          51-60    
+##  7     45 Male         52    1975 Primary      1600     3 Yes          51-60    
+##  8     46 Male         35    2002 Secondary    1200     4 Yes          31-35    
+##  9     47 Male         22    2010 Secondary     700     4 Yes          18-25    
+## 10     48 Male         51    2007 Primary       950     4 Yes          51-60    
+## # ... with 92 more rows, and abbreviated variable name 1: ego.age.cat
 \end{verbatim}
 
 \begin{Shaded}

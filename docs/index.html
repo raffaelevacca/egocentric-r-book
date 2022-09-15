@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Egocentric network analysis with R</title>
   <meta name="description" content="Personal network analysis with R" />
-  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Egocentric network analysis with R" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="Personal network analysis with R" />
   
@@ -24,7 +23,7 @@
 <meta name="author" content="Raffaele Vacca" />
 
 
-<meta name="date" content="2022-06-21" />
+<meta name="date" content="2022-09-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +32,6 @@
   
 
 <link rel="next" href="basics.html"/>
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -51,8 +49,9 @@
 
 
 
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
@@ -282,16 +281,16 @@ div.csl-indent {
 <div id="header">
 <h1 class="title">Egocentric network analysis with R</h1>
 <p class="author"><em><a href="http://www.raffaelevacca.com/">Raffaele Vacca</a></em></p>
-<p class="date"><em>2022-06-21</em></p>
+<p class="date"><em>2022-09-15</em></p>
 </div>
-<div id="introduction" class="section level1" number="1">
-<h1><span class="header-section-number">Chapter 1</span> Introduction</h1>
+<div id="introduction" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Introduction<a href="index.html#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>This book is a companion to <a href="http://www.raffaelevacca.com/teaching/egocentric-r/">my workshop</a> on egocentric network analysis with R. Over the past several years I have taught this workshop at different conferences and summer schools on social network analysis, personal networks, and network science – such as <a href="https://www.insna.org/">INSNA Sunbelt</a> conferences, <a href="https://netscisociety.net/home">NetSci</a> conferences, and the <a href="https://sway.office.com/1TpXMhGqKa7fTsAC">UAB Barcelona Course on Personal Network Analysis</a>. The book is a work in progress and I’ll keep updating it as I continue to teach the workshop and related courses.</p>
 <p>A Spanish translation of part of this book has appeared in the journal <a href="https://revistes.uab.cat/redes/article/view/v31-n2-vacca">REDES - Revista hispana para el análisis de redes sociales</a>. My colleagues and I provide a more in-depth discussion of personal network analysis and the methods covered in this workshop in our textbook on personal network research <span class="citation">(<a href="#ref-mccarty_conducting_2019" role="doc-biblioref">McCarty et al. 2019</a>)</span>. See the bibliography at the end of the book for a list of other useful references on egocentric or personal network analysis.</p>
 <p>Feel free to <a href="http://www.raffaelevacca.com/">contact me</a> to know more about this workshop and how to take it, or to give me feedback or report any issue about this book.</p>
 <p><a href="https://www.guilford.com/books/Conducting-Personal-Network-Research/McCarty-Lubbers-Vacca-Molina/9781462538386/authors"><img src="Figures/McCarty_et_al_2019_cover.jpg" style="width:50.0%" alt="Conducting personal network research" /></a></p>
-<div id="setup" class="section level2" number="1.1">
-<h2><span class="header-section-number">1.1</span> Workshop setup</h2>
+<div id="setup" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Workshop setup<a href="index.html#setup" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>To take this workshop you need to:</p>
 <ol style="list-style-type: decimal">
 <li>Download the last version of <strong>R</strong> <a href="https://cran.r-project.org/mirrors.html">here</a> (select a location near you)
@@ -319,19 +318,19 @@ div.csl-indent {
 </ol>
 <p><strong>NOTE:</strong> It’s very important that you save the workshop folder <em>as downloaded</em> to a location in your computer, and open the <code>.Rproj</code> <em>within that folder</em>. By doing so, you will be opening RStudio <em>and</em> setting the workshop folder as your <a href="basics.html#starting-R-and-loading-packages">R working directory</a>. All our R scripts assume that working directory. In particular, they assume that the <code>Data</code> subfolder is in your R working directory. You can type <code>getwd()</code> in your R console to see the path to your R working directory and make sure that it’s correctly pointed to the location of the workshop folder in your computer.</p>
 </div>
-<div id="materials" class="section level2" number="1.2">
-<h2><span class="header-section-number">1.2</span> Workshop materials</h2>
+<div id="materials" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Workshop materials<a href="index.html#materials" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The materials for this workshop consist of this book and the workshop folder.</p>
 <p>You can <strong>download the workshop folder</strong> from <a href="https://github.com/raffaelevacca/egocentric-r-book">this GitHub repository</a>:</p>
 <ol style="list-style-type: decimal">
 <li>Click on the <code>Code</code> green button &gt; Download ZIP</li>
 <li>Unzip the folder and save it to your computer</li>
 </ol>
-<p>The workshop folder includes:</p>
+<p>The workshop folder contains several files and folders, but you only need to focus on the following:</p>
 <ul>
-<li><code>Data</code> subfolder: all data we’re going to use.</li>
-<li><code>egocentric-r.Rproj</code>: the workshop’s R project file.</li>
-<li><code>Scripts</code> subfolder: all code shown in this book.</li>
+<li><code>Scripts</code> subfolder: all the R code shown in this book.</li>
+<li><code>Data</code> subfolder: all the data we’re going to use.</li>
+<li><code>egocentric-r.Rproj</code>: the workshop’s R project file (you use this to launch RStudio).</li>
 </ul>
 <p>The <code>Scripts</code> subfolder includes different R script (.R) files. You can access and run the R code in each script by opening the corresponding .R file in RStudio. Each script in <code>Scripts</code> corresponds to one of the following chapters (see the table of contents):</p>
 <ol start="2" style="list-style-type: decimal">
@@ -345,10 +344,10 @@ div.csl-indent {
 </ol>
 <p>The <strong>slides</strong> used for this workshop can be downloaded <a href="https://www.dropbox.com/sh/o8rncfrtks1sx3s/AACyzgkwbhTDWsPIKST_2e6Ya?dl=0">here</a>.</p>
 </div>
-<div id="r-settings" class="section level2" number="1.3">
-<h2><span class="header-section-number">1.3</span> R settings</h2>
-<div id="packages" class="section level3" number="1.3.1">
-<h3><span class="header-section-number">1.3.1</span> Required R packages</h3>
+<div id="r-settings" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> R settings<a href="index.html#r-settings" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="packages" class="section level3 hasAnchor" number="1.3.1">
+<h3><span class="header-section-number">1.3.1</span> Required R packages<a href="index.html#packages" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
 <li>For descriptive statistics
 <ul>
@@ -378,8 +377,8 @@ div.csl-indent {
 </ul></li>
 </ul>
 </div>
-<div id="rstudio-options" class="section level3" number="1.3.2">
-<h3><span class="header-section-number">1.3.2</span> RStudio options</h3>
+<div id="rstudio-options" class="section level3 hasAnchor" number="1.3.2">
+<h3><span class="header-section-number">1.3.2</span> RStudio options<a href="index.html#rstudio-options" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>RStudio gives you the ability to select and change various settings and features of its interface: see the <code>Preferences...</code> menu option. These are some of the settings you should pay attention to:</p>
 <ul>
 <li><code>Preferences... &gt; Code &gt; Editing &gt; Soft-wrap R source file</code>. Here you can decide whether or not to wrap long code lines in the editor. When code lines in a script are <em>not</em> wrapped, be aware that some code will be hidden if script lines are longer than your editor window’s width (you’ll have to scroll right to see the rest of the code). With a script (<code>.R</code>) file open in the editor, try both options (checked and unchecked) to see what you’re more comfortable with.</li>
@@ -387,8 +386,8 @@ div.csl-indent {
 </ul>
 </div>
 </div>
-<div id="data" class="section level2" number="1.4">
-<h2><span class="header-section-number">1.4</span> Data</h2>
+<div id="data" class="section level2 hasAnchor" number="1.4">
+<h2><span class="header-section-number">1.4</span> Data<a href="index.html#data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>This workshop uses real-world data collected in 2012 with a personal network survey among 107 Sri Lankan immigrants in Milan, Italy. Out of the 107 respondents, 102 reported their personal network. All data are in the <code>Data</code> subfolder.</p>
 <p>The data files include ego-level data (gender, age, educational level, etc. for each Sri Lankan respondent), alter attributes (alter’s nationality, country of residence, closeness to ego etc.), and information on alter-alter ties. Each personal network has a fixed size of 45 alters. Information about data variables and categories is available in <code>./Data/codebook.xlsx</code>.</p>
 <p>All data objects are saved as R objects in the R data file <code>data.rda</code>. Data objects are the following:</p>
@@ -411,13 +410,13 @@ div.csl-indent {
 </ul>
 <p>For most of the workshop we will directly use R data objects in <code>data.rda</code>. We will <em>not</em> focus on importing ego-network data from outside sources (for example, csv files). However, Section <a href="egor.html#egor-import">7.1</a> shows you how the data objects in <code>data.rda</code> were created by importing csv files with the <code>egor</code> package. Section <a href="supplementary.html#import-igraph">8.2</a> covers importing ego-network data using just <code>tidyverse</code> and <code>igraph</code>.</p>
 </div>
-<div id="author-and-contacts" class="section level2" number="1.5">
-<h2><span class="header-section-number">1.5</span> Author and contacts</h2>
+<div id="author-and-contacts" class="section level2 hasAnchor" number="1.5">
+<h2><span class="header-section-number">1.5</span> Author and contacts<a href="index.html#author-and-contacts" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>I am an assistant professor of sociology at the <a href="https://www.unimi.it/en">University of Milan</a> in the <a href="http://eng.sps.unimi.it/ecm/home">Deparment of Social and Political Sciences</a>. My main research and teaching interests are social networks, migration, health inequalities, and studies of science. I also teach and do research on data science, statistics, and computational methods for the social sciences. More information about me, my work and my contact details is <a href="http://www.raffaelevacca.com/about-me/">here</a>.</p>
 
 </div>
 </div>
-<h3>References</h3>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-mccarty_conducting_2019" class="csl-entry">
 McCarty, Christopher, Miranda J. Lubbers, Raffaele Vacca, and José Luis Molina. 2019. <em>Conducting Personal Network Research: A Practical Guide</em>. Methodology in the Social Sciences. New York City: The Guilford Press.

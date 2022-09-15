@@ -47,11 +47,11 @@ You can **download the workshop folder** from [this GitHub repository](https://g
 1. Click on the `Code` green button > Download ZIP
 2. Unzip the folder and save it to your computer
 
-The workshop folder includes: 
+The workshop folder contains several files and folders, but you only need to focus on the following: 
 
-* `Data` subfolder: all data we're going to use.
-* `egocentric-r.Rproj`: the workshop's R project file.
-* `Scripts` subfolder: all code shown in this book. 
+* `Scripts` subfolder: all the R code shown in this book. 
+* `Data` subfolder: all the data we're going to use.
+* `egocentric-r.Rproj`: the workshop's R project file (you use this to launch RStudio).
 
 The `Scripts` subfolder includes different R script (.R) files. You can access and run the R code in each script by opening the corresponding .R file in RStudio. Each script in `Scripts` corresponds to one of the following chapters (see the table of contents):
 
