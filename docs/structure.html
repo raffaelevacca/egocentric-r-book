@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 5 Ego-network structure | Egocentric network analysis with R</title>
   <meta name="description" content="Personal network analysis with R" />
-  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 5 Ego-network structure | Egocentric network analysis with R" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Raffaele Vacca" />
 
 
-<meta name="date" content="2022-09-15" />
+<meta name="date" content="2024-02-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -92,7 +92,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -105,7 +105,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 <style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
 div.csl-bib-body { }
@@ -192,13 +196,13 @@ div.csl-indent {
 <li class="chapter" data-level="2.4.3" data-path="basics.html"><a href="basics.html#examples-of-arithmetic-and-statistical-functions"><i class="fa fa-check"></i><b>2.4.3</b> Examples of arithmetic and statistical functions</a></li>
 <li class="chapter" data-level="2.4.4" data-path="basics.html"><a href="basics.html#missing-and-infinite-values"><i class="fa fa-check"></i><b>2.4.4</b> Missing and infinite values</a></li>
 </ul></li>
-<li class="chapter" data-level="2.5" data-path="basics.html"><a href="basics.html#indexing"><i class="fa fa-check"></i><b>2.5</b> Indexing</a>
+<li class="chapter" data-level="2.5" data-path="basics.html"><a href="basics.html#subsetting"><i class="fa fa-check"></i><b>2.5</b> Subsetting</a>
 <ul>
-<li class="chapter" data-level="2.5.1" data-path="basics.html"><a href="basics.html#index-df"><i class="fa fa-check"></i><b>2.5.1</b> Indexing and subsetting data frames</a></li>
+<li class="chapter" data-level="2.5.1" data-path="basics.html"><a href="basics.html#index-df"><i class="fa fa-check"></i><b>2.5.1</b> Subsetting data frames</a></li>
 </ul></li>
 <li class="chapter" data-level="2.6" data-path="basics.html"><a href="basics.html#the-tidyverse-syntax"><i class="fa fa-check"></i><b>2.6</b> The <code>tidyverse</code> syntax</a>
 <ul>
-<li class="chapter" data-level="2.6.1" data-path="basics.html"><a href="basics.html#pipes-and-the-operator"><i class="fa fa-check"></i><b>2.6.1</b> Pipes and the <code>%&gt;%</code> operator</a></li>
+<li class="chapter" data-level="2.6.1" data-path="basics.html"><a href="basics.html#pipes-and-the-operator"><i class="fa fa-check"></i><b>2.6.1</b> Pipes and the <code>|&gt;</code> operator</a></li>
 <li class="chapter" data-level="2.6.2" data-path="basics.html"><a href="basics.html#subsetting-data-frames-in-tidyverse"><i class="fa fa-check"></i><b>2.6.2</b> Subsetting data frames in <code>tidyverse</code></a></li>
 </ul></li>
 </ul></li>
@@ -311,45 +315,45 @@ div.csl-indent {
 <li>Calculate measures combining ego-network structure and composition: type of relationship between ego and the most between-central alter; average degree centrality of alters who are family members; density of ties among alters in certain categories (e.g., alters who live in Sri Lanka).</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="structure.html#cb328-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load packages.</span></span>
-<span id="cb328-2"><a href="structure.html#cb328-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb328-3"><a href="structure.html#cb328-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
-<span id="cb328-4"><a href="structure.html#cb328-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb328-5"><a href="structure.html#cb328-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data.</span></span>
-<span id="cb328-6"><a href="structure.html#cb328-6" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;./Data/data.rda&quot;</span>)</span>
-<span id="cb328-7"><a href="structure.html#cb328-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb328-8"><a href="structure.html#cb328-8" aria-hidden="true" tabindex="-1"></a><span class="co"># For structural measures we need the ego-network as an igraph.</span></span>
-<span id="cb328-9"><a href="structure.html#cb328-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb328-10"><a href="structure.html#cb328-10" aria-hidden="true" tabindex="-1"></a><span class="co"># The data.rda file, which we loaded earlier, includes the igraph object of</span></span>
-<span id="cb328-11"><a href="structure.html#cb328-11" aria-hidden="true" tabindex="-1"></a><span class="co"># ego ID 28&#39;s network.</span></span>
-<span id="cb328-12"><a href="structure.html#cb328-12" aria-hidden="true" tabindex="-1"></a>gr<span class="fl">.28</span></span></code></pre></div>
-<pre><code>## IGRAPH 1e5bc5b UNW- 45 259 -- 
+<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="structure.html#cb315-1" tabindex="-1"></a><span class="co"># Load packages.</span></span>
+<span id="cb315-2"><a href="structure.html#cb315-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb315-3"><a href="structure.html#cb315-3" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb315-4"><a href="structure.html#cb315-4" tabindex="-1"></a></span>
+<span id="cb315-5"><a href="structure.html#cb315-5" tabindex="-1"></a><span class="co"># Load data.</span></span>
+<span id="cb315-6"><a href="structure.html#cb315-6" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;./Data/data.rda&quot;</span>)</span>
+<span id="cb315-7"><a href="structure.html#cb315-7" tabindex="-1"></a></span>
+<span id="cb315-8"><a href="structure.html#cb315-8" tabindex="-1"></a><span class="co"># For structural measures we need the ego-network as an igraph.</span></span>
+<span id="cb315-9"><a href="structure.html#cb315-9" tabindex="-1"></a></span>
+<span id="cb315-10"><a href="structure.html#cb315-10" tabindex="-1"></a><span class="co"># The data.rda file, which we loaded earlier, includes the igraph object of</span></span>
+<span id="cb315-11"><a href="structure.html#cb315-11" tabindex="-1"></a><span class="co"># ego ID 28&#39;s network.</span></span>
+<span id="cb315-12"><a href="structure.html#cb315-12" tabindex="-1"></a>gr<span class="fl">.28</span></span></code></pre></div>
+<pre><code>## IGRAPH e31b643 UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 1e5bc5b (vertex names):
+## + edges from e31b643 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
 ## [19] 2801--2827 2801--2828 2801--2829 2801--2831 2801--2840 2801--2841
 ## [25] 2802--2803 2802--2804 2802--2805 2802--2806 2802--2807 2802--2808
 ## + ... omitted several edges</code></pre>
-<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="structure.html#cb330-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s reassign it to a new, generic object name. This makes the code more </span></span>
-<span id="cb330-2"><a href="structure.html#cb330-2" aria-hidden="true" tabindex="-1"></a><span class="co"># generic and more easily re-usable on any ego-network igraph object </span></span>
-<span id="cb330-3"><a href="structure.html#cb330-3" aria-hidden="true" tabindex="-1"></a><span class="co"># (of any ego ID).</span></span>
-<span id="cb330-4"><a href="structure.html#cb330-4" aria-hidden="true" tabindex="-1"></a>gr <span class="ot">&lt;-</span> gr<span class="fl">.28</span></span>
-<span id="cb330-5"><a href="structure.html#cb330-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb330-6"><a href="structure.html#cb330-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Measures based only on the structure of alter-alter ties                  ----</span></span>
-<span id="cb330-7"><a href="structure.html#cb330-7" aria-hidden="true" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
-<span id="cb330-8"><a href="structure.html#cb330-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb330-9"><a href="structure.html#cb330-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Structural characteristics of the network.</span></span>
-<span id="cb330-10"><a href="structure.html#cb330-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb330-11"><a href="structure.html#cb330-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Network density.</span></span>
-<span id="cb330-12"><a href="structure.html#cb330-12" aria-hidden="true" tabindex="-1"></a><span class="fu">edge_density</span>(gr)</span></code></pre></div>
+<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="structure.html#cb317-1" tabindex="-1"></a><span class="co"># Let&#39;s reassign it to a new, generic object name. This makes the code more </span></span>
+<span id="cb317-2"><a href="structure.html#cb317-2" tabindex="-1"></a><span class="co"># generic and more easily re-usable on any ego-network igraph object </span></span>
+<span id="cb317-3"><a href="structure.html#cb317-3" tabindex="-1"></a><span class="co"># (of any ego ID).</span></span>
+<span id="cb317-4"><a href="structure.html#cb317-4" tabindex="-1"></a>gr <span class="ot">&lt;-</span> gr<span class="fl">.28</span></span>
+<span id="cb317-5"><a href="structure.html#cb317-5" tabindex="-1"></a></span>
+<span id="cb317-6"><a href="structure.html#cb317-6" tabindex="-1"></a><span class="co"># Measures based only on the structure of alter-alter ties                  ----</span></span>
+<span id="cb317-7"><a href="structure.html#cb317-7" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
+<span id="cb317-8"><a href="structure.html#cb317-8" tabindex="-1"></a></span>
+<span id="cb317-9"><a href="structure.html#cb317-9" tabindex="-1"></a><span class="co"># Structural characteristics of the network.</span></span>
+<span id="cb317-10"><a href="structure.html#cb317-10" tabindex="-1"></a></span>
+<span id="cb317-11"><a href="structure.html#cb317-11" tabindex="-1"></a><span class="co"># Network density.</span></span>
+<span id="cb317-12"><a href="structure.html#cb317-12" tabindex="-1"></a><span class="fu">edge_density</span>(gr)</span></code></pre></div>
 <pre><code>## [1] 0.2616162</code></pre>
-<div class="sourceCode" id="cb332"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb332-1"><a href="structure.html#cb332-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of components.</span></span>
-<span id="cb332-2"><a href="structure.html#cb332-2" aria-hidden="true" tabindex="-1"></a><span class="fu">components</span>(gr)</span></code></pre></div>
+<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="structure.html#cb319-1" tabindex="-1"></a><span class="co"># Number of components.</span></span>
+<span id="cb319-2"><a href="structure.html#cb319-2" tabindex="-1"></a><span class="fu">components</span>(gr)</span></code></pre></div>
 <pre><code>## $membership
 ## 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2813 2814 2815 2816 
 ##    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1    1 
@@ -363,34 +367,34 @@ div.csl-indent {
 ## 
 ## $no
 ## [1] 1</code></pre>
-<div class="sourceCode" id="cb334"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb334-1"><a href="structure.html#cb334-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This is a list, we only need its 3rd element (number of components).</span></span>
-<span id="cb334-2"><a href="structure.html#cb334-2" aria-hidden="true" tabindex="-1"></a><span class="fu">components</span>(gr)<span class="sc">$</span>no</span></code></pre></div>
+<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="structure.html#cb321-1" tabindex="-1"></a><span class="co"># This is a list, we only need its 3rd element (number of components).</span></span>
+<span id="cb321-2"><a href="structure.html#cb321-2" tabindex="-1"></a><span class="fu">components</span>(gr)<span class="sc">$</span>no</span></code></pre></div>
 <pre><code>## [1] 1</code></pre>
-<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="structure.html#cb336-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarization of structural characteristics of the alters.</span></span>
-<span id="cb336-2"><a href="structure.html#cb336-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb336-3"><a href="structure.html#cb336-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Average alter degree.</span></span>
-<span id="cb336-4"><a href="structure.html#cb336-4" aria-hidden="true" tabindex="-1"></a><span class="fu">degree</span>(gr) <span class="sc">%&gt;%</span> mean</span></code></pre></div>
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="structure.html#cb323-1" tabindex="-1"></a><span class="co"># Summarization of structural characteristics of the alters.</span></span>
+<span id="cb323-2"><a href="structure.html#cb323-2" tabindex="-1"></a></span>
+<span id="cb323-3"><a href="structure.html#cb323-3" tabindex="-1"></a><span class="co"># Average alter degree.</span></span>
+<span id="cb323-4"><a href="structure.html#cb323-4" tabindex="-1"></a><span class="fu">degree</span>(gr) <span class="sc">|&gt;</span> <span class="fu">mean</span>()</span></code></pre></div>
 <pre><code>## [1] 11.51111</code></pre>
-<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="structure.html#cb338-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Max alter betweenness.</span></span>
-<span id="cb338-2"><a href="structure.html#cb338-2" aria-hidden="true" tabindex="-1"></a><span class="fu">betweenness</span>(gr, <span class="at">weights =</span> <span class="cn">NA</span>) <span class="sc">%&gt;%</span> max</span></code></pre></div>
+<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="structure.html#cb325-1" tabindex="-1"></a><span class="co"># Max alter betweenness.</span></span>
+<span id="cb325-2"><a href="structure.html#cb325-2" tabindex="-1"></a><span class="fu">betweenness</span>(gr, <span class="at">weights =</span> <span class="cn">NA</span>) <span class="sc">|&gt;</span> <span class="fu">max</span>()</span></code></pre></div>
 <pre><code>## [1] 257.0168</code></pre>
-<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="structure.html#cb340-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of &quot;isolate&quot; alters.</span></span>
-<span id="cb340-2"><a href="structure.html#cb340-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb340-3"><a href="structure.html#cb340-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Check out the alter degree vector.</span></span>
-<span id="cb340-4"><a href="structure.html#cb340-4" aria-hidden="true" tabindex="-1"></a><span class="fu">degree</span>(gr)</span></code></pre></div>
+<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="structure.html#cb327-1" tabindex="-1"></a><span class="co"># Number of &quot;isolate&quot; alters.</span></span>
+<span id="cb327-2"><a href="structure.html#cb327-2" tabindex="-1"></a></span>
+<span id="cb327-3"><a href="structure.html#cb327-3" tabindex="-1"></a><span class="co"># Check out the alter degree vector.</span></span>
+<span id="cb327-4"><a href="structure.html#cb327-4" tabindex="-1"></a><span class="fu">degree</span>(gr)</span></code></pre></div>
 <pre><code>## 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2813 2814 2815 2816 
 ##   24   17   13   12   12   13   13   12   10    9   11    8   18   14   16    9 
 ## 2817 2818 2819 2820 2821 2822 2823 2824 2825 2826 2827 2828 2829 2830 2831 2832 
 ##    9   10    2    2    9   18   27   13   10    8    4    3    3    3   15   16 
 ## 2833 2834 2835 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845 
 ##   16   12   21    3   10   14   14   16   13    7   12    5   12</code></pre>
-<div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="structure.html#cb342-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count the number of isolates, i.e. alters with degree==0</span></span>
-<span id="cb342-2"><a href="structure.html#cb342-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">degree</span>(gr)<span class="sc">==</span><span class="dv">0</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="structure.html#cb329-1" tabindex="-1"></a><span class="co"># Count the number of isolates, i.e. alters with degree==0</span></span>
+<span id="cb329-2"><a href="structure.html#cb329-2" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">degree</span>(gr)<span class="sc">==</span><span class="dv">0</span>)</span></code></pre></div>
 <pre><code>## [1] 0</code></pre>
-<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="structure.html#cb344-1" aria-hidden="true" tabindex="-1"></a><span class="co"># All sorts of more complicated structural analyses can be run on an ego-network</span></span>
-<span id="cb344-2"><a href="structure.html#cb344-2" aria-hidden="true" tabindex="-1"></a><span class="co"># using igraph or statnet functions. For example, here are the results of the</span></span>
-<span id="cb344-3"><a href="structure.html#cb344-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Girvan-Newman community-detection algorithm on the ego-network.</span></span>
-<span id="cb344-4"><a href="structure.html#cb344-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cluster_edge_betweenness</span>(gr, <span class="at">weights=</span> <span class="cn">NA</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb331-1"><a href="structure.html#cb331-1" tabindex="-1"></a><span class="co"># All sorts of more complicated structural analyses can be run on an ego-network</span></span>
+<span id="cb331-2"><a href="structure.html#cb331-2" tabindex="-1"></a><span class="co"># using igraph or statnet functions. For example, here are the results of the</span></span>
+<span id="cb331-3"><a href="structure.html#cb331-3" tabindex="-1"></a><span class="co"># Girvan-Newman community-detection algorithm on the ego-network.</span></span>
+<span id="cb331-4"><a href="structure.html#cb331-4" tabindex="-1"></a><span class="fu">cluster_edge_betweenness</span>(gr, <span class="at">weights=</span> <span class="cn">NA</span>)</span></code></pre></div>
 <pre><code>## IGRAPH clustering edge betweenness, groups: 10, mod: 0.41
 ## + groups:
 ##   $`1`
@@ -404,23 +408,23 @@ div.csl-indent {
 ##   [1] &quot;2819&quot; &quot;2836&quot;
 ##   
 ##   + ... omitted several groups/vertices</code></pre>
-<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb346-1"><a href="structure.html#cb346-1" aria-hidden="true" tabindex="-1"></a><span class="co"># What if we want to calculate the same structural measure (e.g. density) on all</span></span>
-<span id="cb346-2"><a href="structure.html#cb346-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ego-networks? We can take the list of all ego-networks and run the same </span></span>
-<span id="cb346-3"><a href="structure.html#cb346-3" aria-hidden="true" tabindex="-1"></a><span class="co"># function on every list element with the purrr package in tidyverse.</span></span>
-<span id="cb346-4"><a href="structure.html#cb346-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb346-5"><a href="structure.html#cb346-5" aria-hidden="true" tabindex="-1"></a><span class="co"># List that contains all our ego-networks.</span></span>
-<span id="cb346-6"><a href="structure.html#cb346-6" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(gr.list)</span></code></pre></div>
+<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb333-1"><a href="structure.html#cb333-1" tabindex="-1"></a><span class="co"># What if we want to calculate the same structural measure (e.g. density) on all</span></span>
+<span id="cb333-2"><a href="structure.html#cb333-2" tabindex="-1"></a><span class="co"># ego-networks? We can take the list of all ego-networks and run the same </span></span>
+<span id="cb333-3"><a href="structure.html#cb333-3" tabindex="-1"></a><span class="co"># function on every list element with the purrr package in tidyverse.</span></span>
+<span id="cb333-4"><a href="structure.html#cb333-4" tabindex="-1"></a></span>
+<span id="cb333-5"><a href="structure.html#cb333-5" tabindex="-1"></a><span class="co"># List that contains all our ego-networks.</span></span>
+<span id="cb333-6"><a href="structure.html#cb333-6" tabindex="-1"></a><span class="fu">class</span>(gr.list)</span></code></pre></div>
 <pre><code>## [1] &quot;list&quot;</code></pre>
-<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb348-1"><a href="structure.html#cb348-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(gr.list)</span></code></pre></div>
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="structure.html#cb335-1" tabindex="-1"></a><span class="fu">length</span>(gr.list)</span></code></pre></div>
 <pre><code>## [1] 102</code></pre>
-<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb350-1"><a href="structure.html#cb350-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gr.list)</span></code></pre></div>
+<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="structure.html#cb337-1" tabindex="-1"></a><span class="fu">head</span>(gr.list)</span></code></pre></div>
 <pre><code>## $`28`
-## IGRAPH 1e5bc5b UNW- 45 259 -- 
+## IGRAPH e31b643 UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 1e5bc5b (vertex names):
+## + edges from e31b643 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -429,12 +433,12 @@ div.csl-indent {
 ## + ... omitted several edges
 ## 
 ## $`29`
-## IGRAPH 2f653e5 UNW- 45 202 -- 
+## IGRAPH f507986 UNW- 45 202 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 2f653e5 (vertex names):
+## + edges from f507986 (vertex names):
 ##  [1] 2901--2902 2901--2904 2901--2906 2901--2907 2901--2908 2901--2909
 ##  [7] 2901--2910 2901--2911 2901--2915 2901--2916 2901--2917 2901--2918
 ## [13] 2901--2919 2901--2927 2901--2928 2901--2929 2901--2930 2901--2931
@@ -443,12 +447,12 @@ div.csl-indent {
 ## + ... omitted several edges
 ## 
 ## $`33`
-## IGRAPH 2853040 UNW- 45 207 -- 
+## IGRAPH 9b6353e UNW- 45 207 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 2853040 (vertex names):
+## + edges from 9b6353e (vertex names):
 ##  [1] 3301--3302 3301--3303 3301--3304 3301--3305 3301--3306 3301--3307
 ##  [7] 3301--3308 3301--3309 3301--3310 3301--3311 3301--3312 3301--3313
 ## [13] 3301--3314 3301--3315 3301--3316 3301--3317 3301--3318 3301--3319
@@ -457,12 +461,12 @@ div.csl-indent {
 ## + ... omitted several edges
 ## 
 ## $`35`
-## IGRAPH 196b093 UNW- 45 221 -- 
+## IGRAPH 0812d4f UNW- 45 221 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 196b093 (vertex names):
+## + edges from 0812d4f (vertex names):
 ##  [1] 3501--3502 3501--3503 3501--3504 3501--3505 3501--3506 3501--3507
 ##  [7] 3501--3508 3501--3509 3501--3510 3501--3512 3501--3513 3501--3514
 ## [13] 3501--3516 3501--3517 3501--3522 3501--3523 3501--3524 3501--3525
@@ -471,12 +475,12 @@ div.csl-indent {
 ## + ... omitted several edges
 ## 
 ## $`39`
-## IGRAPH fb578d1 UNW- 45 92 -- 
+## IGRAPH 59d76f7 UNW- 45 92 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from fb578d1 (vertex names):
+## + edges from 59d76f7 (vertex names):
 ##  [1] 3901--3902 3901--3903 3901--3904 3901--3905 3901--3906 3901--3907
 ##  [7] 3901--3911 3901--3913 3901--3920 3901--3924 3901--3925 3901--3931
 ## [13] 3901--3932 3901--3933 3901--3937 3901--3938 3901--3940 3901--3941
@@ -485,20 +489,20 @@ div.csl-indent {
 ## + ... omitted several edges
 ## 
 ## $`40`
-## IGRAPH 844b484 UNW- 45 255 -- 
+## IGRAPH c15a289 UNW- 45 255 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 844b484 (vertex names):
+## + edges from c15a289 (vertex names):
 ##  [1] 4001--4003 4001--4007 4001--4008 4001--4009 4001--4036 4001--4040
 ##  [7] 4001--4045 4002--4003 4002--4004 4002--4006 4002--4008 4002--4009
 ## [13] 4002--4010 4002--4011 4002--4012 4002--4013 4002--4014 4002--4015
 ## [19] 4002--4016 4002--4017 4002--4021 4002--4029 4002--4036 4002--4037
 ## [25] 4002--4038 4002--4040 4002--4041 4002--4042 4002--4043 4002--4044
 ## + ... omitted several edges</code></pre>
-<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb352-1"><a href="structure.html#cb352-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We can use purrr::map() to run the same function on every element of the list.</span></span>
-<span id="cb352-2"><a href="structure.html#cb352-2" aria-hidden="true" tabindex="-1"></a>purrr<span class="sc">::</span><span class="fu">map_dbl</span>(gr.list, edge_density)</span></code></pre></div>
+<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb339-1"><a href="structure.html#cb339-1" tabindex="-1"></a><span class="co"># We can use purrr::map() to run the same function on every element of the list.</span></span>
+<span id="cb339-2"><a href="structure.html#cb339-2" tabindex="-1"></a>purrr<span class="sc">::</span><span class="fu">map_dbl</span>(gr.list, edge_density)</span></code></pre></div>
 <pre><code>##         28         29         33         35         39         40         45 
 ## 0.26161616 0.20404040 0.20909091 0.22323232 0.09292929 0.25757576 0.18484848 
 ##         46         47         48         49         51         52         53 
@@ -529,86 +533,86 @@ div.csl-indent {
 ## 0.31818182 0.39393939 0.24646465 0.37777778 0.23737374 0.37979798 0.36767677 
 ##        161        162        163        164 
 ## 0.41010101 0.41111111 0.35454545 0.32222222</code></pre>
-<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb354-1"><a href="structure.html#cb354-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We&#39;ll talk more about this and show more examples in the section about </span></span>
-<span id="cb354-2"><a href="structure.html#cb354-2" aria-hidden="true" tabindex="-1"></a><span class="co"># multiple ego-networks.</span></span>
-<span id="cb354-3"><a href="structure.html#cb354-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb354-4"><a href="structure.html#cb354-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Structural measures requiring ego in the network                          ----</span></span>
-<span id="cb354-5"><a href="structure.html#cb354-5" aria-hidden="true" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
-<span id="cb354-6"><a href="structure.html#cb354-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb354-7"><a href="structure.html#cb354-7" aria-hidden="true" tabindex="-1"></a><span class="co"># We now need the ego-network with ego included. The file data.rda, loaded earlier,</span></span>
-<span id="cb354-8"><a href="structure.html#cb354-8" aria-hidden="true" tabindex="-1"></a><span class="co"># includes this ego-network for ego ID 28. </span></span>
-<span id="cb354-9"><a href="structure.html#cb354-9" aria-hidden="true" tabindex="-1"></a>gr.ego<span class="fl">.28</span></span></code></pre></div>
-<pre><code>## IGRAPH 2e3d12e UNW- 46 304 -- 
+<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="structure.html#cb341-1" tabindex="-1"></a><span class="co"># We&#39;ll talk more about this and show more examples in the section about </span></span>
+<span id="cb341-2"><a href="structure.html#cb341-2" tabindex="-1"></a><span class="co"># multiple ego-networks.</span></span>
+<span id="cb341-3"><a href="structure.html#cb341-3" tabindex="-1"></a></span>
+<span id="cb341-4"><a href="structure.html#cb341-4" tabindex="-1"></a><span class="co"># Structural measures requiring ego in the network                          ----</span></span>
+<span id="cb341-5"><a href="structure.html#cb341-5" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
+<span id="cb341-6"><a href="structure.html#cb341-6" tabindex="-1"></a></span>
+<span id="cb341-7"><a href="structure.html#cb341-7" tabindex="-1"></a><span class="co"># We now need the ego-network with ego included. The file data.rda, loaded earlier,</span></span>
+<span id="cb341-8"><a href="structure.html#cb341-8" tabindex="-1"></a><span class="co"># includes this ego-network for ego ID 28. </span></span>
+<span id="cb341-9"><a href="structure.html#cb341-9" tabindex="-1"></a>gr.ego<span class="fl">.28</span></span></code></pre></div>
+<pre><code>## IGRAPH ca92fc8 UNW- 46 304 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 2e3d12e (vertex names):
+## + edges from ca92fc8 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
 ## [19] 2801--2827 2801--2828 2801--2829 2801--2831 2801--2840 2801--2841
 ## [25] 2802--2803 2802--2804 2802--2805 2802--2806 2802--2807 2802--2808
 ## + ... omitted several edges</code></pre>
-<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb356-1"><a href="structure.html#cb356-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s reassign it to another, generic object name.</span></span>
-<span id="cb356-2"><a href="structure.html#cb356-2" aria-hidden="true" tabindex="-1"></a>gr.ego <span class="ot">&lt;-</span> gr.ego<span class="fl">.28</span></span>
-<span id="cb356-3"><a href="structure.html#cb356-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb356-4"><a href="structure.html#cb356-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ego&#39;s betweenness centrality.</span></span>
-<span id="cb356-5"><a href="structure.html#cb356-5" aria-hidden="true" tabindex="-1"></a><span class="co"># weights = NA so the function doesn&#39;t use the $weight edge attribute to</span></span>
-<span id="cb356-6"><a href="structure.html#cb356-6" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate weighted betweenness.</span></span>
-<span id="cb356-7"><a href="structure.html#cb356-7" aria-hidden="true" tabindex="-1"></a><span class="fu">betweenness</span>(gr.ego, <span class="at">v =</span> <span class="st">&quot;ego&quot;</span>, <span class="at">weights =</span> <span class="cn">NA</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="structure.html#cb343-1" tabindex="-1"></a><span class="co"># Let&#39;s reassign it to another, generic object name.</span></span>
+<span id="cb343-2"><a href="structure.html#cb343-2" tabindex="-1"></a>gr.ego <span class="ot">&lt;-</span> gr.ego<span class="fl">.28</span></span>
+<span id="cb343-3"><a href="structure.html#cb343-3" tabindex="-1"></a></span>
+<span id="cb343-4"><a href="structure.html#cb343-4" tabindex="-1"></a><span class="co"># Ego&#39;s betweenness centrality.</span></span>
+<span id="cb343-5"><a href="structure.html#cb343-5" tabindex="-1"></a><span class="co"># weights = NA so the function doesn&#39;t use the $weight edge attribute to</span></span>
+<span id="cb343-6"><a href="structure.html#cb343-6" tabindex="-1"></a><span class="co"># calculate weighted betweenness.</span></span>
+<span id="cb343-7"><a href="structure.html#cb343-7" tabindex="-1"></a><span class="fu">betweenness</span>(gr.ego, <span class="at">v =</span> <span class="st">&quot;ego&quot;</span>, <span class="at">weights =</span> <span class="cn">NA</span>)</span></code></pre></div>
 <pre><code>##      ego 
 ## 434.0271</code></pre>
-<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb358-1"><a href="structure.html#cb358-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ego&#39;s constraint.</span></span>
-<span id="cb358-2"><a href="structure.html#cb358-2" aria-hidden="true" tabindex="-1"></a><span class="fu">constraint</span>(gr.ego, <span class="at">nodes=</span> <span class="st">&quot;ego&quot;</span>)</span></code></pre></div>
-<pre><code>##        ego 
-## 0.07344785</code></pre>
-<div class="sourceCode" id="cb360"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb360-1"><a href="structure.html#cb360-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Measures combining composition and structure: From structure to composition ----</span></span>
-<span id="cb360-2"><a href="structure.html#cb360-2" aria-hidden="true" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
-<span id="cb360-3"><a href="structure.html#cb360-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb360-4"><a href="structure.html#cb360-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Non-network attribute of alters selected based on structural characteristics.</span></span>
-<span id="cb360-5"><a href="structure.html#cb360-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb360-6"><a href="structure.html#cb360-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Type of relationship with alter with max betweenness.</span></span>
-<span id="cb360-7"><a href="structure.html#cb360-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb360-8"><a href="structure.html#cb360-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Logical index for alter with max betweenness.</span></span>
-<span id="cb360-9"><a href="structure.html#cb360-9" aria-hidden="true" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="fu">betweenness</span>(gr, <span class="at">weights =</span> <span class="cn">NA</span>) <span class="sc">==</span> <span class="fu">max</span>(<span class="fu">betweenness</span>(gr, <span class="at">weights =</span> <span class="cn">NA</span>))</span>
-<span id="cb360-10"><a href="structure.html#cb360-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb360-11"><a href="structure.html#cb360-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Get that alter.</span></span>
-<span id="cb360-12"><a href="structure.html#cb360-12" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(gr)[ind]</span></code></pre></div>
-<pre><code>## + 1/45 vertex, named, from 1e5bc5b:
+<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="structure.html#cb345-1" tabindex="-1"></a><span class="co"># Ego&#39;s constraint.</span></span>
+<span id="cb345-2"><a href="structure.html#cb345-2" tabindex="-1"></a><span class="fu">constraint</span>(gr.ego, <span class="at">nodes=</span> <span class="st">&quot;ego&quot;</span>)</span></code></pre></div>
+<pre><code>## ego 
+##  NA</code></pre>
+<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb347-1"><a href="structure.html#cb347-1" tabindex="-1"></a><span class="co"># Measures combining composition and structure: From structure to composition ----</span></span>
+<span id="cb347-2"><a href="structure.html#cb347-2" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
+<span id="cb347-3"><a href="structure.html#cb347-3" tabindex="-1"></a></span>
+<span id="cb347-4"><a href="structure.html#cb347-4" tabindex="-1"></a><span class="co"># Non-network attribute of alters selected based on structural characteristics.</span></span>
+<span id="cb347-5"><a href="structure.html#cb347-5" tabindex="-1"></a></span>
+<span id="cb347-6"><a href="structure.html#cb347-6" tabindex="-1"></a><span class="co"># Type of relationship with alter with max betweenness.</span></span>
+<span id="cb347-7"><a href="structure.html#cb347-7" tabindex="-1"></a></span>
+<span id="cb347-8"><a href="structure.html#cb347-8" tabindex="-1"></a><span class="co"># Logical index for alter with max betweenness.</span></span>
+<span id="cb347-9"><a href="structure.html#cb347-9" tabindex="-1"></a>ind <span class="ot">&lt;-</span> <span class="fu">betweenness</span>(gr, <span class="at">weights =</span> <span class="cn">NA</span>) <span class="sc">==</span> <span class="fu">max</span>(<span class="fu">betweenness</span>(gr, <span class="at">weights =</span> <span class="cn">NA</span>))</span>
+<span id="cb347-10"><a href="structure.html#cb347-10" tabindex="-1"></a></span>
+<span id="cb347-11"><a href="structure.html#cb347-11" tabindex="-1"></a><span class="co"># Get that alter.</span></span>
+<span id="cb347-12"><a href="structure.html#cb347-12" tabindex="-1"></a><span class="fu">V</span>(gr)[ind]</span></code></pre></div>
+<pre><code>## + 1/45 vertex, named, from e31b643:
 ## [1] 2801</code></pre>
-<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb362-1"><a href="structure.html#cb362-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get type of relation of that alter.</span></span>
-<span id="cb362-2"><a href="structure.html#cb362-2" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(gr)[ind]<span class="sc">$</span>alter.rel</span></code></pre></div>
+<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb349-1"><a href="structure.html#cb349-1" tabindex="-1"></a><span class="co"># Get type of relation of that alter.</span></span>
+<span id="cb349-2"><a href="structure.html#cb349-2" tabindex="-1"></a><span class="fu">V</span>(gr)[ind]<span class="sc">$</span>alter.rel</span></code></pre></div>
 <pre><code>## [1] &quot;Close family&quot;</code></pre>
-<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb364-1"><a href="structure.html#cb364-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note that there might be multiple alters with the same (maximum) value of </span></span>
-<span id="cb364-2"><a href="structure.html#cb364-2" aria-hidden="true" tabindex="-1"></a><span class="co"># betweenness. For that case, we&#39;ll need more complicated code (see exercise).</span></span>
-<span id="cb364-3"><a href="structure.html#cb364-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb364-4"><a href="structure.html#cb364-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Measures combining composition and structure: From composition to structure ----</span></span>
-<span id="cb364-5"><a href="structure.html#cb364-5" aria-hidden="true" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
-<span id="cb364-6"><a href="structure.html#cb364-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb364-7"><a href="structure.html#cb364-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Structural characteristics of alters selected based on composition.</span></span>
-<span id="cb364-8"><a href="structure.html#cb364-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb364-9"><a href="structure.html#cb364-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Average degree of Close family.</span></span>
-<span id="cb364-10"><a href="structure.html#cb364-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb364-11"><a href="structure.html#cb364-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Vertex sequence of Close family members.</span></span>
-<span id="cb364-12"><a href="structure.html#cb364-12" aria-hidden="true" tabindex="-1"></a>(clo.fam.vs <span class="ot">&lt;-</span> <span class="fu">V</span>(gr)[alter.rel<span class="sc">==</span><span class="st">&quot;Close family&quot;</span>])</span></code></pre></div>
-<pre><code>## + 5/45 vertices, named, from 1e5bc5b:
+<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb351-1"><a href="structure.html#cb351-1" tabindex="-1"></a><span class="co"># Note that there might be multiple alters with the same (maximum) value of </span></span>
+<span id="cb351-2"><a href="structure.html#cb351-2" tabindex="-1"></a><span class="co"># betweenness. For that case, we&#39;ll need more complicated code (see exercise).</span></span>
+<span id="cb351-3"><a href="structure.html#cb351-3" tabindex="-1"></a></span>
+<span id="cb351-4"><a href="structure.html#cb351-4" tabindex="-1"></a><span class="co"># Measures combining composition and structure: From composition to structure ----</span></span>
+<span id="cb351-5"><a href="structure.html#cb351-5" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
+<span id="cb351-6"><a href="structure.html#cb351-6" tabindex="-1"></a></span>
+<span id="cb351-7"><a href="structure.html#cb351-7" tabindex="-1"></a><span class="co"># Structural characteristics of alters selected based on composition.</span></span>
+<span id="cb351-8"><a href="structure.html#cb351-8" tabindex="-1"></a></span>
+<span id="cb351-9"><a href="structure.html#cb351-9" tabindex="-1"></a><span class="co"># Average degree of Close family.</span></span>
+<span id="cb351-10"><a href="structure.html#cb351-10" tabindex="-1"></a></span>
+<span id="cb351-11"><a href="structure.html#cb351-11" tabindex="-1"></a><span class="co"># Vertex sequence of Close family members.</span></span>
+<span id="cb351-12"><a href="structure.html#cb351-12" tabindex="-1"></a>(clo.fam.vs <span class="ot">&lt;-</span> <span class="fu">V</span>(gr)[alter.rel<span class="sc">==</span><span class="st">&quot;Close family&quot;</span>])</span></code></pre></div>
+<pre><code>## + 5/45 vertices, named, from e31b643:
 ## [1] 2801 2803 2804 2805 2806</code></pre>
-<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb366-1"><a href="structure.html#cb366-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get their average degree.</span></span>
-<span id="cb366-2"><a href="structure.html#cb366-2" aria-hidden="true" tabindex="-1"></a>gr <span class="sc">%&gt;%</span></span>
-<span id="cb366-3"><a href="structure.html#cb366-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">degree</span>(<span class="at">v =</span> clo.fam.vs) <span class="sc">%&gt;%</span> </span>
-<span id="cb366-4"><a href="structure.html#cb366-4" aria-hidden="true" tabindex="-1"></a>  mean</span></code></pre></div>
+<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb353-1"><a href="structure.html#cb353-1" tabindex="-1"></a><span class="co"># Get their average degree.</span></span>
+<span id="cb353-2"><a href="structure.html#cb353-2" tabindex="-1"></a>gr <span class="sc">|&gt;</span></span>
+<span id="cb353-3"><a href="structure.html#cb353-3" tabindex="-1"></a>  <span class="fu">degree</span>(<span class="at">v =</span> clo.fam.vs) <span class="sc">|&gt;</span> </span>
+<span id="cb353-4"><a href="structure.html#cb353-4" tabindex="-1"></a>  <span class="fu">mean</span>()</span></code></pre></div>
 <pre><code>## [1] 14.8</code></pre>
-<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb368-1"><a href="structure.html#cb368-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count of ties between alters who live in Sri Lanka.</span></span>
-<span id="cb368-2"><a href="structure.html#cb368-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb368-3"><a href="structure.html#cb368-3" aria-hidden="true" tabindex="-1"></a><span class="co"># First get the vertex sequence of alters who live in Sri Lanka.</span></span>
-<span id="cb368-4"><a href="structure.html#cb368-4" aria-hidden="true" tabindex="-1"></a>(alters.sl <span class="ot">&lt;-</span> <span class="fu">V</span>(gr)[alter.res<span class="sc">==</span><span class="st">&quot;Sri Lanka&quot;</span>])</span></code></pre></div>
-<pre><code>## + 17/45 vertices, named, from 1e5bc5b:
+<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb355-1"><a href="structure.html#cb355-1" tabindex="-1"></a><span class="co"># Count of ties between alters who live in Sri Lanka.</span></span>
+<span id="cb355-2"><a href="structure.html#cb355-2" tabindex="-1"></a></span>
+<span id="cb355-3"><a href="structure.html#cb355-3" tabindex="-1"></a><span class="co"># First get the vertex sequence of alters who live in Sri Lanka.</span></span>
+<span id="cb355-4"><a href="structure.html#cb355-4" tabindex="-1"></a>(alters.sl <span class="ot">&lt;-</span> <span class="fu">V</span>(gr)[alter.res<span class="sc">==</span><span class="st">&quot;Sri Lanka&quot;</span>])</span></code></pre></div>
+<pre><code>## + 17/45 vertices, named, from e31b643:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2827 2828 2829
 ## [16] 2840 2841</code></pre>
-<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb370-1"><a href="structure.html#cb370-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Then get the edges among them.</span></span>
-<span id="cb370-2"><a href="structure.html#cb370-2" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(gr)[alters.sl <span class="sc">%--%</span> alters.sl]</span></code></pre></div>
-<pre><code>## + 88/259 edges from 1e5bc5b (vertex names):
+<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb357-1"><a href="structure.html#cb357-1" tabindex="-1"></a><span class="co"># Then get the edges among them.</span></span>
+<span id="cb357-2"><a href="structure.html#cb357-2" tabindex="-1"></a><span class="fu">E</span>(gr)[alters.sl <span class="sc">%--%</span> alters.sl]</span></code></pre></div>
+<pre><code>## + 88/259 edges from e31b643 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2827
 ## [13] 2801--2828 2801--2829 2801--2840 2801--2841 2802--2803 2802--2804
@@ -620,29 +624,29 @@ div.csl-indent {
 ## [49] 2805--2806 2805--2807 2805--2808 2805--2809 2805--2810 2805--2811
 ## [55] 2805--2840 2805--2841 2806--2807 2806--2808 2806--2809 2806--2810
 ## + ... omitted several edges</code></pre>
-<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb372-1"><a href="structure.html#cb372-1" aria-hidden="true" tabindex="-1"></a><span class="co"># How many edges are there between alters who live in Sri Lanka?</span></span>
-<span id="cb372-2"><a href="structure.html#cb372-2" aria-hidden="true" tabindex="-1"></a><span class="fu">E</span>(gr)[alters.sl <span class="sc">%--%</span> alters.sl] <span class="sc">%&gt;%</span> </span>
-<span id="cb372-3"><a href="structure.html#cb372-3" aria-hidden="true" tabindex="-1"></a>  length</span></code></pre></div>
+<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb359-1"><a href="structure.html#cb359-1" tabindex="-1"></a><span class="co"># How many edges are there between alters who live in Sri Lanka?</span></span>
+<span id="cb359-2"><a href="structure.html#cb359-2" tabindex="-1"></a><span class="fu">E</span>(gr)[alters.sl <span class="sc">%--%</span> alters.sl] <span class="sc">|&gt;</span> </span>
+<span id="cb359-3"><a href="structure.html#cb359-3" tabindex="-1"></a>  <span class="fu">length</span>()</span></code></pre></div>
 <pre><code>## [1] 88</code></pre>
-<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb374-1"><a href="structure.html#cb374-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Density between alters who live in Sri Lanka.</span></span>
-<span id="cb374-2"><a href="structure.html#cb374-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb374-3"><a href="structure.html#cb374-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Get subgraph of relevant alters</span></span>
-<span id="cb374-4"><a href="structure.html#cb374-4" aria-hidden="true" tabindex="-1"></a><span class="fu">induced_subgraph</span>(gr, <span class="at">vids =</span> alters.sl)</span></code></pre></div>
-<pre><code>## IGRAPH cbb5bb0 UNW- 17 88 -- 
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb361-1"><a href="structure.html#cb361-1" tabindex="-1"></a><span class="co"># Density between alters who live in Sri Lanka.</span></span>
+<span id="cb361-2"><a href="structure.html#cb361-2" tabindex="-1"></a></span>
+<span id="cb361-3"><a href="structure.html#cb361-3" tabindex="-1"></a><span class="co"># Get subgraph of relevant alters</span></span>
+<span id="cb361-4"><a href="structure.html#cb361-4" tabindex="-1"></a><span class="fu">induced_subgraph</span>(gr, <span class="at">vids =</span> alters.sl)</span></code></pre></div>
+<pre><code>## IGRAPH 4fbb280 UNW- 17 88 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from cbb5bb0 (vertex names):
+## + edges from 4fbb280 (vertex names):
 ##  [1] 2801--2802 2801--2803 2802--2803 2801--2804 2802--2804 2803--2804
 ##  [7] 2801--2805 2802--2805 2803--2805 2804--2805 2801--2806 2802--2806
 ## [13] 2803--2806 2804--2806 2805--2806 2801--2807 2802--2807 2803--2807
 ## [19] 2804--2807 2805--2807 2806--2807 2801--2808 2802--2808 2803--2808
 ## [25] 2804--2808 2805--2808 2806--2808 2807--2808 2801--2809 2802--2809
 ## + ... omitted several edges</code></pre>
-<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb376-1"><a href="structure.html#cb376-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the density of this subgraph.</span></span>
-<span id="cb376-2"><a href="structure.html#cb376-2" aria-hidden="true" tabindex="-1"></a><span class="fu">induced_subgraph</span>(gr, <span class="at">vids =</span> alters.sl) <span class="sc">%&gt;%</span> </span>
-<span id="cb376-3"><a href="structure.html#cb376-3" aria-hidden="true" tabindex="-1"></a>  edge_density</span></code></pre></div>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb363-1"><a href="structure.html#cb363-1" tabindex="-1"></a><span class="co"># Get the density of this subgraph.</span></span>
+<span id="cb363-2"><a href="structure.html#cb363-2" tabindex="-1"></a><span class="fu">induced_subgraph</span>(gr, <span class="at">vids =</span> alters.sl) <span class="sc">|&gt;</span> </span>
+<span id="cb363-3"><a href="structure.html#cb363-3" tabindex="-1"></a>  <span class="fu">edge_density</span>()</span></code></pre></div>
 <pre><code>## [1] 0.6470588</code></pre>
 </div>
 <div id="lists" class="section level2 hasAnchor" number="5.3">
@@ -665,25 +669,25 @@ div.csl-indent {
 <li>Create, display, and index a list.</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb378-1"><a href="structure.html#cb378-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s get some objects to put in a list.</span></span>
-<span id="cb378-2"><a href="structure.html#cb378-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb378-3"><a href="structure.html#cb378-3" aria-hidden="true" tabindex="-1"></a><span class="co"># A simple numeric vector.</span></span>
-<span id="cb378-4"><a href="structure.html#cb378-4" aria-hidden="true" tabindex="-1"></a>(num <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb365-1"><a href="structure.html#cb365-1" tabindex="-1"></a><span class="co"># Let&#39;s get some objects to put in a list.</span></span>
+<span id="cb365-2"><a href="structure.html#cb365-2" tabindex="-1"></a></span>
+<span id="cb365-3"><a href="structure.html#cb365-3" tabindex="-1"></a><span class="co"># A simple numeric vector.</span></span>
+<span id="cb365-4"><a href="structure.html#cb365-4" tabindex="-1"></a>(num <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
-<div class="sourceCode" id="cb380"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb380-1"><a href="structure.html#cb380-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A matrix.</span></span>
-<span id="cb380-2"><a href="structure.html#cb380-2" aria-hidden="true" tabindex="-1"></a>(mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">nrow=</span><span class="dv">2</span>, <span class="at">ncol=</span><span class="dv">2</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb367"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb367-1"><a href="structure.html#cb367-1" tabindex="-1"></a><span class="co"># A matrix.</span></span>
+<span id="cb367-2"><a href="structure.html#cb367-2" tabindex="-1"></a>(mat <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">nrow=</span><span class="dv">2</span>, <span class="at">ncol=</span><span class="dv">2</span>))</span></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]    1    3
 ## [2,]    2    4</code></pre>
-<div class="sourceCode" id="cb382"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb382-1"><a href="structure.html#cb382-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A character vector.</span></span>
-<span id="cb382-2"><a href="structure.html#cb382-2" aria-hidden="true" tabindex="-1"></a>(char <span class="ot">&lt;-</span> <span class="fu">colors</span>()[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb369"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb369-1"><a href="structure.html#cb369-1" tabindex="-1"></a><span class="co"># A character vector.</span></span>
+<span id="cb369-2"><a href="structure.html#cb369-2" tabindex="-1"></a>(char <span class="ot">&lt;-</span> <span class="fu">colors</span>()[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>])</span></code></pre></div>
 <pre><code>## [1] &quot;white&quot;         &quot;aliceblue&quot;     &quot;antiquewhite&quot;  &quot;antiquewhite1&quot;
 ## [5] &quot;antiquewhite2&quot;</code></pre>
-<div class="sourceCode" id="cb384"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb384-1"><a href="structure.html#cb384-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a list that contains all these objects.</span></span>
-<span id="cb384-2"><a href="structure.html#cb384-2" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="fu">list</span>(num, mat, char)</span>
-<span id="cb384-3"><a href="structure.html#cb384-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb384-4"><a href="structure.html#cb384-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Display it</span></span>
-<span id="cb384-5"><a href="structure.html#cb384-5" aria-hidden="true" tabindex="-1"></a>L</span></code></pre></div>
+<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb371-1"><a href="structure.html#cb371-1" tabindex="-1"></a><span class="co"># Create a list that contains all these objects.</span></span>
+<span id="cb371-2"><a href="structure.html#cb371-2" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="fu">list</span>(num, mat, char)</span>
+<span id="cb371-3"><a href="structure.html#cb371-3" tabindex="-1"></a></span>
+<span id="cb371-4"><a href="structure.html#cb371-4" tabindex="-1"></a><span class="co"># Display it</span></span>
+<span id="cb371-5"><a href="structure.html#cb371-5" tabindex="-1"></a>L</span></code></pre></div>
 <pre><code>## [[1]]
 ##  [1]  1  2  3  4  5  6  7  8  9 10
 ## 
@@ -695,11 +699,11 @@ div.csl-indent {
 ## [[3]]
 ## [1] &quot;white&quot;         &quot;aliceblue&quot;     &quot;antiquewhite&quot;  &quot;antiquewhite1&quot;
 ## [5] &quot;antiquewhite2&quot;</code></pre>
-<div class="sourceCode" id="cb386"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb386-1"><a href="structure.html#cb386-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a named list</span></span>
-<span id="cb386-2"><a href="structure.html#cb386-2" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">numbers=</span> num, <span class="at">matrix=</span> mat, <span class="at">colors=</span> char)  </span>
-<span id="cb386-3"><a href="structure.html#cb386-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb386-4"><a href="structure.html#cb386-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Display it</span></span>
-<span id="cb386-5"><a href="structure.html#cb386-5" aria-hidden="true" tabindex="-1"></a>L</span></code></pre></div>
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb373-1"><a href="structure.html#cb373-1" tabindex="-1"></a><span class="co"># Create a named list</span></span>
+<span id="cb373-2"><a href="structure.html#cb373-2" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">numbers=</span> num, <span class="at">matrix=</span> mat, <span class="at">colors=</span> char)  </span>
+<span id="cb373-3"><a href="structure.html#cb373-3" tabindex="-1"></a></span>
+<span id="cb373-4"><a href="structure.html#cb373-4" tabindex="-1"></a><span class="co"># Display it</span></span>
+<span id="cb373-5"><a href="structure.html#cb373-5" tabindex="-1"></a>L</span></code></pre></div>
 <pre><code>## $numbers
 ##  [1]  1  2  3  4  5  6  7  8  9 10
 ## 
@@ -711,27 +715,27 @@ div.csl-indent {
 ## $colors
 ## [1] &quot;white&quot;         &quot;aliceblue&quot;     &quot;antiquewhite&quot;  &quot;antiquewhite1&quot;
 ## [5] &quot;antiquewhite2&quot;</code></pre>
-<div class="sourceCode" id="cb388"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb388-1"><a href="structure.html#cb388-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Type and class</span></span>
-<span id="cb388-2"><a href="structure.html#cb388-2" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(L)</span></code></pre></div>
+<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb375-1"><a href="structure.html#cb375-1" tabindex="-1"></a><span class="co"># Type and class</span></span>
+<span id="cb375-2"><a href="structure.html#cb375-2" tabindex="-1"></a><span class="fu">typeof</span>(L)</span></code></pre></div>
 <pre><code>## [1] &quot;list&quot;</code></pre>
-<div class="sourceCode" id="cb390"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb390-1"><a href="structure.html#cb390-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(L)</span></code></pre></div>
+<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb377-1"><a href="structure.html#cb377-1" tabindex="-1"></a><span class="fu">class</span>(L)</span></code></pre></div>
 <pre><code>## [1] &quot;list&quot;</code></pre>
-<div class="sourceCode" id="cb392"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb392-1"><a href="structure.html#cb392-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the first element of L</span></span>
-<span id="cb392-2"><a href="structure.html#cb392-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [ ] notation (result is a list containing the element).</span></span>
-<span id="cb392-3"><a href="structure.html#cb392-3" aria-hidden="true" tabindex="-1"></a>L[<span class="dv">1</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb379-1"><a href="structure.html#cb379-1" tabindex="-1"></a><span class="co"># Extract the first element of L</span></span>
+<span id="cb379-2"><a href="structure.html#cb379-2" tabindex="-1"></a><span class="co"># [ ] notation (result is a list containing the element).</span></span>
+<span id="cb379-3"><a href="structure.html#cb379-3" tabindex="-1"></a>L[<span class="dv">1</span>]</span></code></pre></div>
 <pre><code>## $numbers
 ##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
-<div class="sourceCode" id="cb394"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb394-1"><a href="structure.html#cb394-1" aria-hidden="true" tabindex="-1"></a><span class="co"># [[ ]] notation (result is the element itself, no longer in a list).</span></span>
-<span id="cb394-2"><a href="structure.html#cb394-2" aria-hidden="true" tabindex="-1"></a>L[[<span class="dv">1</span>]]</span></code></pre></div>
+<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb381-1"><a href="structure.html#cb381-1" tabindex="-1"></a><span class="co"># [[ ]] notation (result is the element itself, no longer in a list).</span></span>
+<span id="cb381-2"><a href="structure.html#cb381-2" tabindex="-1"></a>L[[<span class="dv">1</span>]]</span></code></pre></div>
 <pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
-<div class="sourceCode" id="cb396"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb396-1"><a href="structure.html#cb396-1" aria-hidden="true" tabindex="-1"></a><span class="co"># $ notation (result is the element itself, no longer in a list).</span></span>
-<span id="cb396-2"><a href="structure.html#cb396-2" aria-hidden="true" tabindex="-1"></a>L<span class="sc">$</span>numbers</span></code></pre></div>
+<div class="sourceCode" id="cb383"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb383-1"><a href="structure.html#cb383-1" tabindex="-1"></a><span class="co"># $ notation (result is the element itself, no longer in a list).</span></span>
+<span id="cb383-2"><a href="structure.html#cb383-2" tabindex="-1"></a>L<span class="sc">$</span>numbers</span></code></pre></div>
 <pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
-<div class="sourceCode" id="cb398"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb398-1"><a href="structure.html#cb398-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Name indexing.</span></span>
-<span id="cb398-2"><a href="structure.html#cb398-2" aria-hidden="true" tabindex="-1"></a>L[[<span class="st">&quot;numbers&quot;</span>]]</span></code></pre></div>
+<div class="sourceCode" id="cb385"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb385-1"><a href="structure.html#cb385-1" tabindex="-1"></a><span class="co"># Name indexing.</span></span>
+<span id="cb385-2"><a href="structure.html#cb385-2" tabindex="-1"></a>L[[<span class="st">&quot;numbers&quot;</span>]]</span></code></pre></div>
 <pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
-<div class="sourceCode" id="cb400"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb400-1"><a href="structure.html#cb400-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Types of elements in L.</span></span>
-<span id="cb400-2"><a href="structure.html#cb400-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(L)</span></code></pre></div>
+<div class="sourceCode" id="cb387"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb387-1"><a href="structure.html#cb387-1" tabindex="-1"></a><span class="co"># Types of elements in L.</span></span>
+<span id="cb387-2"><a href="structure.html#cb387-2" tabindex="-1"></a><span class="fu">str</span>(L)</span></code></pre></div>
 <pre><code>## List of 3
 ##  $ numbers: int [1:10] 1 2 3 4 5 6 7 8 9 10
 ##  $ matrix : int [1:2, 1:2] 1 2 3 4
@@ -760,11 +764,11 @@ div.csl-indent {
 <li>Use <code>purrr</code> functions to calculate the same structural measures on every ego-network in the data.</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb402-1"><a href="structure.html#cb402-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A simple structural measure such as network density can be applied to every</span></span>
-<span id="cb402-2"><a href="structure.html#cb402-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ego-network (i.e., every element of our list), and returns a scalar for each</span></span>
-<span id="cb402-3"><a href="structure.html#cb402-3" aria-hidden="true" tabindex="-1"></a><span class="co"># network. All the scalars can be put in a vector.</span></span>
-<span id="cb402-4"><a href="structure.html#cb402-4" aria-hidden="true" tabindex="-1"></a>gr.list <span class="sc">%&gt;%</span></span>
-<span id="cb402-5"><a href="structure.html#cb402-5" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map_dbl</span>(edge_density) </span></code></pre></div>
+<div class="sourceCode" id="cb389"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb389-1"><a href="structure.html#cb389-1" tabindex="-1"></a><span class="co"># A simple structural measure such as network density can be applied to every</span></span>
+<span id="cb389-2"><a href="structure.html#cb389-2" tabindex="-1"></a><span class="co"># ego-network (i.e., every element of our list), and returns a scalar for each</span></span>
+<span id="cb389-3"><a href="structure.html#cb389-3" tabindex="-1"></a><span class="co"># network. All the scalars can be put in a vector.</span></span>
+<span id="cb389-4"><a href="structure.html#cb389-4" tabindex="-1"></a>gr.list <span class="sc">|&gt;</span></span>
+<span id="cb389-5"><a href="structure.html#cb389-5" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map_dbl</span>(edge_density) </span></code></pre></div>
 <pre><code>##         28         29         33         35         39         40         45 
 ## 0.26161616 0.20404040 0.20909091 0.22323232 0.09292929 0.25757576 0.18484848 
 ##         46         47         48         49         51         52         53 
@@ -795,12 +799,12 @@ div.csl-indent {
 ## 0.31818182 0.39393939 0.24646465 0.37777778 0.23737374 0.37979798 0.36767677 
 ##        161        162        163        164 
 ## 0.41010101 0.41111111 0.35454545 0.32222222</code></pre>
-<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb404-1"><a href="structure.html#cb404-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note that the vector names (taken from gr.list names) are the ego IDs.</span></span>
-<span id="cb404-2"><a href="structure.html#cb404-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb404-3"><a href="structure.html#cb404-3" aria-hidden="true" tabindex="-1"></a><span class="co"># If you want the same result as a nice data frame with ego IDs, use enframe().</span></span>
-<span id="cb404-4"><a href="structure.html#cb404-4" aria-hidden="true" tabindex="-1"></a>gr.list <span class="sc">%&gt;%</span></span>
-<span id="cb404-5"><a href="structure.html#cb404-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_dbl</span>(edge_density) <span class="sc">%&gt;%</span> </span>
-<span id="cb404-6"><a href="structure.html#cb404-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">enframe</span>(<span class="at">name =</span> <span class="st">&quot;ego_ID&quot;</span>, <span class="at">value =</span> <span class="st">&quot;density&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb391"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb391-1"><a href="structure.html#cb391-1" tabindex="-1"></a><span class="co"># Note that the vector names (taken from gr.list names) are the ego IDs.</span></span>
+<span id="cb391-2"><a href="structure.html#cb391-2" tabindex="-1"></a></span>
+<span id="cb391-3"><a href="structure.html#cb391-3" tabindex="-1"></a><span class="co"># If you want the same result as a nice data frame with ego IDs, use enframe().</span></span>
+<span id="cb391-4"><a href="structure.html#cb391-4" tabindex="-1"></a>gr.list <span class="sc">|&gt;</span></span>
+<span id="cb391-5"><a href="structure.html#cb391-5" tabindex="-1"></a>  <span class="fu">map_dbl</span>(edge_density) <span class="sc">|&gt;</span> </span>
+<span id="cb391-6"><a href="structure.html#cb391-6" tabindex="-1"></a>  <span class="fu">enframe</span>(<span class="at">name =</span> <span class="st">&quot;ego_ID&quot;</span>, <span class="at">value =</span> <span class="st">&quot;density&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 102 × 2
 ##    ego_ID density
 ##    &lt;chr&gt;    &lt;dbl&gt;
@@ -814,12 +818,12 @@ div.csl-indent {
 ##  8 46      0.270 
 ##  9 47      0.537 
 ## 10 48      0.203 
-## # … with 92 more rows</code></pre>
-<div class="sourceCode" id="cb406"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb406-1"><a href="structure.html#cb406-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Same thing, with number of components in each ego network. Note the ~ .x </span></span>
-<span id="cb406-2"><a href="structure.html#cb406-2" aria-hidden="true" tabindex="-1"></a><span class="co"># syntax</span></span>
-<span id="cb406-3"><a href="structure.html#cb406-3" aria-hidden="true" tabindex="-1"></a>gr.list <span class="sc">%&gt;%</span></span>
-<span id="cb406-4"><a href="structure.html#cb406-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_dbl</span>(<span class="sc">~</span> <span class="fu">components</span>(.x)<span class="sc">$</span>no) <span class="sc">%&gt;%</span> </span>
-<span id="cb406-5"><a href="structure.html#cb406-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">enframe</span>()</span></code></pre></div>
+## # ℹ 92 more rows</code></pre>
+<div class="sourceCode" id="cb393"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb393-1"><a href="structure.html#cb393-1" tabindex="-1"></a><span class="co"># Same thing, with number of components in each ego network. Note the ~ .x </span></span>
+<span id="cb393-2"><a href="structure.html#cb393-2" tabindex="-1"></a><span class="co"># syntax</span></span>
+<span id="cb393-3"><a href="structure.html#cb393-3" tabindex="-1"></a>gr.list <span class="sc">|&gt;</span></span>
+<span id="cb393-4"><a href="structure.html#cb393-4" tabindex="-1"></a>  <span class="fu">map_dbl</span>(<span class="sc">~</span> <span class="fu">components</span>(.x)<span class="sc">$</span>no) <span class="sc">|&gt;</span> </span>
+<span id="cb393-5"><a href="structure.html#cb393-5" tabindex="-1"></a>  <span class="fu">enframe</span>()</span></code></pre></div>
 <pre><code>## # A tibble: 102 × 2
 ##    name  value
 ##    &lt;chr&gt; &lt;dbl&gt;
@@ -833,32 +837,32 @@ div.csl-indent {
 ##  8 46        2
 ##  9 47        1
 ## 10 48        1
-## # … with 92 more rows</code></pre>
-<div class="sourceCode" id="cb408"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb408-1"><a href="structure.html#cb408-1" aria-hidden="true" tabindex="-1"></a><span class="co"># With map_dfr() we can calculate multiple structural measures at once on every </span></span>
-<span id="cb408-2"><a href="structure.html#cb408-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ego-network, and return the results as a single ego-level data frame.</span></span>
-<span id="cb408-3"><a href="structure.html#cb408-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb408-4"><a href="structure.html#cb408-4" aria-hidden="true" tabindex="-1"></a><span class="co"># This assumes that we are applying an operation that returns one data frame row</span></span>
-<span id="cb408-5"><a href="structure.html#cb408-5" aria-hidden="true" tabindex="-1"></a><span class="co"># for each ego-network. For example, take one ego-network from our list.</span></span>
-<span id="cb408-6"><a href="structure.html#cb408-6" aria-hidden="true" tabindex="-1"></a>gr <span class="ot">&lt;-</span> gr.list[[<span class="dv">10</span>]]</span>
-<span id="cb408-7"><a href="structure.html#cb408-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb408-8"><a href="structure.html#cb408-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply an operation to that ego-network, which returns one data frame row.</span></span>
-<span id="cb408-9"><a href="structure.html#cb408-9" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">dens =</span> <span class="fu">edge_density</span>(gr),</span>
-<span id="cb408-10"><a href="structure.html#cb408-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">mean.deg =</span> <span class="fu">mean</span>(igraph<span class="sc">::</span><span class="fu">degree</span>(gr)),</span>
-<span id="cb408-11"><a href="structure.html#cb408-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">mean.bet =</span> <span class="fu">mean</span>(igraph<span class="sc">::</span><span class="fu">betweenness</span>(gr, <span class="at">weights =</span> <span class="cn">NA</span>)),</span>
-<span id="cb408-12"><a href="structure.html#cb408-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">deg.centr =</span> <span class="fu">centr_degree</span>(gr)<span class="sc">$</span>centralization)</span></code></pre></div>
+## # ℹ 92 more rows</code></pre>
+<div class="sourceCode" id="cb395"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb395-1"><a href="structure.html#cb395-1" tabindex="-1"></a><span class="co"># With map_dfr() we can calculate multiple structural measures at once on every </span></span>
+<span id="cb395-2"><a href="structure.html#cb395-2" tabindex="-1"></a><span class="co"># ego-network, and return the results as a single ego-level data frame.</span></span>
+<span id="cb395-3"><a href="structure.html#cb395-3" tabindex="-1"></a></span>
+<span id="cb395-4"><a href="structure.html#cb395-4" tabindex="-1"></a><span class="co"># This assumes that we are applying an operation that returns one data frame row</span></span>
+<span id="cb395-5"><a href="structure.html#cb395-5" tabindex="-1"></a><span class="co"># for each ego-network. For example, take one ego-network from our list.</span></span>
+<span id="cb395-6"><a href="structure.html#cb395-6" tabindex="-1"></a>gr <span class="ot">&lt;-</span> gr.list[[<span class="dv">10</span>]]</span>
+<span id="cb395-7"><a href="structure.html#cb395-7" tabindex="-1"></a></span>
+<span id="cb395-8"><a href="structure.html#cb395-8" tabindex="-1"></a><span class="co"># Apply an operation to that ego-network, which returns one data frame row.</span></span>
+<span id="cb395-9"><a href="structure.html#cb395-9" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">dens =</span> <span class="fu">edge_density</span>(gr),</span>
+<span id="cb395-10"><a href="structure.html#cb395-10" tabindex="-1"></a>       <span class="at">mean.deg =</span> <span class="fu">mean</span>(igraph<span class="sc">::</span><span class="fu">degree</span>(gr)),</span>
+<span id="cb395-11"><a href="structure.html#cb395-11" tabindex="-1"></a>       <span class="at">mean.bet =</span> <span class="fu">mean</span>(igraph<span class="sc">::</span><span class="fu">betweenness</span>(gr, <span class="at">weights =</span> <span class="cn">NA</span>)),</span>
+<span id="cb395-12"><a href="structure.html#cb395-12" tabindex="-1"></a>       <span class="at">deg.centr =</span> <span class="fu">centr_degree</span>(gr)<span class="sc">$</span>centralization)</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 4
 ##    dens mean.deg mean.bet deg.centr
 ##   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
 ## 1 0.203     8.93     33.8     0.365</code></pre>
-<div class="sourceCode" id="cb410"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb410-1"><a href="structure.html#cb410-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Now we can do the same thing but for all ego-networks at once. The result is a </span></span>
-<span id="cb410-2"><a href="structure.html#cb410-2" aria-hidden="true" tabindex="-1"></a><span class="co"># single ego-level data frame, with one row for each ego. </span></span>
-<span id="cb410-3"><a href="structure.html#cb410-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Note the .id argument in map_dfr().</span></span>
-<span id="cb410-4"><a href="structure.html#cb410-4" aria-hidden="true" tabindex="-1"></a>gr.list <span class="sc">%&gt;%</span></span>
-<span id="cb410-5"><a href="structure.html#cb410-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_dfr</span>(<span class="sc">~</span> <span class="fu">tibble</span>(<span class="at">dens=</span> <span class="fu">edge_density</span>(.x),</span>
-<span id="cb410-6"><a href="structure.html#cb410-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">mean.deg=</span> <span class="fu">mean</span>(igraph<span class="sc">::</span><span class="fu">degree</span>(.x)),</span>
-<span id="cb410-7"><a href="structure.html#cb410-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">mean.bet=</span> <span class="fu">mean</span>(igraph<span class="sc">::</span><span class="fu">betweenness</span>(.x, <span class="at">weights =</span> <span class="cn">NA</span>)),</span>
-<span id="cb410-8"><a href="structure.html#cb410-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">deg.centr=</span> <span class="fu">centr_degree</span>(.x)<span class="sc">$</span>centralization),</span>
-<span id="cb410-9"><a href="structure.html#cb410-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">.id =</span> <span class="st">&quot;ego_ID&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb397"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb397-1"><a href="structure.html#cb397-1" tabindex="-1"></a><span class="co"># Now we can do the same thing but for all ego-networks at once. The result is a </span></span>
+<span id="cb397-2"><a href="structure.html#cb397-2" tabindex="-1"></a><span class="co"># single ego-level data frame, with one row for each ego. </span></span>
+<span id="cb397-3"><a href="structure.html#cb397-3" tabindex="-1"></a><span class="co"># Note the .id argument in map_dfr().</span></span>
+<span id="cb397-4"><a href="structure.html#cb397-4" tabindex="-1"></a>gr.list <span class="sc">|&gt;</span></span>
+<span id="cb397-5"><a href="structure.html#cb397-5" tabindex="-1"></a>  <span class="fu">map_dfr</span>(<span class="sc">~</span> <span class="fu">tibble</span>(<span class="at">dens=</span> <span class="fu">edge_density</span>(.x),</span>
+<span id="cb397-6"><a href="structure.html#cb397-6" tabindex="-1"></a>                   <span class="at">mean.deg=</span> <span class="fu">mean</span>(igraph<span class="sc">::</span><span class="fu">degree</span>(.x)),</span>
+<span id="cb397-7"><a href="structure.html#cb397-7" tabindex="-1"></a>                   <span class="at">mean.bet=</span> <span class="fu">mean</span>(igraph<span class="sc">::</span><span class="fu">betweenness</span>(.x, <span class="at">weights =</span> <span class="cn">NA</span>)),</span>
+<span id="cb397-8"><a href="structure.html#cb397-8" tabindex="-1"></a>                   <span class="at">deg.centr=</span> <span class="fu">centr_degree</span>(.x)<span class="sc">$</span>centralization),</span>
+<span id="cb397-9"><a href="structure.html#cb397-9" tabindex="-1"></a>          <span class="at">.id =</span> <span class="st">&quot;ego_ID&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 102 × 5
 ##    ego_ID   dens mean.deg mean.bet deg.centr
 ##    &lt;chr&gt;   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
@@ -872,20 +876,20 @@ div.csl-indent {
 ##  8 46     0.270     11.9     19.6      0.503
 ##  9 47     0.537     23.6     10.5      0.372
 ## 10 48     0.203      8.93    33.8      0.365
-## # … with 92 more rows</code></pre>
-<div class="sourceCode" id="cb412"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb412-1"><a href="structure.html#cb412-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ***** EXERCISES</span></span>
-<span id="cb412-2"><a href="structure.html#cb412-2" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb412-3"><a href="structure.html#cb412-3" aria-hidden="true" tabindex="-1"></a><span class="co"># (1) Get the graph for ego ID 28 from gr.list. Get the max betweenness of</span></span>
-<span id="cb412-4"><a href="structure.html#cb412-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Italian alters on this graph. Based on this code, use map() to get the same</span></span>
-<span id="cb412-5"><a href="structure.html#cb412-5" aria-hidden="true" tabindex="-1"></a><span class="co"># measure that for all egos.</span></span>
-<span id="cb412-6"><a href="structure.html#cb412-6" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb412-7"><a href="structure.html#cb412-7" aria-hidden="true" tabindex="-1"></a><span class="co"># (2) Given a personal network gr, the subgraph of close family in the personal</span></span>
-<span id="cb412-8"><a href="structure.html#cb412-8" aria-hidden="true" tabindex="-1"></a><span class="co"># network is induced_subgraph(gr, V(gr)[alter.rel==&quot;Close family&quot;]). Use</span></span>
-<span id="cb412-9"><a href="structure.html#cb412-9" aria-hidden="true" tabindex="-1"></a><span class="co"># purrr::map() to get the family subgraph for every personal network in gr.list,</span></span>
-<span id="cb412-10"><a href="structure.html#cb412-10" aria-hidden="true" tabindex="-1"></a><span class="co"># and put the results in a new list called gr.list.family. Use the formula</span></span>
-<span id="cb412-11"><a href="structure.html#cb412-11" aria-hidden="true" tabindex="-1"></a><span class="co"># notation (~ .x).</span></span>
-<span id="cb412-12"><a href="structure.html#cb412-12" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb412-13"><a href="structure.html#cb412-13" aria-hidden="true" tabindex="-1"></a><span class="co"># *****</span></span></code></pre></div>
+## # ℹ 92 more rows</code></pre>
+<div class="sourceCode" id="cb399"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb399-1"><a href="structure.html#cb399-1" tabindex="-1"></a><span class="co"># ***** EXERCISES</span></span>
+<span id="cb399-2"><a href="structure.html#cb399-2" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb399-3"><a href="structure.html#cb399-3" tabindex="-1"></a><span class="co"># (1) Get the graph for ego ID 28 from gr.list. Get the max betweenness of</span></span>
+<span id="cb399-4"><a href="structure.html#cb399-4" tabindex="-1"></a><span class="co"># Italian alters on this graph. Based on this code, use map() to get the same</span></span>
+<span id="cb399-5"><a href="structure.html#cb399-5" tabindex="-1"></a><span class="co"># measure that for all egos.</span></span>
+<span id="cb399-6"><a href="structure.html#cb399-6" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb399-7"><a href="structure.html#cb399-7" tabindex="-1"></a><span class="co"># (2) Given a personal network gr, the subgraph of close family in the personal</span></span>
+<span id="cb399-8"><a href="structure.html#cb399-8" tabindex="-1"></a><span class="co"># network is induced_subgraph(gr, V(gr)[alter.rel==&quot;Close family&quot;]). Use</span></span>
+<span id="cb399-9"><a href="structure.html#cb399-9" tabindex="-1"></a><span class="co"># purrr::map() to get the family subgraph for every personal network in gr.list,</span></span>
+<span id="cb399-10"><a href="structure.html#cb399-10" tabindex="-1"></a><span class="co"># and put the results in a new list called gr.list.family. Use the formula</span></span>
+<span id="cb399-11"><a href="structure.html#cb399-11" tabindex="-1"></a><span class="co"># notation (~ .x).</span></span>
+<span id="cb399-12"><a href="structure.html#cb399-12" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb399-13"><a href="structure.html#cb399-13" tabindex="-1"></a><span class="co"># *****</span></span></code></pre></div>
 
 </div>
 </div>

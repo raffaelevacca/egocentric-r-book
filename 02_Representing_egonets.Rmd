@@ -89,5 +89,5 @@ This chapter covers the following topics:
     * Visualize an ego-network with `ggraph`, setting aesthetic parameters based on alter attributes.
     * Query vertices and edges based on attributes.
 
-```{r igraph, include=TRUE, cache=FALSE, tidy= FALSE, out.width = "60%", fig.align="center", message=FALSE}
+```{r igraph, include=TRUE, cache=FALSE, tidy= FALSE, out.width = "60%", fig.align="center", message=FALSE, warning=FALSE}
 ```

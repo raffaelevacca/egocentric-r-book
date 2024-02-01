@@ -21,7 +21,7 @@ arithmetic-operations-and-recycling
 relational-operations-and-logical-vectors
 examples-of-arithmetic-and-statistical-functions
 missing-and-infinite-values
-indexing
+subsetting
 index-df
 the-tidyverse-syntax
 pipes-and-the-operator

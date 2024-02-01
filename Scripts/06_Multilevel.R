@@ -36,14 +36,14 @@ load("./Data/data.rda")
 # - - - - - - - - - - - - - - - - - 
 
 # (TRUE if alter and ego are in the same age bracket)
-model.data %<>%
+model.data <- model.data |>  
   mutate(alter.same.age = (alter.age.cat==ego.age.cat))  
 
 # See result
 tabyl(model.data$alter.same.age)
 
 # Recode: TRUE = Yes, FALSE = No
-model.data %<>% 
+model.data <- model.data |> 
   mutate(alter.same.age = as.character(alter.same.age),
          alter.same.age = fct_recode(alter.same.age,
                                      Yes = "TRUE", No = "FALSE"))
@@ -55,7 +55,7 @@ tabyl(model.data$alter.same.age)
 # - - - - - - - - - - - - - - - - - - - - - - - - 
 
 # This is done for easier interpretation of model coefficients
-model.data %<>%
+model.data <- model.data |> 
   # Ego age centered around its mean and scaled by 5 (1 unit = 5 years)
   mutate(ego.age.cen = scale(ego.age, scale= 5),
          # Alter age category centered around its mean
@@ -64,13 +64,13 @@ model.data %<>%
 # Count of family members in ego-network
 # - - - - - - - - - - - - - - - - - - - - - - - - 
 
-model.data %<>%
-  group_by(ego_ID) %>%
-  mutate(net.count.fam = sum(alter.fam=="Yes", na.rm=TRUE)) %>%
+model.data <- model.data |> 
+  group_by(ego_ID) |>
+  mutate(net.count.fam = sum(alter.fam=="Yes", na.rm=TRUE)) |>
   ungroup()
 
 # Center and rescale by 5 (+1 unit = 5 more family members in ego-network)
-model.data %<>%
+model.data <- model.data |> 
   mutate(net.count.fam.cen = scale(net.count.fam, scale=5)) 
 
 
@@ -179,16 +179,16 @@ library(ggeffects)
 ggpredict(m5, "alter.fam") 
 
 # You can convert it to a tidy data frame
-ggpredict(m5, "alter.fam") %>%
+ggpredict(m5, "alter.fam") |>
   as_tibble()
 
 # You can also plot the result
-ggpredict(m5, "alter.fam") %>%
-  plot
+ggpredict(m5, "alter.fam") |> 
+  plot()
 
 # Probability of financial support as a function of ego.edu
-ggpredict(m5, "ego.edu") %>%
-  plot
+ggpredict(m5, "ego.edu") |> 
+  plot()
 
 
 ## ---- end-rand-intercept

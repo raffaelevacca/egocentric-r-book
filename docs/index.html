@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Egocentric network analysis with R</title>
   <meta name="description" content="Personal network analysis with R" />
-  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Egocentric network analysis with R" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Raffaele Vacca" />
 
 
-<meta name="date" content="2022-09-15" />
+<meta name="date" content="2024-02-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -92,7 +92,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -105,7 +105,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 <style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
 div.csl-bib-body { }
@@ -192,13 +196,13 @@ div.csl-indent {
 <li class="chapter" data-level="2.4.3" data-path="basics.html"><a href="basics.html#examples-of-arithmetic-and-statistical-functions"><i class="fa fa-check"></i><b>2.4.3</b> Examples of arithmetic and statistical functions</a></li>
 <li class="chapter" data-level="2.4.4" data-path="basics.html"><a href="basics.html#missing-and-infinite-values"><i class="fa fa-check"></i><b>2.4.4</b> Missing and infinite values</a></li>
 </ul></li>
-<li class="chapter" data-level="2.5" data-path="basics.html"><a href="basics.html#indexing"><i class="fa fa-check"></i><b>2.5</b> Indexing</a>
+<li class="chapter" data-level="2.5" data-path="basics.html"><a href="basics.html#subsetting"><i class="fa fa-check"></i><b>2.5</b> Subsetting</a>
 <ul>
-<li class="chapter" data-level="2.5.1" data-path="basics.html"><a href="basics.html#index-df"><i class="fa fa-check"></i><b>2.5.1</b> Indexing and subsetting data frames</a></li>
+<li class="chapter" data-level="2.5.1" data-path="basics.html"><a href="basics.html#index-df"><i class="fa fa-check"></i><b>2.5.1</b> Subsetting data frames</a></li>
 </ul></li>
 <li class="chapter" data-level="2.6" data-path="basics.html"><a href="basics.html#the-tidyverse-syntax"><i class="fa fa-check"></i><b>2.6</b> The <code>tidyverse</code> syntax</a>
 <ul>
-<li class="chapter" data-level="2.6.1" data-path="basics.html"><a href="basics.html#pipes-and-the-operator"><i class="fa fa-check"></i><b>2.6.1</b> Pipes and the <code>%&gt;%</code> operator</a></li>
+<li class="chapter" data-level="2.6.1" data-path="basics.html"><a href="basics.html#pipes-and-the-operator"><i class="fa fa-check"></i><b>2.6.1</b> Pipes and the <code>|&gt;</code> operator</a></li>
 <li class="chapter" data-level="2.6.2" data-path="basics.html"><a href="basics.html#subsetting-data-frames-in-tidyverse"><i class="fa fa-check"></i><b>2.6.2</b> Subsetting data frames in <code>tidyverse</code></a></li>
 </ul></li>
 </ul></li>
@@ -284,12 +288,12 @@ div.csl-indent {
 <div id="header">
 <h1 class="title">Egocentric network analysis with R</h1>
 <p class="author"><em><a href="http://www.raffaelevacca.com/">Raffaele Vacca</a></em></p>
-<p class="date"><em>2022-09-15</em></p>
+<p class="date"><em>2024-02-01</em></p>
 </div>
 <div id="introduction" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction<a href="index.html#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>This book is a companion to <a href="http://www.raffaelevacca.com/teaching/egocentric-r/">my workshop</a> on egocentric network analysis with R. Over the past several years I have taught this workshop at different conferences and summer schools on social network analysis, personal networks, and network science – such as <a href="https://www.insna.org/">INSNA Sunbelt</a> conferences, <a href="https://netscisociety.net/home">NetSci</a> conferences, and the <a href="https://sway.office.com/1TpXMhGqKa7fTsAC">UAB Barcelona Course on Personal Network Analysis</a>. The book is a work in progress and I’ll keep updating it as I continue to teach the workshop and related courses.</p>
-<p>A Spanish translation of part of this book has appeared in the journal <a href="https://revistes.uab.cat/redes/article/view/v31-n2-vacca">REDES - Revista hispana para el análisis de redes sociales</a>. My colleagues and I provide a more in-depth discussion of personal network analysis and the methods covered in this workshop in our textbook on personal network research <span class="citation">(<a href="#ref-mccarty_conducting_2019" role="doc-biblioref">McCarty et al., 2019</a>)</span>. See the bibliography at the end of the book for a list of other useful references on egocentric or personal network analysis.</p>
+<p>A Spanish translation of part of this book has appeared in the journal <a href="https://revistes.uab.cat/redes/article/view/v31-n2-vacca">REDES - Revista hispana para el análisis de redes sociales</a>. My colleagues and I provide a more in-depth discussion of personal network analysis and the methods covered in this workshop in our textbook on personal network research <span class="citation">(<a href="#ref-mccarty_conducting_2019">McCarty et al., 2019</a>)</span>. See the bibliography at the end of the book for a list of other useful references on egocentric or personal network analysis.</p>
 <p>Feel free to <a href="http://www.raffaelevacca.com/">contact me</a> to know more about this workshop and how to take it, or to give me feedback or report any issue about this book.</p>
 <p><a href="https://www.guilford.com/books/Conducting-Personal-Network-Research/McCarty-Lubbers-Vacca-Molina/9781462538386/authors"><img src="Figures/McCarty_et_al_2019_cover.jpg" style="width:50.0%" alt="Conducting personal network research" /></a></p>
 <div id="setup" class="section level2 hasAnchor" number="1.1">

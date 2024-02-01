@@ -203,7 +203,7 @@ same_sex(df= alter.attr.28, ego.df= ego.df)
 # Function that takes the alter-level data frame for an ego, and calculates
 # multiple compositional measures.
 comp_meas <- function(df) {
-  df %>%
+  df |>
     summarise(
       mean.clo = mean(alter.clo, na.rm=TRUE), 
       prop.fem = mean(alter.sex=="Female"), 
@@ -218,10 +218,10 @@ comp_meas(alter.attr.28)
 
 # Function that takes an ego-network as igraph object, and calculates max alter
 # betweenness.
-max_betw <- function(x) x %>% igraph::betweenness(weights = NA) %>% max
+max_betw <- function(x) x |> igraph::betweenness(weights = NA) |> max()
 
 # Apply to our graph.
-max_betw(x= gr)
+max_betw(x = gr)
 
 # Function that takes an ego-network as igraph object, and calculates the number
 # of components and the number of isolates. 
@@ -296,8 +296,8 @@ gr.28 <- graph_from_data_frame(d= elist.28, vertices= alter.attr.28, directed= F
 # matrix for ego-network of ego 28.
 
 # Read the adjacency matrix.
-adj.28 <- read.csv("./Data/raw_data/adj_028.csv", row.names=1) %>% 
-  as.matrix
+adj.28 <- read.csv("./Data/raw_data/adj_028.csv", row.names=1) |> 
+  as.matrix()
 # Set column names the same as rownames
 colnames(adj.28) <- rownames(adj.28)
 
@@ -698,7 +698,7 @@ for (i in 1:10) {
   gr <- gr.list[[i]]
   
   # Run the plot function and print (needed for ggplot within a for loop).
-  my.plot(gr) %>% print
+  my.plot(gr) |> print()
 }
 
 # Close pdf device
@@ -710,10 +710,10 @@ dev.off()
 pdf(file = "./Figures/ego_nets_graphs.pdf")
 
 # Get list of ego-networks (first 10 elements)
-gr.list[1:10] %>%
+gr.list[1:10] |>
   # walk: similar to map(), but calls a function for its side effects (here,
   # producing a plot)
-  walk(~ my.plot(.x) %>% print)
+  walk(~ my.plot(.x) |> print())
 
 # Close pdf device
 dev.off()
@@ -725,7 +725,7 @@ dev.off()
 # Frequency of different nationalities in the personal networks.
 
 # Group the pooled alter attribute data frame by ego_ID.
-alter.attr.all %<>% 
+alter.attr.all <- alter.attr.all |> 
   group_by(ego_ID)
 
 # Run the compositional measures.
@@ -738,7 +738,7 @@ comp.measures <- dplyr::summarise(alter.attr.all,
                                   N.oth= sum(alter.nat=="Other"))
 
 # Add the relative frequency of Italians.
-comp.measures %<>%
+comp.measures <- comp.measures |> 
   mutate(prop.ita = N.ita/45)
 
 # Show result.
@@ -767,7 +767,7 @@ str.ita <- function(gr) {
   possible <- n*(n-1)/2
   
   # Actual number of edges among Italians.
-  actual <- E(gr)[ita %--% ita] %>% length
+  actual <- E(gr)[ita %--% ita] |> length()
   # Notice that this is 0 if there are no Italian contacts, i.e. length(ita)==0.
   
   # Density of connections among Italians.
@@ -775,7 +775,7 @@ str.ita <- function(gr) {
   # Notice that this is NaN if there are no Italian contacts.
   
   # Average degree of Italian contacts.
-  avg.deg.ita <- igraph::degree(gr, V(gr)[alter.nat=="Italy"]) %>% mean
+  avg.deg.ita <- igraph::degree(gr, V(gr)[alter.nat=="Italy"]) |> mean()
   # This is also NaN if there are no Italians.
   
   # Average degree of Italians, as a proportion of overall average degree.
@@ -793,7 +793,7 @@ str.ita <- function(gr) {
 
 # Convert ego_ID from character to numeric for consistency with ego attribute
 # data.
-str.ita.df %<>%
+str.ita.df <- str.ita.df |> 
   mutate(ego_ID = as.numeric(ego_ID))
 
 # Association with ego-level variables
@@ -803,21 +803,21 @@ str.ita.df %<>%
 ego.df
 
 # Join ego-level data with compositional variables obtained above.
-ego.df %<>% 
+ego.df <- ego.df |> 
   left_join(comp.measures, by= "ego_ID")
 
 # Merge ego-level data with structural variables obtained above.
-ego.df %<>%
+ego.df <- ego.df |> 
   left_join(str.ita.df, by= "ego_ID")
 
 # See the result (just a subset of the variables)
-ego.df %>%
+ego.df |> 
   dplyr::select(ego_ID, ego.sex, ego.age, N.slk, prop.ita, dens.ita)
 
 # Plot number by mean degree of Italians.
 # To avoid warnings from ggplot(), let's remove cases with NA values on the
 # relevant variables.
-data <- ego.df %>%
+data <- ego.df |> 
   filter(complete.cases(N.ita, avg.deg.ita))
 
 # Set seed for reproducibility (jittering is random).
@@ -861,7 +861,7 @@ print(p)
 
 # To avoid warnings from ggplot(), let's remove cases with NA values on the
 # relevant variables.
-data <- ego.df %>%
+data <- ego.df |> 
   filter(complete.cases(ego.arr, prop.ita))
 
 # Set seed for reproducibility (jittering is random).
@@ -879,7 +879,7 @@ print(p)
 
 # To avoid warnings from ggplot(), let's remove cases with NA values on the
 # relevant variables.
-data <- ego.df %>%
+data <- ego.df |>
   filter(complete.cases(prop.ita, ego.inc))
 
 # Set seed for reproducibility (jittering is random).

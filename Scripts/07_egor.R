@@ -26,47 +26,46 @@ library(janitor)
 # Convert all character variables to factor
 # Using dplyr's across(), this code takes all ego.df variables that are character
 # (where(is.character)) and applies the as.factor() function to each, converting 
-# it to a factor variable. The resulting data frame is re-assigned to ego.df 
-# (%<>%).
-ego.df %<>% 
+# it to a factor variable. The resulting data frame is re-assigned to ego.df.
+ego.df <- ego.df |> 
   mutate(across(where(is.character), as.factor))
 
 # Alter attributes (all alters from all egos in same data frame).
 (alter.attr.all <- read_csv("./Data/raw_data/alter_attributes.csv"))
 
 # Convert all character variables to factor.
-alter.attr.all %<>% 
+alter.attr.all <- alter.attr.all |> 
   mutate(across(where(is.character), as.factor))
 
 # To make things easier in the rest of the workshop materials, make sure the 
 # factors of alter gender and ego gender have the same levels (categories).
 
 # Levels of alter.sex variable.
-alter.attr.all %>%
-  pull(alter.sex) %>%
-  levels
+alter.attr.all |>
+  pull(alter.sex) |>
+  levels()
 
 # Levels of ego.sex variable: Female doesn't appear because no ego is female in 
 # these data.
-ego.df %>%
-  pull(ego.sex) %>%
-  levels
+ego.df |>
+  pull(ego.sex) |>
+  levels()
 
-ego.df %>%
+ego.df |>
   tabyl(ego.sex)
 
 # Add the Female level to the ego.sex factor.
-ego.df %<>% 
+ego.df <- ego.df |> 
   mutate(ego.sex = fct_expand(ego.sex, "Female"))
 
 # See the result
-ego.df %>%
-  pull(ego.sex) %>%
-  levels
+ego.df |>
+  pull(ego.sex) |>
+  levels()
 
 # Note that this doesn't alter the actual data in ego.df, just adds "Female" to 
 # the list of possible levels (categories) in ego.sex.
-ego.df %>%
+ego.df |>
   tabyl(ego.sex)
 
 # Alter-alter ties (single edge list with all alters from all egos).
@@ -121,8 +120,8 @@ E(gr.ego)[inc("ego")]$weight
 # This may create problems in certain functions, for example the plot.igraph()
 # function. So let's replace those NA's with a distinctive weight value for 
 # ego-alter ties: 3.
-E(gr.ego)$weight %<>%
-  replace_na(., 3)
+E(gr.ego)$weight <- E(gr.ego)$weight |> 
+  replace_na(3)
 
 # See the result
 E(gr.ego)$weight
@@ -139,15 +138,23 @@ plot(gr.ego, vertex.label = NA)
 # Let's do the weight replacement operation above (NA replaced by 3 for ego-alter 
 # tie weights) for all the ego-networks in gr.list.ego.
 for (i in seq_along(gr.list.ego)) {
-  E(gr.list.ego[[i]])$weight %<>%
-    replace_na(., 3)
+  E(gr.ego)$weight <- E(gr.ego)$weight |> 
+    replace_na(3)
 }
 
-# The operation above can be done with tidyverse map functions as well, but 
-# I think a for loop makes the code easier to follow in this case. This is the
-# map equivalent of that for loop:
-new.list <- gr.list.ego %>%
-  map(function(gr) {replace_na(E(gr)$weight, 3); gr})
+# The operation above can be done with tidyverse map() functions as well. First
+# define the function operating on a single graph.
+weight_replace <- function(gr) {
+  E(gr)$weight <- E(gr)$weight |> 
+    replace_na(3)
+  
+  # Return value
+  gr
+}
+
+# Then apply the function to all graphs in the list.
+new.list <- gr.list.ego |>
+  map(weight_replace)
 
 # Sometimes it's useful to have ego ID as a graph attribute of the ego-network
 # in addition to having it as name of the ego-network's element in the list.
@@ -170,7 +177,7 @@ gr.list[["28"]]$ego_ID
 # Extract alter attributes and graph for one ego (ego ID 28)
 
 # Alter attribute data frame.
-alter.attr.28 <- alter.attr.all %>%
+alter.attr.28 <- alter.attr.all |>
   filter(ego_ID==28)
 
 # Ego-network graph.

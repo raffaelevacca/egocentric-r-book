@@ -34,11 +34,11 @@ alter.attr.28
 alter.attr.28$alter.clo
 
 # Or, in tidyverse syntax
-alter.attr.28 %>%
+alter.attr.28 |> 
   pull(alter.clo)
 
 # Battery of descriptive stats.
-alter.attr.28 %>%
+alter.attr.28 |>
   skim_tee(alter.clo) 
 
 # Get a single summary measure (useful when writing functions)
@@ -50,11 +50,11 @@ mean(alter.attr.28$alter.clo, na.rm = TRUE)
 alter.attr.28$alter.sex
 
 # Get frequencies
-alter.attr.28 %>%
+alter.attr.28 |>
   tabyl(alter.sex)
 
 # Same for nationalities
-alter.attr.28 %>%
+alter.attr.28 |>
   tabyl(alter.nat)
 
 # Another way to get the proportion of a specific category (this is useful when
@@ -64,7 +64,7 @@ mean(alter.attr.28$alter.nat == "Sri Lanka")
 
 # The function dplyr::summarise() allows us to calculate multiple measures, name
 # them, and put them together in a data frame.
-alter.attr.28 %>%
+alter.attr.28 |>
   summarise(
     mean.clo = mean(alter.clo, na.rm=TRUE), 
     prop.fem = mean(alter.sex=="Female"), 
@@ -81,8 +81,8 @@ alter.attr.all
 # measures we calculate on that data frame via summarise (means, proportions,
 # etc.) are calculated by the groups given by that factor (here, for each ego
 # ID).
-alter.attr.all %>% 
-  group_by(ego_ID) %>% 
+alter.attr.all |> 
+  group_by(ego_ID) |> 
   summarise(
     mean.clo = mean(alter.clo, na.rm=TRUE), 
     prop.fem = mean(alter.sex=="Female"), 
@@ -102,21 +102,21 @@ alter.attr.all %>%
 # Mean closeness of alters who are "Friends".
 
 # Check out the relevant vector.
-alter.attr.28 %>%
-  filter(alter.rel=="Friends") %>%
+alter.attr.28 |>
+  filter(alter.rel=="Friends") |>
   pull(alter.clo)
 
 # Get its mean.
-alter.attr.28 %>%
-  filter(alter.rel=="Friends") %>%
-  pull(alter.clo) %>% 
-  mean
+alter.attr.28 |>
+  filter(alter.rel=="Friends") |>
+  pull(alter.clo) |> 
+  mean()
 
 # Mean closeness of alters who are "Acquaintances".
-alter.attr.28 %>%
-  filter(alter.rel=="Acquaintances") %>%
-  pull(alter.clo) %>% 
-  mean
+alter.attr.28 |>
+  filter(alter.rel=="Acquaintances") |>
+  pull(alter.clo) |> 
+  mean()
 
 # Equivalently (useful for writing functions)
 mean(alter.attr.28$alter.clo[alter.attr.28$alter.rel=="Acquaintances"])
@@ -124,9 +124,9 @@ mean(alter.attr.28$alter.clo[alter.attr.28$alter.rel=="Acquaintances"])
 # Count of close family members who live in Sri Lanka vs those who live in Italy.
 
 # In Sri Lanka.
-alter.attr.28 %>%
-  filter(alter.rel == "Close family", alter.res == "Sri Lanka") %>%
-  count
+alter.attr.28 |>
+  filter(alter.rel == "Close family", alter.res == "Sri Lanka") |> 
+  count()
 
 # Equivalently (useful for writing functions)
 sum(alter.attr.28$alter.rel == "Close family" & alter.attr.28$alter.res == "Sri Lanka")
@@ -134,7 +134,7 @@ sum(alter.attr.28$alter.rel == "Close family" & alter.attr.28$alter.res == "Sri 
 sum(alter.attr.28$alter.rel == "Close family" & alter.attr.28$alter.res == "Italy")
 
 # Again, we can put these measures together into a data frame row with dplyr.
-alter.attr.28 %>%
+alter.attr.28 |>
   summarise(
     mean.clo.fr = mean(alter.clo[alter.rel=="Friends"]), 
     mean.clo.acq = mean(alter.clo[alter.rel=="Acquaintances"]),
@@ -155,7 +155,7 @@ alter.attr.28 %>%
 # Example: Proportion of alters of the same gender as ego.
 
 # View the relevant data
-data.28 %>% 
+data.28 |> 
   dplyr::select(alter_ID, ego_ID, alter.sex, ego.sex)
 
 # First create a vector that is TRUE whenever alter has the same sex as ego in 
@@ -170,7 +170,7 @@ mean(data.28$alter.sex == data.28$ego.sex)
 sum(data.28$alter.age.cat == data.28$ego.age.cat)
 
 # Again, we can put these measures together into a data frame row with dplyr.
-data.28 %>%
+data.28 |>
   summarise(
     prop.same.gender = mean(alter.sex == ego.sex), 
     count.same.age = sum(alter.age.cat == ego.age.cat)
@@ -190,16 +190,16 @@ data.28 %>%
 # frame including all alters, without grouping it by ego ID.
 
 # * Mean alter closeness:
-alter.attr.all %>%
+alter.attr.all |>
   summarise(mean.clo = mean(alter.clo, na.rm = TRUE))
 # * N of distinct values in the alter nationality variable (i.e., number of 
 # distinct nationalities of alters):
-alter.attr.all %>%
+alter.attr.all |>
   summarise(N.nat = n_distinct(alter.nat))
 # * N of distinct values in the alter nationality, country of residence, and
 # age bracket variables. In this case, we apply the same summarizing function
 # to multiple variables (not just one), to be selected via across().
-alter.attr.all %>%
+alter.attr.all |>
   summarise(
     across(c(alter.nat, alter.res, alter.age.cat), 
            n_distinct)
@@ -213,16 +213,16 @@ alter.attr.all %>%
 # calculated for each ego:
 
 # * Mean alter closeness:
-alter.attr.all %>%
+alter.attr.all |>
   # Group by ego ID
-  group_by(ego_ID) %>%
+  group_by(ego_ID) |>
   # Calculate summary measure
   summarise(mean.clo = mean(alter.clo, na.rm = TRUE))
 
 # * N of distinct values in the alter nationality variable (i.e., number of 
 # distinct nationalities of alters):
-alter.attr.all %>%
-  group_by(ego_ID) %>%
+alter.attr.all |>
+  group_by(ego_ID) |>
   summarise(N.nat = n_distinct(alter.nat))
 
 # We can also "permanently" group the data frame by ego_ID and then calculate all
@@ -232,7 +232,7 @@ alter.attr.all %<>%
 
 # * N of distinct values in the alter nationality, country of residence, and
 # age bracket variables:
-alter.attr.all %>%
+alter.attr.all |>
   summarise(
     across(c(alter.nat, alter.res, alter.age.cat), 
            n_distinct)
@@ -263,7 +263,7 @@ sum(alter.attr.28$alter.rel=="Other family")
 sum(alter.attr.28$alter.rel=="Friends")
 
 # With dplyr we can run the same operations for every ego
-N.rel <- alter.attr.all %>%
+N.rel <- alter.attr.all |>
   summarise(N.clo.fam = sum(alter.rel=="Close family"),
             N.oth.fam = sum(alter.rel=="Other family"),
             N.fri = sum(alter.rel=="Friends"))
@@ -273,7 +273,7 @@ N.rel
 # join them with other ego-level data (level-2 join).
 
 # Merge with summary variables.
-ego.df %>%
+ego.df |>
   left_join(N.rel, by= "ego_ID")
 
 # We can then ungroup alter.attr.all by ego ID to remove the grouping information.
@@ -283,7 +283,7 @@ alter.attr.all <- ungroup(alter.attr.all)
 # it counts the number of rows for each unique value of a variable. The
 # number of rows for each unique value of ego_ID in alter.attr.all is the number
 # of alters for each ego (personal network size).
-alter.attr.all %>% 
+alter.attr.all |> 
   dplyr::count(ego_ID)
 
 # ***** EXERCISES 

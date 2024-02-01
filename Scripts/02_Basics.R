@@ -346,9 +346,6 @@ identical(ego.df[[3]], ego.df$ego.age)
 ############################################################################## #
 ## ---- tidyverse
 
-# Let's load the magrittr package
-library(magrittr)
-
 # The pipe operator                                                         ----
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
@@ -362,60 +359,48 @@ table(edu)
 mean(table(edu))
 
 # Let's re-write this with the pipe operator
-edu %>%
-  table %>%
-  mean
-
-# If we want to pipe edu to following code AND re-assign the final result to 
-# edu again, we can use %<>% (requires magrittr package).
-edu %<>%
-  table %>%
-  mean
-
-edu
+edu |> 
+  table() |> 
+  mean()
 
 # Subsetting data frames with dplyr: filter and select                      ----
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 # Filter to egos who are older than 40
-ego.df %>%
+ego.df |> 
   filter(ego.age > 40)
 
 # Filter to egos with Primary education
-ego.df %>%
+ego.df |> 
   filter(ego.edu == "Primary")
 
 # Combine the two conditions: Intersection.
-ego.df %>%
+ego.df |> 
   filter(ego.age > 40 & ego.edu == "Primary")
 
 # Combine the two conditions: Union.
-ego.df %>%
+ego.df |> 
   filter(ego.age > 40 | ego.edu == "Primary")
 
 # Note that the object ego.df hasn't changed. To re-use any of the filtered data
 # frames above, we have to assign them to an object.
-ego.df.40 <- ego.df %>%
+ego.df.40 <- ego.df |> 
   filter(ego.age > 40)
 
 ego.df.40
 
 # Select specific variables
-ego.df.40 %>%
+ego.df.40 |>
   dplyr::select(ego.sex, ego.age)
 
-# We can use %<>% to re-assign the result to the same data object
-ego.df.40 %<>%
+# As usual, we can re-assign the result to the same data object
+ego.df.40 <- ego.df.40 |> 
   dplyr::select(ego.sex, ego.age)
 
 ego.df.40
 
-# This is the same as (but more concise than)
-ego.df.40 <- ego.df.40 %>%
-  dplyr::select(ego.sex, ego.age)
-
 # Pull a variable out of a data frame, as a vector
-ego.df %>%
+ego.df |>
   pull(ego.age)
 
 # This is the same as

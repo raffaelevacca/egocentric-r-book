@@ -47,10 +47,10 @@ components(gr)$no
 # Summarization of structural characteristics of the alters.
 
 # Average alter degree.
-degree(gr) %>% mean
+degree(gr) |> mean()
 
 # Max alter betweenness.
-betweenness(gr, weights = NA) %>% max
+betweenness(gr, weights = NA) |> max()
 
 # Number of "isolate" alters.
 
@@ -128,9 +128,9 @@ V(gr)[ind]$alter.rel
 (clo.fam.vs <- V(gr)[alter.rel=="Close family"])
 
 # Get their average degree.
-gr %>%
-  degree(v = clo.fam.vs) %>% 
-  mean
+gr |>
+  degree(v = clo.fam.vs) |> 
+  mean()
 
 # Count of ties between alters who live in Sri Lanka.
 
@@ -141,8 +141,8 @@ gr %>%
 E(gr)[alters.sl %--% alters.sl]
 
 # How many edges are there between alters who live in Sri Lanka?
-E(gr)[alters.sl %--% alters.sl] %>% 
-  length
+E(gr)[alters.sl %--% alters.sl] |> 
+  length()
 
 # Density between alters who live in Sri Lanka.
 
@@ -150,8 +150,8 @@ E(gr)[alters.sl %--% alters.sl] %>%
 induced_subgraph(gr, vids = alters.sl)
 
 # Get the density of this subgraph.
-induced_subgraph(gr, vids = alters.sl) %>% 
-  edge_density
+induced_subgraph(gr, vids = alters.sl) |> 
+  edge_density()
 
 
 # ---- end-structure
@@ -212,20 +212,20 @@ str(L)
 # A simple structural measure such as network density can be applied to every
 # ego-network (i.e., every element of our list), and returns a scalar for each
 # network. All the scalars can be put in a vector.
-gr.list %>%
+gr.list |>
   purrr::map_dbl(edge_density) 
 
 # Note that the vector names (taken from gr.list names) are the ego IDs.
 
 # If you want the same result as a nice data frame with ego IDs, use enframe().
-gr.list %>%
-  map_dbl(edge_density) %>% 
+gr.list |>
+  map_dbl(edge_density) |> 
   enframe(name = "ego_ID", value = "density")
 
 # Same thing, with number of components in each ego network. Note the ~ .x 
 # syntax
-gr.list %>%
-  map_dbl(~ components(.x)$no) %>% 
+gr.list |>
+  map_dbl(~ components(.x)$no) |> 
   enframe()
 
 # With map_dfr() we can calculate multiple structural measures at once on every 
@@ -244,7 +244,7 @@ tibble(dens = edge_density(gr),
 # Now we can do the same thing but for all ego-networks at once. The result is a 
 # single ego-level data frame, with one row for each ego. 
 # Note the .id argument in map_dfr().
-gr.list %>%
+gr.list |>
   map_dfr(~ tibble(dens= edge_density(.x),
                    mean.deg= mean(igraph::degree(.x)),
                    mean.bet= mean(igraph::betweenness(.x, weights = NA)),

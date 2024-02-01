@@ -5,16 +5,19 @@
 \documentclass[
 ]{book}
 \usepackage{amsmath,amssymb}
-\usepackage{lmodern}
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
 \else % if luatex or xetex
-  \usepackage{unicode-math}
+  \usepackage{unicode-math} % this also loads fontspec
   \defaultfontfeatures{Scale=MatchLowercase}
   \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -44,13 +47,13 @@
 \newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
 \newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
 \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
 \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
 \newcommand{\BuiltInTok}[1]{#1}
 \newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
 \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
 \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
 \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
 \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
@@ -58,7 +61,7 @@
 \newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
 \newcommand{\ExtensionTok}[1]{#1}
 \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
 \newcommand{\ImportTok}[1]{#1}
 \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
@@ -67,7 +70,7 @@
 \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
 \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
 \newcommand{\RegionMarkerTok}[1]{#1}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
 \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
@@ -108,7 +111,7 @@
 \bibliographystyle{plainnat}
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\urlstyle{same} % disable monospaced font for URLs
+\urlstyle{same}
 \hypersetup{
   pdftitle={Egocentric network analysis with R},
   pdfauthor={Raffaele Vacca},
@@ -117,7 +120,7 @@
 
 \title{Egocentric network analysis with R}
 \author{\href{http://www.raffaelevacca.com/}{Raffaele Vacca}}
-\date{2022-09-15}
+\date{2024-02-01}
 
 \begin{document}
 \maketitle
@@ -391,7 +394,7 @@ The script covers the following topics:
 \item
   Arithmetic and relational operations.
 \item
-  Indexing vectors, matrices, and data frames.
+  Subsetting vectors, matrices, and data frames.
 \end{itemize}
 
 \hypertarget{starting-R-and-loading-packages}{%
@@ -530,28 +533,7 @@ The script covers the following topics:
 
 \CommentTok{\# Suppose that we want to use the package "igraph" in the following code.}
 \FunctionTok{library}\NormalTok{(igraph)}
-\end{Highlighting}
-\end{Shaded}
 
-\begin{verbatim}
-## 
-## Attaching package: 'igraph'
-\end{verbatim}
-
-\begin{verbatim}
-## The following objects are masked from 'package:stats':
-## 
-##     decompose, spectrum
-\end{verbatim}
-
-\begin{verbatim}
-## The following object is masked from 'package:base':
-## 
-##     union
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \CommentTok{\# Note that we can only load a package if we have it installed. In this case, I}
 \CommentTok{\# have igraph already installed. Had this not been the case, I would have have}
 \CommentTok{\# needed to install it: }
@@ -560,30 +542,7 @@ The script covers the following topics:
 
 \CommentTok{\# Let\textquotesingle{}s load another suite of packages we\textquotesingle{}ll use in the rest of this script.}
 \FunctionTok{library}\NormalTok{(tidyverse)}
-\end{Highlighting}
-\end{Shaded}
 
-\begin{verbatim}
-## -- Attaching packages --------------------------------------- tidyverse 1.3.2 --
-\end{verbatim}
-
-\begin{verbatim}
-## v ggplot2 3.3.6     v purrr   0.3.4
-## v tibble  3.1.8     v dplyr   1.0.9
-## v tidyr   1.2.0     v stringr 1.4.1
-## v readr   2.1.2     v forcats 0.5.2
-## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-## x dplyr::as_data_frame() masks tibble::as_data_frame(), igraph::as_data_frame()
-## x purrr::compose()       masks igraph::compose()
-## x tidyr::crossing()      masks igraph::crossing()
-## x dplyr::filter()        masks stats::filter()
-## x dplyr::groups()        masks igraph::groups()
-## x dplyr::lag()           masks stats::lag()
-## x purrr::simplify()      masks igraph::simplify()
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \CommentTok{\# Note that whatever is typed after the "\#" sign has no effect but to be printed}
 \CommentTok{\# as is in the console: it is a comment.}
 \end{Highlighting}
@@ -925,19 +884,19 @@ In R, everything that \textbf{exists} is an object. Everything that \textbf{happ
 
 \begin{verbatim}
 ## # A tibble: 102 x 9
-##    ego_ID ego.sex ego.age ego.arr ego.edu   ego.inc  empl ego.empl.bin ego.age~1
-##     <dbl> <chr>     <dbl>   <dbl> <chr>       <dbl> <dbl> <chr>        <chr>    
-##  1     28 Male         61    2008 Secondary     350     3 Yes          60+      
-##  2     29 Male         38    2000 Primary       900     4 Yes          36-40    
-##  3     33 Male         30    2010 Primary       200     3 Yes          26-30    
-##  4     35 Male         25    2009 Secondary    1000     3 Yes          18-25    
-##  5     39 Male         29    2007 Primary         0     1 No           26-30    
-##  6     40 Male         56    2008 Secondary     950     4 Yes          51-60    
-##  7     45 Male         52    1975 Primary      1600     3 Yes          51-60    
-##  8     46 Male         35    2002 Secondary    1200     4 Yes          31-35    
-##  9     47 Male         22    2010 Secondary     700     4 Yes          18-25    
-## 10     48 Male         51    2007 Primary       950     4 Yes          51-60    
-## # ... with 92 more rows, and abbreviated variable name 1: ego.age.cat
+##    ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
+##     <dbl> <chr>     <dbl>   <dbl> <chr>     <dbl> <dbl> <chr>        <chr>      
+##  1     28 Male         61    2008 Second~     350     3 Yes          60+        
+##  2     29 Male         38    2000 Primary     900     4 Yes          36-40      
+##  3     33 Male         30    2010 Primary     200     3 Yes          26-30      
+##  4     35 Male         25    2009 Second~    1000     3 Yes          18-25      
+##  5     39 Male         29    2007 Primary       0     1 No           26-30      
+##  6     40 Male         56    2008 Second~     950     4 Yes          51-60      
+##  7     45 Male         52    1975 Primary    1600     3 Yes          51-60      
+##  8     46 Male         35    2002 Second~    1200     4 Yes          31-35      
+##  9     47 Male         22    2010 Second~     700     4 Yes          18-25      
+## 10     48 Male         51    2007 Primary     950     4 Yes          51-60      
+## # i 92 more rows
 \end{verbatim}
 
 \begin{Shaded}
@@ -1371,23 +1330,23 @@ In R, everything that \textbf{exists} is an object. Everything that \textbf{happ
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{indexing}{%
-\section{Indexing}\label{indexing}}
+\hypertarget{subsetting}{%
+\section{Subsetting}\label{subsetting}}
 
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Indexing} is crucial in R. Indexing means appending an index to an object to extract one (or more) of its elements or components. Indexing is also called subscripting.
+  \textbf{Subsetting} is crucial in R. It means appending an index (or subscript) to an object to subset or extract one (or more) of its elements or components. This is also called ``indexing'' or ``subscripting''.
 \item
-  Indexing can be used to \textbf{extract} (view, query) the component of an object, or to \textbf{replace} it (assign a different value to that element).
+  Subsetting can be used to \textbf{extract} (view, query) the component of an object, or to \textbf{replace} it (assign a different value to that element).
 \item
-  The basic notation for indexing in R is \texttt{{[}\ {]}}: \texttt{x{[}i{]}} gives you the \emph{i}-th element of object \texttt{x}.
+  The basic notation for subsetting in R is \texttt{{[}\ {]}}: \texttt{x{[}i{]}} gives you the \emph{i}-th element of object \texttt{x}.
 \item
-  \textbf{Numeric indexing} uses integers in square brackets \texttt{{[}\ {]}}: e.g.~\texttt{x{[}3{]}}. Note that you can use negative integers to index (select) everything \emph{but} that element: e.g.~\texttt{x{[}-3{]}}, \texttt{x{[}c(-2,-4){]}}.
+  \textbf{Numeric subsetting} uses integers in square brackets \texttt{{[}\ {]}}: e.g.~\texttt{x{[}3{]}}. Note that you can use negative integers to index (select) everything \emph{but} that element: e.g.~\texttt{x{[}-3{]}}, \texttt{x{[}c(-2,-4){]}}.
 \item
-  \textbf{Logical indexing} uses logical vectors in square brackets \texttt{{[}\ {]}}. It's used to index objects according to a condition, e.g.~to index all values in \texttt{x} that are greater than 3 (see example code below).
+  \textbf{Logical subsetting} uses logical vectors in square brackets \texttt{{[}\ {]}}. It's used to subset objects based on a condition, e.g., to index all values in \texttt{x} that are greater than 3 (see example code below).
 \item
-  \textbf{Name indexing} uses element names. Elements in a vector, and rows or columns in a matrix can have names.
+  \textbf{Name subsetting} uses element names. Elements in a vector, and rows or columns in a matrix can have names.
 
   \begin{itemize}
   \tightlist
@@ -1395,7 +1354,7 @@ In R, everything that \textbf{exists} is an object. Everything that \textbf{happ
     Names can be displayed and assigned using the \texttt{names} function in base R, or \texttt{set\_names} (just to assign names) in tidyverse.
   \end{itemize}
 \item
-  When indexing you must take into account the \textbf{number of dimensions} of an object. For example, vectors have 1 dimension, matrices have 2. Arrays can be defined with 3 dimensions or more (e.g.~three-way tables).
+  When subsetting you must take into account the \textbf{number of dimensions} of an object. For example, vectors have one dimension, matrices have two. Arrays can be defined with three dimensions or more (e.g.~three-way tables).
 
   \begin{itemize}
   \tightlist
@@ -1417,18 +1376,18 @@ In R, everything that \textbf{exists} is an object. Everything that \textbf{happ
     If \texttt{x} has more than one dimension (e.g.~it's a matrix), then \texttt{x{[}3{]}} (no comma, just one slot) is still valid, but it might give you unexpected results.
   \end{itemize}
 \item
-  Matrices have special functions that can be used for indexing, e.g.~\texttt{diagonal()}, \texttt{upper.tri()}, \texttt{lower.tri()}. These can be useful for manipulating adjacency matrices.
+  Matrices have special functions that can be used for subsetting, e.g.~\texttt{diagonal()}, \texttt{upper.tri()}, \texttt{lower.tri()}. These can be useful for manipulating adjacency matrices.
 \item
-  Particular indexing rules may apply to particular \texttt{class}es of objects, for example lists and data frames (see next Section \ref{index-df}).
+  Particular subsetting rules may apply to particular \texttt{class}es of objects, for example lists and data frames (see next Section \ref{index-df}).
 \end{itemize}
 
 \hypertarget{index-df}{%
-\subsection{Indexing and subsetting data frames}\label{index-df}}
+\subsection{Subsetting data frames}\label{index-df}}
 
 \begin{itemize}
 \tightlist
 \item
-  \textbf{List notations.} Data frames are a special class of lists (see Section \ref{lists} for more about lists). Just like any list, data frames can be indexed in the following 3 ways:
+  \textbf{List notations.} Data frames are a special class of lists (see Section \ref{lists} for more about lists). Just like any list, data frames can be subset in the following three ways:
 
   \begin{enumerate}
   \def\labelenumi{\arabic{enumi}.}
@@ -1457,7 +1416,7 @@ In R, everything that \textbf{exists} is an object. Everything that \textbf{happ
     The \texttt{\$} notation. If \emph{variable.name} is the name of a specific variable (column) in \texttt{df}, then \texttt{df\$variable.name} indexes that variable. This is the same as the \texttt{{[}{[}\ {]}{]}} notation: \texttt{df\$variable.name} is the same as \texttt{df{[}{[}"variable.name"{]}{]}}, and it's also the same as \texttt{df{[}{[}i{]}{]}} (where \texttt{i} is the position of the variable called \emph{variable.name} in the data frame).
   \end{enumerate}
 \item
-  \textbf{Matrix notation.} Data frames can also be indexed like a matrix, with the \texttt{{[}\ ,\ {]}} notation:
+  \textbf{Matrix notation.} Data frames can also be subset like a matrix, with the \texttt{{[}\ ,\ {]}} notation:
 
   \begin{itemize}
   \tightlist
@@ -1477,7 +1436,7 @@ In R, everything that \textbf{exists} is an object. Everything that \textbf{happ
     Extracting another data frame of just one variable (column) -- The single pepper packet \emph{within} the pepper shaker in the figure below (panel B). This is given by \texttt{df{[}i{]}}, \texttt{df{[}"variable.name"{]}}.
   \end{itemize}
 \item
-  \textbf{Subsetting data frames}. In base R there are different ways to subset a dataframe's rows (cases) and/or columns (variables) using indexing (some examples are in the code below). However, we'll mostly use the subsetting functions introduced by the \texttt{dplyr} package in \texttt{tidyverse} (see \protect\hyperlink{the-tidyverse-syntax}{below}).
+  \textbf{Subsetting verbs} in tidyverse. In addition to subsetting data frames via the base indexing syntax described above, we can also use the subsetting functions introduced by the \texttt{dplyr} package in tidyverse (see \protect\hyperlink{the-tidyverse-syntax}{below}).
 \end{itemize}
 
 \href{https://twitter.com/hadleywickham/status/643381054758363136?lang=en}{\includegraphics[width=0.5\textwidth,height=\textheight]{./Figures/wickham_indexing_tweet.png}}
@@ -1642,19 +1601,19 @@ In R, everything that \textbf{exists} is an object. Everything that \textbf{happ
 
 \begin{verbatim}
 ## # A tibble: 102 x 9
-##    ego_ID ego.sex ego.age ego.arr ego.edu   ego.inc  empl ego.empl.bin ego.age~1
-##     <dbl> <chr>     <dbl>   <dbl> <chr>       <dbl> <dbl> <chr>        <chr>    
-##  1     28 Male         61    2008 Secondary     350     3 Yes          60+      
-##  2     29 Male         38    2000 Primary       900     4 Yes          36-40    
-##  3     33 Male         30    2010 Primary       200     3 Yes          26-30    
-##  4     35 Male         25    2009 Secondary    1000     3 Yes          18-25    
-##  5     39 Male         29    2007 Primary         0     1 No           26-30    
-##  6     40 Male         56    2008 Secondary     950     4 Yes          51-60    
-##  7     45 Male         52    1975 Primary      1600     3 Yes          51-60    
-##  8     46 Male         35    2002 Secondary    1200     4 Yes          31-35    
-##  9     47 Male         22    2010 Secondary     700     4 Yes          18-25    
-## 10     48 Male         51    2007 Primary       950     4 Yes          51-60    
-## # ... with 92 more rows, and abbreviated variable name 1: ego.age.cat
+##    ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
+##     <dbl> <chr>     <dbl>   <dbl> <chr>     <dbl> <dbl> <chr>        <chr>      
+##  1     28 Male         61    2008 Second~     350     3 Yes          60+        
+##  2     29 Male         38    2000 Primary     900     4 Yes          36-40      
+##  3     33 Male         30    2010 Primary     200     3 Yes          26-30      
+##  4     35 Male         25    2009 Second~    1000     3 Yes          18-25      
+##  5     39 Male         29    2007 Primary       0     1 No           26-30      
+##  6     40 Male         56    2008 Second~     950     4 Yes          51-60      
+##  7     45 Male         52    1975 Primary    1600     3 Yes          51-60      
+##  8     46 Male         35    2002 Second~    1200     4 Yes          31-35      
+##  9     47 Male         22    2010 Second~     700     4 Yes          18-25      
+## 10     48 Male         51    2007 Primary     950     4 Yes          51-60      
+## # i 92 more rows
 \end{verbatim}
 
 \begin{Shaded}
@@ -1680,7 +1639,7 @@ In R, everything that \textbf{exists} is an object. Everything that \textbf{happ
 ##  8      35
 ##  9      22
 ## 10      51
-## # ... with 92 more rows
+## # i 92 more rows
 \end{verbatim}
 
 \begin{Shaded}
@@ -1744,7 +1703,7 @@ In R, everything that \textbf{exists} is an object. Everything that \textbf{happ
 ##  8 Male         35
 ##  9 Male         22
 ## 10 Male         51
-## # ... with 92 more rows
+## # i 92 more rows
 \end{verbatim}
 
 \begin{Shaded}
@@ -1756,12 +1715,11 @@ In R, everything that \textbf{exists} is an object. Everything that \textbf{happ
 
 \begin{verbatim}
 ## # A tibble: 3 x 9
-##   ego_ID ego.sex ego.age ego.arr ego.edu   ego.inc  empl ego.empl.bin ego.age.~1
-##    <dbl> <chr>     <dbl>   <dbl> <chr>       <dbl> <dbl> <chr>        <chr>     
-## 1     28 Male         61    2008 Secondary     350     3 Yes          60+       
-## 2     29 Male         38    2000 Primary       900     4 Yes          36-40     
-## 3     33 Male         30    2010 Primary       200     3 Yes          26-30     
-## # ... with abbreviated variable name 1: ego.age.cat
+##   ego_ID ego.sex ego.age ego.arr ego.edu  ego.inc  empl ego.empl.bin ego.age.cat
+##    <dbl> <chr>     <dbl>   <dbl> <chr>      <dbl> <dbl> <chr>        <chr>      
+## 1     28 Male         61    2008 Seconda~     350     3 Yes          60+        
+## 2     29 Male         38    2000 Primary      900     4 Yes          36-40      
+## 3     33 Male         30    2010 Primary      200     3 Yes          26-30
 \end{verbatim}
 
 \begin{Shaded}
@@ -1785,7 +1743,7 @@ In R, everything that \textbf{exists} is an object. Everything that \textbf{happ
 ##  8      35
 ##  9      22
 ## 10      51
-## # ... with 92 more rows
+## # i 92 more rows
 \end{verbatim}
 
 \begin{Shaded}
@@ -1863,58 +1821,38 @@ In R, everything that \textbf{exists} is an object. Everything that \textbf{happ
 \section{\texorpdfstring{The \texttt{tidyverse} syntax}{The tidyverse syntax}}\label{the-tidyverse-syntax}}
 
 \hypertarget{pipes-and-the-operator}{%
-\subsection{\texorpdfstring{Pipes and the \texttt{\%\textgreater{}\%} operator}{Pipes and the \%\textgreater\% operator}}\label{pipes-and-the-operator}}
+\subsection{\texorpdfstring{Pipes and the \texttt{\textbar{}\textgreater{}} operator}{Pipes and the \textbar\textgreater{} operator}}\label{pipes-and-the-operator}}
 
 \begin{itemize}
 \tightlist
 \item
-  The pipe operator \texttt{\%\textgreater{}\%} was introduced by the \texttt{magrittr} package and is adopted by \texttt{igraph} and \texttt{tidyverse}, which we'll use in this workshop. The operator is becoming increasingly popular among R users.
+  The original pipe operator, \texttt{\%\textgreater{}\%}, was introduced by the \texttt{magrittr} package in 2014. It quickly gained popularity in the R community and was adopted by \texttt{igraph} and \texttt{tidyverse} (among other packages), which we use in this workshop. In 2021, R incorporated the pipe idea with a new, similar (but not identical) operator: \texttt{\textbar{}\textgreater{}}. See \href{https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/}{this page} for an overview of the differences between \texttt{\textbar{}\textgreater{}} and \texttt{\%\textgreater{}\%}.
 \item
   The idea behind pipes is in essence very simple:
 
   \begin{itemize}
   \tightlist
   \item
-    \texttt{f(g(x))} becomes \texttt{x\ \%\textgreater{}\%\ g\ \%\textgreater{}\%\ f}.
+    \texttt{f(g(x))} becomes \texttt{x\ \textbar{}\textgreater{}\ g()\ \textbar{}\textgreater{}\ f()}.
   \item
-    For example: \texttt{mean(table(x))} becomes \texttt{x\ \%\textgreater{}\%\ table\ \%\textgreater{}\%\ mean}.
+    For example: \texttt{mean(table(x))} becomes \texttt{x\ \textbar{}\textgreater{}\ table()\ \textbar{}\textgreater{}\ mean()}.
   \end{itemize}
 \item
-  So \texttt{\%\textgreater{}\%} pipes the output of the previous function (e.g.~\texttt{table}) into the input of the following function (e.g.~\texttt{mean}). This turns inside-to-outside code into left-to-right code. Because left to right is the direction most of us are used to read in, pipes make R code less cumbersome and more readable.
+  So \texttt{\textbar{}\textgreater{}} pipes the output of the previous function (e.g., \texttt{table()}) into the input of the following function (e.g., \texttt{mean()}). This turns inside-to-outside code into left-to-right code. Because left to right is the direction most of us are used to read in (at least in English and other Western languages), pipes make R code easier to read and follow.
 \item
   You may also see pipes concatenating multiple lines of code. That's possible and a common coding style. Instead of
 \end{itemize}
 
 \begin{verbatim}
-x %>% table %>% mean
+x |> table() |> mean()
 \end{verbatim}
 
 you can write
 
 \begin{verbatim}
-x %>%
-  table %>%
-  mean
-\end{verbatim}
-
-\begin{itemize}
-\tightlist
-\item
-  The \texttt{\%\textless{}\textgreater{}\%} operator combines \texttt{\%\textgreater{}\%} (pipe) and \texttt{\textless{}-} (assignment): it pipes the left-hand object on to the right-hand operations, and then assigns the operations' final output to the original object. The following code:
-\end{itemize}
-
-\begin{verbatim}
-x <- x %>%
-  table %>%
-  mean
-\end{verbatim}
-
-does the same thing as the following (more concise) code:
-
-\begin{verbatim}
-x %<>%
-  table %>%
-  mean
+x |>
+  table() |>
+  mean()
 \end{verbatim}
 
 \hypertarget{subsetting-data-frames-in-tidyverse}{%
@@ -1923,7 +1861,7 @@ x %<>%
 \begin{itemize}
 \tightlist
 \item
-  Tidyverse includes the \texttt{dplyr} package for data frame manipulation. This is a very powerful package for all kinds of data manipulation. To learn more, see the package \href{https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf}{cheatsheet} and \href{https://dplyr.tidyverse.org/articles/index.html}{vignettes}.
+  Tidyverse includes the \texttt{dplyr} package for data frame manipulation. This is a very powerful package for all kinds of data wrangling. To learn more, see the package \href{https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf}{cheatsheet} and \href{https://dplyr.tidyverse.org/articles/index.html}{vignettes}.
 \item
   Subsetting data frames with \texttt{dplyr}:
 
@@ -1940,9 +1878,6 @@ x %<>%
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Let\textquotesingle{}s load the magrittr package}
-\FunctionTok{library}\NormalTok{(magrittr)}
-
 \CommentTok{\# The pipe operator                                                         {-}{-}{-}{-}}
 \CommentTok{\# {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} }
 
@@ -2002,25 +1937,9 @@ x %<>%
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Let\textquotesingle{}s re{-}write this with the pipe operator}
-\NormalTok{edu }\SpecialCharTok{\%\textgreater{}\%}
-\NormalTok{  table }\SpecialCharTok{\%\textgreater{}\%}
-\NormalTok{  mean}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## [1] 34
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# If we want to pipe edu to following code AND re{-}assign the final result to }
-\CommentTok{\# edu again, we can use \%\textless{}\textgreater{}\% (requires magrittr package).}
-\NormalTok{edu }\SpecialCharTok{\%\textless{}\textgreater{}\%}
-\NormalTok{  table }\SpecialCharTok{\%\textgreater{}\%}
-\NormalTok{  mean}
-
-\NormalTok{edu}
+\NormalTok{edu }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{table}\NormalTok{() }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{mean}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2034,32 +1953,32 @@ x %<>%
 \CommentTok{\# {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} }
 
 \CommentTok{\# Filter to egos who are older than 40}
-\NormalTok{ego.df }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{ego.df }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{filter}\NormalTok{(ego.age }\SpecialCharTok{\textgreater{}} \DecValTok{40}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ## # A tibble: 51 x 9
-##    ego_ID ego.sex ego.age ego.arr ego.edu    ego.inc  empl ego.empl.bin ego.ag~1
-##     <dbl> <chr>     <dbl>   <dbl> <chr>        <dbl> <dbl> <chr>        <chr>   
-##  1     28 Male         61    2008 Secondary      350     3 Yes          60+     
-##  2     40 Male         56    2008 Secondary      950     4 Yes          51-60   
-##  3     45 Male         52    1975 Primary       1600     3 Yes          51-60   
-##  4     48 Male         51    2007 Primary        950     4 Yes          51-60   
-##  5     49 Male         50    2001 Secondary     1300     4 Yes          41-50   
-##  6     51 Male         45    2011 Secondary      480     3 Yes          41-50   
-##  7     52 Male         51    2002 University    1200     4 Yes          51-60   
-##  8     55 Male         57    1979 Secondary      470     7 No           51-60   
-##  9     56 Male         42    1992 Primary       1100     4 Yes          41-50   
-## 10     58 Male         55    1990 Secondary     1450     4 Yes          51-60   
-## # ... with 41 more rows, and abbreviated variable name 1: ego.age.cat
+##    ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
+##     <dbl> <chr>     <dbl>   <dbl> <chr>     <dbl> <dbl> <chr>        <chr>      
+##  1     28 Male         61    2008 Second~     350     3 Yes          60+        
+##  2     40 Male         56    2008 Second~     950     4 Yes          51-60      
+##  3     45 Male         52    1975 Primary    1600     3 Yes          51-60      
+##  4     48 Male         51    2007 Primary     950     4 Yes          51-60      
+##  5     49 Male         50    2001 Second~    1300     4 Yes          41-50      
+##  6     51 Male         45    2011 Second~     480     3 Yes          41-50      
+##  7     52 Male         51    2002 Univer~    1200     4 Yes          51-60      
+##  8     55 Male         57    1979 Second~     470     7 No           51-60      
+##  9     56 Male         42    1992 Primary    1100     4 Yes          41-50      
+## 10     58 Male         55    1990 Second~    1450     4 Yes          51-60      
+## # i 41 more rows
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Filter to egos with Primary education}
-\NormalTok{ego.df }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{ego.df }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{filter}\NormalTok{(ego.edu }\SpecialCharTok{==} \StringTok{"Primary"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -2078,13 +1997,13 @@ x %<>%
 ##  8     57 Male         32    2000 Primary    1200     4 Yes          31-35      
 ##  9     60 Male         25    2011 Primary       0     1 No           18-25      
 ## 10     64 Male         54    1981 Primary     300     3 Yes          51-60      
-## # ... with 32 more rows
+## # i 32 more rows
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Combine the two conditions: Intersection.}
-\NormalTok{ego.df }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{ego.df }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{filter}\NormalTok{(ego.age }\SpecialCharTok{\textgreater{}} \DecValTok{40} \SpecialCharTok{\&}\NormalTok{ ego.edu }\SpecialCharTok{==} \StringTok{"Primary"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -2103,39 +2022,39 @@ x %<>%
 ##  8     90 Male         56    2004 Primary     450     4 Yes          51-60      
 ##  9     93 Male         47    2010 Primary     880     4 Yes          41-50      
 ## 10     95 Male         43    1997 Primary     800     4 Yes          41-50      
-## # ... with 11 more rows
+## # i 11 more rows
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Combine the two conditions: Union.}
-\NormalTok{ego.df }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{ego.df }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{filter}\NormalTok{(ego.age }\SpecialCharTok{\textgreater{}} \DecValTok{40} \SpecialCharTok{|}\NormalTok{ ego.edu }\SpecialCharTok{==} \StringTok{"Primary"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ## # A tibble: 72 x 9
-##    ego_ID ego.sex ego.age ego.arr ego.edu    ego.inc  empl ego.empl.bin ego.ag~1
-##     <dbl> <chr>     <dbl>   <dbl> <chr>        <dbl> <dbl> <chr>        <chr>   
-##  1     28 Male         61    2008 Secondary      350     3 Yes          60+     
-##  2     29 Male         38    2000 Primary        900     4 Yes          36-40   
-##  3     33 Male         30    2010 Primary        200     3 Yes          26-30   
-##  4     39 Male         29    2007 Primary          0     1 No           26-30   
-##  5     40 Male         56    2008 Secondary      950     4 Yes          51-60   
-##  6     45 Male         52    1975 Primary       1600     3 Yes          51-60   
-##  7     48 Male         51    2007 Primary        950     4 Yes          51-60   
-##  8     49 Male         50    2001 Secondary     1300     4 Yes          41-50   
-##  9     51 Male         45    2011 Secondary      480     3 Yes          41-50   
-## 10     52 Male         51    2002 University    1200     4 Yes          51-60   
-## # ... with 62 more rows, and abbreviated variable name 1: ego.age.cat
+##    ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
+##     <dbl> <chr>     <dbl>   <dbl> <chr>     <dbl> <dbl> <chr>        <chr>      
+##  1     28 Male         61    2008 Second~     350     3 Yes          60+        
+##  2     29 Male         38    2000 Primary     900     4 Yes          36-40      
+##  3     33 Male         30    2010 Primary     200     3 Yes          26-30      
+##  4     39 Male         29    2007 Primary       0     1 No           26-30      
+##  5     40 Male         56    2008 Second~     950     4 Yes          51-60      
+##  6     45 Male         52    1975 Primary    1600     3 Yes          51-60      
+##  7     48 Male         51    2007 Primary     950     4 Yes          51-60      
+##  8     49 Male         50    2001 Second~    1300     4 Yes          41-50      
+##  9     51 Male         45    2011 Second~     480     3 Yes          41-50      
+## 10     52 Male         51    2002 Univer~    1200     4 Yes          51-60      
+## # i 62 more rows
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Note that the object ego.df hasn\textquotesingle{}t changed. To re{-}use any of the filtered data}
 \CommentTok{\# frames above, we have to assign them to an object.}
-\NormalTok{ego.df}\FloatTok{.40} \OtherTok{\textless{}{-}}\NormalTok{ ego.df }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{ego.df}\FloatTok{.40} \OtherTok{\textless{}{-}}\NormalTok{ ego.df }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{filter}\NormalTok{(ego.age }\SpecialCharTok{\textgreater{}} \DecValTok{40}\NormalTok{)}
 
 \NormalTok{ego.df}\FloatTok{.40}
@@ -2144,25 +2063,25 @@ x %<>%
 
 \begin{verbatim}
 ## # A tibble: 51 x 9
-##    ego_ID ego.sex ego.age ego.arr ego.edu    ego.inc  empl ego.empl.bin ego.ag~1
-##     <dbl> <chr>     <dbl>   <dbl> <chr>        <dbl> <dbl> <chr>        <chr>   
-##  1     28 Male         61    2008 Secondary      350     3 Yes          60+     
-##  2     40 Male         56    2008 Secondary      950     4 Yes          51-60   
-##  3     45 Male         52    1975 Primary       1600     3 Yes          51-60   
-##  4     48 Male         51    2007 Primary        950     4 Yes          51-60   
-##  5     49 Male         50    2001 Secondary     1300     4 Yes          41-50   
-##  6     51 Male         45    2011 Secondary      480     3 Yes          41-50   
-##  7     52 Male         51    2002 University    1200     4 Yes          51-60   
-##  8     55 Male         57    1979 Secondary      470     7 No           51-60   
-##  9     56 Male         42    1992 Primary       1100     4 Yes          41-50   
-## 10     58 Male         55    1990 Secondary     1450     4 Yes          51-60   
-## # ... with 41 more rows, and abbreviated variable name 1: ego.age.cat
+##    ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
+##     <dbl> <chr>     <dbl>   <dbl> <chr>     <dbl> <dbl> <chr>        <chr>      
+##  1     28 Male         61    2008 Second~     350     3 Yes          60+        
+##  2     40 Male         56    2008 Second~     950     4 Yes          51-60      
+##  3     45 Male         52    1975 Primary    1600     3 Yes          51-60      
+##  4     48 Male         51    2007 Primary     950     4 Yes          51-60      
+##  5     49 Male         50    2001 Second~    1300     4 Yes          41-50      
+##  6     51 Male         45    2011 Second~     480     3 Yes          41-50      
+##  7     52 Male         51    2002 Univer~    1200     4 Yes          51-60      
+##  8     55 Male         57    1979 Second~     470     7 No           51-60      
+##  9     56 Male         42    1992 Primary    1100     4 Yes          41-50      
+## 10     58 Male         55    1990 Second~    1450     4 Yes          51-60      
+## # i 41 more rows
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Select specific variables}
-\NormalTok{ego.df}\FloatTok{.40} \SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{ego.df}\FloatTok{.40} \SpecialCharTok{|\textgreater{}}
 \NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(ego.sex, ego.age)}
 \end{Highlighting}
 \end{Shaded}
@@ -2181,13 +2100,13 @@ x %<>%
 ##  8 Male         57
 ##  9 Male         42
 ## 10 Male         55
-## # ... with 41 more rows
+## # i 41 more rows
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# We can use \%\textless{}\textgreater{}\% to re{-}assign the result to the same data object}
-\NormalTok{ego.df}\FloatTok{.40} \SpecialCharTok{\%\textless{}\textgreater{}\%}
+\CommentTok{\# As usual, we can re{-}assign the result to the same data object}
+\NormalTok{ego.df}\FloatTok{.40} \OtherTok{\textless{}{-}}\NormalTok{ ego.df}\FloatTok{.40} \SpecialCharTok{|\textgreater{}} 
 \NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(ego.sex, ego.age)}
 
 \NormalTok{ego.df}\FloatTok{.40}
@@ -2208,17 +2127,13 @@ x %<>%
 ##  8 Male         57
 ##  9 Male         42
 ## 10 Male         55
-## # ... with 41 more rows
+## # i 41 more rows
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# This is the same as (but more concise than)}
-\NormalTok{ego.df}\FloatTok{.40} \OtherTok{\textless{}{-}}\NormalTok{ ego.df}\FloatTok{.40} \SpecialCharTok{\%\textgreater{}\%}
-\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(ego.sex, ego.age)}
-
 \CommentTok{\# Pull a variable out of a data frame, as a vector}
-\NormalTok{ego.df }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{ego.df }\SpecialCharTok{|\textgreater{}}
   \FunctionTok{pull}\NormalTok{(ego.age)}
 \end{Highlighting}
 \end{Shaded}
@@ -2403,19 +2318,19 @@ This chapter covers the following topics:
 
 \begin{verbatim}
 ## # A tibble: 102 x 9
-##    ego_ID ego.sex ego.age ego.arr ego.edu   ego.inc  empl ego.empl.bin ego.age~1
-##     <dbl> <fct>     <dbl>   <dbl> <fct>       <dbl> <dbl> <fct>        <fct>    
-##  1     28 Male         61    2008 Secondary     350     3 Yes          60+      
-##  2     29 Male         38    2000 Primary       900     4 Yes          36-40    
-##  3     33 Male         30    2010 Primary       200     3 Yes          26-30    
-##  4     35 Male         25    2009 Secondary    1000     3 Yes          18-25    
-##  5     39 Male         29    2007 Primary         0     1 No           26-30    
-##  6     40 Male         56    2008 Secondary     950     4 Yes          51-60    
-##  7     45 Male         52    1975 Primary      1600     3 Yes          51-60    
-##  8     46 Male         35    2002 Secondary    1200     4 Yes          31-35    
-##  9     47 Male         22    2010 Secondary     700     4 Yes          18-25    
-## 10     48 Male         51    2007 Primary       950     4 Yes          51-60    
-## # ... with 92 more rows, and abbreviated variable name 1: ego.age.cat
+##    ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
+##     <dbl> <fct>     <dbl>   <dbl> <fct>     <dbl> <dbl> <fct>        <fct>      
+##  1     28 Male         61    2008 Second~     350     3 Yes          60+        
+##  2     29 Male         38    2000 Primary     900     4 Yes          36-40      
+##  3     33 Male         30    2010 Primary     200     3 Yes          26-30      
+##  4     35 Male         25    2009 Second~    1000     3 Yes          18-25      
+##  5     39 Male         29    2007 Primary       0     1 No           26-30      
+##  6     40 Male         56    2008 Second~     950     4 Yes          51-60      
+##  7     45 Male         52    1975 Primary    1600     3 Yes          51-60      
+##  8     46 Male         35    2002 Second~    1200     4 Yes          31-35      
+##  9     47 Male         22    2010 Second~     700     4 Yes          18-25      
+## 10     48 Male         51    2007 Primary     950     4 Yes          51-60      
+## # i 92 more rows
 \end{verbatim}
 
 \begin{Shaded}
@@ -2428,21 +2343,21 @@ This chapter covers the following topics:
 
 \begin{verbatim}
 ## # A tibble: 4,590 x 12
-##    alter_ID ego_ID alter_num alter.sex alter.a~1 alter~2 alter~3 alter~4 alter~5
-##       <dbl>  <dbl>     <dbl> <fct>     <fct>     <fct>   <fct>   <fct>     <dbl>
-##  1     2801     28         1 Female    51-60     Close ~ Sri La~ Sri La~      NA
-##  2     2802     28         2 Male      51-60     Other ~ Sri La~ Sri La~       3
-##  3     2803     28         3 Male      51-60     Close ~ Sri La~ Sri La~      NA
-##  4     2804     28         4 Male      60+       Close ~ Sri La~ Sri La~      NA
-##  5     2805     28         5 Female    41-50     Close ~ Sri La~ Sri La~      NA
-##  6     2806     28         6 Female    60+       Close ~ Sri La~ Sri La~      NA
-##  7     2807     28         7 Male      41-50     Other ~ Sri La~ Sri La~       5
-##  8     2808     28         8 Female    36-40     Other ~ Sri La~ Sri La~       4
-##  9     2809     28         9 Female    51-60     Other ~ Sri La~ Sri La~       5
-## 10     2810     28        10 Male      60+       Other ~ Sri La~ Sri La~       5
-## # ... with 4,580 more rows, 3 more variables: alter.loan <fct>,
-## #   alter.fam <fct>, alter.age <dbl>, and abbreviated variable names
-## #   1: alter.age.cat, 2: alter.rel, 3: alter.nat, 4: alter.res, 5: alter.clo
+##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
+##       <dbl>  <dbl>     <dbl> <fct>     <fct>         <fct>        <fct>    
+##  1     2801     28         1 Female    51-60         Close family Sri Lanka
+##  2     2802     28         2 Male      51-60         Other family Sri Lanka
+##  3     2803     28         3 Male      51-60         Close family Sri Lanka
+##  4     2804     28         4 Male      60+           Close family Sri Lanka
+##  5     2805     28         5 Female    41-50         Close family Sri Lanka
+##  6     2806     28         6 Female    60+           Close family Sri Lanka
+##  7     2807     28         7 Male      41-50         Other family Sri Lanka
+##  8     2808     28         8 Female    36-40         Other family Sri Lanka
+##  9     2809     28         9 Female    51-60         Other family Sri Lanka
+## 10     2810     28        10 Male      60+           Other family Sri Lanka
+## # i 4,580 more rows
+## # i 5 more variables: alter.res <fct>, alter.clo <dbl>, alter.loan <fct>,
+## #   alter.fam <fct>, alter.age <dbl>
 \end{verbatim}
 
 \begin{Shaded}
@@ -2454,30 +2369,30 @@ This chapter covers the following topics:
 
 \begin{verbatim}
 ## # A tibble: 4,590 x 20
-##    alter_ID ego_ID alter_num alter.sex alter.a~1 alter~2 alter~3 alter~4 alter~5
-##       <dbl>  <dbl>     <dbl> <fct>     <fct>     <fct>   <fct>   <fct>     <dbl>
-##  1     2801     28         1 Female    51-60     Close ~ Sri La~ Sri La~      NA
-##  2     2802     28         2 Male      51-60     Other ~ Sri La~ Sri La~       3
-##  3     2803     28         3 Male      51-60     Close ~ Sri La~ Sri La~      NA
-##  4     2804     28         4 Male      60+       Close ~ Sri La~ Sri La~      NA
-##  5     2805     28         5 Female    41-50     Close ~ Sri La~ Sri La~      NA
-##  6     2806     28         6 Female    60+       Close ~ Sri La~ Sri La~      NA
-##  7     2807     28         7 Male      41-50     Other ~ Sri La~ Sri La~       5
-##  8     2808     28         8 Female    36-40     Other ~ Sri La~ Sri La~       4
-##  9     2809     28         9 Female    51-60     Other ~ Sri La~ Sri La~       5
-## 10     2810     28        10 Male      60+       Other ~ Sri La~ Sri La~       5
-## # ... with 4,580 more rows, 11 more variables: alter.loan <fct>,
+##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
+##       <dbl>  <dbl>     <dbl> <fct>     <fct>         <fct>        <fct>    
+##  1     2801     28         1 Female    51-60         Close family Sri Lanka
+##  2     2802     28         2 Male      51-60         Other family Sri Lanka
+##  3     2803     28         3 Male      51-60         Close family Sri Lanka
+##  4     2804     28         4 Male      60+           Close family Sri Lanka
+##  5     2805     28         5 Female    41-50         Close family Sri Lanka
+##  6     2806     28         6 Female    60+           Close family Sri Lanka
+##  7     2807     28         7 Male      41-50         Other family Sri Lanka
+##  8     2808     28         8 Female    36-40         Other family Sri Lanka
+##  9     2809     28         9 Female    51-60         Other family Sri Lanka
+## 10     2810     28        10 Male      60+           Other family Sri Lanka
+## # i 4,580 more rows
+## # i 13 more variables: alter.res <fct>, alter.clo <dbl>, alter.loan <fct>,
 ## #   alter.fam <fct>, alter.age <dbl>, ego.sex <fct>, ego.age <dbl>,
 ## #   ego.arr <dbl>, ego.edu <fct>, ego.inc <dbl>, empl <dbl>,
-## #   ego.empl.bin <fct>, ego.age.cat <fct>, and abbreviated variable names
-## #   1: alter.age.cat, 2: alter.rel, 3: alter.nat, 4: alter.res, 5: alter.clo
+## #   ego.empl.bin <fct>, ego.age.cat <fct>
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Note that the new data frame has one row for each alter, and the same ego ID}
 \CommentTok{\# and ego attribute value is repeated for all alters belonging to the same ego.}
-\NormalTok{data }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{data }\SpecialCharTok{|\textgreater{}} 
 \NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(alter\_ID, ego\_ID, ego.age, ego.edu)}
 \end{Highlighting}
 \end{Shaded}
@@ -2496,7 +2411,7 @@ This chapter covers the following topics:
 ##  8     2808     28      61 Secondary
 ##  9     2809     28      61 Secondary
 ## 10     2810     28      61 Secondary
-## # ... with 4,580 more rows
+## # i 4,580 more rows
 \end{verbatim}
 
 \hypertarget{networks-in-r}{%
@@ -2599,12 +2514,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH e7db69e UNW- 45 259 -- 
+## IGRAPH 32a99df UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from e7db69e (vertex names):
+## + edges from 32a99df (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -2631,12 +2546,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 658911d UNW- 46 304 -- 
+## IGRAPH 3e551cc UNW- 46 304 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 658911d (vertex names):
+## + edges from 3e551cc (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -2764,24 +2679,26 @@ This chapter covers the following topics:
 ## #
 ## # An undirected simple graph with 1 component
 ## #
-## # Node Data: 45 x 11 (active)
-##   name  alter_~ alter.~ alter.~ alter.~ alter.~ alter.~ alter.~ alter.~ alter.~
-##   <chr>   <dbl> <chr>   <chr>   <chr>   <chr>   <chr>     <dbl> <chr>   <chr>  
-## 1 2801        1 Female  51-60   Close ~ Sri La~ Sri La~      NA <NA>    Yes    
-## 2 2802        2 Male    51-60   Other ~ Sri La~ Sri La~       3 No      Yes    
-## 3 2803        3 Male    51-60   Close ~ Sri La~ Sri La~      NA <NA>    Yes    
-## 4 2804        4 Male    60+     Close ~ Sri La~ Sri La~      NA <NA>    Yes    
-## 5 2805        5 Female  41-50   Close ~ Sri La~ Sri La~      NA <NA>    Yes    
-## 6 2806        6 Female  60+     Close ~ Sri La~ Sri La~      NA <NA>    Yes    
-## # ... with 39 more rows, and 1 more variable: alter.age <dbl>
+## # A tibble: 45 x 11
+##   name  alter_num alter.sex alter.age.cat alter.rel    alter.nat alter.res
+##   <chr>     <dbl> <chr>     <chr>         <chr>        <chr>     <chr>    
+## 1 2801          1 Female    51-60         Close family Sri Lanka Sri Lanka
+## 2 2802          2 Male      51-60         Other family Sri Lanka Sri Lanka
+## 3 2803          3 Male      51-60         Close family Sri Lanka Sri Lanka
+## 4 2804          4 Male      60+           Close family Sri Lanka Sri Lanka
+## 5 2805          5 Female    41-50         Close family Sri Lanka Sri Lanka
+## 6 2806          6 Female    60+           Close family Sri Lanka Sri Lanka
+## # i 39 more rows
+## # i 4 more variables: alter.clo <dbl>, alter.loan <chr>, alter.fam <chr>,
+## #   alter.age <dbl>
 ## #
-## # Edge Data: 259 x 3
+## # A tibble: 259 x 3
 ##    from    to weight
 ##   <int> <int>  <dbl>
 ## 1     1     2      1
 ## 2     1     3      1
 ## 3     1     4      1
-## # ... with 256 more rows
+## # i 256 more rows
 \end{verbatim}
 
 \begin{Shaded}
@@ -2798,7 +2715,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 45/45 vertices, named, from e7db69e:
+## + 45/45 vertices, named, from 32a99df:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2813 2814 2815
 ## [16] 2816 2817 2818 2819 2820 2821 2822 2823 2824 2825 2826 2827 2828 2829 2830
 ## [31] 2831 2832 2833 2834 2835 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845
@@ -2813,7 +2730,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 259/259 edges from e7db69e (vertex names):
+## + 259/259 edges from 32a99df (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -2911,16 +2828,16 @@ This chapter covers the following topics:
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# This is more readable with the pipe operator.}
-\FunctionTok{V}\NormalTok{(gr)}\SpecialCharTok{$}\NormalTok{alter.res }\SpecialCharTok{\%\textgreater{}\%} 
+\FunctionTok{V}\NormalTok{(gr)}\SpecialCharTok{$}\NormalTok{alter.res }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{tabyl}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##          .  n    percent
-##      Italy 27 0.60000000
-##      Other  1 0.02222222
-##  Sri Lanka 17 0.37777778
+##  V(gr)$alter.res  n    percent
+##            Italy 27 0.60000000
+##            Other  1 0.02222222
+##        Sri Lanka 17 0.37777778
 \end{verbatim}
 
 \begin{Shaded}
@@ -2949,12 +2866,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH e7db69e UNW- 45 259 -- 
+## IGRAPH 32a99df UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), new.attribute (v/n), weight (e/n)
-## + edges from e7db69e (vertex names):
+## + edges from 32a99df (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -3006,12 +2923,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH e7db69e UNW- 45 259 -- 
+## IGRAPH 32a99df UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/n), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), new.attribute (v/n), weight (e/n)
-## + edges from e7db69e (vertex names):
+## + edges from 32a99df (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -3095,7 +3012,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 8/45 vertices, named, from e7db69e:
+## + 8/45 vertices, named, from 32a99df:
 ## [1] 2801 2805 2806 2808 2809 2828 2832 2837
 \end{verbatim}
 
@@ -3114,15 +3031,15 @@ This chapter covers the following topics:
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Frequencies of countries of residence of female alters.}
-\FunctionTok{V}\NormalTok{(gr)[alter.sex}\SpecialCharTok{==}\StringTok{"Female"}\NormalTok{]}\SpecialCharTok{$}\NormalTok{alter.res }\SpecialCharTok{\%\textgreater{}\%}
-\NormalTok{  tabyl}
+\FunctionTok{V}\NormalTok{(gr)[alter.sex}\SpecialCharTok{==}\StringTok{"Female"}\NormalTok{]}\SpecialCharTok{$}\NormalTok{alter.res }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{tabyl}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##          . n percent
-##      Italy 2    0.25
-##  Sri Lanka 6    0.75
+##  V(gr)[alter.sex == "Female"]$alter.res n percent
+##                                   Italy 2    0.25
+##                               Sri Lanka 6    0.75
 \end{verbatim}
 
 \begin{Shaded}
@@ -3143,18 +3060,12 @@ This chapter covers the following topics:
 
 \CommentTok{\# View all alters who know alter 2833 (vertices that are adjacent to vertex}
 \CommentTok{\# "2833").}
-\FunctionTok{V}\NormalTok{(gr)[}\FunctionTok{nei}\NormalTok{(}\StringTok{"2833"}\NormalTok{)]}
+\FunctionTok{V}\NormalTok{(gr)[}\FunctionTok{.nei}\NormalTok{(}\StringTok{"2833"}\NormalTok{)]}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## Warning: 'nei' is deprecated.
-## Use '.nei' instead.
-## See help("Deprecated")
-\end{verbatim}
-
-\begin{verbatim}
-## + 16/45 vertices, named, from e7db69e:
+## + 16/45 vertices, named, from 32a99df:
 ##  [1] 2814 2815 2821 2822 2823 2824 2825 2826 2832 2834 2835 2837 2838 2839 2843
 ## [16] 2845
 \end{verbatim}
@@ -3162,15 +3073,9 @@ This chapter covers the following topics:
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# View the gender of all alters who know alter 2833.}
-\FunctionTok{V}\NormalTok{(gr)[}\FunctionTok{nei}\NormalTok{(}\StringTok{"2833"}\NormalTok{)]}\SpecialCharTok{$}\NormalTok{alter.sex}
+\FunctionTok{V}\NormalTok{(gr)[}\FunctionTok{.nei}\NormalTok{(}\StringTok{"2833"}\NormalTok{)]}\SpecialCharTok{$}\NormalTok{alter.sex}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## Warning: 'nei' is deprecated.
-## Use '.nei' instead.
-## See help("Deprecated")
-\end{verbatim}
 
 \begin{verbatim}
 ##  [1] "Male"   "Male"   "Male"   "Male"   "Male"   "Male"   "Male"   "Male"  
@@ -3180,18 +3085,12 @@ This chapter covers the following topics:
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# View all edges that are incident on alter 2833}
-\FunctionTok{E}\NormalTok{(gr)[}\FunctionTok{inc}\NormalTok{(}\StringTok{"2833"}\NormalTok{)]}
+\FunctionTok{E}\NormalTok{(gr)[}\FunctionTok{.inc}\NormalTok{(}\StringTok{"2833"}\NormalTok{)]}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## Warning: 'inc' is deprecated.
-## Use '.inc' instead.
-## See help("Deprecated")
-\end{verbatim}
-
-\begin{verbatim}
-## + 16/259 edges from e7db69e (vertex names):
+## + 16/259 edges from 32a99df (vertex names):
 ##  [1] 2814--2833 2815--2833 2821--2833 2822--2833 2823--2833 2824--2833
 ##  [7] 2825--2833 2826--2833 2832--2833 2833--2834 2833--2835 2833--2837
 ## [13] 2833--2838 2833--2839 2833--2843 2833--2845
@@ -3200,15 +3099,9 @@ This chapter covers the following topics:
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# View the weight of these edges.}
-\FunctionTok{E}\NormalTok{(gr)[}\FunctionTok{inc}\NormalTok{(}\StringTok{"2833"}\NormalTok{)]}\SpecialCharTok{$}\NormalTok{weight}
+\FunctionTok{E}\NormalTok{(gr)[}\FunctionTok{.inc}\NormalTok{(}\StringTok{"2833"}\NormalTok{)]}\SpecialCharTok{$}\NormalTok{weight}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## Warning: 'inc' is deprecated.
-## Use '.inc' instead.
-## See help("Deprecated")
-\end{verbatim}
 
 \begin{verbatim}
 ##  [1] 2 2 2 1 1 1 2 1 1 1 1 1 1 1 2 1
@@ -3217,16 +3110,10 @@ This chapter covers the following topics:
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Max weight of any edge that is incident on alter 2833. }
-\FunctionTok{E}\NormalTok{(gr)[}\FunctionTok{inc}\NormalTok{(}\StringTok{"2833"}\NormalTok{)]}\SpecialCharTok{$}\NormalTok{weight }\SpecialCharTok{\%\textgreater{}\%} 
-\NormalTok{  max}
+\FunctionTok{E}\NormalTok{(gr)[}\FunctionTok{.inc}\NormalTok{(}\StringTok{"2833"}\NormalTok{)]}\SpecialCharTok{$}\NormalTok{weight }\SpecialCharTok{|\textgreater{}}  
+  \FunctionTok{max}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## Warning: 'inc' is deprecated.
-## Use '.inc' instead.
-## See help("Deprecated")
-\end{verbatim}
 
 \begin{verbatim}
 ## [1] 2
@@ -3240,7 +3127,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 24/259 edges from e7db69e (vertex names):
+## + 24/259 edges from 32a99df (vertex names):
 ##  [1] 2801--2818 2801--2829 2804--2811 2804--2840 2807--2811 2811--2812
 ##  [7] 2811--2828 2813--2841 2813--2845 2814--2833 2815--2833 2816--2835
 ## [13] 2817--2835 2821--2826 2821--2833 2821--2839 2823--2830 2825--2833
@@ -3251,18 +3138,12 @@ This chapter covers the following topics:
 \begin{Highlighting}[]
 \CommentTok{\# Conditions in R indexing can always be combined: view all "maybe" edges}
 \CommentTok{\# that are incident on alter 2833.}
-\FunctionTok{E}\NormalTok{(gr)[weight}\SpecialCharTok{==}\DecValTok{2} \SpecialCharTok{\&} \FunctionTok{inc}\NormalTok{(}\StringTok{"2833"}\NormalTok{)]}
+\FunctionTok{E}\NormalTok{(gr)[weight}\SpecialCharTok{==}\DecValTok{2} \SpecialCharTok{\&} \FunctionTok{.inc}\NormalTok{(}\StringTok{"2833"}\NormalTok{)]}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## Warning: 'inc' is deprecated.
-## Use '.inc' instead.
-## See help("Deprecated")
-\end{verbatim}
-
-\begin{verbatim}
-## + 5/259 edges from e7db69e (vertex names):
+## + 5/259 edges from 32a99df (vertex names):
 ## [1] 2814--2833 2815--2833 2821--2833 2825--2833 2833--2843
 \end{verbatim}
 
@@ -3274,7 +3155,7 @@ This chapter covers the following topics:
 \CommentTok{\#}
 \CommentTok{\# (2) How many edges in the personal network gr involve at least one close}
 \CommentTok{\# family member and have $weight==2 (the two alters "maybe" know each other)?}
-\CommentTok{\# Remember that close family members have $relation=="Close family". Use inc().}
+\CommentTok{\# Remember that close family members have $relation=="Close family". Use .inc().}
 \CommentTok{\#}
 \CommentTok{\# *****}
 \end{Highlighting}
@@ -3364,7 +3245,28 @@ This chapter covers the following topics:
 \FunctionTok{library}\NormalTok{(skimr)}
 \FunctionTok{library}\NormalTok{(janitor)}
 \FunctionTok{library}\NormalTok{(magrittr)}
+\end{Highlighting}
+\end{Shaded}
 
+\begin{verbatim}
+## 
+## Attaching package: 'magrittr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:purrr':
+## 
+##     set_names
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:tidyr':
+## 
+##     extract
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \CommentTok{\# Load data.}
 \FunctionTok{load}\NormalTok{(}\StringTok{"./Data/data.rda"}\NormalTok{)}
 
@@ -3377,21 +3279,21 @@ This chapter covers the following topics:
 
 \begin{verbatim}
 ## # A tibble: 45 x 12
-##    alter_ID ego_ID alter_num alter.sex alter.a~1 alter~2 alter~3 alter~4 alter~5
-##       <dbl>  <dbl>     <dbl> <fct>     <fct>     <fct>   <fct>   <fct>     <dbl>
-##  1     2801     28         1 Female    51-60     Close ~ Sri La~ Sri La~      NA
-##  2     2802     28         2 Male      51-60     Other ~ Sri La~ Sri La~       3
-##  3     2803     28         3 Male      51-60     Close ~ Sri La~ Sri La~      NA
-##  4     2804     28         4 Male      60+       Close ~ Sri La~ Sri La~      NA
-##  5     2805     28         5 Female    41-50     Close ~ Sri La~ Sri La~      NA
-##  6     2806     28         6 Female    60+       Close ~ Sri La~ Sri La~      NA
-##  7     2807     28         7 Male      41-50     Other ~ Sri La~ Sri La~       5
-##  8     2808     28         8 Female    36-40     Other ~ Sri La~ Sri La~       4
-##  9     2809     28         9 Female    51-60     Other ~ Sri La~ Sri La~       5
-## 10     2810     28        10 Male      60+       Other ~ Sri La~ Sri La~       5
-## # ... with 35 more rows, 3 more variables: alter.loan <fct>, alter.fam <fct>,
-## #   alter.age <dbl>, and abbreviated variable names 1: alter.age.cat,
-## #   2: alter.rel, 3: alter.nat, 4: alter.res, 5: alter.clo
+##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
+##       <dbl>  <dbl>     <dbl> <fct>     <fct>         <fct>        <fct>    
+##  1     2801     28         1 Female    51-60         Close family Sri Lanka
+##  2     2802     28         2 Male      51-60         Other family Sri Lanka
+##  3     2803     28         3 Male      51-60         Close family Sri Lanka
+##  4     2804     28         4 Male      60+           Close family Sri Lanka
+##  5     2805     28         5 Female    41-50         Close family Sri Lanka
+##  6     2806     28         6 Female    60+           Close family Sri Lanka
+##  7     2807     28         7 Male      41-50         Other family Sri Lanka
+##  8     2808     28         8 Female    36-40         Other family Sri Lanka
+##  9     2809     28         9 Female    51-60         Other family Sri Lanka
+## 10     2810     28        10 Male      60+           Other family Sri Lanka
+## # i 35 more rows
+## # i 5 more variables: alter.res <fct>, alter.clo <dbl>, alter.loan <fct>,
+## #   alter.fam <fct>, alter.age <dbl>
 \end{verbatim}
 
 \begin{Shaded}
@@ -3414,7 +3316,7 @@ This chapter covers the following topics:
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Or, in tidyverse syntax}
-\NormalTok{alter.attr}\FloatTok{.28} \SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{alter.attr}\FloatTok{.28} \SpecialCharTok{|\textgreater{}} 
   \FunctionTok{pull}\NormalTok{(alter.clo)}
 \end{Highlighting}
 \end{Shaded}
@@ -3427,7 +3329,7 @@ This chapter covers the following topics:
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Battery of descriptive stats.}
-\NormalTok{alter.attr}\FloatTok{.28} \SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{alter.attr}\FloatTok{.28} \SpecialCharTok{|\textgreater{}}
   \FunctionTok{skim\_tee}\NormalTok{(alter.clo) }
 \end{Highlighting}
 \end{Shaded}
@@ -3481,7 +3383,7 @@ This chapter covers the following topics:
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Get frequencies}
-\NormalTok{alter.attr}\FloatTok{.28} \SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{alter.attr}\FloatTok{.28} \SpecialCharTok{|\textgreater{}}
   \FunctionTok{tabyl}\NormalTok{(alter.sex)}
 \end{Highlighting}
 \end{Shaded}
@@ -3495,7 +3397,7 @@ This chapter covers the following topics:
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Same for nationalities}
-\NormalTok{alter.attr}\FloatTok{.28} \SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{alter.attr}\FloatTok{.28} \SpecialCharTok{|\textgreater{}}
   \FunctionTok{tabyl}\NormalTok{(alter.nat)}
 \end{Highlighting}
 \end{Shaded}
@@ -3533,7 +3435,7 @@ This chapter covers the following topics:
 \begin{Highlighting}[]
 \CommentTok{\# The function dplyr::summarise() allows us to calculate multiple measures, name}
 \CommentTok{\# them, and put them together in a data frame.}
-\NormalTok{alter.attr}\FloatTok{.28} \SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{alter.attr}\FloatTok{.28} \SpecialCharTok{|\textgreater{}}
   \FunctionTok{summarise}\NormalTok{(}
     \AttributeTok{mean.clo =} \FunctionTok{mean}\NormalTok{(alter.clo, }\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{), }
     \AttributeTok{prop.fem =} \FunctionTok{mean}\NormalTok{(alter.sex}\SpecialCharTok{==}\StringTok{"Female"}\NormalTok{), }
@@ -3561,21 +3463,21 @@ This chapter covers the following topics:
 
 \begin{verbatim}
 ## # A tibble: 4,590 x 12
-##    alter_ID ego_ID alter_num alter.sex alter.a~1 alter~2 alter~3 alter~4 alter~5
-##       <dbl>  <dbl>     <dbl> <fct>     <fct>     <fct>   <fct>   <fct>     <dbl>
-##  1     2801     28         1 Female    51-60     Close ~ Sri La~ Sri La~      NA
-##  2     2802     28         2 Male      51-60     Other ~ Sri La~ Sri La~       3
-##  3     2803     28         3 Male      51-60     Close ~ Sri La~ Sri La~      NA
-##  4     2804     28         4 Male      60+       Close ~ Sri La~ Sri La~      NA
-##  5     2805     28         5 Female    41-50     Close ~ Sri La~ Sri La~      NA
-##  6     2806     28         6 Female    60+       Close ~ Sri La~ Sri La~      NA
-##  7     2807     28         7 Male      41-50     Other ~ Sri La~ Sri La~       5
-##  8     2808     28         8 Female    36-40     Other ~ Sri La~ Sri La~       4
-##  9     2809     28         9 Female    51-60     Other ~ Sri La~ Sri La~       5
-## 10     2810     28        10 Male      60+       Other ~ Sri La~ Sri La~       5
-## # ... with 4,580 more rows, 3 more variables: alter.loan <fct>,
-## #   alter.fam <fct>, alter.age <dbl>, and abbreviated variable names
-## #   1: alter.age.cat, 2: alter.rel, 3: alter.nat, 4: alter.res, 5: alter.clo
+##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
+##       <dbl>  <dbl>     <dbl> <fct>     <fct>         <fct>        <fct>    
+##  1     2801     28         1 Female    51-60         Close family Sri Lanka
+##  2     2802     28         2 Male      51-60         Other family Sri Lanka
+##  3     2803     28         3 Male      51-60         Close family Sri Lanka
+##  4     2804     28         4 Male      60+           Close family Sri Lanka
+##  5     2805     28         5 Female    41-50         Close family Sri Lanka
+##  6     2806     28         6 Female    60+           Close family Sri Lanka
+##  7     2807     28         7 Male      41-50         Other family Sri Lanka
+##  8     2808     28         8 Female    36-40         Other family Sri Lanka
+##  9     2809     28         9 Female    51-60         Other family Sri Lanka
+## 10     2810     28        10 Male      60+           Other family Sri Lanka
+## # i 4,580 more rows
+## # i 5 more variables: alter.res <fct>, alter.clo <dbl>, alter.loan <fct>,
+## #   alter.fam <fct>, alter.age <dbl>
 \end{verbatim}
 
 \begin{Shaded}
@@ -3584,8 +3486,8 @@ This chapter covers the following topics:
 \CommentTok{\# measures we calculate on that data frame via summarise (means, proportions,}
 \CommentTok{\# etc.) are calculated by the groups given by that factor (here, for each ego}
 \CommentTok{\# ID).}
-\NormalTok{alter.attr.all }\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{group\_by}\NormalTok{(ego\_ID) }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{alter.attr.all }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{group\_by}\NormalTok{(ego\_ID) }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{summarise}\NormalTok{(}
     \AttributeTok{mean.clo =} \FunctionTok{mean}\NormalTok{(alter.clo, }\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{), }
     \AttributeTok{prop.fem =} \FunctionTok{mean}\NormalTok{(alter.sex}\SpecialCharTok{==}\StringTok{"Female"}\NormalTok{), }
@@ -3610,7 +3512,7 @@ This chapter covers the following topics:
 ##  8     46     3.48   0.4               33             7             5
 ##  9     47     4.05   0.267             45             0             0
 ## 10     48     4.07   0.311             39             4             2
-## # ... with 92 more rows
+## # i 92 more rows
 \end{verbatim}
 
 \begin{Shaded}
@@ -3626,8 +3528,8 @@ This chapter covers the following topics:
 \CommentTok{\# Mean closeness of alters who are "Friends".}
 
 \CommentTok{\# Check out the relevant vector.}
-\NormalTok{alter.attr}\FloatTok{.28} \SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{filter}\NormalTok{(alter.rel}\SpecialCharTok{==}\StringTok{"Friends"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{alter.attr}\FloatTok{.28} \SpecialCharTok{|\textgreater{}}
+  \FunctionTok{filter}\NormalTok{(alter.rel}\SpecialCharTok{==}\StringTok{"Friends"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
   \FunctionTok{pull}\NormalTok{(alter.clo)}
 \end{Highlighting}
 \end{Shaded}
@@ -3639,10 +3541,10 @@ This chapter covers the following topics:
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Get its mean.}
-\NormalTok{alter.attr}\FloatTok{.28} \SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{filter}\NormalTok{(alter.rel}\SpecialCharTok{==}\StringTok{"Friends"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{pull}\NormalTok{(alter.clo) }\SpecialCharTok{\%\textgreater{}\%} 
-\NormalTok{  mean}
+\NormalTok{alter.attr}\FloatTok{.28} \SpecialCharTok{|\textgreater{}}
+  \FunctionTok{filter}\NormalTok{(alter.rel}\SpecialCharTok{==}\StringTok{"Friends"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{pull}\NormalTok{(alter.clo) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{mean}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3653,10 +3555,10 @@ This chapter covers the following topics:
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Mean closeness of alters who are "Acquaintances".}
-\NormalTok{alter.attr}\FloatTok{.28} \SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{filter}\NormalTok{(alter.rel}\SpecialCharTok{==}\StringTok{"Acquaintances"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{pull}\NormalTok{(alter.clo) }\SpecialCharTok{\%\textgreater{}\%} 
-\NormalTok{  mean}
+\NormalTok{alter.attr}\FloatTok{.28} \SpecialCharTok{|\textgreater{}}
+  \FunctionTok{filter}\NormalTok{(alter.rel}\SpecialCharTok{==}\StringTok{"Acquaintances"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{pull}\NormalTok{(alter.clo) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{mean}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3680,9 +3582,9 @@ This chapter covers the following topics:
 \CommentTok{\# Count of close family members who live in Sri Lanka vs those who live in Italy.}
 
 \CommentTok{\# In Sri Lanka.}
-\NormalTok{alter.attr}\FloatTok{.28} \SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{filter}\NormalTok{(alter.rel }\SpecialCharTok{==} \StringTok{"Close family"}\NormalTok{, alter.res }\SpecialCharTok{==} \StringTok{"Sri Lanka"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
-\NormalTok{  count}
+\NormalTok{alter.attr}\FloatTok{.28} \SpecialCharTok{|\textgreater{}}
+  \FunctionTok{filter}\NormalTok{(alter.rel }\SpecialCharTok{==} \StringTok{"Close family"}\NormalTok{, alter.res }\SpecialCharTok{==} \StringTok{"Sri Lanka"}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{count}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3718,7 +3620,7 @@ This chapter covers the following topics:
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Again, we can put these measures together into a data frame row with dplyr.}
-\NormalTok{alter.attr}\FloatTok{.28} \SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{alter.attr}\FloatTok{.28} \SpecialCharTok{|\textgreater{}}
   \FunctionTok{summarise}\NormalTok{(}
     \AttributeTok{mean.clo.fr =} \FunctionTok{mean}\NormalTok{(alter.clo[alter.rel}\SpecialCharTok{==}\StringTok{"Friends"}\NormalTok{]), }
     \AttributeTok{mean.clo.acq =} \FunctionTok{mean}\NormalTok{(alter.clo[alter.rel}\SpecialCharTok{==}\StringTok{"Acquaintances"}\NormalTok{]),}
@@ -3747,23 +3649,23 @@ This chapter covers the following topics:
 
 \begin{verbatim}
 ## # A tibble: 45 x 20
-##    alter_ID ego_ID alter_num alter.sex alter.a~1 alter~2 alter~3 alter~4 alter~5
-##       <dbl>  <dbl>     <dbl> <fct>     <fct>     <fct>   <fct>   <fct>     <dbl>
-##  1     2801     28         1 Female    51-60     Close ~ Sri La~ Sri La~      NA
-##  2     2802     28         2 Male      51-60     Other ~ Sri La~ Sri La~       3
-##  3     2803     28         3 Male      51-60     Close ~ Sri La~ Sri La~      NA
-##  4     2804     28         4 Male      60+       Close ~ Sri La~ Sri La~      NA
-##  5     2805     28         5 Female    41-50     Close ~ Sri La~ Sri La~      NA
-##  6     2806     28         6 Female    60+       Close ~ Sri La~ Sri La~      NA
-##  7     2807     28         7 Male      41-50     Other ~ Sri La~ Sri La~       5
-##  8     2808     28         8 Female    36-40     Other ~ Sri La~ Sri La~       4
-##  9     2809     28         9 Female    51-60     Other ~ Sri La~ Sri La~       5
-## 10     2810     28        10 Male      60+       Other ~ Sri La~ Sri La~       5
-## # ... with 35 more rows, 11 more variables: alter.loan <fct>, alter.fam <fct>,
-## #   alter.age <dbl>, ego.sex <fct>, ego.age <dbl>, ego.arr <dbl>,
-## #   ego.edu <fct>, ego.inc <dbl>, empl <dbl>, ego.empl.bin <fct>,
-## #   ego.age.cat <fct>, and abbreviated variable names 1: alter.age.cat,
-## #   2: alter.rel, 3: alter.nat, 4: alter.res, 5: alter.clo
+##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
+##       <dbl>  <dbl>     <dbl> <fct>     <fct>         <fct>        <fct>    
+##  1     2801     28         1 Female    51-60         Close family Sri Lanka
+##  2     2802     28         2 Male      51-60         Other family Sri Lanka
+##  3     2803     28         3 Male      51-60         Close family Sri Lanka
+##  4     2804     28         4 Male      60+           Close family Sri Lanka
+##  5     2805     28         5 Female    41-50         Close family Sri Lanka
+##  6     2806     28         6 Female    60+           Close family Sri Lanka
+##  7     2807     28         7 Male      41-50         Other family Sri Lanka
+##  8     2808     28         8 Female    36-40         Other family Sri Lanka
+##  9     2809     28         9 Female    51-60         Other family Sri Lanka
+## 10     2810     28        10 Male      60+           Other family Sri Lanka
+## # i 35 more rows
+## # i 13 more variables: alter.res <fct>, alter.clo <dbl>, alter.loan <fct>,
+## #   alter.fam <fct>, alter.age <dbl>, ego.sex <fct>, ego.age <dbl>,
+## #   ego.arr <dbl>, ego.edu <fct>, ego.inc <dbl>, empl <dbl>,
+## #   ego.empl.bin <fct>, ego.age.cat <fct>
 \end{verbatim}
 
 \begin{Shaded}
@@ -3775,7 +3677,7 @@ This chapter covers the following topics:
 \CommentTok{\# Example: Proportion of alters of the same gender as ego.}
 
 \CommentTok{\# View the relevant data}
-\NormalTok{data}\FloatTok{.28} \SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{data}\FloatTok{.28} \SpecialCharTok{|\textgreater{}} 
 \NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(alter\_ID, ego\_ID, alter.sex, ego.sex)}
 \end{Highlighting}
 \end{Shaded}
@@ -3794,7 +3696,7 @@ This chapter covers the following topics:
 ##  8     2808     28 Female    Male   
 ##  9     2809     28 Female    Male   
 ## 10     2810     28 Male      Male   
-## # ... with 35 more rows
+## # i 35 more rows
 \end{verbatim}
 
 \begin{Shaded}
@@ -3838,7 +3740,7 @@ This chapter covers the following topics:
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Again, we can put these measures together into a data frame row with dplyr.}
-\NormalTok{data}\FloatTok{.28} \SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{data}\FloatTok{.28} \SpecialCharTok{|\textgreater{}}
   \FunctionTok{summarise}\NormalTok{(}
     \AttributeTok{prop.same.gender =} \FunctionTok{mean}\NormalTok{(alter.sex }\SpecialCharTok{==}\NormalTok{ ego.sex), }
     \AttributeTok{count.same.age =} \FunctionTok{sum}\NormalTok{(alter.age.cat }\SpecialCharTok{==}\NormalTok{ ego.age.cat)}
@@ -3942,7 +3844,7 @@ This chapter covers the following topics:
 \CommentTok{\# frame including all alters, without grouping it by ego ID.}
 
 \CommentTok{\# * Mean alter closeness:}
-\NormalTok{alter.attr.all }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{alter.attr.all }\SpecialCharTok{|\textgreater{}}
   \FunctionTok{summarise}\NormalTok{(}\AttributeTok{mean.clo =} \FunctionTok{mean}\NormalTok{(alter.clo, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
@@ -3958,7 +3860,7 @@ This chapter covers the following topics:
 \begin{Highlighting}[]
 \CommentTok{\# * N of distinct values in the alter nationality variable (i.e., number of }
 \CommentTok{\# distinct nationalities of alters):}
-\NormalTok{alter.attr.all }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{alter.attr.all }\SpecialCharTok{|\textgreater{}}
   \FunctionTok{summarise}\NormalTok{(}\AttributeTok{N.nat =} \FunctionTok{n\_distinct}\NormalTok{(alter.nat))}
 \end{Highlighting}
 \end{Shaded}
@@ -3975,7 +3877,7 @@ This chapter covers the following topics:
 \CommentTok{\# * N of distinct values in the alter nationality, country of residence, and}
 \CommentTok{\# age bracket variables. In this case, we apply the same summarizing function}
 \CommentTok{\# to multiple variables (not just one), to be selected via across().}
-\NormalTok{alter.attr.all }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{alter.attr.all }\SpecialCharTok{|\textgreater{}}
   \FunctionTok{summarise}\NormalTok{(}
     \FunctionTok{across}\NormalTok{(}\FunctionTok{c}\NormalTok{(alter.nat, alter.res, alter.age.cat), }
 \NormalTok{           n\_distinct)}
@@ -4000,9 +3902,9 @@ This chapter covers the following topics:
 \CommentTok{\# calculated for each ego:}
 
 \CommentTok{\# * Mean alter closeness:}
-\NormalTok{alter.attr.all }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{alter.attr.all }\SpecialCharTok{|\textgreater{}}
   \CommentTok{\# Group by ego ID}
-  \FunctionTok{group\_by}\NormalTok{(ego\_ID) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(ego\_ID) }\SpecialCharTok{|\textgreater{}}
   \CommentTok{\# Calculate summary measure}
   \FunctionTok{summarise}\NormalTok{(}\AttributeTok{mean.clo =} \FunctionTok{mean}\NormalTok{(alter.clo, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{))}
 \end{Highlighting}
@@ -4022,15 +3924,15 @@ This chapter covers the following topics:
 ##  8     46     3.48
 ##  9     47     4.05
 ## 10     48     4.07
-## # ... with 92 more rows
+## # i 92 more rows
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# * N of distinct values in the alter nationality variable (i.e., number of }
 \CommentTok{\# distinct nationalities of alters):}
-\NormalTok{alter.attr.all }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{group\_by}\NormalTok{(ego\_ID) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{alter.attr.all }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{group\_by}\NormalTok{(ego\_ID) }\SpecialCharTok{|\textgreater{}}
   \FunctionTok{summarise}\NormalTok{(}\AttributeTok{N.nat =} \FunctionTok{n\_distinct}\NormalTok{(alter.nat))}
 \end{Highlighting}
 \end{Shaded}
@@ -4049,7 +3951,7 @@ This chapter covers the following topics:
 ##  8     46     3
 ##  9     47     1
 ## 10     48     3
-## # ... with 92 more rows
+## # i 92 more rows
 \end{verbatim}
 
 \begin{Shaded}
@@ -4061,7 +3963,7 @@ This chapter covers the following topics:
 
 \CommentTok{\# * N of distinct values in the alter nationality, country of residence, and}
 \CommentTok{\# age bracket variables:}
-\NormalTok{alter.attr.all }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{alter.attr.all }\SpecialCharTok{|\textgreater{}}
   \FunctionTok{summarise}\NormalTok{(}
     \FunctionTok{across}\NormalTok{(}\FunctionTok{c}\NormalTok{(alter.nat, alter.res, alter.age.cat), }
 \NormalTok{           n\_distinct)}
@@ -4083,7 +3985,7 @@ This chapter covers the following topics:
 ##  8     46         3         3             7
 ##  9     47         1         3             6
 ## 10     48         3         3             7
-## # ... with 92 more rows
+## # i 92 more rows
 \end{verbatim}
 
 \begin{Shaded}
@@ -4101,21 +4003,21 @@ This chapter covers the following topics:
 
 \begin{verbatim}
 ## # A tibble: 45 x 12
-##    alter_ID ego_ID alter_num alter.sex alter.a~1 alter~2 alter~3 alter~4 alter~5
-##       <dbl>  <dbl>     <dbl> <fct>     <fct>     <fct>   <fct>   <fct>     <dbl>
-##  1     2801     28         1 Female    51-60     Close ~ Sri La~ Sri La~      NA
-##  2     2802     28         2 Male      51-60     Other ~ Sri La~ Sri La~       3
-##  3     2803     28         3 Male      51-60     Close ~ Sri La~ Sri La~      NA
-##  4     2804     28         4 Male      60+       Close ~ Sri La~ Sri La~      NA
-##  5     2805     28         5 Female    41-50     Close ~ Sri La~ Sri La~      NA
-##  6     2806     28         6 Female    60+       Close ~ Sri La~ Sri La~      NA
-##  7     2807     28         7 Male      41-50     Other ~ Sri La~ Sri La~       5
-##  8     2808     28         8 Female    36-40     Other ~ Sri La~ Sri La~       4
-##  9     2809     28         9 Female    51-60     Other ~ Sri La~ Sri La~       5
-## 10     2810     28        10 Male      60+       Other ~ Sri La~ Sri La~       5
-## # ... with 35 more rows, 3 more variables: alter.loan <fct>, alter.fam <fct>,
-## #   alter.age <dbl>, and abbreviated variable names 1: alter.age.cat,
-## #   2: alter.rel, 3: alter.nat, 4: alter.res, 5: alter.clo
+##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
+##       <dbl>  <dbl>     <dbl> <fct>     <fct>         <fct>        <fct>    
+##  1     2801     28         1 Female    51-60         Close family Sri Lanka
+##  2     2802     28         2 Male      51-60         Other family Sri Lanka
+##  3     2803     28         3 Male      51-60         Close family Sri Lanka
+##  4     2804     28         4 Male      60+           Close family Sri Lanka
+##  5     2805     28         5 Female    41-50         Close family Sri Lanka
+##  6     2806     28         6 Female    60+           Close family Sri Lanka
+##  7     2807     28         7 Male      41-50         Other family Sri Lanka
+##  8     2808     28         8 Female    36-40         Other family Sri Lanka
+##  9     2809     28         9 Female    51-60         Other family Sri Lanka
+## 10     2810     28        10 Male      60+           Other family Sri Lanka
+## # i 35 more rows
+## # i 5 more variables: alter.res <fct>, alter.clo <dbl>, alter.loan <fct>,
+## #   alter.fam <fct>, alter.age <dbl>
 \end{verbatim}
 
 \begin{Shaded}
@@ -4189,7 +4091,7 @@ This chapter covers the following topics:
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# With dplyr we can run the same operations for every ego}
-\NormalTok{N.rel }\OtherTok{\textless{}{-}}\NormalTok{ alter.attr.all }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{N.rel }\OtherTok{\textless{}{-}}\NormalTok{ alter.attr.all }\SpecialCharTok{|\textgreater{}}
   \FunctionTok{summarise}\NormalTok{(}\AttributeTok{N.clo.fam =} \FunctionTok{sum}\NormalTok{(alter.rel}\SpecialCharTok{==}\StringTok{"Close family"}\NormalTok{),}
             \AttributeTok{N.oth.fam =} \FunctionTok{sum}\NormalTok{(alter.rel}\SpecialCharTok{==}\StringTok{"Other family"}\NormalTok{),}
             \AttributeTok{N.fri =} \FunctionTok{sum}\NormalTok{(alter.rel}\SpecialCharTok{==}\StringTok{"Friends"}\NormalTok{))}
@@ -4211,7 +4113,7 @@ This chapter covers the following topics:
 ##  8     46         3        14    12
 ##  9     47         1        20    18
 ## 10     48         4         6    26
-## # ... with 92 more rows
+## # i 92 more rows
 \end{verbatim}
 
 \begin{Shaded}
@@ -4220,27 +4122,27 @@ This chapter covers the following topics:
 \CommentTok{\# join them with other ego{-}level data (level{-}2 join).}
 
 \CommentTok{\# Merge with summary variables.}
-\NormalTok{ego.df }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{ego.df }\SpecialCharTok{|\textgreater{}}
   \FunctionTok{left\_join}\NormalTok{(N.rel, }\AttributeTok{by=} \StringTok{"ego\_ID"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ## # A tibble: 102 x 12
-##    ego_ID ego.sex ego.age ego.arr ego.edu  ego.inc  empl ego.e~1 ego.a~2 N.clo~3
-##     <dbl> <fct>     <dbl>   <dbl> <fct>      <dbl> <dbl> <fct>   <fct>     <int>
-##  1     28 Male         61    2008 Seconda~     350     3 Yes     60+           5
-##  2     29 Male         38    2000 Primary      900     4 Yes     36-40         5
-##  3     33 Male         30    2010 Primary      200     3 Yes     26-30         3
-##  4     35 Male         25    2009 Seconda~    1000     3 Yes     18-25         4
-##  5     39 Male         29    2007 Primary        0     1 No      26-30         4
-##  6     40 Male         56    2008 Seconda~     950     4 Yes     51-60         5
-##  7     45 Male         52    1975 Primary     1600     3 Yes     51-60         3
-##  8     46 Male         35    2002 Seconda~    1200     4 Yes     31-35         3
-##  9     47 Male         22    2010 Seconda~     700     4 Yes     18-25         1
-## 10     48 Male         51    2007 Primary      950     4 Yes     51-60         4
-## # ... with 92 more rows, 2 more variables: N.oth.fam <int>, N.fri <int>, and
-## #   abbreviated variable names 1: ego.empl.bin, 2: ego.age.cat, 3: N.clo.fam
+##    ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
+##     <dbl> <fct>     <dbl>   <dbl> <fct>     <dbl> <dbl> <fct>        <fct>      
+##  1     28 Male         61    2008 Second~     350     3 Yes          60+        
+##  2     29 Male         38    2000 Primary     900     4 Yes          36-40      
+##  3     33 Male         30    2010 Primary     200     3 Yes          26-30      
+##  4     35 Male         25    2009 Second~    1000     3 Yes          18-25      
+##  5     39 Male         29    2007 Primary       0     1 No           26-30      
+##  6     40 Male         56    2008 Second~     950     4 Yes          51-60      
+##  7     45 Male         52    1975 Primary    1600     3 Yes          51-60      
+##  8     46 Male         35    2002 Second~    1200     4 Yes          31-35      
+##  9     47 Male         22    2010 Second~     700     4 Yes          18-25      
+## 10     48 Male         51    2007 Primary     950     4 Yes          51-60      
+## # i 92 more rows
+## # i 3 more variables: N.clo.fam <int>, N.oth.fam <int>, N.fri <int>
 \end{verbatim}
 
 \begin{Shaded}
@@ -4252,7 +4154,7 @@ This chapter covers the following topics:
 \CommentTok{\# it counts the number of rows for each unique value of a variable. The}
 \CommentTok{\# number of rows for each unique value of ego\_ID in alter.attr.all is the number}
 \CommentTok{\# of alters for each ego (personal network size).}
-\NormalTok{alter.attr.all }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{alter.attr.all }\SpecialCharTok{|\textgreater{}} 
 \NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{count}\NormalTok{(ego\_ID)}
 \end{Highlighting}
 \end{Shaded}
@@ -4271,7 +4173,7 @@ This chapter covers the following topics:
 ##  8     46    45
 ##  9     47    45
 ## 10     48    45
-## # ... with 92 more rows
+## # i 92 more rows
 \end{verbatim}
 
 \begin{Shaded}
@@ -4365,12 +4267,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH e7db69e UNW- 45 259 -- 
+## IGRAPH 32a99df UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from e7db69e (vertex names):
+## + edges from 32a99df (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -4439,7 +4341,7 @@ This chapter covers the following topics:
 \CommentTok{\# Summarization of structural characteristics of the alters.}
 
 \CommentTok{\# Average alter degree.}
-\FunctionTok{degree}\NormalTok{(gr) }\SpecialCharTok{\%\textgreater{}\%}\NormalTok{ mean}
+\FunctionTok{degree}\NormalTok{(gr) }\SpecialCharTok{|\textgreater{}} \FunctionTok{mean}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4450,7 +4352,7 @@ This chapter covers the following topics:
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Max alter betweenness.}
-\FunctionTok{betweenness}\NormalTok{(gr, }\AttributeTok{weights =} \ConstantTok{NA}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}\NormalTok{ max}
+\FunctionTok{betweenness}\NormalTok{(gr, }\AttributeTok{weights =} \ConstantTok{NA}\NormalTok{) }\SpecialCharTok{|\textgreater{}} \FunctionTok{max}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4545,12 +4447,12 @@ This chapter covers the following topics:
 
 \begin{verbatim}
 ## $`28`
-## IGRAPH e7db69e UNW- 45 259 -- 
+## IGRAPH 32a99df UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from e7db69e (vertex names):
+## + edges from 32a99df (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -4559,12 +4461,12 @@ This chapter covers the following topics:
 ## + ... omitted several edges
 ## 
 ## $`29`
-## IGRAPH 9549fee UNW- 45 202 -- 
+## IGRAPH 6db62c1 UNW- 45 202 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 9549fee (vertex names):
+## + edges from 6db62c1 (vertex names):
 ##  [1] 2901--2902 2901--2904 2901--2906 2901--2907 2901--2908 2901--2909
 ##  [7] 2901--2910 2901--2911 2901--2915 2901--2916 2901--2917 2901--2918
 ## [13] 2901--2919 2901--2927 2901--2928 2901--2929 2901--2930 2901--2931
@@ -4573,12 +4475,12 @@ This chapter covers the following topics:
 ## + ... omitted several edges
 ## 
 ## $`33`
-## IGRAPH c81168f UNW- 45 207 -- 
+## IGRAPH 5331804 UNW- 45 207 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from c81168f (vertex names):
+## + edges from 5331804 (vertex names):
 ##  [1] 3301--3302 3301--3303 3301--3304 3301--3305 3301--3306 3301--3307
 ##  [7] 3301--3308 3301--3309 3301--3310 3301--3311 3301--3312 3301--3313
 ## [13] 3301--3314 3301--3315 3301--3316 3301--3317 3301--3318 3301--3319
@@ -4587,12 +4489,12 @@ This chapter covers the following topics:
 ## + ... omitted several edges
 ## 
 ## $`35`
-## IGRAPH 5b4030c UNW- 45 221 -- 
+## IGRAPH 4e7492a UNW- 45 221 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 5b4030c (vertex names):
+## + edges from 4e7492a (vertex names):
 ##  [1] 3501--3502 3501--3503 3501--3504 3501--3505 3501--3506 3501--3507
 ##  [7] 3501--3508 3501--3509 3501--3510 3501--3512 3501--3513 3501--3514
 ## [13] 3501--3516 3501--3517 3501--3522 3501--3523 3501--3524 3501--3525
@@ -4601,12 +4503,12 @@ This chapter covers the following topics:
 ## + ... omitted several edges
 ## 
 ## $`39`
-## IGRAPH 7301ed4 UNW- 45 92 -- 
+## IGRAPH ad523ff UNW- 45 92 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 7301ed4 (vertex names):
+## + edges from ad523ff (vertex names):
 ##  [1] 3901--3902 3901--3903 3901--3904 3901--3905 3901--3906 3901--3907
 ##  [7] 3901--3911 3901--3913 3901--3920 3901--3924 3901--3925 3901--3931
 ## [13] 3901--3932 3901--3933 3901--3937 3901--3938 3901--3940 3901--3941
@@ -4615,12 +4517,12 @@ This chapter covers the following topics:
 ## + ... omitted several edges
 ## 
 ## $`40`
-## IGRAPH 0159698 UNW- 45 255 -- 
+## IGRAPH 5464b4d UNW- 45 255 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 0159698 (vertex names):
+## + edges from 5464b4d (vertex names):
 ##  [1] 4001--4003 4001--4007 4001--4008 4001--4009 4001--4036 4001--4040
 ##  [7] 4001--4045 4002--4003 4002--4004 4002--4006 4002--4008 4002--4009
 ## [13] 4002--4010 4002--4011 4002--4012 4002--4013 4002--4014 4002--4015
@@ -4684,12 +4586,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 658911d UNW- 46 304 -- 
+## IGRAPH 3e551cc UNW- 46 304 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 658911d (vertex names):
+## + edges from 3e551cc (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -4723,8 +4625,8 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-##        ego 
-## 0.07344785
+## ego 
+##  NA
 \end{verbatim}
 
 \begin{Shaded}
@@ -4745,7 +4647,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 1/45 vertex, named, from e7db69e:
+## + 1/45 vertex, named, from 32a99df:
 ## [1] 2801
 \end{verbatim}
 
@@ -4778,16 +4680,16 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 5/45 vertices, named, from e7db69e:
+## + 5/45 vertices, named, from 32a99df:
 ## [1] 2801 2803 2804 2805 2806
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Get their average degree.}
-\NormalTok{gr }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{degree}\NormalTok{(}\AttributeTok{v =}\NormalTok{ clo.fam.vs) }\SpecialCharTok{\%\textgreater{}\%} 
-\NormalTok{  mean}
+\NormalTok{gr }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{degree}\NormalTok{(}\AttributeTok{v =}\NormalTok{ clo.fam.vs) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{mean}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4805,7 +4707,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 17/45 vertices, named, from e7db69e:
+## + 17/45 vertices, named, from 32a99df:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2827 2828 2829
 ## [16] 2840 2841
 \end{verbatim}
@@ -4818,7 +4720,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 88/259 edges from e7db69e (vertex names):
+## + 88/259 edges from 32a99df (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2827
 ## [13] 2801--2828 2801--2829 2801--2840 2801--2841 2802--2803 2802--2804
@@ -4835,8 +4737,8 @@ This chapter covers the following topics:
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# How many edges are there between alters who live in Sri Lanka?}
-\FunctionTok{E}\NormalTok{(gr)[alters.sl }\SpecialCharTok{\%{-}{-}\%}\NormalTok{ alters.sl] }\SpecialCharTok{\%\textgreater{}\%} 
-\NormalTok{  length}
+\FunctionTok{E}\NormalTok{(gr)[alters.sl }\SpecialCharTok{\%{-}{-}\%}\NormalTok{ alters.sl] }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{length}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4854,12 +4756,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH e1831c6 UNW- 17 88 -- 
+## IGRAPH 3ccb605 UNW- 17 88 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from e1831c6 (vertex names):
+## + edges from 3ccb605 (vertex names):
 ##  [1] 2801--2802 2801--2803 2802--2803 2801--2804 2802--2804 2803--2804
 ##  [7] 2801--2805 2802--2805 2803--2805 2804--2805 2801--2806 2802--2806
 ## [13] 2803--2806 2804--2806 2805--2806 2801--2807 2802--2807 2803--2807
@@ -4871,8 +4773,8 @@ This chapter covers the following topics:
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Get the density of this subgraph.}
-\FunctionTok{induced\_subgraph}\NormalTok{(gr, }\AttributeTok{vids =}\NormalTok{ alters.sl) }\SpecialCharTok{\%\textgreater{}\%} 
-\NormalTok{  edge\_density}
+\FunctionTok{induced\_subgraph}\NormalTok{(gr, }\AttributeTok{vids =}\NormalTok{ alters.sl) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{edge\_density}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5137,7 +5039,7 @@ This chapter covers the following topics:
 \CommentTok{\# A simple structural measure such as network density can be applied to every}
 \CommentTok{\# ego{-}network (i.e., every element of our list), and returns a scalar for each}
 \CommentTok{\# network. All the scalars can be put in a vector.}
-\NormalTok{gr.list }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{gr.list }\SpecialCharTok{|\textgreater{}}
 \NormalTok{  purrr}\SpecialCharTok{::}\FunctionTok{map\_dbl}\NormalTok{(edge\_density) }
 \end{Highlighting}
 \end{Shaded}
@@ -5180,8 +5082,8 @@ This chapter covers the following topics:
 \CommentTok{\# Note that the vector names (taken from gr.list names) are the ego IDs.}
 
 \CommentTok{\# If you want the same result as a nice data frame with ego IDs, use enframe().}
-\NormalTok{gr.list }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{map\_dbl}\NormalTok{(edge\_density) }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{gr.list }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{map\_dbl}\NormalTok{(edge\_density) }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{enframe}\NormalTok{(}\AttributeTok{name =} \StringTok{"ego\_ID"}\NormalTok{, }\AttributeTok{value =} \StringTok{"density"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -5200,15 +5102,15 @@ This chapter covers the following topics:
 ##  8 46      0.270 
 ##  9 47      0.537 
 ## 10 48      0.203 
-## # ... with 92 more rows
+## # i 92 more rows
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Same thing, with number of components in each ego network. Note the \textasciitilde{} .x }
 \CommentTok{\# syntax}
-\NormalTok{gr.list }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{map\_dbl}\NormalTok{(}\SpecialCharTok{\textasciitilde{}} \FunctionTok{components}\NormalTok{(.x)}\SpecialCharTok{$}\NormalTok{no) }\SpecialCharTok{\%\textgreater{}\%} 
+\NormalTok{gr.list }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{map\_dbl}\NormalTok{(}\SpecialCharTok{\textasciitilde{}} \FunctionTok{components}\NormalTok{(.x)}\SpecialCharTok{$}\NormalTok{no) }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{enframe}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
@@ -5227,7 +5129,7 @@ This chapter covers the following topics:
 ##  8 46        2
 ##  9 47        1
 ## 10 48        1
-## # ... with 92 more rows
+## # i 92 more rows
 \end{verbatim}
 
 \begin{Shaded}
@@ -5259,7 +5161,7 @@ This chapter covers the following topics:
 \CommentTok{\# Now we can do the same thing but for all ego{-}networks at once. The result is a }
 \CommentTok{\# single ego{-}level data frame, with one row for each ego. }
 \CommentTok{\# Note the .id argument in map\_dfr().}
-\NormalTok{gr.list }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{gr.list }\SpecialCharTok{|\textgreater{}}
   \FunctionTok{map\_dfr}\NormalTok{(}\SpecialCharTok{\textasciitilde{}} \FunctionTok{tibble}\NormalTok{(}\AttributeTok{dens=} \FunctionTok{edge\_density}\NormalTok{(.x),}
                    \AttributeTok{mean.deg=} \FunctionTok{mean}\NormalTok{(igraph}\SpecialCharTok{::}\FunctionTok{degree}\NormalTok{(.x)),}
                    \AttributeTok{mean.bet=} \FunctionTok{mean}\NormalTok{(igraph}\SpecialCharTok{::}\FunctionTok{betweenness}\NormalTok{(.x, }\AttributeTok{weights =} \ConstantTok{NA}\NormalTok{)),}
@@ -5282,7 +5184,7 @@ This chapter covers the following topics:
 ##  8 46     0.270     11.9     19.6      0.503
 ##  9 47     0.537     23.6     10.5      0.372
 ## 10 48     0.203      8.93    33.8      0.365
-## # ... with 92 more rows
+## # i 92 more rows
 \end{verbatim}
 
 \begin{Shaded}
@@ -5378,23 +5280,23 @@ General resources on multilevel models:
 
 \begin{verbatim}
 ## # A tibble: 4,590 x 20
-##    alter_ID ego_ID alter_num alter.sex alter.a~1 alter~2 alter~3 alter~4 alter~5
-##       <dbl>  <dbl>     <dbl> <fct>     <fct>     <fct>   <fct>   <fct>     <dbl>
-##  1     2801     28         1 Female    51-60     Close ~ Sri La~ Sri La~      NA
-##  2     2802     28         2 Male      51-60     Other ~ Sri La~ Sri La~       3
-##  3     2803     28         3 Male      51-60     Close ~ Sri La~ Sri La~      NA
-##  4     2804     28         4 Male      60+       Close ~ Sri La~ Sri La~      NA
-##  5     2805     28         5 Female    41-50     Close ~ Sri La~ Sri La~      NA
-##  6     2806     28         6 Female    60+       Close ~ Sri La~ Sri La~      NA
-##  7     2807     28         7 Male      41-50     Other ~ Sri La~ Sri La~       5
-##  8     2808     28         8 Female    36-40     Other ~ Sri La~ Sri La~       4
-##  9     2809     28         9 Female    51-60     Other ~ Sri La~ Sri La~       5
-## 10     2810     28        10 Male      60+       Other ~ Sri La~ Sri La~       5
-## # ... with 4,580 more rows, 11 more variables: alter.loan <fct>,
+##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
+##       <dbl>  <dbl>     <dbl> <fct>     <fct>         <fct>        <fct>    
+##  1     2801     28         1 Female    51-60         Close family Sri Lanka
+##  2     2802     28         2 Male      51-60         Other family Sri Lanka
+##  3     2803     28         3 Male      51-60         Close family Sri Lanka
+##  4     2804     28         4 Male      60+           Close family Sri Lanka
+##  5     2805     28         5 Female    41-50         Close family Sri Lanka
+##  6     2806     28         6 Female    60+           Close family Sri Lanka
+##  7     2807     28         7 Male      41-50         Other family Sri Lanka
+##  8     2808     28         8 Female    36-40         Other family Sri Lanka
+##  9     2809     28         9 Female    51-60         Other family Sri Lanka
+## 10     2810     28        10 Male      60+           Other family Sri Lanka
+## # i 4,580 more rows
+## # i 13 more variables: alter.res <fct>, alter.clo <dbl>, alter.loan <fct>,
 ## #   alter.fam <fct>, alter.age <dbl>, ego.sex <fct>, ego.age <dbl>,
 ## #   ego.arr <dbl>, ego.edu <fct>, ego.inc <dbl>, empl <dbl>,
-## #   ego.empl.bin <fct>, ego.age.cat <fct>, and abbreviated variable names
-## #   1: alter.age.cat, 2: alter.rel, 3: alter.nat, 4: alter.res, 5: alter.clo
+## #   ego.empl.bin <fct>, ego.age.cat <fct>
 \end{verbatim}
 
 \begin{Shaded}
@@ -5406,7 +5308,7 @@ General resources on multilevel models:
 \CommentTok{\# {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} }
 
 \CommentTok{\# (TRUE if alter and ego are in the same age bracket)}
-\NormalTok{model.data }\SpecialCharTok{\%\textless{}\textgreater{}\%}
+\NormalTok{model.data }\OtherTok{\textless{}{-}}\NormalTok{ model.data }\SpecialCharTok{|\textgreater{}}  
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{alter.same.age =}\NormalTok{ (alter.age.cat}\SpecialCharTok{==}\NormalTok{ego.age.cat))  }
 
 \CommentTok{\# See result}
@@ -5424,7 +5326,7 @@ General resources on multilevel models:
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Recode: TRUE = Yes, FALSE = No}
-\NormalTok{model.data }\SpecialCharTok{\%\textless{}\textgreater{}\%} 
+\NormalTok{model.data }\OtherTok{\textless{}{-}}\NormalTok{ model.data }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{alter.same.age =} \FunctionTok{as.character}\NormalTok{(alter.same.age),}
          \AttributeTok{alter.same.age =} \FunctionTok{fct\_recode}\NormalTok{(alter.same.age,}
                                      \AttributeTok{Yes =} \StringTok{"TRUE"}\NormalTok{, }\AttributeTok{No =} \StringTok{"FALSE"}\NormalTok{))}
@@ -5447,7 +5349,7 @@ General resources on multilevel models:
 \CommentTok{\# {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} }
 
 \CommentTok{\# This is done for easier interpretation of model coefficients}
-\NormalTok{model.data }\SpecialCharTok{\%\textless{}\textgreater{}\%}
+\NormalTok{model.data }\OtherTok{\textless{}{-}}\NormalTok{ model.data }\SpecialCharTok{|\textgreater{}} 
   \CommentTok{\# Ego age centered around its mean and scaled by 5 (1 unit = 5 years)}
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{ego.age.cen =} \FunctionTok{scale}\NormalTok{(ego.age, }\AttributeTok{scale=} \DecValTok{5}\NormalTok{),}
          \CommentTok{\# Alter age category centered around its mean}
@@ -5456,13 +5358,13 @@ General resources on multilevel models:
 \CommentTok{\# Count of family members in ego{-}network}
 \CommentTok{\# {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} {-} }
 
-\NormalTok{model.data }\SpecialCharTok{\%\textless{}\textgreater{}\%}
-  \FunctionTok{group\_by}\NormalTok{(ego\_ID) }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{net.count.fam =} \FunctionTok{sum}\NormalTok{(alter.fam}\SpecialCharTok{==}\StringTok{"Yes"}\NormalTok{, }\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{model.data }\OtherTok{\textless{}{-}}\NormalTok{ model.data }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{group\_by}\NormalTok{(ego\_ID) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{net.count.fam =} \FunctionTok{sum}\NormalTok{(alter.fam}\SpecialCharTok{==}\StringTok{"Yes"}\NormalTok{, }\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{)) }\SpecialCharTok{|\textgreater{}}
   \FunctionTok{ungroup}\NormalTok{()}
 
 \CommentTok{\# Center and rescale by 5 (+1 unit = 5 more family members in ego{-}network)}
-\NormalTok{model.data }\SpecialCharTok{\%\textless{}\textgreater{}\%}
+\NormalTok{model.data }\OtherTok{\textless{}{-}}\NormalTok{ model.data }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{net.count.fam.cen =} \FunctionTok{scale}\NormalTok{(net.count.fam, }\AttributeTok{scale=}\DecValTok{5}\NormalTok{)) }
 \end{Highlighting}
 \end{Shaded}
@@ -5498,7 +5400,7 @@ General resources on multilevel models:
 ## 
 ## Exponentiated Fixed Effects and Confidence Bounds:
 ##             Estimate     2.5 %   97.5 %
-## (Intercept) 1.055234 0.8740869 1.273923
+## (Intercept) 1.055234 0.8740859 1.273925
 ## 
 ## Estimates of Random Effects (Covariance Components):
 ##  Groups Name        Std.Dev.
@@ -5567,10 +5469,10 @@ General resources on multilevel models:
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Exponentiated Fixed Effects and Confidence Bounds:
-##                    Estimate     2.5 %   97.5 %
-## (Intercept)       0.8060913 0.6560167 0.990498
-## alter.famYes      2.7524141 2.2945208 3.301684
-## alter.same.ageYes 1.2261126 1.0491859 1.432875
+##                   Estimate     2.5 %    97.5 %
+## (Intercept)       0.806089 0.6560166 0.9904925
+## alter.famYes      2.752416 2.2945237 3.3016850
+## alter.same.ageYes 1.226113 1.0491868 1.4328735
 ## 
 ## Estimates of Random Effects (Covariance Components):
 ##  Groups Name        Std.Dev.
@@ -5609,7 +5511,7 @@ General resources on multilevel models:
 ## 
 ## -- Variable type: numeric ------------------------------------------------------
 ##   skim_variable n_missing complete_rate     mean   sd    p0   p25     p50  p75
-## 1 V1                   45         0.990 3.00e-16 2.14 -3.85 -1.85 -0.0515 1.95
+## 1 V1                   45         0.990 1.09e-15 2.14 -3.85 -1.85 -0.0515 1.95
 ##   p100 hist 
 ## 1 3.95 ▃▇▅▆▅
 \end{verbatim}
@@ -5659,25 +5561,25 @@ General resources on multilevel models:
 ## 
 ## Estimates of Fixed Effects:
 ##                   Estimate Std. Error z value Pr(>|z|)    
-## (Intercept)       -0.61436    0.22533  -2.726  0.00640 ** 
+## (Intercept)       -0.61436    0.22536  -2.726  0.00641 ** 
 ## alter.famYes       1.00698    0.09285  10.845  < 2e-16 ***
-## alter.same.ageYes  0.19790    0.07950   2.489  0.01280 *  
-## ego.age.cen       -0.01306    0.04487  -0.291  0.77100    
-## ego.empl.binYes    0.07832    0.24560   0.319  0.74982    
-## ego.eduSecondary   0.49402    0.20962   2.357  0.01843 *  
-## ego.eduUniversity  0.86478    0.29945   2.888  0.00388 ** 
+## alter.same.ageYes  0.19790    0.07950   2.489  0.01281 *  
+## ego.age.cen       -0.01306    0.04487  -0.291  0.77099    
+## ego.empl.binYes    0.07830    0.24563   0.319  0.74991    
+## ego.eduSecondary   0.49402    0.20962   2.357  0.01844 *  
+## ego.eduUniversity  0.86482    0.29947   2.888  0.00388 ** 
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Exponentiated Fixed Effects and Confidence Bounds:
 ##                    Estimate     2.5 %    97.5 %
-## (Intercept)       0.5409853 0.3478433 0.8413706
-## alter.famYes      2.7373105 2.2818716 3.2836504
-## alter.same.ageYes 1.2188393 1.0429744 1.4243583
-## ego.age.cen       0.9870236 0.9039218 1.0777652
-## ego.empl.binYes   1.0814648 0.6682807 1.7501120
-## ego.eduSecondary  1.6388884 1.0867367 2.4715784
-## ego.eduUniversity 2.3744849 1.3203030 4.2703671
+## (Intercept)       0.5409892 0.3478234 0.8414306
+## alter.famYes      2.7373325 2.2818749 3.2836986
+## alter.same.ageYes 1.2188387 1.0429695 1.4243637
+## ego.age.cen       0.9870230 0.9039204 1.0777658
+## ego.empl.binYes   1.0814450 0.6682212 1.7502037
+## ego.eduSecondary  1.6388905 1.0867238 2.4716141
+## ego.eduUniversity 2.3745730 1.3202994 4.2706956
 ## 
 ## Estimates of Random Effects (Covariance Components):
 ##  Groups Name        Std.Dev.
@@ -5726,8 +5628,8 @@ General resources on multilevel models:
 ## Group variables            None  
 ## 
 ## -- Variable type: numeric ------------------------------------------------------
-##   skim_variable n_missing complete_rate      mean   sd    p0   p25    p50   p75
-## 1 V1                    8         0.998 -3.65e-16 1.64 -3.13 -1.13 -0.126 0.874
+##   skim_variable n_missing complete_rate     mean   sd    p0   p25    p50   p75
+## 1 V1                    8         0.998 1.95e-15 1.64 -3.13 -1.13 -0.126 0.874
 ##   p100 hist 
 ## 1 2.87 ▆▅▆▇▆
 \end{verbatim}
@@ -5753,28 +5655,28 @@ General resources on multilevel models:
 ## 
 ## Estimates of Fixed Effects:
 ##                   Estimate Std. Error z value Pr(>|z|)    
-## (Intercept)       -0.79887    0.23621  -3.382 0.000719 ***
+## (Intercept)       -0.79887    0.23618  -3.383 0.000718 ***
 ## alter.famYes       1.04455    0.09450  11.053  < 2e-16 ***
-## alter.same.ageYes  0.18047    0.07984   2.261 0.023788 *  
+## alter.same.ageYes  0.18047    0.07984   2.261 0.023786 *  
 ## ego.age.cen       -0.02345    0.04544  -0.516 0.605772    
-## ego.empl.binYes    0.06895    0.24631   0.280 0.779516    
-## ego.eduSecondary   0.49039    0.21009   2.334 0.019585 *  
-## ego.eduUniversity  0.87968    0.30015   2.931 0.003381 ** 
-## alter.sexMale      0.25266    0.08596   2.939 0.003290 ** 
-## alter.age.cat.cen  0.03834    0.02475   1.549 0.121299    
+## ego.empl.binYes    0.06895    0.24628   0.280 0.779486    
+## ego.eduSecondary   0.49039    0.21008   2.334 0.019578 *  
+## ego.eduUniversity  0.87968    0.30013   2.931 0.003379 ** 
+## alter.sexMale      0.25266    0.08596   2.939 0.003289 ** 
+## alter.age.cat.cen  0.03834    0.02475   1.549 0.121300    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Exponentiated Fixed Effects and Confidence Bounds:
 ##                    Estimate     2.5 %    97.5 %
-## (Intercept)       0.4498365 0.2831345 0.7146883
-## alter.famYes      2.8421300 2.3615720 3.4204771
-## alter.same.ageYes 1.1977844 1.0242872 1.4006692
-## ego.age.cen       0.9768214 0.8935895 1.0678057
-## ego.empl.binYes   1.0713874 0.6611311 1.7362229
-## ego.eduSecondary  1.6329480 1.0817965 2.4648991
-## ego.eduUniversity 2.4101365 1.3382884 4.3404380
-## alter.sexMale     1.2874404 1.0878229 1.5236881
+## (Intercept)       0.4498365 0.2831526 0.7146425
+## alter.famYes      2.8421300 2.3615731 3.4204755
+## alter.same.ageYes 1.1977844 1.0242887 1.4006672
+## ego.age.cen       0.9768214 0.8935895 1.0678058
+## ego.empl.binYes   1.0713874 0.6611755 1.7361061
+## ego.eduSecondary  1.6329480 1.0818205 2.4648443
+## ego.eduUniversity 2.4101365 1.3383500 4.3402381
+## alter.sexMale     1.2874404 1.0878274 1.5236817
 ## alter.age.cat.cen 1.0390877 0.9898894 1.0907312
 ## 
 ## Estimates of Random Effects (Covariance Components):
@@ -5813,7 +5715,7 @@ General resources on multilevel models:
 ## 
 ## -- Variable type: numeric ------------------------------------------------------
 ##   skim_variable n_missing complete_rate     mean   sd    p0    p25    p50   p75
-## 1 V1                    0             1 7.24e-17 1.02 -1.72 -0.722 -0.122 0.478
+## 1 V1                    0             1 2.30e-16 1.02 -1.72 -0.722 -0.122 0.478
 ##   p100 hist 
 ## 1 2.88 ▃▇▅▂▁
 \end{verbatim}
@@ -5840,35 +5742,35 @@ General resources on multilevel models:
 ## 
 ## Estimates of Fixed Effects:
 ##                   Estimate Std. Error z value Pr(>|z|)    
-## (Intercept)       -0.85008    0.23451  -3.625 0.000289 ***
+## (Intercept)       -0.85010    0.23451  -3.625 0.000289 ***
 ## alter.famYes       1.06161    0.09498  11.178  < 2e-16 ***
-## alter.same.ageYes  0.18265    0.07983   2.288 0.022144 *  
-## ego.age.cen       -0.02293    0.04473  -0.513 0.608155    
-## ego.empl.binYes    0.11922    0.24382   0.489 0.624872    
-## ego.eduSecondary   0.49633    0.20680   2.400 0.016390 *  
-## ego.eduUniversity  0.94457    0.29758   3.174 0.001503 ** 
-## alter.sexMale      0.25068    0.08596   2.916 0.003541 ** 
-## alter.age.cat.cen  0.03879    0.02474   1.568 0.116875    
-## net.count.fam.cen -0.17863    0.09517  -1.877 0.060524 .  
+## alter.same.ageYes  0.18265    0.07984   2.288 0.022143 *  
+## ego.age.cen       -0.02294    0.04473  -0.513 0.608080    
+## ego.empl.binYes    0.11925    0.24383   0.489 0.624801    
+## ego.eduSecondary   0.49636    0.20680   2.400 0.016385 *  
+## ego.eduUniversity  0.94460    0.29757   3.174 0.001502 ** 
+## alter.sexMale      0.25065    0.08595   2.916 0.003544 ** 
+## alter.age.cat.cen  0.03879    0.02474   1.568 0.116935    
+## net.count.fam.cen -0.17863    0.09517  -1.877 0.060523 .  
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Exponentiated Fixed Effects and Confidence Bounds:
 ##                    Estimate     2.5 %    97.5 %
-## (Intercept)       0.4273806 0.2698984 0.6767516
-## alter.famYes      2.8910255 2.3999768 3.4825454
-## alter.same.ageYes 1.2003973 1.0265250 1.4037200
-## ego.age.cen       0.9773295 0.8953033 1.0668708
-## ego.empl.binYes   1.1266164 0.6986086 1.8168463
-## ego.eduSecondary  1.6426831 1.0952898 2.4636473
-## ego.eduUniversity 2.5717065 1.4352318 4.6080878
-## alter.sexMale     1.2848996 1.0856839 1.5206700
-## alter.age.cat.cen 1.0395548 0.9903505 1.0912039
-## net.count.fam.cen 0.8364152 0.6940853 1.0079314
+## (Intercept)       0.4273712 0.2698904 0.6767418
+## alter.famYes      2.8910105 2.3999717 3.4825169
+## alter.same.ageYes 1.2003998 1.0265266 1.4037236
+## ego.age.cen       0.9773249 0.8952995 1.0668653
+## ego.empl.binYes   1.1266465 0.6986206 1.8169121
+## ego.eduSecondary  1.6427235 1.0953169 2.4637077
+## ego.eduUniversity 2.5717720 1.4352830 4.6081582
+## alter.sexMale     1.2848651 1.0856573 1.5206256
+## alter.age.cat.cen 1.0395482 0.9903442 1.0911968
+## net.count.fam.cen 0.8364157 0.6940866 1.0079307
 ## 
 ## Estimates of Random Effects (Covariance Components):
 ##  Groups Name        Std.Dev.
-##  ego_ID (Intercept) 0.8648  
+##  ego_ID (Intercept) 0.8647  
 ## 
 ## Number of obs: 3972, groups:  ego_ID, 100
 ## 
@@ -5934,7 +5836,7 @@ General resources on multilevel models:
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# You can convert it to a tidy data frame}
-\FunctionTok{ggpredict}\NormalTok{(m5, }\StringTok{"alter.fam"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+\FunctionTok{ggpredict}\NormalTok{(m5, }\StringTok{"alter.fam"}\NormalTok{) }\SpecialCharTok{|\textgreater{}}
   \FunctionTok{as\_tibble}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
@@ -5950,8 +5852,8 @@ General resources on multilevel models:
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# You can also plot the result}
-\FunctionTok{ggpredict}\NormalTok{(m5, }\StringTok{"alter.fam"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
-\NormalTok{  plot}
+\FunctionTok{ggpredict}\NormalTok{(m5, }\StringTok{"alter.fam"}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{plot}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5960,8 +5862,8 @@ General resources on multilevel models:
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Probability of financial support as a function of ego.edu}
-\FunctionTok{ggpredict}\NormalTok{(m5, }\StringTok{"ego.edu"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
-\NormalTok{  plot}
+\FunctionTok{ggpredict}\NormalTok{(m5, }\StringTok{"ego.edu"}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{plot}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5985,16 +5887,7 @@ General resources on multilevel models:
             \CommentTok{\# slppe vary in level{-}2 units (ego\_ID)}
             \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\StringTok{"logit"}\NormalTok{), }\CommentTok{\# Model class (logistic)}
             \AttributeTok{data =}\NormalTok{ model.data) }\CommentTok{\# Data}
-\end{Highlighting}
-\end{Shaded}
 
-\begin{verbatim}
-## Warning in checkConv(attr(opt, "derivs"), opt$par, ctrl = control$checkConv, :
-## Model failed to converge with max|grad| = 0.00200685 (tol = 0.002, component 1)
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \CommentTok{\# Re{-}fit with starting values from previous fit to address convergence warnings}
 
 \CommentTok{\# Get estimate values from previous fit}
@@ -6025,31 +5918,31 @@ General resources on multilevel models:
 ## 
 ## Estimates of Fixed Effects:
 ##                   Estimate Std. Error z value Pr(>|z|)    
-## (Intercept)       -0.91969    0.24607  -3.738 0.000186 ***
+## (Intercept)       -0.91968    0.24605  -3.738 0.000186 ***
 ## alter.famYes       1.10130    0.12286   8.964  < 2e-16 ***
-## alter.same.ageYes  0.18966    0.08067   2.351 0.018712 *  
-## ego.age.cen       -0.02932    0.04559  -0.643 0.520083    
-## ego.empl.binYes    0.16614    0.25193   0.659 0.509591    
-## ego.eduSecondary   0.52523    0.21101   2.489 0.012807 *  
-## ego.eduUniversity  1.00013    0.30745   3.253 0.001142 ** 
-## alter.sexMale      0.25913    0.08691   2.981 0.002868 ** 
-## alter.age.cat.cen  0.04230    0.02515   1.682 0.092567 .  
+## alter.same.ageYes  0.18966    0.08067   2.351 0.018713 *  
+## ego.age.cen       -0.02932    0.04559  -0.643 0.520114    
+## ego.empl.binYes    0.16612    0.25192   0.659 0.509615    
+## ego.eduSecondary   0.52521    0.21101   2.489 0.012809 *  
+## ego.eduUniversity  1.00011    0.30744   3.253 0.001142 ** 
+## alter.sexMale      0.25913    0.08691   2.982 0.002868 ** 
+## alter.age.cat.cen  0.04229    0.02515   1.682 0.092584 .  
 ## net.count.fam.cen -0.18543    0.09693  -1.913 0.055745 .  
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Exponentiated Fixed Effects and Confidence Bounds:
 ##                    Estimate     2.5 %    97.5 %
-## (Intercept)       0.3986409 0.2461083 0.6457098
-## alter.famYes      3.0080852 2.3643516 3.8270860
-## alter.same.ageYes 1.2088437 1.0320646 1.4159027
-## ego.age.cen       0.9711040 0.8881019 1.0618634
-## ego.empl.binYes   1.1807410 0.7206271 1.9346335
-## ego.eduSecondary  1.6908402 1.1181228 2.5569111
-## ego.eduUniversity 2.7186307 1.4881543 4.9665232
-## alter.sexMale     1.2957964 1.0928433 1.5364401
-## alter.age.cat.cen 1.0432040 0.9930348 1.0959078
-## net.count.fam.cen 0.8307451 0.6870043 1.0045607
+## (Intercept)       0.3986475 0.2461204 0.6456995
+## alter.famYes      3.0080801 2.3643604 3.8270587
+## alter.same.ageYes 1.2088406 1.0320627 1.4158981
+## ego.age.cen       0.9711061 0.8881039 1.0618657
+## ego.empl.binYes   1.1807181 0.7206342 1.9345392
+## ego.eduSecondary  1.6908172 1.1181093 2.5568725
+## ego.eduUniversity 2.7185746 1.4881625 4.9662908
+## alter.sexMale     1.2958056 1.0928514 1.5364505
+## alter.age.cat.cen 1.0432016 0.9930326 1.0959051
+## net.count.fam.cen 0.8307445 0.6870036 1.0045601
 ## 
 ## Estimates of Random Effects (Covariance Components):
 ##  Groups Name         Std.Dev. Corr 
@@ -6071,22 +5964,21 @@ General resources on multilevel models:
 
 \begin{verbatim}
 ## # A tibble: 13 x 7
-##    effect   group  term                        estim~1 std.e~2 stati~3   p.value
-##    <chr>    <chr>  <chr>                         <dbl>   <dbl>   <dbl>     <dbl>
-##  1 fixed    <NA>   (Intercept)                 -0.920   0.246   -3.74   1.86e- 4
-##  2 fixed    <NA>   alter.famYes                 1.10    0.123    8.96   3.13e-19
-##  3 fixed    <NA>   alter.same.ageYes            0.190   0.0807   2.35   1.87e- 2
-##  4 fixed    <NA>   ego.age.cen                 -0.0293  0.0456  -0.643  5.20e- 1
-##  5 fixed    <NA>   ego.empl.binYes              0.166   0.252    0.659  5.10e- 1
-##  6 fixed    <NA>   ego.eduSecondary             0.525   0.211    2.49   1.28e- 2
-##  7 fixed    <NA>   ego.eduUniversity            1.00    0.307    3.25   1.14e- 3
-##  8 fixed    <NA>   alter.sexMale                0.259   0.0869   2.98   2.87e- 3
-##  9 fixed    <NA>   alter.age.cat.cen            0.0423  0.0251   1.68   9.26e- 2
-## 10 fixed    <NA>   net.count.fam.cen           -0.185   0.0969  -1.91   5.57e- 2
-## 11 ran_pars ego_ID sd__(Intercept)              0.905  NA       NA     NA       
-## 12 ran_pars ego_ID cor__(Intercept).alter.fam~ -0.275  NA       NA     NA       
-## 13 ran_pars ego_ID sd__alter.famYes             0.670  NA       NA     NA       
-## # ... with abbreviated variable names 1: estimate, 2: std.error, 3: statistic
+##    effect   group  term                   estimate std.error statistic   p.value
+##    <chr>    <chr>  <chr>                     <dbl>     <dbl>     <dbl>     <dbl>
+##  1 fixed    <NA>   (Intercept)             -0.920     0.246     -3.74   1.86e- 4
+##  2 fixed    <NA>   alter.famYes             1.10      0.123      8.96   3.13e-19
+##  3 fixed    <NA>   alter.same.ageYes        0.190     0.0807     2.35   1.87e- 2
+##  4 fixed    <NA>   ego.age.cen             -0.0293    0.0456    -0.643  5.20e- 1
+##  5 fixed    <NA>   ego.empl.binYes          0.166     0.252      0.659  5.10e- 1
+##  6 fixed    <NA>   ego.eduSecondary         0.525     0.211      2.49   1.28e- 2
+##  7 fixed    <NA>   ego.eduUniversity        1.00      0.307      3.25   1.14e- 3
+##  8 fixed    <NA>   alter.sexMale            0.259     0.0869     2.98   2.87e- 3
+##  9 fixed    <NA>   alter.age.cat.cen        0.0423    0.0251     1.68   9.26e- 2
+## 10 fixed    <NA>   net.count.fam.cen       -0.185     0.0969    -1.91   5.57e- 2
+## 11 ran_pars ego_ID sd__(Intercept)          0.905    NA         NA     NA       
+## 12 ran_pars ego_ID cor__(Intercept).alte~  -0.275    NA         NA     NA       
+## 13 ran_pars ego_ID sd__alter.famYes         0.670    NA         NA     NA
 \end{verbatim}
 
 \hypertarget{tests-of-significance}{%
@@ -6172,7 +6064,7 @@ General resources on multilevel models:
 \end{Shaded}
 
 \begin{verbatim}
-## 'log Lik.' 0.006327255 (df=11)
+## 'log Lik.' 0.006327254 (df=11)
 \end{verbatim}
 
 \begin{Shaded}
@@ -6252,19 +6144,19 @@ More information about this package can be found in its \href{https://github.com
 
 \begin{verbatim}
 ## # A tibble: 102 x 9
-##    ego_ID ego.sex ego.age ego.arr ego.edu   ego.inc  empl ego.empl.bin ego.age~1
-##     <dbl> <chr>     <dbl>   <dbl> <chr>       <dbl> <dbl> <chr>        <chr>    
-##  1     28 Male         61    2008 Secondary     350     3 Yes          60+      
-##  2     29 Male         38    2000 Primary       900     4 Yes          36-40    
-##  3     33 Male         30    2010 Primary       200     3 Yes          26-30    
-##  4     35 Male         25    2009 Secondary    1000     3 Yes          18-25    
-##  5     39 Male         29    2007 Primary         0     1 No           26-30    
-##  6     40 Male         56    2008 Secondary     950     4 Yes          51-60    
-##  7     45 Male         52    1975 Primary      1600     3 Yes          51-60    
-##  8     46 Male         35    2002 Secondary    1200     4 Yes          31-35    
-##  9     47 Male         22    2010 Secondary     700     4 Yes          18-25    
-## 10     48 Male         51    2007 Primary       950     4 Yes          51-60    
-## # ... with 92 more rows, and abbreviated variable name 1: ego.age.cat
+##    ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
+##     <dbl> <chr>     <dbl>   <dbl> <chr>     <dbl> <dbl> <chr>        <chr>      
+##  1     28 Male         61    2008 Second~     350     3 Yes          60+        
+##  2     29 Male         38    2000 Primary     900     4 Yes          36-40      
+##  3     33 Male         30    2010 Primary     200     3 Yes          26-30      
+##  4     35 Male         25    2009 Second~    1000     3 Yes          18-25      
+##  5     39 Male         29    2007 Primary       0     1 No           26-30      
+##  6     40 Male         56    2008 Second~     950     4 Yes          51-60      
+##  7     45 Male         52    1975 Primary    1600     3 Yes          51-60      
+##  8     46 Male         35    2002 Second~    1200     4 Yes          31-35      
+##  9     47 Male         22    2010 Second~     700     4 Yes          18-25      
+## 10     48 Male         51    2007 Primary     950     4 Yes          51-60      
+## # i 92 more rows
 \end{verbatim}
 
 \begin{Shaded}
@@ -6272,9 +6164,8 @@ More information about this package can be found in its \href{https://github.com
 \CommentTok{\# Convert all character variables to factor}
 \CommentTok{\# Using dplyr\textquotesingle{}s across(), this code takes all ego.df variables that are character}
 \CommentTok{\# (where(is.character)) and applies the as.factor() function to each, converting }
-\CommentTok{\# it to a factor variable. The resulting data frame is re{-}assigned to ego.df }
-\CommentTok{\# (\%\textless{}\textgreater{}\%).}
-\NormalTok{ego.df }\SpecialCharTok{\%\textless{}\textgreater{}\%} 
+\CommentTok{\# it to a factor variable. The resulting data frame is re{-}assigned to ego.df.}
+\NormalTok{ego.df }\OtherTok{\textless{}{-}}\NormalTok{ ego.df }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{mutate}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{where}\NormalTok{(is.character), as.factor))}
 
 \CommentTok{\# Alter attributes (all alters from all egos in same data frame).}
@@ -6284,36 +6175,36 @@ More information about this package can be found in its \href{https://github.com
 
 \begin{verbatim}
 ## # A tibble: 4,590 x 12
-##    alter_ID ego_ID alter_num alter.sex alter.a~1 alter~2 alter~3 alter~4 alter~5
-##       <dbl>  <dbl>     <dbl> <chr>     <chr>     <chr>   <chr>   <chr>     <dbl>
-##  1     2801     28         1 Female    51-60     Close ~ Sri La~ Sri La~      NA
-##  2     2802     28         2 Male      51-60     Other ~ Sri La~ Sri La~       3
-##  3     2803     28         3 Male      51-60     Close ~ Sri La~ Sri La~      NA
-##  4     2804     28         4 Male      60+       Close ~ Sri La~ Sri La~      NA
-##  5     2805     28         5 Female    41-50     Close ~ Sri La~ Sri La~      NA
-##  6     2806     28         6 Female    60+       Close ~ Sri La~ Sri La~      NA
-##  7     2807     28         7 Male      41-50     Other ~ Sri La~ Sri La~       5
-##  8     2808     28         8 Female    36-40     Other ~ Sri La~ Sri La~       4
-##  9     2809     28         9 Female    51-60     Other ~ Sri La~ Sri La~       5
-## 10     2810     28        10 Male      60+       Other ~ Sri La~ Sri La~       5
-## # ... with 4,580 more rows, 3 more variables: alter.loan <chr>,
-## #   alter.fam <chr>, alter.age <dbl>, and abbreviated variable names
-## #   1: alter.age.cat, 2: alter.rel, 3: alter.nat, 4: alter.res, 5: alter.clo
+##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
+##       <dbl>  <dbl>     <dbl> <chr>     <chr>         <chr>        <chr>    
+##  1     2801     28         1 Female    51-60         Close family Sri Lanka
+##  2     2802     28         2 Male      51-60         Other family Sri Lanka
+##  3     2803     28         3 Male      51-60         Close family Sri Lanka
+##  4     2804     28         4 Male      60+           Close family Sri Lanka
+##  5     2805     28         5 Female    41-50         Close family Sri Lanka
+##  6     2806     28         6 Female    60+           Close family Sri Lanka
+##  7     2807     28         7 Male      41-50         Other family Sri Lanka
+##  8     2808     28         8 Female    36-40         Other family Sri Lanka
+##  9     2809     28         9 Female    51-60         Other family Sri Lanka
+## 10     2810     28        10 Male      60+           Other family Sri Lanka
+## # i 4,580 more rows
+## # i 5 more variables: alter.res <chr>, alter.clo <dbl>, alter.loan <chr>,
+## #   alter.fam <chr>, alter.age <dbl>
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Convert all character variables to factor.}
-\NormalTok{alter.attr.all }\SpecialCharTok{\%\textless{}\textgreater{}\%} 
+\NormalTok{alter.attr.all }\OtherTok{\textless{}{-}}\NormalTok{ alter.attr.all }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{mutate}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{where}\NormalTok{(is.character), as.factor))}
 
 \CommentTok{\# To make things easier in the rest of the workshop materials, make sure the }
 \CommentTok{\# factors of alter gender and ego gender have the same levels (categories).}
 
 \CommentTok{\# Levels of alter.sex variable.}
-\NormalTok{alter.attr.all }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{pull}\NormalTok{(alter.sex) }\SpecialCharTok{\%\textgreater{}\%}
-\NormalTok{  levels}
+\NormalTok{alter.attr.all }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{pull}\NormalTok{(alter.sex) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{levels}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -6325,9 +6216,9 @@ More information about this package can be found in its \href{https://github.com
 \begin{Highlighting}[]
 \CommentTok{\# Levels of ego.sex variable: Female doesn\textquotesingle{}t appear because no ego is female in }
 \CommentTok{\# these data.}
-\NormalTok{ego.df }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{pull}\NormalTok{(ego.sex) }\SpecialCharTok{\%\textgreater{}\%}
-\NormalTok{  levels}
+\NormalTok{ego.df }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{pull}\NormalTok{(ego.sex) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{levels}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -6337,7 +6228,7 @@ More information about this package can be found in its \href{https://github.com
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{ego.df }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{ego.df }\SpecialCharTok{|\textgreater{}}
   \FunctionTok{tabyl}\NormalTok{(ego.sex)}
 \end{Highlighting}
 \end{Shaded}
@@ -6350,13 +6241,13 @@ More information about this package can be found in its \href{https://github.com
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Add the Female level to the ego.sex factor.}
-\NormalTok{ego.df }\SpecialCharTok{\%\textless{}\textgreater{}\%} 
+\NormalTok{ego.df }\OtherTok{\textless{}{-}}\NormalTok{ ego.df }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{ego.sex =} \FunctionTok{fct\_expand}\NormalTok{(ego.sex, }\StringTok{"Female"}\NormalTok{))}
 
 \CommentTok{\# See the result}
-\NormalTok{ego.df }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{pull}\NormalTok{(ego.sex) }\SpecialCharTok{\%\textgreater{}\%}
-\NormalTok{  levels}
+\NormalTok{ego.df }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{pull}\NormalTok{(ego.sex) }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{levels}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
@@ -6368,7 +6259,7 @@ More information about this package can be found in its \href{https://github.com
 \begin{Highlighting}[]
 \CommentTok{\# Note that this doesn\textquotesingle{}t alter the actual data in ego.df, just adds "Female" to }
 \CommentTok{\# the list of possible levels (categories) in ego.sex.}
-\NormalTok{ego.df }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{ego.df }\SpecialCharTok{|\textgreater{}}
   \FunctionTok{tabyl}\NormalTok{(ego.sex)}
 \end{Highlighting}
 \end{Shaded}
@@ -6400,7 +6291,7 @@ More information about this package can be found in its \href{https://github.com
 ##  8  2801  2809     28      1
 ##  9  2801  2810     28      1
 ## 10  2801  2811     28      1
-## # ... with 30,054 more rows
+## # i 30,054 more rows
 \end{verbatim}
 
 \begin{Shaded}
@@ -6424,12 +6315,12 @@ More information about this package can be found in its \href{https://github.com
 
 \begin{verbatim}
 ## $`28`
-## IGRAPH 214a161 UNW- 45 259 -- 
+## IGRAPH d7aa3db UNW- 45 259 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from 214a161 (vertex names):
+## + edges from d7aa3db (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -6438,12 +6329,12 @@ More information about this package can be found in its \href{https://github.com
 ## + ... omitted several edges
 ## 
 ## $`29`
-## IGRAPH 0c5acc4 UNW- 45 202 -- 
+## IGRAPH ba6f278 UNW- 45 202 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from 0c5acc4 (vertex names):
+## + edges from ba6f278 (vertex names):
 ##  [1] 2901--2902 2901--2904 2901--2906 2901--2907 2901--2908 2901--2909
 ##  [7] 2901--2910 2901--2911 2901--2915 2901--2916 2901--2917 2901--2918
 ## [13] 2901--2919 2901--2927 2901--2928 2901--2929 2901--2930 2901--2931
@@ -6452,12 +6343,12 @@ More information about this package can be found in its \href{https://github.com
 ## + ... omitted several edges
 ## 
 ## $`33`
-## IGRAPH a38844e UNW- 45 207 -- 
+## IGRAPH 61def57 UNW- 45 207 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from a38844e (vertex names):
+## + edges from 61def57 (vertex names):
 ##  [1] 3301--3302 3301--3303 3301--3304 3301--3305 3301--3306 3301--3307
 ##  [7] 3301--3308 3301--3309 3301--3310 3301--3311 3301--3312 3301--3313
 ## [13] 3301--3314 3301--3315 3301--3316 3301--3317 3301--3318 3301--3319
@@ -6466,12 +6357,12 @@ More information about this package can be found in its \href{https://github.com
 ## + ... omitted several edges
 ## 
 ## $`35`
-## IGRAPH c22cb3a UNW- 45 221 -- 
+## IGRAPH 40f9c1b UNW- 45 221 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from c22cb3a (vertex names):
+## + edges from 40f9c1b (vertex names):
 ##  [1] 3501--3502 3501--3503 3501--3504 3501--3505 3501--3506 3501--3507
 ##  [7] 3501--3508 3501--3509 3501--3510 3501--3512 3501--3513 3501--3514
 ## [13] 3501--3516 3501--3517 3501--3522 3501--3523 3501--3524 3501--3525
@@ -6480,12 +6371,12 @@ More information about this package can be found in its \href{https://github.com
 ## + ... omitted several edges
 ## 
 ## $`39`
-## IGRAPH c1672eb UNW- 45 92 -- 
+## IGRAPH c82c64d UNW- 45 92 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from c1672eb (vertex names):
+## + edges from c82c64d (vertex names):
 ##  [1] 3901--3902 3901--3903 3901--3904 3901--3905 3901--3906 3901--3907
 ##  [7] 3901--3911 3901--3913 3901--3920 3901--3924 3901--3925 3901--3931
 ## [13] 3901--3932 3901--3933 3901--3937 3901--3938 3901--3940 3901--3941
@@ -6494,12 +6385,12 @@ More information about this package can be found in its \href{https://github.com
 ## + ... omitted several edges
 ## 
 ## $`40`
-## IGRAPH c82df41 UNW- 45 255 -- 
+## IGRAPH a34649c UNW- 45 255 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from c82df41 (vertex names):
+## + edges from a34649c (vertex names):
 ##  [1] 4001--4003 4001--4007 4001--4008 4001--4009 4001--4036 4001--4040
 ##  [7] 4001--4045 4002--4003 4002--4004 4002--4006 4002--4008 4002--4009
 ## [13] 4002--4010 4002--4011 4002--4012 4002--4013 4002--4014 4002--4015
@@ -6542,12 +6433,12 @@ More information about this package can be found in its \href{https://github.com
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 214a161 UNW- 45 259 -- 
+## IGRAPH d7aa3db UNW- 45 259 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from 214a161 (vertex names):
+## + edges from d7aa3db (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -6564,7 +6455,7 @@ More information about this package can be found in its \href{https://github.com
 \end{Shaded}
 
 \begin{verbatim}
-## + 45/45 vertices, named, from 214a161:
+## + 45/45 vertices, named, from d7aa3db:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2813 2814 2815
 ## [16] 2816 2817 2818 2819 2820 2821 2822 2823 2824 2825 2826 2827 2828 2829 2830
 ## [31] 2831 2832 2833 2834 2835 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845
@@ -6578,12 +6469,12 @@ More information about this package can be found in its \href{https://github.com
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 3449dd6 UNW- 46 304 -- 
+## IGRAPH 3b5d609 UNW- 46 304 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from 3449dd6 (vertex names):
+## + edges from 3b5d609 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -6600,7 +6491,7 @@ More information about this package can be found in its \href{https://github.com
 \end{Shaded}
 
 \begin{verbatim}
-## + 46/46 vertices, named, from 3449dd6:
+## + 46/46 vertices, named, from 3b5d609:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2813 2814 2815
 ## [16] 2816 2817 2818 2819 2820 2821 2822 2823 2824 2825 2826 2827 2828 2829 2830
 ## [31] 2831 2832 2833 2834 2835 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845
@@ -6671,8 +6562,8 @@ More information about this package can be found in its \href{https://github.com
 \CommentTok{\# This may create problems in certain functions, for example the plot.igraph()}
 \CommentTok{\# function. So let\textquotesingle{}s replace those NA\textquotesingle{}s with a distinctive weight value for }
 \CommentTok{\# ego{-}alter ties: 3.}
-\FunctionTok{E}\NormalTok{(gr.ego)}\SpecialCharTok{$}\NormalTok{weight }\SpecialCharTok{\%\textless{}\textgreater{}\%}
-  \FunctionTok{replace\_na}\NormalTok{(., }\DecValTok{3}\NormalTok{)}
+\FunctionTok{E}\NormalTok{(gr.ego)}\SpecialCharTok{$}\NormalTok{weight }\OtherTok{\textless{}{-}} \FunctionTok{E}\NormalTok{(gr.ego)}\SpecialCharTok{$}\NormalTok{weight }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{replace\_na}\NormalTok{(}\DecValTok{3}\NormalTok{)}
 
 \CommentTok{\# See the result}
 \FunctionTok{E}\NormalTok{(gr.ego)}\SpecialCharTok{$}\NormalTok{weight}
@@ -6733,15 +6624,23 @@ More information about this package can be found in its \href{https://github.com
 \CommentTok{\# Let\textquotesingle{}s do the weight replacement operation above (NA replaced by 3 for ego{-}alter }
 \CommentTok{\# tie weights) for all the ego{-}networks in gr.list.ego.}
 \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \FunctionTok{seq\_along}\NormalTok{(gr.list.ego)) \{}
-  \FunctionTok{E}\NormalTok{(gr.list.ego[[i]])}\SpecialCharTok{$}\NormalTok{weight }\SpecialCharTok{\%\textless{}\textgreater{}\%}
-    \FunctionTok{replace\_na}\NormalTok{(., }\DecValTok{3}\NormalTok{)}
+  \FunctionTok{E}\NormalTok{(gr.ego)}\SpecialCharTok{$}\NormalTok{weight }\OtherTok{\textless{}{-}} \FunctionTok{E}\NormalTok{(gr.ego)}\SpecialCharTok{$}\NormalTok{weight }\SpecialCharTok{|\textgreater{}} 
+    \FunctionTok{replace\_na}\NormalTok{(}\DecValTok{3}\NormalTok{)}
 \NormalTok{\}}
 
-\CommentTok{\# The operation above can be done with tidyverse map functions as well, but }
-\CommentTok{\# I think a for loop makes the code easier to follow in this case. This is the}
-\CommentTok{\# map equivalent of that for loop:}
-\NormalTok{new.list }\OtherTok{\textless{}{-}}\NormalTok{ gr.list.ego }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{map}\NormalTok{(}\ControlFlowTok{function}\NormalTok{(gr) \{}\FunctionTok{replace\_na}\NormalTok{(}\FunctionTok{E}\NormalTok{(gr)}\SpecialCharTok{$}\NormalTok{weight, }\DecValTok{3}\NormalTok{); gr\})}
+\CommentTok{\# The operation above can be done with tidyverse map() functions as well. First}
+\CommentTok{\# define the function operating on a single graph.}
+\NormalTok{weight\_replace }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(gr) \{}
+  \FunctionTok{E}\NormalTok{(gr)}\SpecialCharTok{$}\NormalTok{weight }\OtherTok{\textless{}{-}} \FunctionTok{E}\NormalTok{(gr)}\SpecialCharTok{$}\NormalTok{weight }\SpecialCharTok{|\textgreater{}} 
+    \FunctionTok{replace\_na}\NormalTok{(}\DecValTok{3}\NormalTok{)}
+  
+  \CommentTok{\# Return value}
+\NormalTok{  gr}
+\NormalTok{\}}
+
+\CommentTok{\# Then apply the function to all graphs in the list.}
+\NormalTok{new.list }\OtherTok{\textless{}{-}}\NormalTok{ gr.list.ego }\SpecialCharTok{|\textgreater{}}
+  \FunctionTok{map}\NormalTok{(weight\_replace)}
 
 \CommentTok{\# Sometimes it\textquotesingle{}s useful to have ego ID as a graph attribute of the ego{-}network}
 \CommentTok{\# in addition to having it as name of the ego{-}network\textquotesingle{}s element in the list.}
@@ -6763,12 +6662,12 @@ More information about this package can be found in its \href{https://github.com
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 214a161 UNW- 45 259 -- 
+## IGRAPH d7aa3db UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 214a161 (vertex names):
+## + edges from d7aa3db (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -6792,7 +6691,7 @@ More information about this package can be found in its \href{https://github.com
 \CommentTok{\# Extract alter attributes and graph for one ego (ego ID 28)}
 
 \CommentTok{\# Alter attribute data frame.}
-\NormalTok{alter.attr}\FloatTok{.28} \OtherTok{\textless{}{-}}\NormalTok{ alter.attr.all }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{alter.attr}\FloatTok{.28} \OtherTok{\textless{}{-}}\NormalTok{ alter.attr.all }\SpecialCharTok{|\textgreater{}}
   \FunctionTok{filter}\NormalTok{(ego\_ID}\SpecialCharTok{==}\DecValTok{28}\NormalTok{)}
 
 \CommentTok{\# Ego{-}network graph.}
@@ -7454,7 +7353,7 @@ This is a quick summary of the basics about \textbf{types} and \textbf{classes} 
 \CommentTok{\# Function that takes the alter{-}level data frame for an ego, and calculates}
 \CommentTok{\# multiple compositional measures.}
 \NormalTok{comp\_meas }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(df) \{}
-\NormalTok{  df }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{  df }\SpecialCharTok{|\textgreater{}}
     \FunctionTok{summarise}\NormalTok{(}
       \AttributeTok{mean.clo =} \FunctionTok{mean}\NormalTok{(alter.clo, }\AttributeTok{na.rm=}\ConstantTok{TRUE}\NormalTok{), }
       \AttributeTok{prop.fem =} \FunctionTok{mean}\NormalTok{(alter.sex}\SpecialCharTok{==}\StringTok{"Female"}\NormalTok{), }
@@ -7480,10 +7379,10 @@ This is a quick summary of the basics about \textbf{types} and \textbf{classes} 
 \begin{Highlighting}[]
 \CommentTok{\# Function that takes an ego{-}network as igraph object, and calculates max alter}
 \CommentTok{\# betweenness.}
-\NormalTok{max\_betw }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) x }\SpecialCharTok{\%\textgreater{}\%}\NormalTok{ igraph}\SpecialCharTok{::}\FunctionTok{betweenness}\NormalTok{(}\AttributeTok{weights =} \ConstantTok{NA}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}\NormalTok{ max}
+\NormalTok{max\_betw }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) x }\SpecialCharTok{|\textgreater{}}\NormalTok{ igraph}\SpecialCharTok{::}\FunctionTok{betweenness}\NormalTok{(}\AttributeTok{weights =} \ConstantTok{NA}\NormalTok{) }\SpecialCharTok{|\textgreater{}} \FunctionTok{max}\NormalTok{()}
 
 \CommentTok{\# Apply to our graph.}
-\FunctionTok{max\_betw}\NormalTok{(}\AttributeTok{x=}\NormalTok{ gr)}
+\FunctionTok{max\_betw}\NormalTok{(}\AttributeTok{x =}\NormalTok{ gr)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -7620,7 +7519,7 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 ##  8  2801  2809      1
 ##  9  2801  2810      1
 ## 10  2801  2811      1
-## # ... with 249 more rows
+## # i 249 more rows
 \end{verbatim}
 
 \begin{Shaded}
@@ -7643,21 +7542,21 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 
 \begin{verbatim}
 ## # A tibble: 45 x 12
-##    alter_ID ego_ID alter_num alter.sex alter.a~1 alter~2 alter~3 alter~4 alter~5
-##       <dbl>  <dbl>     <dbl> <chr>     <chr>     <chr>   <chr>   <chr>     <dbl>
-##  1     2801     28         1 Female    51-60     Close ~ Sri La~ Sri La~      NA
-##  2     2802     28         2 Male      51-60     Other ~ Sri La~ Sri La~       3
-##  3     2803     28         3 Male      51-60     Close ~ Sri La~ Sri La~      NA
-##  4     2804     28         4 Male      60+       Close ~ Sri La~ Sri La~      NA
-##  5     2805     28         5 Female    41-50     Close ~ Sri La~ Sri La~      NA
-##  6     2806     28         6 Female    60+       Close ~ Sri La~ Sri La~      NA
-##  7     2807     28         7 Male      41-50     Other ~ Sri La~ Sri La~       5
-##  8     2808     28         8 Female    36-40     Other ~ Sri La~ Sri La~       4
-##  9     2809     28         9 Female    51-60     Other ~ Sri La~ Sri La~       5
-## 10     2810     28        10 Male      60+       Other ~ Sri La~ Sri La~       5
-## # ... with 35 more rows, 3 more variables: alter.loan <chr>, alter.fam <chr>,
-## #   alter.age <dbl>, and abbreviated variable names 1: alter.age.cat,
-## #   2: alter.rel, 3: alter.nat, 4: alter.res, 5: alter.clo
+##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
+##       <dbl>  <dbl>     <dbl> <chr>     <chr>         <chr>        <chr>    
+##  1     2801     28         1 Female    51-60         Close family Sri Lanka
+##  2     2802     28         2 Male      51-60         Other family Sri Lanka
+##  3     2803     28         3 Male      51-60         Close family Sri Lanka
+##  4     2804     28         4 Male      60+           Close family Sri Lanka
+##  5     2805     28         5 Female    41-50         Close family Sri Lanka
+##  6     2806     28         6 Female    60+           Close family Sri Lanka
+##  7     2807     28         7 Male      41-50         Other family Sri Lanka
+##  8     2808     28         8 Female    36-40         Other family Sri Lanka
+##  9     2809     28         9 Female    51-60         Other family Sri Lanka
+## 10     2810     28        10 Male      60+           Other family Sri Lanka
+## # i 35 more rows
+## # i 5 more variables: alter.res <chr>, alter.clo <dbl>, alter.loan <chr>,
+## #   alter.fam <chr>, alter.age <dbl>
 \end{verbatim}
 
 \begin{Shaded}
@@ -7671,8 +7570,8 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \CommentTok{\# matrix for ego{-}network of ego 28.}
 
 \CommentTok{\# Read the adjacency matrix.}
-\NormalTok{adj}\FloatTok{.28} \OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"./Data/raw\_data/adj\_028.csv"}\NormalTok{, }\AttributeTok{row.names=}\DecValTok{1}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
-\NormalTok{  as.matrix}
+\NormalTok{adj}\FloatTok{.28} \OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"./Data/raw\_data/adj\_028.csv"}\NormalTok{, }\AttributeTok{row.names=}\DecValTok{1}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{as.matrix}\NormalTok{()}
 \CommentTok{\# Set column names the same as rownames}
 \FunctionTok{colnames}\NormalTok{(adj}\FloatTok{.28}\NormalTok{) }\OtherTok{\textless{}{-}} \FunctionTok{rownames}\NormalTok{(adj}\FloatTok{.28}\NormalTok{)}
 
@@ -7682,9 +7581,9 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 22ca1c6 UN-- 45 283 -- 
+## IGRAPH 8342593 UN-- 45 283 -- 
 ## + attr: name (v/c)
-## + edges from 22ca1c6 (vertex names):
+## + edges from 8342593 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2818 2801--2820 2801--2823
@@ -7772,19 +7671,19 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 
 \begin{verbatim}
 ## # A tibble: 102 x 9
-##    ego_ID ego.sex ego.age ego.arr ego.edu   ego.inc  empl ego.empl.bin ego.age~1
-##     <dbl> <chr>     <dbl>   <dbl> <chr>       <dbl> <dbl> <chr>        <chr>    
-##  1     28 Male         61    2008 Secondary     350     3 Yes          60+      
-##  2     29 Male         38    2000 Primary       900     4 Yes          36-40    
-##  3     33 Male         30    2010 Primary       200     3 Yes          26-30    
-##  4     35 Male         25    2009 Secondary    1000     3 Yes          18-25    
-##  5     39 Male         29    2007 Primary         0     1 No           26-30    
-##  6     40 Male         56    2008 Secondary     950     4 Yes          51-60    
-##  7     45 Male         52    1975 Primary      1600     3 Yes          51-60    
-##  8     46 Male         35    2002 Secondary    1200     4 Yes          31-35    
-##  9     47 Male         22    2010 Secondary     700     4 Yes          18-25    
-## 10     48 Male         51    2007 Primary       950     4 Yes          51-60    
-## # ... with 92 more rows, and abbreviated variable name 1: ego.age.cat
+##    ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
+##     <dbl> <chr>     <dbl>   <dbl> <chr>     <dbl> <dbl> <chr>        <chr>      
+##  1     28 Male         61    2008 Second~     350     3 Yes          60+        
+##  2     29 Male         38    2000 Primary     900     4 Yes          36-40      
+##  3     33 Male         30    2010 Primary     200     3 Yes          26-30      
+##  4     35 Male         25    2009 Second~    1000     3 Yes          18-25      
+##  5     39 Male         29    2007 Primary       0     1 No           26-30      
+##  6     40 Male         56    2008 Second~     950     4 Yes          51-60      
+##  7     45 Male         52    1975 Primary    1600     3 Yes          51-60      
+##  8     46 Male         35    2002 Second~    1200     4 Yes          31-35      
+##  9     47 Male         22    2010 Second~     700     4 Yes          18-25      
+## 10     48 Male         51    2007 Primary     950     4 Yes          51-60      
+## # i 92 more rows
 \end{verbatim}
 
 \begin{Shaded}
@@ -7807,21 +7706,21 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 
 \begin{verbatim}
 ## # A tibble: 4,590 x 12
-##    alter_ID ego_ID alter_num alter.sex alter.a~1 alter~2 alter~3 alter~4 alter~5
-##       <dbl>  <dbl>     <dbl> <chr>     <chr>     <chr>   <chr>   <chr>     <dbl>
-##  1     2801     28         1 Female    51-60     Close ~ Sri La~ Sri La~      NA
-##  2     2802     28         2 Male      51-60     Other ~ Sri La~ Sri La~       3
-##  3     2803     28         3 Male      51-60     Close ~ Sri La~ Sri La~      NA
-##  4     2804     28         4 Male      60+       Close ~ Sri La~ Sri La~      NA
-##  5     2805     28         5 Female    41-50     Close ~ Sri La~ Sri La~      NA
-##  6     2806     28         6 Female    60+       Close ~ Sri La~ Sri La~      NA
-##  7     2807     28         7 Male      41-50     Other ~ Sri La~ Sri La~       5
-##  8     2808     28         8 Female    36-40     Other ~ Sri La~ Sri La~       4
-##  9     2809     28         9 Female    51-60     Other ~ Sri La~ Sri La~       5
-## 10     2810     28        10 Male      60+       Other ~ Sri La~ Sri La~       5
-## # ... with 4,580 more rows, 3 more variables: alter.loan <chr>,
-## #   alter.fam <chr>, alter.age <dbl>, and abbreviated variable names
-## #   1: alter.age.cat, 2: alter.rel, 3: alter.nat, 4: alter.res, 5: alter.clo
+##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
+##       <dbl>  <dbl>     <dbl> <chr>     <chr>         <chr>        <chr>    
+##  1     2801     28         1 Female    51-60         Close family Sri Lanka
+##  2     2802     28         2 Male      51-60         Other family Sri Lanka
+##  3     2803     28         3 Male      51-60         Close family Sri Lanka
+##  4     2804     28         4 Male      60+           Close family Sri Lanka
+##  5     2805     28         5 Female    41-50         Close family Sri Lanka
+##  6     2806     28         6 Female    60+           Close family Sri Lanka
+##  7     2807     28         7 Male      41-50         Other family Sri Lanka
+##  8     2808     28         8 Female    36-40         Other family Sri Lanka
+##  9     2809     28         9 Female    51-60         Other family Sri Lanka
+## 10     2810     28        10 Male      60+           Other family Sri Lanka
+## # i 4,580 more rows
+## # i 5 more variables: alter.res <chr>, alter.clo <dbl>, alter.loan <chr>,
+## #   alter.fam <chr>, alter.age <dbl>
 \end{verbatim}
 
 \begin{Shaded}
@@ -7871,21 +7770,21 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 
 \begin{verbatim}
 ## # A tibble: 45 x 12
-##    alter_ID ego_ID alter_num alter.sex alter.a~1 alter~2 alter~3 alter~4 alter~5
-##       <dbl>  <dbl>     <dbl> <chr>     <chr>     <chr>   <chr>   <chr>     <dbl>
-##  1     9401     94         1 Male      60+       Close ~ Sri La~ Sri La~      NA
-##  2     9402     94         2 Female    60+       Close ~ Sri La~ Sri La~      NA
-##  3     9403     94         3 Female    26-30     Close ~ Sri La~ Sri La~      NA
-##  4     9404     94         4 Male      26-30     Close ~ Sri La~ Sri La~      NA
-##  5     9405     94         5 Male      31-35     Close ~ Sri La~ Sri La~      NA
-##  6     9406     94         6 Female    60+       Other ~ Sri La~ Sri La~       4
-##  7     9407     94         7 Male      51-60     Other ~ Sri La~ Sri La~       5
-##  8     9408     94         8 Female    36-40     Other ~ Sri La~ Sri La~       5
-##  9     9409     94         9 Female    51-60     Other ~ Sri La~ Sri La~       5
-## 10     9410     94        10 Male      18-25     Other ~ Sri La~ Sri La~       5
-## # ... with 35 more rows, 3 more variables: alter.loan <chr>, alter.fam <chr>,
-## #   alter.age <dbl>, and abbreviated variable names 1: alter.age.cat,
-## #   2: alter.rel, 3: alter.nat, 4: alter.res, 5: alter.clo
+##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
+##       <dbl>  <dbl>     <dbl> <chr>     <chr>         <chr>        <chr>    
+##  1     9401     94         1 Male      60+           Close family Sri Lanka
+##  2     9402     94         2 Female    60+           Close family Sri Lanka
+##  3     9403     94         3 Female    26-30         Close family Sri Lanka
+##  4     9404     94         4 Male      26-30         Close family Sri Lanka
+##  5     9405     94         5 Male      31-35         Close family Sri Lanka
+##  6     9406     94         6 Female    60+           Other family Sri Lanka
+##  7     9407     94         7 Male      51-60         Other family Sri Lanka
+##  8     9408     94         8 Female    36-40         Other family Sri Lanka
+##  9     9409     94         9 Female    51-60         Other family Sri Lanka
+## 10     9410     94        10 Male      18-25         Other family Sri Lanka
+## # i 35 more rows
+## # i 5 more variables: alter.res <chr>, alter.clo <dbl>, alter.loan <chr>,
+## #   alter.fam <chr>, alter.age <dbl>
 \end{verbatim}
 
 \begin{Shaded}
@@ -7903,21 +7802,21 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 
 \begin{verbatim}
 ## # A tibble: 4,590 x 12
-##    alter_ID ego_ID alter_num alter.sex alter.a~1 alter~2 alter~3 alter~4 alter~5
-##       <dbl>  <dbl>     <dbl> <chr>     <chr>     <chr>   <chr>   <chr>     <dbl>
-##  1     2801     28         1 Female    51-60     Close ~ Sri La~ Sri La~      NA
-##  2     2802     28         2 Male      51-60     Other ~ Sri La~ Sri La~       3
-##  3     2803     28         3 Male      51-60     Close ~ Sri La~ Sri La~      NA
-##  4     2804     28         4 Male      60+       Close ~ Sri La~ Sri La~      NA
-##  5     2805     28         5 Female    41-50     Close ~ Sri La~ Sri La~      NA
-##  6     2806     28         6 Female    60+       Close ~ Sri La~ Sri La~      NA
-##  7     2807     28         7 Male      41-50     Other ~ Sri La~ Sri La~       5
-##  8     2808     28         8 Female    36-40     Other ~ Sri La~ Sri La~       4
-##  9     2809     28         9 Female    51-60     Other ~ Sri La~ Sri La~       5
-## 10     2810     28        10 Male      60+       Other ~ Sri La~ Sri La~       5
-## # ... with 4,580 more rows, 3 more variables: alter.loan <chr>,
-## #   alter.fam <chr>, alter.age <dbl>, and abbreviated variable names
-## #   1: alter.age.cat, 2: alter.rel, 3: alter.nat, 4: alter.res, 5: alter.clo
+##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
+##       <dbl>  <dbl>     <dbl> <chr>     <chr>         <chr>        <chr>    
+##  1     2801     28         1 Female    51-60         Close family Sri Lanka
+##  2     2802     28         2 Male      51-60         Other family Sri Lanka
+##  3     2803     28         3 Male      51-60         Close family Sri Lanka
+##  4     2804     28         4 Male      60+           Close family Sri Lanka
+##  5     2805     28         5 Female    41-50         Close family Sri Lanka
+##  6     2806     28         6 Female    60+           Close family Sri Lanka
+##  7     2807     28         7 Male      41-50         Other family Sri Lanka
+##  8     2808     28         8 Female    36-40         Other family Sri Lanka
+##  9     2809     28         9 Female    51-60         Other family Sri Lanka
+## 10     2810     28        10 Male      60+           Other family Sri Lanka
+## # i 4,580 more rows
+## # i 5 more variables: alter.res <chr>, alter.clo <dbl>, alter.loan <chr>,
+## #   alter.fam <chr>, alter.age <dbl>
 \end{verbatim}
 
 \begin{Shaded}
@@ -7957,7 +7856,7 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 ##  8  2801  2809     28      1
 ##  9  2801  2810     28      1
 ## 10  2801  2811     28      1
-## # ... with 30,054 more rows
+## # i 30,054 more rows
 \end{verbatim}
 
 \begin{Shaded}
@@ -8013,7 +7912,7 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 ##  8  9401  9409     94      1
 ##  9  9401  9410     94      1
 ## 10  9401  9411     94      1
-## # ... with 255 more rows
+## # i 255 more rows
 \end{verbatim}
 
 \hypertarget{creating-lists-of-ego-networks-as-igraph-objects-with-purrr}{%
@@ -8100,7 +7999,7 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 ##  8  2801  2809     28      1
 ##  9  2801  2810     28      1
 ## 10  2801  2811     28      1
-## # ... with 249 more rows
+## # i 249 more rows
 \end{verbatim}
 
 \begin{Shaded}
@@ -8114,9 +8013,9 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 06a8c9c UNW- 45 259 -- 
+## IGRAPH 7fa1618 UNW- 45 259 -- 
 ## + attr: name (v/c), ego_ID (e/n), weight (e/n)
-## + edges from 06a8c9c (vertex names):
+## + edges from 7fa1618 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -8173,9 +8072,9 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 87e2957 UNW- 45 259 -- 
+## IGRAPH 6ff7395 UNW- 45 259 -- 
 ## + attr: name (v/c), ego_ID (e/n), weight (e/n)
-## + edges from 87e2957 (vertex names):
+## + edges from 6ff7395 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -8195,9 +8094,9 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 496ee7d UNW- 42 265 -- 
+## IGRAPH b531146 UNW- 42 265 -- 
 ## + attr: name (v/c), ego_ID (e/n), weight (e/n)
-## + edges from 496ee7d (vertex names):
+## + edges from b531146 (vertex names):
 ##  [1] 9401--9402 9401--9403 9401--9404 9401--9405 9401--9406 9401--9407
 ##  [7] 9401--9408 9401--9409 9401--9410 9401--9411 9401--9412 9401--9413
 ## [13] 9401--9414 9401--9415 9401--9438 9401--9443 9401--9444 9402--9403
@@ -8245,12 +8144,12 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH b67063d UNW- 45 259 -- 
+## IGRAPH 39e6262 UNW- 45 259 -- 
 ## + attr: name (v/c), ego_ID (v/n), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), ego_ID (e/n), weight (e/n)
-## + edges from b67063d (vertex names):
+## + edges from 39e6262 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -8391,7 +8290,7 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## + 46/46 vertices, named, from 58b45cb:
+## + 46/46 vertices, named, from afc3010:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2813 2814 2815
 ## [16] 2816 2817 2818 2819 2820 2821 2822 2823 2824 2825 2826 2827 2828 2829 2830
 ## [31] 2831 2832 2833 2834 2835 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845
@@ -8953,7 +8852,7 @@ In this section, we'll apply some of the tools presented earlier to a specific c
 \NormalTok{  gr }\OtherTok{\textless{}{-}}\NormalTok{ gr.list[[i]]}
   
   \CommentTok{\# Run the plot function and print (needed for ggplot within a for loop).}
-  \FunctionTok{my.plot}\NormalTok{(gr) }\SpecialCharTok{\%\textgreater{}\%}\NormalTok{ print}
+  \FunctionTok{my.plot}\NormalTok{(gr) }\SpecialCharTok{|\textgreater{}} \FunctionTok{print}\NormalTok{()}
 \NormalTok{\}}
 
 \CommentTok{\# Close pdf device}
@@ -8974,10 +8873,10 @@ In this section, we'll apply some of the tools presented earlier to a specific c
 \FunctionTok{pdf}\NormalTok{(}\AttributeTok{file =} \StringTok{"./Figures/ego\_nets\_graphs.pdf"}\NormalTok{)}
 
 \CommentTok{\# Get list of ego{-}networks (first 10 elements)}
-\NormalTok{gr.list[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{] }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{gr.list[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{] }\SpecialCharTok{|\textgreater{}}
   \CommentTok{\# walk: similar to map(), but calls a function for its side effects (here,}
   \CommentTok{\# producing a plot)}
-  \FunctionTok{walk}\NormalTok{(}\SpecialCharTok{\textasciitilde{}} \FunctionTok{my.plot}\NormalTok{(.x) }\SpecialCharTok{\%\textgreater{}\%}\NormalTok{ print)}
+  \FunctionTok{walk}\NormalTok{(}\SpecialCharTok{\textasciitilde{}} \FunctionTok{my.plot}\NormalTok{(.x) }\SpecialCharTok{|\textgreater{}} \FunctionTok{print}\NormalTok{())}
 
 \CommentTok{\# Close pdf device}
 \FunctionTok{dev.off}\NormalTok{()}
@@ -8997,7 +8896,7 @@ In this section, we'll apply some of the tools presented earlier to a specific c
 \CommentTok{\# Frequency of different nationalities in the personal networks.}
 
 \CommentTok{\# Group the pooled alter attribute data frame by ego\_ID.}
-\NormalTok{alter.attr.all }\SpecialCharTok{\%\textless{}\textgreater{}\%} 
+\NormalTok{alter.attr.all }\OtherTok{\textless{}{-}}\NormalTok{ alter.attr.all }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{group\_by}\NormalTok{(ego\_ID)}
 
 \CommentTok{\# Run the compositional measures.}
@@ -9010,7 +8909,7 @@ In this section, we'll apply some of the tools presented earlier to a specific c
                                   \AttributeTok{N.oth=} \FunctionTok{sum}\NormalTok{(alter.nat}\SpecialCharTok{==}\StringTok{"Other"}\NormalTok{))}
 
 \CommentTok{\# Add the relative frequency of Italians.}
-\NormalTok{comp.measures }\SpecialCharTok{\%\textless{}\textgreater{}\%}
+\NormalTok{comp.measures }\OtherTok{\textless{}{-}}\NormalTok{ comp.measures }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{prop.ita =}\NormalTok{ N.ita}\SpecialCharTok{/}\DecValTok{45}\NormalTok{)}
 
 \CommentTok{\# Show result.}
@@ -9032,7 +8931,7 @@ In this section, we'll apply some of the tools presented earlier to a specific c
 ##  8     46     7    33     5   0.156 
 ##  9     47     0    45     0   0     
 ## 10     48     4    39     2   0.0889
-## # ... with 92 more rows
+## # i 92 more rows
 \end{verbatim}
 
 \begin{Shaded}
@@ -9060,7 +8959,7 @@ In this section, we'll apply some of the tools presented earlier to a specific c
 \NormalTok{  possible }\OtherTok{\textless{}{-}}\NormalTok{ n}\SpecialCharTok{*}\NormalTok{(n}\DecValTok{{-}1}\NormalTok{)}\SpecialCharTok{/}\DecValTok{2}
   
   \CommentTok{\# Actual number of edges among Italians.}
-\NormalTok{  actual }\OtherTok{\textless{}{-}} \FunctionTok{E}\NormalTok{(gr)[ita }\SpecialCharTok{\%{-}{-}\%}\NormalTok{ ita] }\SpecialCharTok{\%\textgreater{}\%}\NormalTok{ length}
+\NormalTok{  actual }\OtherTok{\textless{}{-}} \FunctionTok{E}\NormalTok{(gr)[ita }\SpecialCharTok{\%{-}{-}\%}\NormalTok{ ita] }\SpecialCharTok{|\textgreater{}} \FunctionTok{length}\NormalTok{()}
   \CommentTok{\# Notice that this is 0 if there are no Italian contacts, i.e. length(ita)==0.}
   
   \CommentTok{\# Density of connections among Italians.}
@@ -9068,7 +8967,7 @@ In this section, we'll apply some of the tools presented earlier to a specific c
   \CommentTok{\# Notice that this is NaN if there are no Italian contacts.}
   
   \CommentTok{\# Average degree of Italian contacts.}
-\NormalTok{  avg.deg.ita }\OtherTok{\textless{}{-}}\NormalTok{ igraph}\SpecialCharTok{::}\FunctionTok{degree}\NormalTok{(gr, }\FunctionTok{V}\NormalTok{(gr)[alter.nat}\SpecialCharTok{==}\StringTok{"Italy"}\NormalTok{]) }\SpecialCharTok{\%\textgreater{}\%}\NormalTok{ mean}
+\NormalTok{  avg.deg.ita }\OtherTok{\textless{}{-}}\NormalTok{ igraph}\SpecialCharTok{::}\FunctionTok{degree}\NormalTok{(gr, }\FunctionTok{V}\NormalTok{(gr)[alter.nat}\SpecialCharTok{==}\StringTok{"Italy"}\NormalTok{]) }\SpecialCharTok{|\textgreater{}} \FunctionTok{mean}\NormalTok{()}
   \CommentTok{\# This is also NaN if there are no Italians.}
   
   \CommentTok{\# Average degree of Italians, as a proportion of overall average degree.}
@@ -9100,14 +8999,14 @@ In this section, we'll apply some of the tools presented earlier to a specific c
 ##  8 46        0.571       10.7             0.903
 ##  9 47      NaN          NaN             NaN    
 ## 10 48        1            5               0.560
-## # ... with 92 more rows
+## # i 92 more rows
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Convert ego\_ID from character to numeric for consistency with ego attribute}
 \CommentTok{\# data.}
-\NormalTok{str.ita.df }\SpecialCharTok{\%\textless{}\textgreater{}\%}
+\NormalTok{str.ita.df }\OtherTok{\textless{}{-}}\NormalTok{ str.ita.df }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{ego\_ID =} \FunctionTok{as.numeric}\NormalTok{(ego\_ID))}
 
 \CommentTok{\# Association with ego{-}level variables}
@@ -9120,33 +9019,33 @@ In this section, we'll apply some of the tools presented earlier to a specific c
 
 \begin{verbatim}
 ## # A tibble: 102 x 9
-##    ego_ID ego.sex ego.age ego.arr ego.edu   ego.inc  empl ego.empl.bin ego.age~1
-##     <dbl> <fct>     <dbl>   <dbl> <fct>       <dbl> <dbl> <fct>        <fct>    
-##  1     28 Male         61    2008 Secondary     350     3 Yes          60+      
-##  2     29 Male         38    2000 Primary       900     4 Yes          36-40    
-##  3     33 Male         30    2010 Primary       200     3 Yes          26-30    
-##  4     35 Male         25    2009 Secondary    1000     3 Yes          18-25    
-##  5     39 Male         29    2007 Primary         0     1 No           26-30    
-##  6     40 Male         56    2008 Secondary     950     4 Yes          51-60    
-##  7     45 Male         52    1975 Primary      1600     3 Yes          51-60    
-##  8     46 Male         35    2002 Secondary    1200     4 Yes          31-35    
-##  9     47 Male         22    2010 Secondary     700     4 Yes          18-25    
-## 10     48 Male         51    2007 Primary       950     4 Yes          51-60    
-## # ... with 92 more rows, and abbreviated variable name 1: ego.age.cat
+##    ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
+##     <dbl> <fct>     <dbl>   <dbl> <fct>     <dbl> <dbl> <fct>        <fct>      
+##  1     28 Male         61    2008 Second~     350     3 Yes          60+        
+##  2     29 Male         38    2000 Primary     900     4 Yes          36-40      
+##  3     33 Male         30    2010 Primary     200     3 Yes          26-30      
+##  4     35 Male         25    2009 Second~    1000     3 Yes          18-25      
+##  5     39 Male         29    2007 Primary       0     1 No           26-30      
+##  6     40 Male         56    2008 Second~     950     4 Yes          51-60      
+##  7     45 Male         52    1975 Primary    1600     3 Yes          51-60      
+##  8     46 Male         35    2002 Second~    1200     4 Yes          31-35      
+##  9     47 Male         22    2010 Second~     700     4 Yes          18-25      
+## 10     48 Male         51    2007 Primary     950     4 Yes          51-60      
+## # i 92 more rows
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Join ego{-}level data with compositional variables obtained above.}
-\NormalTok{ego.df }\SpecialCharTok{\%\textless{}\textgreater{}\%} 
+\NormalTok{ego.df }\OtherTok{\textless{}{-}}\NormalTok{ ego.df }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{left\_join}\NormalTok{(comp.measures, }\AttributeTok{by=} \StringTok{"ego\_ID"}\NormalTok{)}
 
 \CommentTok{\# Merge ego{-}level data with structural variables obtained above.}
-\NormalTok{ego.df }\SpecialCharTok{\%\textless{}\textgreater{}\%}
+\NormalTok{ego.df }\OtherTok{\textless{}{-}}\NormalTok{ ego.df }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{left\_join}\NormalTok{(str.ita.df, }\AttributeTok{by=} \StringTok{"ego\_ID"}\NormalTok{)}
 
 \CommentTok{\# See the result (just a subset of the variables)}
-\NormalTok{ego.df }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{ego.df }\SpecialCharTok{|\textgreater{}} 
 \NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(ego\_ID, ego.sex, ego.age, N.slk, prop.ita, dens.ita)}
 \end{Highlighting}
 \end{Shaded}
@@ -9165,7 +9064,7 @@ In this section, we'll apply some of the tools presented earlier to a specific c
 ##  8     46 Male         35    33   0.156     0.571
 ##  9     47 Male         22    45   0       NaN    
 ## 10     48 Male         51    39   0.0889    1    
-## # ... with 92 more rows
+## # i 92 more rows
 \end{verbatim}
 
 \begin{Shaded}
@@ -9173,7 +9072,7 @@ In this section, we'll apply some of the tools presented earlier to a specific c
 \CommentTok{\# Plot number by mean degree of Italians.}
 \CommentTok{\# To avoid warnings from ggplot(), let\textquotesingle{}s remove cases with NA values on the}
 \CommentTok{\# relevant variables.}
-\NormalTok{data }\OtherTok{\textless{}{-}}\NormalTok{ ego.df }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{data }\OtherTok{\textless{}{-}}\NormalTok{ ego.df }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{filter}\NormalTok{(}\FunctionTok{complete.cases}\NormalTok{(N.ita, avg.deg.ita))}
 
 \CommentTok{\# Set seed for reproducibility (jittering is random).}
@@ -9235,7 +9134,7 @@ In this section, we'll apply some of the tools presented earlier to a specific c
 
 \CommentTok{\# To avoid warnings from ggplot(), let\textquotesingle{}s remove cases with NA values on the}
 \CommentTok{\# relevant variables.}
-\NormalTok{data }\OtherTok{\textless{}{-}}\NormalTok{ ego.df }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{data }\OtherTok{\textless{}{-}}\NormalTok{ ego.df }\SpecialCharTok{|\textgreater{}} 
   \FunctionTok{filter}\NormalTok{(}\FunctionTok{complete.cases}\NormalTok{(ego.arr, prop.ita))}
 
 \CommentTok{\# Set seed for reproducibility (jittering is random).}
@@ -9251,7 +9150,7 @@ In this section, we'll apply some of the tools presented earlier to a specific c
 \end{Shaded}
 
 \begin{verbatim}
-## `geom_smooth()` using formula 'y ~ x'
+## `geom_smooth()` using formula = 'y ~ x'
 \end{verbatim}
 
 \includegraphics[width=0.7\linewidth]{Egocentric_R_bookdown_files/figure-latex/case-study-5}
@@ -9263,7 +9162,7 @@ In this section, we'll apply some of the tools presented earlier to a specific c
 
 \CommentTok{\# To avoid warnings from ggplot(), let\textquotesingle{}s remove cases with NA values on the}
 \CommentTok{\# relevant variables.}
-\NormalTok{data }\OtherTok{\textless{}{-}}\NormalTok{ ego.df }\SpecialCharTok{\%\textgreater{}\%}
+\NormalTok{data }\OtherTok{\textless{}{-}}\NormalTok{ ego.df }\SpecialCharTok{|\textgreater{}}
   \FunctionTok{filter}\NormalTok{(}\FunctionTok{complete.cases}\NormalTok{(prop.ita, ego.inc))}
 
 \CommentTok{\# Set seed for reproducibility (jittering is random).}
@@ -9279,7 +9178,7 @@ In this section, we'll apply some of the tools presented earlier to a specific c
 \end{Shaded}
 
 \begin{verbatim}
-## `geom_smooth()` using formula 'y ~ x'
+## `geom_smooth()` using formula = 'y ~ x'
 \end{verbatim}
 
 \includegraphics[width=0.7\linewidth]{Egocentric_R_bookdown_files/figure-latex/case-study-6}

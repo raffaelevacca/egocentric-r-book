@@ -32,7 +32,7 @@ alter.attr.all
 
 # Note that the new data frame has one row for each alter, and the same ego ID
 # and ego attribute value is repeated for all alters belonging to the same ego.
-data %>% 
+data |> 
   dplyr::select(alter_ID, ego_ID, ego.age, ego.edu)
 
 # ---- end-levels
@@ -120,7 +120,7 @@ V(gr)$alter.res
 janitor::tabyl(V(gr)$alter.res)
 
 # This is more readable with the pipe operator.
-V(gr)$alter.res %>% 
+V(gr)$alter.res |> 
   tabyl()
 
 # Alter IDs are stored in the "name" vertex attribute
@@ -188,8 +188,8 @@ V(gr)[alter.sex=="Female"]
 V(gr)[alter.sex=="Female"]$alter.res
 
 # Frequencies of countries of residence of female alters.
-V(gr)[alter.sex=="Female"]$alter.res %>%
-  tabyl
+V(gr)[alter.sex=="Female"]$alter.res |> 
+  tabyl()
 
 # View nationality for alter 2833.
 V(gr)[name=="2833"]$alter.nat
@@ -199,26 +199,26 @@ V(gr)[name=="2833"]$alter.nat <- "Italy"
 
 # View all alters who know alter 2833 (vertices that are adjacent to vertex
 # "2833").
-V(gr)[nei("2833")]
+V(gr)[.nei("2833")]
 # View the gender of all alters who know alter 2833.
-V(gr)[nei("2833")]$alter.sex
+V(gr)[.nei("2833")]$alter.sex
 
 # View all edges that are incident on alter 2833
-E(gr)[inc("2833")]
+E(gr)[.inc("2833")]
 
 # View the weight of these edges.
-E(gr)[inc("2833")]$weight
+E(gr)[.inc("2833")]$weight
 
 # Max weight of any edge that is incident on alter 2833. 
-E(gr)[inc("2833")]$weight %>% 
-  max
+E(gr)[.inc("2833")]$weight |>  
+  max()
 
 # View all edges with weight==2 (alters who "maybe" know each other).
 E(gr)[weight==2] 
 
 # Conditions in R indexing can always be combined: view all "maybe" edges
 # that are incident on alter 2833.
-E(gr)[weight==2 & inc("2833")]
+E(gr)[weight==2 & .inc("2833")]
 
 
 # ***** EXERCISES
@@ -227,7 +227,7 @@ E(gr)[weight==2 & inc("2833")]
 #
 # (2) How many edges in the personal network gr involve at least one close
 # family member and have $weight==2 (the two alters "maybe" know each other)?
-# Remember that close family members have $relation=="Close family". Use inc().
+# Remember that close family members have $relation=="Close family". Use .inc().
 #
 # *****
 

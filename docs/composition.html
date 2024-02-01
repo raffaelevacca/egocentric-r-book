@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 4 Ego-network composition | Egocentric network analysis with R</title>
   <meta name="description" content="Personal network analysis with R" />
-  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 4 Ego-network composition | Egocentric network analysis with R" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Raffaele Vacca" />
 
 
-<meta name="date" content="2022-09-15" />
+<meta name="date" content="2024-02-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -92,7 +92,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -105,7 +105,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 <style type="text/css">
 /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
 div.csl-bib-body { }
@@ -192,13 +196,13 @@ div.csl-indent {
 <li class="chapter" data-level="2.4.3" data-path="basics.html"><a href="basics.html#examples-of-arithmetic-and-statistical-functions"><i class="fa fa-check"></i><b>2.4.3</b> Examples of arithmetic and statistical functions</a></li>
 <li class="chapter" data-level="2.4.4" data-path="basics.html"><a href="basics.html#missing-and-infinite-values"><i class="fa fa-check"></i><b>2.4.4</b> Missing and infinite values</a></li>
 </ul></li>
-<li class="chapter" data-level="2.5" data-path="basics.html"><a href="basics.html#indexing"><i class="fa fa-check"></i><b>2.5</b> Indexing</a>
+<li class="chapter" data-level="2.5" data-path="basics.html"><a href="basics.html#subsetting"><i class="fa fa-check"></i><b>2.5</b> Subsetting</a>
 <ul>
-<li class="chapter" data-level="2.5.1" data-path="basics.html"><a href="basics.html#index-df"><i class="fa fa-check"></i><b>2.5.1</b> Indexing and subsetting data frames</a></li>
+<li class="chapter" data-level="2.5.1" data-path="basics.html"><a href="basics.html#index-df"><i class="fa fa-check"></i><b>2.5.1</b> Subsetting data frames</a></li>
 </ul></li>
 <li class="chapter" data-level="2.6" data-path="basics.html"><a href="basics.html#the-tidyverse-syntax"><i class="fa fa-check"></i><b>2.6</b> The <code>tidyverse</code> syntax</a>
 <ul>
-<li class="chapter" data-level="2.6.1" data-path="basics.html"><a href="basics.html#pipes-and-the-operator"><i class="fa fa-check"></i><b>2.6.1</b> Pipes and the <code>%&gt;%</code> operator</a></li>
+<li class="chapter" data-level="2.6.1" data-path="basics.html"><a href="basics.html#pipes-and-the-operator"><i class="fa fa-check"></i><b>2.6.1</b> Pipes and the <code>|&gt;</code> operator</a></li>
 <li class="chapter" data-level="2.6.2" data-path="basics.html"><a href="basics.html#subsetting-data-frames-in-tidyverse"><i class="fa fa-check"></i><b>2.6.2</b> Subsetting data frames in <code>tidyverse</code></a></li>
 </ul></li>
 </ul></li>
@@ -322,52 +326,59 @@ div.csl-indent {
 <li>Calculate multiple compositional measures and put them together into one ego-level data frame.</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="composition.html#cb243-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load packages.</span></span>
-<span id="cb243-2"><a href="composition.html#cb243-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb243-3"><a href="composition.html#cb243-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)</span>
-<span id="cb243-4"><a href="composition.html#cb243-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
-<span id="cb243-5"><a href="composition.html#cb243-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
-<span id="cb243-6"><a href="composition.html#cb243-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb243-7"><a href="composition.html#cb243-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data.</span></span>
-<span id="cb243-8"><a href="composition.html#cb243-8" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;./Data/data.rda&quot;</span>)</span>
-<span id="cb243-9"><a href="composition.html#cb243-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb243-10"><a href="composition.html#cb243-10" aria-hidden="true" tabindex="-1"></a><span class="co"># For compositional measures all we need is the alter attribute data frame.</span></span>
-<span id="cb243-11"><a href="composition.html#cb243-11" aria-hidden="true" tabindex="-1"></a><span class="co"># The data.rda file loaded above includes the alter attribute data frame for</span></span>
-<span id="cb243-12"><a href="composition.html#cb243-12" aria-hidden="true" tabindex="-1"></a><span class="co"># ego ID 28.</span></span>
-<span id="cb243-13"><a href="composition.html#cb243-13" aria-hidden="true" tabindex="-1"></a>alter.attr<span class="fl">.28</span></span></code></pre></div>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="composition.html#cb226-1" tabindex="-1"></a><span class="co"># Load packages.</span></span>
+<span id="cb226-2"><a href="composition.html#cb226-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb226-3"><a href="composition.html#cb226-3" tabindex="-1"></a><span class="fu">library</span>(skimr)</span>
+<span id="cb226-4"><a href="composition.html#cb226-4" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb226-5"><a href="composition.html#cb226-5" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;magrittr&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     set_names</code></pre>
+<pre><code>## The following object is masked from &#39;package:tidyr&#39;:
+## 
+##     extract</code></pre>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="composition.html#cb230-1" tabindex="-1"></a><span class="co"># Load data.</span></span>
+<span id="cb230-2"><a href="composition.html#cb230-2" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;./Data/data.rda&quot;</span>)</span>
+<span id="cb230-3"><a href="composition.html#cb230-3" tabindex="-1"></a></span>
+<span id="cb230-4"><a href="composition.html#cb230-4" tabindex="-1"></a><span class="co"># For compositional measures all we need is the alter attribute data frame.</span></span>
+<span id="cb230-5"><a href="composition.html#cb230-5" tabindex="-1"></a><span class="co"># The data.rda file loaded above includes the alter attribute data frame for</span></span>
+<span id="cb230-6"><a href="composition.html#cb230-6" tabindex="-1"></a><span class="co"># ego ID 28.</span></span>
+<span id="cb230-7"><a href="composition.html#cb230-7" tabindex="-1"></a>alter.attr<span class="fl">.28</span></span></code></pre></div>
 <pre><code>## # A tibble: 45 × 12
-##    alter_ID ego_ID alter_num alter.sex alter.a…¹ alter…² alter…³ alter…⁴ alter…⁵
-##       &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;     &lt;fct&gt;     &lt;fct&gt;   &lt;fct&gt;   &lt;fct&gt;     &lt;dbl&gt;
-##  1     2801     28         1 Female    51-60     Close … Sri La… Sri La…      NA
-##  2     2802     28         2 Male      51-60     Other … Sri La… Sri La…       3
-##  3     2803     28         3 Male      51-60     Close … Sri La… Sri La…      NA
-##  4     2804     28         4 Male      60+       Close … Sri La… Sri La…      NA
-##  5     2805     28         5 Female    41-50     Close … Sri La… Sri La…      NA
-##  6     2806     28         6 Female    60+       Close … Sri La… Sri La…      NA
-##  7     2807     28         7 Male      41-50     Other … Sri La… Sri La…       5
-##  8     2808     28         8 Female    36-40     Other … Sri La… Sri La…       4
-##  9     2809     28         9 Female    51-60     Other … Sri La… Sri La…       5
-## 10     2810     28        10 Male      60+       Other … Sri La… Sri La…       5
-## # … with 35 more rows, 3 more variables: alter.loan &lt;fct&gt;, alter.fam &lt;fct&gt;,
-## #   alter.age &lt;dbl&gt;, and abbreviated variable names ¹​alter.age.cat, ²​alter.rel,
-## #   ³​alter.nat, ⁴​alter.res, ⁵​alter.clo</code></pre>
-<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="composition.html#cb245-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compositional measures based on a single alter attribute                  ----</span></span>
-<span id="cb245-2"><a href="composition.html#cb245-2" aria-hidden="true" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
-<span id="cb245-3"><a href="composition.html#cb245-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb245-4"><a href="composition.html#cb245-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary of continuous variable: Average alter closeness.</span></span>
-<span id="cb245-5"><a href="composition.html#cb245-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb245-6"><a href="composition.html#cb245-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Check out the relevant variable</span></span>
-<span id="cb245-7"><a href="composition.html#cb245-7" aria-hidden="true" tabindex="-1"></a>alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.clo</span></code></pre></div>
+##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
+##       &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;     &lt;fct&gt;         &lt;fct&gt;        &lt;fct&gt;    
+##  1     2801     28         1 Female    51-60         Close family Sri Lanka
+##  2     2802     28         2 Male      51-60         Other family Sri Lanka
+##  3     2803     28         3 Male      51-60         Close family Sri Lanka
+##  4     2804     28         4 Male      60+           Close family Sri Lanka
+##  5     2805     28         5 Female    41-50         Close family Sri Lanka
+##  6     2806     28         6 Female    60+           Close family Sri Lanka
+##  7     2807     28         7 Male      41-50         Other family Sri Lanka
+##  8     2808     28         8 Female    36-40         Other family Sri Lanka
+##  9     2809     28         9 Female    51-60         Other family Sri Lanka
+## 10     2810     28        10 Male      60+           Other family Sri Lanka
+## # ℹ 35 more rows
+## # ℹ 5 more variables: alter.res &lt;fct&gt;, alter.clo &lt;dbl&gt;, alter.loan &lt;fct&gt;,
+## #   alter.fam &lt;fct&gt;, alter.age &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="composition.html#cb232-1" tabindex="-1"></a><span class="co"># Compositional measures based on a single alter attribute                  ----</span></span>
+<span id="cb232-2"><a href="composition.html#cb232-2" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
+<span id="cb232-3"><a href="composition.html#cb232-3" tabindex="-1"></a></span>
+<span id="cb232-4"><a href="composition.html#cb232-4" tabindex="-1"></a><span class="co"># Summary of continuous variable: Average alter closeness.</span></span>
+<span id="cb232-5"><a href="composition.html#cb232-5" tabindex="-1"></a></span>
+<span id="cb232-6"><a href="composition.html#cb232-6" tabindex="-1"></a><span class="co"># Check out the relevant variable</span></span>
+<span id="cb232-7"><a href="composition.html#cb232-7" tabindex="-1"></a>alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.clo</span></code></pre></div>
 <pre><code>##  [1] NA  3 NA NA NA NA  5  4  5  5  5  4  3  5  3  3  1  5  4  5  5  5  5  5  2
 ## [26]  3  4  5  5  5  5  3  5  3  4  5  5  5  5  3  3  3  3  3  5</code></pre>
-<div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="composition.html#cb247-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Or, in tidyverse syntax</span></span>
-<span id="cb247-2"><a href="composition.html#cb247-2" aria-hidden="true" tabindex="-1"></a>alter.attr<span class="fl">.28</span> <span class="sc">%&gt;%</span></span>
-<span id="cb247-3"><a href="composition.html#cb247-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(alter.clo)</span></code></pre></div>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="composition.html#cb234-1" tabindex="-1"></a><span class="co"># Or, in tidyverse syntax</span></span>
+<span id="cb234-2"><a href="composition.html#cb234-2" tabindex="-1"></a>alter.attr<span class="fl">.28</span> <span class="sc">|&gt;</span> </span>
+<span id="cb234-3"><a href="composition.html#cb234-3" tabindex="-1"></a>  <span class="fu">pull</span>(alter.clo)</span></code></pre></div>
 <pre><code>##  [1] NA  3 NA NA NA NA  5  4  5  5  5  4  3  5  3  3  1  5  4  5  5  5  5  5  2
 ## [26]  3  4  5  5  5  5  3  5  3  4  5  5  5  5  3  3  3  3  3  5</code></pre>
-<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb249-1"><a href="composition.html#cb249-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Battery of descriptive stats.</span></span>
-<span id="cb249-2"><a href="composition.html#cb249-2" aria-hidden="true" tabindex="-1"></a>alter.attr<span class="fl">.28</span> <span class="sc">%&gt;%</span></span>
-<span id="cb249-3"><a href="composition.html#cb249-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">skim_tee</span>(alter.clo) </span></code></pre></div>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="composition.html#cb236-1" tabindex="-1"></a><span class="co"># Battery of descriptive stats.</span></span>
+<span id="cb236-2"><a href="composition.html#cb236-2" tabindex="-1"></a>alter.attr<span class="fl">.28</span> <span class="sc">|&gt;</span></span>
+<span id="cb236-3"><a href="composition.html#cb236-3" tabindex="-1"></a>  <span class="fu">skim_tee</span>(alter.clo) </span></code></pre></div>
 <pre><code>## ── Data Summary ────────────────────────
 ##                            Values
 ## Name                       data  
@@ -382,84 +393,84 @@ div.csl-indent {
 ## ── Variable type: numeric ──────────────────────────────────────────────────────
 ##   skim_variable n_missing complete_rate mean   sd p0 p25 p50 p75 p100 hist 
 ## 1 alter.clo             5         0.889  4.1 1.08  1   3   5   5    5 ▁▁▅▂▇</code></pre>
-<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb251-1"><a href="composition.html#cb251-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get a single summary measure (useful when writing functions)</span></span>
-<span id="cb251-2"><a href="composition.html#cb251-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.clo, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="composition.html#cb238-1" tabindex="-1"></a><span class="co"># Get a single summary measure (useful when writing functions)</span></span>
+<span id="cb238-2"><a href="composition.html#cb238-2" tabindex="-1"></a><span class="fu">mean</span>(alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.clo, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## [1] 4.1</code></pre>
-<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb253-1"><a href="composition.html#cb253-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary of categorical variable: Proportion female alters.</span></span>
-<span id="cb253-2"><a href="composition.html#cb253-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb253-3"><a href="composition.html#cb253-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Check out the relevant vector</span></span>
-<span id="cb253-4"><a href="composition.html#cb253-4" aria-hidden="true" tabindex="-1"></a>alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.sex</span></code></pre></div>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="composition.html#cb240-1" tabindex="-1"></a><span class="co"># Summary of categorical variable: Proportion female alters.</span></span>
+<span id="cb240-2"><a href="composition.html#cb240-2" tabindex="-1"></a></span>
+<span id="cb240-3"><a href="composition.html#cb240-3" tabindex="-1"></a><span class="co"># Check out the relevant vector</span></span>
+<span id="cb240-4"><a href="composition.html#cb240-4" tabindex="-1"></a>alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.sex</span></code></pre></div>
 <pre><code>##  [1] Female Male   Male   Male   Female Female Male   Female Female Male  
 ## [11] Male   Male   Male   Male   Male   Male   Male   Male   Male   Male  
 ## [21] Male   Male   Male   Male   Male   Male   Male   Female Male   Male  
 ## [31] Male   Female Male   Male   Male   Male   Female Male   Male   Male  
 ## [41] Male   Male   Male   Male   Male  
 ## Levels: Female Male</code></pre>
-<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb255-1"><a href="composition.html#cb255-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get frequencies</span></span>
-<span id="cb255-2"><a href="composition.html#cb255-2" aria-hidden="true" tabindex="-1"></a>alter.attr<span class="fl">.28</span> <span class="sc">%&gt;%</span></span>
-<span id="cb255-3"><a href="composition.html#cb255-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(alter.sex)</span></code></pre></div>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="composition.html#cb242-1" tabindex="-1"></a><span class="co"># Get frequencies</span></span>
+<span id="cb242-2"><a href="composition.html#cb242-2" tabindex="-1"></a>alter.attr<span class="fl">.28</span> <span class="sc">|&gt;</span></span>
+<span id="cb242-3"><a href="composition.html#cb242-3" tabindex="-1"></a>  <span class="fu">tabyl</span>(alter.sex)</span></code></pre></div>
 <pre><code>##  alter.sex  n   percent
 ##     Female  8 0.1777778
 ##       Male 37 0.8222222</code></pre>
-<div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="composition.html#cb257-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Same for nationalities</span></span>
-<span id="cb257-2"><a href="composition.html#cb257-2" aria-hidden="true" tabindex="-1"></a>alter.attr<span class="fl">.28</span> <span class="sc">%&gt;%</span></span>
-<span id="cb257-3"><a href="composition.html#cb257-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(alter.nat)</span></code></pre></div>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="composition.html#cb244-1" tabindex="-1"></a><span class="co"># Same for nationalities</span></span>
+<span id="cb244-2"><a href="composition.html#cb244-2" tabindex="-1"></a>alter.attr<span class="fl">.28</span> <span class="sc">|&gt;</span></span>
+<span id="cb244-3"><a href="composition.html#cb244-3" tabindex="-1"></a>  <span class="fu">tabyl</span>(alter.nat)</span></code></pre></div>
 <pre><code>##  alter.nat  n    percent
 ##      Italy  0 0.00000000
 ##      Other  2 0.04444444
 ##  Sri Lanka 43 0.95555556</code></pre>
-<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb259-1"><a href="composition.html#cb259-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Another way to get the proportion of a specific category (this is useful when</span></span>
-<span id="cb259-2"><a href="composition.html#cb259-2" aria-hidden="true" tabindex="-1"></a><span class="co"># writing functions).</span></span>
-<span id="cb259-3"><a href="composition.html#cb259-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.sex <span class="sc">==</span> <span class="st">&quot;Female&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="composition.html#cb246-1" tabindex="-1"></a><span class="co"># Another way to get the proportion of a specific category (this is useful when</span></span>
+<span id="cb246-2"><a href="composition.html#cb246-2" tabindex="-1"></a><span class="co"># writing functions).</span></span>
+<span id="cb246-3"><a href="composition.html#cb246-3" tabindex="-1"></a><span class="fu">mean</span>(alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.sex <span class="sc">==</span> <span class="st">&quot;Female&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] 0.1777778</code></pre>
-<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb261-1"><a href="composition.html#cb261-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.nat <span class="sc">==</span> <span class="st">&quot;Sri Lanka&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="composition.html#cb248-1" tabindex="-1"></a><span class="fu">mean</span>(alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.nat <span class="sc">==</span> <span class="st">&quot;Sri Lanka&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] 0.9555556</code></pre>
-<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="composition.html#cb263-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The function dplyr::summarise() allows us to calculate multiple measures, name</span></span>
-<span id="cb263-2"><a href="composition.html#cb263-2" aria-hidden="true" tabindex="-1"></a><span class="co"># them, and put them together in a data frame.</span></span>
-<span id="cb263-3"><a href="composition.html#cb263-3" aria-hidden="true" tabindex="-1"></a>alter.attr<span class="fl">.28</span> <span class="sc">%&gt;%</span></span>
-<span id="cb263-4"><a href="composition.html#cb263-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb263-5"><a href="composition.html#cb263-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean.clo =</span> <span class="fu">mean</span>(alter.clo, <span class="at">na.rm=</span><span class="cn">TRUE</span>), </span>
-<span id="cb263-6"><a href="composition.html#cb263-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">prop.fem =</span> <span class="fu">mean</span>(alter.sex<span class="sc">==</span><span class="st">&quot;Female&quot;</span>), </span>
-<span id="cb263-7"><a href="composition.html#cb263-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">count.nat.slk =</span> <span class="fu">sum</span>(alter.nat<span class="sc">==</span><span class="st">&quot;Sri Lanka&quot;</span>), </span>
-<span id="cb263-8"><a href="composition.html#cb263-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">count.nat.ita =</span> <span class="fu">sum</span>(alter.nat<span class="sc">==</span><span class="st">&quot;Italy&quot;</span>), </span>
-<span id="cb263-9"><a href="composition.html#cb263-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">count.nat.oth =</span> <span class="fu">sum</span>(alter.nat<span class="sc">==</span><span class="st">&quot;Other&quot;</span>)</span>
-<span id="cb263-10"><a href="composition.html#cb263-10" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="composition.html#cb250-1" tabindex="-1"></a><span class="co"># The function dplyr::summarise() allows us to calculate multiple measures, name</span></span>
+<span id="cb250-2"><a href="composition.html#cb250-2" tabindex="-1"></a><span class="co"># them, and put them together in a data frame.</span></span>
+<span id="cb250-3"><a href="composition.html#cb250-3" tabindex="-1"></a>alter.attr<span class="fl">.28</span> <span class="sc">|&gt;</span></span>
+<span id="cb250-4"><a href="composition.html#cb250-4" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb250-5"><a href="composition.html#cb250-5" tabindex="-1"></a>    <span class="at">mean.clo =</span> <span class="fu">mean</span>(alter.clo, <span class="at">na.rm=</span><span class="cn">TRUE</span>), </span>
+<span id="cb250-6"><a href="composition.html#cb250-6" tabindex="-1"></a>    <span class="at">prop.fem =</span> <span class="fu">mean</span>(alter.sex<span class="sc">==</span><span class="st">&quot;Female&quot;</span>), </span>
+<span id="cb250-7"><a href="composition.html#cb250-7" tabindex="-1"></a>    <span class="at">count.nat.slk =</span> <span class="fu">sum</span>(alter.nat<span class="sc">==</span><span class="st">&quot;Sri Lanka&quot;</span>), </span>
+<span id="cb250-8"><a href="composition.html#cb250-8" tabindex="-1"></a>    <span class="at">count.nat.ita =</span> <span class="fu">sum</span>(alter.nat<span class="sc">==</span><span class="st">&quot;Italy&quot;</span>), </span>
+<span id="cb250-9"><a href="composition.html#cb250-9" tabindex="-1"></a>    <span class="at">count.nat.oth =</span> <span class="fu">sum</span>(alter.nat<span class="sc">==</span><span class="st">&quot;Other&quot;</span>)</span>
+<span id="cb250-10"><a href="composition.html#cb250-10" tabindex="-1"></a>  )</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 5
 ##   mean.clo prop.fem count.nat.slk count.nat.ita count.nat.oth
 ##      &lt;dbl&gt;    &lt;dbl&gt;         &lt;int&gt;         &lt;int&gt;         &lt;int&gt;
 ## 1      4.1    0.178            43             0             2</code></pre>
-<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="composition.html#cb265-1" aria-hidden="true" tabindex="-1"></a><span class="co"># What if we want to calculate the same measures for all ego-networks in the data?</span></span>
-<span id="cb265-2"><a href="composition.html#cb265-2" aria-hidden="true" tabindex="-1"></a><span class="co"># We&#39;ll have to use the data frame with all alter attributes from all egos.</span></span>
-<span id="cb265-3"><a href="composition.html#cb265-3" aria-hidden="true" tabindex="-1"></a>alter.attr.all</span></code></pre></div>
+<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb252-1"><a href="composition.html#cb252-1" tabindex="-1"></a><span class="co"># What if we want to calculate the same measures for all ego-networks in the data?</span></span>
+<span id="cb252-2"><a href="composition.html#cb252-2" tabindex="-1"></a><span class="co"># We&#39;ll have to use the data frame with all alter attributes from all egos.</span></span>
+<span id="cb252-3"><a href="composition.html#cb252-3" tabindex="-1"></a>alter.attr.all</span></code></pre></div>
 <pre><code>## # A tibble: 4,590 × 12
-##    alter_ID ego_ID alter_num alter.sex alter.a…¹ alter…² alter…³ alter…⁴ alter…⁵
-##       &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;     &lt;fct&gt;     &lt;fct&gt;   &lt;fct&gt;   &lt;fct&gt;     &lt;dbl&gt;
-##  1     2801     28         1 Female    51-60     Close … Sri La… Sri La…      NA
-##  2     2802     28         2 Male      51-60     Other … Sri La… Sri La…       3
-##  3     2803     28         3 Male      51-60     Close … Sri La… Sri La…      NA
-##  4     2804     28         4 Male      60+       Close … Sri La… Sri La…      NA
-##  5     2805     28         5 Female    41-50     Close … Sri La… Sri La…      NA
-##  6     2806     28         6 Female    60+       Close … Sri La… Sri La…      NA
-##  7     2807     28         7 Male      41-50     Other … Sri La… Sri La…       5
-##  8     2808     28         8 Female    36-40     Other … Sri La… Sri La…       4
-##  9     2809     28         9 Female    51-60     Other … Sri La… Sri La…       5
-## 10     2810     28        10 Male      60+       Other … Sri La… Sri La…       5
-## # … with 4,580 more rows, 3 more variables: alter.loan &lt;fct&gt;, alter.fam &lt;fct&gt;,
-## #   alter.age &lt;dbl&gt;, and abbreviated variable names ¹​alter.age.cat, ²​alter.rel,
-## #   ³​alter.nat, ⁴​alter.res, ⁵​alter.clo</code></pre>
-<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="composition.html#cb267-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dplyr allows us to &quot;group&quot; a data frame by a factor (here, ego IDs) so all</span></span>
-<span id="cb267-2"><a href="composition.html#cb267-2" aria-hidden="true" tabindex="-1"></a><span class="co"># measures we calculate on that data frame via summarise (means, proportions,</span></span>
-<span id="cb267-3"><a href="composition.html#cb267-3" aria-hidden="true" tabindex="-1"></a><span class="co"># etc.) are calculated by the groups given by that factor (here, for each ego</span></span>
-<span id="cb267-4"><a href="composition.html#cb267-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ID).</span></span>
-<span id="cb267-5"><a href="composition.html#cb267-5" aria-hidden="true" tabindex="-1"></a>alter.attr.all <span class="sc">%&gt;%</span> </span>
-<span id="cb267-6"><a href="composition.html#cb267-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ego_ID) <span class="sc">%&gt;%</span> </span>
-<span id="cb267-7"><a href="composition.html#cb267-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb267-8"><a href="composition.html#cb267-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean.clo =</span> <span class="fu">mean</span>(alter.clo, <span class="at">na.rm=</span><span class="cn">TRUE</span>), </span>
-<span id="cb267-9"><a href="composition.html#cb267-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">prop.fem =</span> <span class="fu">mean</span>(alter.sex<span class="sc">==</span><span class="st">&quot;Female&quot;</span>), </span>
-<span id="cb267-10"><a href="composition.html#cb267-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">count.nat.slk =</span> <span class="fu">sum</span>(alter.nat<span class="sc">==</span><span class="st">&quot;Sri Lanka&quot;</span>), </span>
-<span id="cb267-11"><a href="composition.html#cb267-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">count.nat.ita =</span> <span class="fu">sum</span>(alter.nat<span class="sc">==</span><span class="st">&quot;Italy&quot;</span>), </span>
-<span id="cb267-12"><a href="composition.html#cb267-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">count.nat.oth =</span> <span class="fu">sum</span>(alter.nat<span class="sc">==</span><span class="st">&quot;Other&quot;</span>)</span>
-<span id="cb267-13"><a href="composition.html#cb267-13" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
+##       &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;     &lt;fct&gt;         &lt;fct&gt;        &lt;fct&gt;    
+##  1     2801     28         1 Female    51-60         Close family Sri Lanka
+##  2     2802     28         2 Male      51-60         Other family Sri Lanka
+##  3     2803     28         3 Male      51-60         Close family Sri Lanka
+##  4     2804     28         4 Male      60+           Close family Sri Lanka
+##  5     2805     28         5 Female    41-50         Close family Sri Lanka
+##  6     2806     28         6 Female    60+           Close family Sri Lanka
+##  7     2807     28         7 Male      41-50         Other family Sri Lanka
+##  8     2808     28         8 Female    36-40         Other family Sri Lanka
+##  9     2809     28         9 Female    51-60         Other family Sri Lanka
+## 10     2810     28        10 Male      60+           Other family Sri Lanka
+## # ℹ 4,580 more rows
+## # ℹ 5 more variables: alter.res &lt;fct&gt;, alter.clo &lt;dbl&gt;, alter.loan &lt;fct&gt;,
+## #   alter.fam &lt;fct&gt;, alter.age &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb254-1"><a href="composition.html#cb254-1" tabindex="-1"></a><span class="co"># dplyr allows us to &quot;group&quot; a data frame by a factor (here, ego IDs) so all</span></span>
+<span id="cb254-2"><a href="composition.html#cb254-2" tabindex="-1"></a><span class="co"># measures we calculate on that data frame via summarise (means, proportions,</span></span>
+<span id="cb254-3"><a href="composition.html#cb254-3" tabindex="-1"></a><span class="co"># etc.) are calculated by the groups given by that factor (here, for each ego</span></span>
+<span id="cb254-4"><a href="composition.html#cb254-4" tabindex="-1"></a><span class="co"># ID).</span></span>
+<span id="cb254-5"><a href="composition.html#cb254-5" tabindex="-1"></a>alter.attr.all <span class="sc">|&gt;</span> </span>
+<span id="cb254-6"><a href="composition.html#cb254-6" tabindex="-1"></a>  <span class="fu">group_by</span>(ego_ID) <span class="sc">|&gt;</span> </span>
+<span id="cb254-7"><a href="composition.html#cb254-7" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb254-8"><a href="composition.html#cb254-8" tabindex="-1"></a>    <span class="at">mean.clo =</span> <span class="fu">mean</span>(alter.clo, <span class="at">na.rm=</span><span class="cn">TRUE</span>), </span>
+<span id="cb254-9"><a href="composition.html#cb254-9" tabindex="-1"></a>    <span class="at">prop.fem =</span> <span class="fu">mean</span>(alter.sex<span class="sc">==</span><span class="st">&quot;Female&quot;</span>), </span>
+<span id="cb254-10"><a href="composition.html#cb254-10" tabindex="-1"></a>    <span class="at">count.nat.slk =</span> <span class="fu">sum</span>(alter.nat<span class="sc">==</span><span class="st">&quot;Sri Lanka&quot;</span>), </span>
+<span id="cb254-11"><a href="composition.html#cb254-11" tabindex="-1"></a>    <span class="at">count.nat.ita =</span> <span class="fu">sum</span>(alter.nat<span class="sc">==</span><span class="st">&quot;Italy&quot;</span>), </span>
+<span id="cb254-12"><a href="composition.html#cb254-12" tabindex="-1"></a>    <span class="at">count.nat.oth =</span> <span class="fu">sum</span>(alter.nat<span class="sc">==</span><span class="st">&quot;Other&quot;</span>)</span>
+<span id="cb254-13"><a href="composition.html#cb254-13" tabindex="-1"></a>  )</span></code></pre></div>
 <pre><code>## # A tibble: 102 × 6
 ##    ego_ID mean.clo prop.fem count.nat.slk count.nat.ita count.nat.oth
 ##     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;         &lt;int&gt;         &lt;int&gt;         &lt;int&gt;
@@ -473,97 +484,97 @@ div.csl-indent {
 ##  8     46     3.48   0.4               33             7             5
 ##  9     47     4.05   0.267             45             0             0
 ## 10     48     4.07   0.311             39             4             2
-## # … with 92 more rows</code></pre>
-<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="composition.html#cb269-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We&#39;ll talk more about this and show more examples in the next sections.</span></span>
-<span id="cb269-2"><a href="composition.html#cb269-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb269-3"><a href="composition.html#cb269-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb269-4"><a href="composition.html#cb269-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Compositional measures based on multiple alter attributes                 ----</span></span>
-<span id="cb269-5"><a href="composition.html#cb269-5" aria-hidden="true" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
-<span id="cb269-6"><a href="composition.html#cb269-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb269-7"><a href="composition.html#cb269-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Using indexing we can combine multiple alter attribute variables.</span></span>
-<span id="cb269-8"><a href="composition.html#cb269-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb269-9"><a href="composition.html#cb269-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Mean closeness of alters who are &quot;Friends&quot;.</span></span>
-<span id="cb269-10"><a href="composition.html#cb269-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb269-11"><a href="composition.html#cb269-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Check out the relevant vector.</span></span>
-<span id="cb269-12"><a href="composition.html#cb269-12" aria-hidden="true" tabindex="-1"></a>alter.attr<span class="fl">.28</span> <span class="sc">%&gt;%</span></span>
-<span id="cb269-13"><a href="composition.html#cb269-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(alter.rel<span class="sc">==</span><span class="st">&quot;Friends&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb269-14"><a href="composition.html#cb269-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(alter.clo)</span></code></pre></div>
+## # ℹ 92 more rows</code></pre>
+<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb256-1"><a href="composition.html#cb256-1" tabindex="-1"></a><span class="co"># We&#39;ll talk more about this and show more examples in the next sections.</span></span>
+<span id="cb256-2"><a href="composition.html#cb256-2" tabindex="-1"></a></span>
+<span id="cb256-3"><a href="composition.html#cb256-3" tabindex="-1"></a></span>
+<span id="cb256-4"><a href="composition.html#cb256-4" tabindex="-1"></a><span class="co"># Compositional measures based on multiple alter attributes                 ----</span></span>
+<span id="cb256-5"><a href="composition.html#cb256-5" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
+<span id="cb256-6"><a href="composition.html#cb256-6" tabindex="-1"></a></span>
+<span id="cb256-7"><a href="composition.html#cb256-7" tabindex="-1"></a><span class="co"># Using indexing we can combine multiple alter attribute variables.</span></span>
+<span id="cb256-8"><a href="composition.html#cb256-8" tabindex="-1"></a></span>
+<span id="cb256-9"><a href="composition.html#cb256-9" tabindex="-1"></a><span class="co"># Mean closeness of alters who are &quot;Friends&quot;.</span></span>
+<span id="cb256-10"><a href="composition.html#cb256-10" tabindex="-1"></a></span>
+<span id="cb256-11"><a href="composition.html#cb256-11" tabindex="-1"></a><span class="co"># Check out the relevant vector.</span></span>
+<span id="cb256-12"><a href="composition.html#cb256-12" tabindex="-1"></a>alter.attr<span class="fl">.28</span> <span class="sc">|&gt;</span></span>
+<span id="cb256-13"><a href="composition.html#cb256-13" tabindex="-1"></a>  <span class="fu">filter</span>(alter.rel<span class="sc">==</span><span class="st">&quot;Friends&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb256-14"><a href="composition.html#cb256-14" tabindex="-1"></a>  <span class="fu">pull</span>(alter.clo)</span></code></pre></div>
 <pre><code>##  [1] 5 4 3 5 3 3 5 5 5 5 5 5 4 5 5 5 5 5 4 5 5 5 5 3 3 3 5</code></pre>
-<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="composition.html#cb271-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get its mean.</span></span>
-<span id="cb271-2"><a href="composition.html#cb271-2" aria-hidden="true" tabindex="-1"></a>alter.attr<span class="fl">.28</span> <span class="sc">%&gt;%</span></span>
-<span id="cb271-3"><a href="composition.html#cb271-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(alter.rel<span class="sc">==</span><span class="st">&quot;Friends&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb271-4"><a href="composition.html#cb271-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(alter.clo) <span class="sc">%&gt;%</span> </span>
-<span id="cb271-5"><a href="composition.html#cb271-5" aria-hidden="true" tabindex="-1"></a>  mean</span></code></pre></div>
+<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="composition.html#cb258-1" tabindex="-1"></a><span class="co"># Get its mean.</span></span>
+<span id="cb258-2"><a href="composition.html#cb258-2" tabindex="-1"></a>alter.attr<span class="fl">.28</span> <span class="sc">|&gt;</span></span>
+<span id="cb258-3"><a href="composition.html#cb258-3" tabindex="-1"></a>  <span class="fu">filter</span>(alter.rel<span class="sc">==</span><span class="st">&quot;Friends&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb258-4"><a href="composition.html#cb258-4" tabindex="-1"></a>  <span class="fu">pull</span>(alter.clo) <span class="sc">|&gt;</span> </span>
+<span id="cb258-5"><a href="composition.html#cb258-5" tabindex="-1"></a>  <span class="fu">mean</span>()</span></code></pre></div>
 <pre><code>## [1] 4.444444</code></pre>
-<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="composition.html#cb273-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mean closeness of alters who are &quot;Acquaintances&quot;.</span></span>
-<span id="cb273-2"><a href="composition.html#cb273-2" aria-hidden="true" tabindex="-1"></a>alter.attr<span class="fl">.28</span> <span class="sc">%&gt;%</span></span>
-<span id="cb273-3"><a href="composition.html#cb273-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(alter.rel<span class="sc">==</span><span class="st">&quot;Acquaintances&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb273-4"><a href="composition.html#cb273-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(alter.clo) <span class="sc">%&gt;%</span> </span>
-<span id="cb273-5"><a href="composition.html#cb273-5" aria-hidden="true" tabindex="-1"></a>  mean</span></code></pre></div>
+<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb260-1"><a href="composition.html#cb260-1" tabindex="-1"></a><span class="co"># Mean closeness of alters who are &quot;Acquaintances&quot;.</span></span>
+<span id="cb260-2"><a href="composition.html#cb260-2" tabindex="-1"></a>alter.attr<span class="fl">.28</span> <span class="sc">|&gt;</span></span>
+<span id="cb260-3"><a href="composition.html#cb260-3" tabindex="-1"></a>  <span class="fu">filter</span>(alter.rel<span class="sc">==</span><span class="st">&quot;Acquaintances&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb260-4"><a href="composition.html#cb260-4" tabindex="-1"></a>  <span class="fu">pull</span>(alter.clo) <span class="sc">|&gt;</span> </span>
+<span id="cb260-5"><a href="composition.html#cb260-5" tabindex="-1"></a>  <span class="fu">mean</span>()</span></code></pre></div>
 <pre><code>## [1] 2.75</code></pre>
-<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="composition.html#cb275-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Equivalently (useful for writing functions)</span></span>
-<span id="cb275-2"><a href="composition.html#cb275-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.clo[alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.rel<span class="sc">==</span><span class="st">&quot;Acquaintances&quot;</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb262-1"><a href="composition.html#cb262-1" tabindex="-1"></a><span class="co"># Equivalently (useful for writing functions)</span></span>
+<span id="cb262-2"><a href="composition.html#cb262-2" tabindex="-1"></a><span class="fu">mean</span>(alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.clo[alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.rel<span class="sc">==</span><span class="st">&quot;Acquaintances&quot;</span>])</span></code></pre></div>
 <pre><code>## [1] 2.75</code></pre>
-<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="composition.html#cb277-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count of close family members who live in Sri Lanka vs those who live in Italy.</span></span>
-<span id="cb277-2"><a href="composition.html#cb277-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb277-3"><a href="composition.html#cb277-3" aria-hidden="true" tabindex="-1"></a><span class="co"># In Sri Lanka.</span></span>
-<span id="cb277-4"><a href="composition.html#cb277-4" aria-hidden="true" tabindex="-1"></a>alter.attr<span class="fl">.28</span> <span class="sc">%&gt;%</span></span>
-<span id="cb277-5"><a href="composition.html#cb277-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(alter.rel <span class="sc">==</span> <span class="st">&quot;Close family&quot;</span>, alter.res <span class="sc">==</span> <span class="st">&quot;Sri Lanka&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb277-6"><a href="composition.html#cb277-6" aria-hidden="true" tabindex="-1"></a>  count</span></code></pre></div>
+<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="composition.html#cb264-1" tabindex="-1"></a><span class="co"># Count of close family members who live in Sri Lanka vs those who live in Italy.</span></span>
+<span id="cb264-2"><a href="composition.html#cb264-2" tabindex="-1"></a></span>
+<span id="cb264-3"><a href="composition.html#cb264-3" tabindex="-1"></a><span class="co"># In Sri Lanka.</span></span>
+<span id="cb264-4"><a href="composition.html#cb264-4" tabindex="-1"></a>alter.attr<span class="fl">.28</span> <span class="sc">|&gt;</span></span>
+<span id="cb264-5"><a href="composition.html#cb264-5" tabindex="-1"></a>  <span class="fu">filter</span>(alter.rel <span class="sc">==</span> <span class="st">&quot;Close family&quot;</span>, alter.res <span class="sc">==</span> <span class="st">&quot;Sri Lanka&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb264-6"><a href="composition.html#cb264-6" tabindex="-1"></a>  <span class="fu">count</span>()</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 1
 ##       n
 ##   &lt;int&gt;
 ## 1     5</code></pre>
-<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="composition.html#cb279-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Equivalently (useful for writing functions)</span></span>
-<span id="cb279-2"><a href="composition.html#cb279-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.rel <span class="sc">==</span> <span class="st">&quot;Close family&quot;</span> <span class="sc">&amp;</span> alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.res <span class="sc">==</span> <span class="st">&quot;Sri Lanka&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="composition.html#cb266-1" tabindex="-1"></a><span class="co"># Equivalently (useful for writing functions)</span></span>
+<span id="cb266-2"><a href="composition.html#cb266-2" tabindex="-1"></a><span class="fu">sum</span>(alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.rel <span class="sc">==</span> <span class="st">&quot;Close family&quot;</span> <span class="sc">&amp;</span> alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.res <span class="sc">==</span> <span class="st">&quot;Sri Lanka&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] 5</code></pre>
-<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="composition.html#cb281-1" aria-hidden="true" tabindex="-1"></a><span class="co"># In Italy.</span></span>
-<span id="cb281-2"><a href="composition.html#cb281-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.rel <span class="sc">==</span> <span class="st">&quot;Close family&quot;</span> <span class="sc">&amp;</span> alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.res <span class="sc">==</span> <span class="st">&quot;Italy&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="composition.html#cb268-1" tabindex="-1"></a><span class="co"># In Italy.</span></span>
+<span id="cb268-2"><a href="composition.html#cb268-2" tabindex="-1"></a><span class="fu">sum</span>(alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.rel <span class="sc">==</span> <span class="st">&quot;Close family&quot;</span> <span class="sc">&amp;</span> alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.res <span class="sc">==</span> <span class="st">&quot;Italy&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] 0</code></pre>
-<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="composition.html#cb283-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Again, we can put these measures together into a data frame row with dplyr.</span></span>
-<span id="cb283-2"><a href="composition.html#cb283-2" aria-hidden="true" tabindex="-1"></a>alter.attr<span class="fl">.28</span> <span class="sc">%&gt;%</span></span>
-<span id="cb283-3"><a href="composition.html#cb283-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb283-4"><a href="composition.html#cb283-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean.clo.fr =</span> <span class="fu">mean</span>(alter.clo[alter.rel<span class="sc">==</span><span class="st">&quot;Friends&quot;</span>]), </span>
-<span id="cb283-5"><a href="composition.html#cb283-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean.clo.acq =</span> <span class="fu">mean</span>(alter.clo[alter.rel<span class="sc">==</span><span class="st">&quot;Acquaintances&quot;</span>]),</span>
-<span id="cb283-6"><a href="composition.html#cb283-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">count.fam.slk =</span> <span class="fu">sum</span>(alter.rel<span class="sc">==</span><span class="st">&quot;Close family&quot;</span> <span class="sc">&amp;</span> alter.res<span class="sc">==</span><span class="st">&quot;Sri Lanka&quot;</span>),</span>
-<span id="cb283-7"><a href="composition.html#cb283-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">count.fam.ita =</span> <span class="fu">sum</span>(alter.rel<span class="sc">==</span><span class="st">&quot;Close family&quot;</span> <span class="sc">&amp;</span> alter.res<span class="sc">==</span><span class="st">&quot;Italy&quot;</span>)</span>
-<span id="cb283-8"><a href="composition.html#cb283-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="composition.html#cb270-1" tabindex="-1"></a><span class="co"># Again, we can put these measures together into a data frame row with dplyr.</span></span>
+<span id="cb270-2"><a href="composition.html#cb270-2" tabindex="-1"></a>alter.attr<span class="fl">.28</span> <span class="sc">|&gt;</span></span>
+<span id="cb270-3"><a href="composition.html#cb270-3" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb270-4"><a href="composition.html#cb270-4" tabindex="-1"></a>    <span class="at">mean.clo.fr =</span> <span class="fu">mean</span>(alter.clo[alter.rel<span class="sc">==</span><span class="st">&quot;Friends&quot;</span>]), </span>
+<span id="cb270-5"><a href="composition.html#cb270-5" tabindex="-1"></a>    <span class="at">mean.clo.acq =</span> <span class="fu">mean</span>(alter.clo[alter.rel<span class="sc">==</span><span class="st">&quot;Acquaintances&quot;</span>]),</span>
+<span id="cb270-6"><a href="composition.html#cb270-6" tabindex="-1"></a>    <span class="at">count.fam.slk =</span> <span class="fu">sum</span>(alter.rel<span class="sc">==</span><span class="st">&quot;Close family&quot;</span> <span class="sc">&amp;</span> alter.res<span class="sc">==</span><span class="st">&quot;Sri Lanka&quot;</span>),</span>
+<span id="cb270-7"><a href="composition.html#cb270-7" tabindex="-1"></a>    <span class="at">count.fam.ita =</span> <span class="fu">sum</span>(alter.rel<span class="sc">==</span><span class="st">&quot;Close family&quot;</span> <span class="sc">&amp;</span> alter.res<span class="sc">==</span><span class="st">&quot;Italy&quot;</span>)</span>
+<span id="cb270-8"><a href="composition.html#cb270-8" tabindex="-1"></a>  )</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 4
 ##   mean.clo.fr mean.clo.acq count.fam.slk count.fam.ita
 ##         &lt;dbl&gt;        &lt;dbl&gt;         &lt;int&gt;         &lt;int&gt;
 ## 1        4.44         2.75             5             0</code></pre>
-<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="composition.html#cb285-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compositional measures of homophily between ego and alters                ----</span></span>
-<span id="cb285-2"><a href="composition.html#cb285-2" aria-hidden="true" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
-<span id="cb285-3"><a href="composition.html#cb285-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb285-4"><a href="composition.html#cb285-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Level-1 join: Bring ego-level data into alter-level data frame for ego 28.</span></span>
-<span id="cb285-5"><a href="composition.html#cb285-5" aria-hidden="true" tabindex="-1"></a>(data<span class="fl">.28</span> <span class="ot">&lt;-</span> <span class="fu">left_join</span>(alter.attr<span class="fl">.28</span>, ego.df, <span class="at">by=</span> <span class="st">&quot;ego_ID&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="composition.html#cb272-1" tabindex="-1"></a><span class="co"># Compositional measures of homophily between ego and alters                ----</span></span>
+<span id="cb272-2"><a href="composition.html#cb272-2" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
+<span id="cb272-3"><a href="composition.html#cb272-3" tabindex="-1"></a></span>
+<span id="cb272-4"><a href="composition.html#cb272-4" tabindex="-1"></a><span class="co"># Level-1 join: Bring ego-level data into alter-level data frame for ego 28.</span></span>
+<span id="cb272-5"><a href="composition.html#cb272-5" tabindex="-1"></a>(data<span class="fl">.28</span> <span class="ot">&lt;-</span> <span class="fu">left_join</span>(alter.attr<span class="fl">.28</span>, ego.df, <span class="at">by=</span> <span class="st">&quot;ego_ID&quot;</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 45 × 20
-##    alter_ID ego_ID alter_num alter.sex alter.a…¹ alter…² alter…³ alter…⁴ alter…⁵
-##       &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;     &lt;fct&gt;     &lt;fct&gt;   &lt;fct&gt;   &lt;fct&gt;     &lt;dbl&gt;
-##  1     2801     28         1 Female    51-60     Close … Sri La… Sri La…      NA
-##  2     2802     28         2 Male      51-60     Other … Sri La… Sri La…       3
-##  3     2803     28         3 Male      51-60     Close … Sri La… Sri La…      NA
-##  4     2804     28         4 Male      60+       Close … Sri La… Sri La…      NA
-##  5     2805     28         5 Female    41-50     Close … Sri La… Sri La…      NA
-##  6     2806     28         6 Female    60+       Close … Sri La… Sri La…      NA
-##  7     2807     28         7 Male      41-50     Other … Sri La… Sri La…       5
-##  8     2808     28         8 Female    36-40     Other … Sri La… Sri La…       4
-##  9     2809     28         9 Female    51-60     Other … Sri La… Sri La…       5
-## 10     2810     28        10 Male      60+       Other … Sri La… Sri La…       5
-## # … with 35 more rows, 11 more variables: alter.loan &lt;fct&gt;, alter.fam &lt;fct&gt;,
-## #   alter.age &lt;dbl&gt;, ego.sex &lt;fct&gt;, ego.age &lt;dbl&gt;, ego.arr &lt;dbl&gt;,
-## #   ego.edu &lt;fct&gt;, ego.inc &lt;dbl&gt;, empl &lt;dbl&gt;, ego.empl.bin &lt;fct&gt;,
-## #   ego.age.cat &lt;fct&gt;, and abbreviated variable names ¹​alter.age.cat,
-## #   ²​alter.rel, ³​alter.nat, ⁴​alter.res, ⁵​alter.clo</code></pre>
-<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="composition.html#cb287-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note the left join: We only retain rows in the left data frame (i.e., alters</span></span>
-<span id="cb287-2"><a href="composition.html#cb287-2" aria-hidden="true" tabindex="-1"></a><span class="co"># of ego 28), and discard all egos in the right data frame that do not</span></span>
-<span id="cb287-3"><a href="composition.html#cb287-3" aria-hidden="true" tabindex="-1"></a><span class="co"># correspond to those rows.</span></span>
-<span id="cb287-4"><a href="composition.html#cb287-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb287-5"><a href="composition.html#cb287-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Proportion of alters of the same gender as ego.</span></span>
-<span id="cb287-6"><a href="composition.html#cb287-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb287-7"><a href="composition.html#cb287-7" aria-hidden="true" tabindex="-1"></a><span class="co"># View the relevant data</span></span>
-<span id="cb287-8"><a href="composition.html#cb287-8" aria-hidden="true" tabindex="-1"></a>data<span class="fl">.28</span> <span class="sc">%&gt;%</span> </span>
-<span id="cb287-9"><a href="composition.html#cb287-9" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(alter_ID, ego_ID, alter.sex, ego.sex)</span></code></pre></div>
+##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
+##       &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;     &lt;fct&gt;         &lt;fct&gt;        &lt;fct&gt;    
+##  1     2801     28         1 Female    51-60         Close family Sri Lanka
+##  2     2802     28         2 Male      51-60         Other family Sri Lanka
+##  3     2803     28         3 Male      51-60         Close family Sri Lanka
+##  4     2804     28         4 Male      60+           Close family Sri Lanka
+##  5     2805     28         5 Female    41-50         Close family Sri Lanka
+##  6     2806     28         6 Female    60+           Close family Sri Lanka
+##  7     2807     28         7 Male      41-50         Other family Sri Lanka
+##  8     2808     28         8 Female    36-40         Other family Sri Lanka
+##  9     2809     28         9 Female    51-60         Other family Sri Lanka
+## 10     2810     28        10 Male      60+           Other family Sri Lanka
+## # ℹ 35 more rows
+## # ℹ 13 more variables: alter.res &lt;fct&gt;, alter.clo &lt;dbl&gt;, alter.loan &lt;fct&gt;,
+## #   alter.fam &lt;fct&gt;, alter.age &lt;dbl&gt;, ego.sex &lt;fct&gt;, ego.age &lt;dbl&gt;,
+## #   ego.arr &lt;dbl&gt;, ego.edu &lt;fct&gt;, ego.inc &lt;dbl&gt;, empl &lt;dbl&gt;,
+## #   ego.empl.bin &lt;fct&gt;, ego.age.cat &lt;fct&gt;</code></pre>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="composition.html#cb274-1" tabindex="-1"></a><span class="co"># Note the left join: We only retain rows in the left data frame (i.e., alters</span></span>
+<span id="cb274-2"><a href="composition.html#cb274-2" tabindex="-1"></a><span class="co"># of ego 28), and discard all egos in the right data frame that do not</span></span>
+<span id="cb274-3"><a href="composition.html#cb274-3" tabindex="-1"></a><span class="co"># correspond to those rows.</span></span>
+<span id="cb274-4"><a href="composition.html#cb274-4" tabindex="-1"></a></span>
+<span id="cb274-5"><a href="composition.html#cb274-5" tabindex="-1"></a><span class="co"># Example: Proportion of alters of the same gender as ego.</span></span>
+<span id="cb274-6"><a href="composition.html#cb274-6" tabindex="-1"></a></span>
+<span id="cb274-7"><a href="composition.html#cb274-7" tabindex="-1"></a><span class="co"># View the relevant data</span></span>
+<span id="cb274-8"><a href="composition.html#cb274-8" tabindex="-1"></a>data<span class="fl">.28</span> <span class="sc">|&gt;</span> </span>
+<span id="cb274-9"><a href="composition.html#cb274-9" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(alter_ID, ego_ID, alter.sex, ego.sex)</span></code></pre></div>
 <pre><code>## # A tibble: 45 × 4
 ##    alter_ID ego_ID alter.sex ego.sex
 ##       &lt;dbl&gt;  &lt;dbl&gt; &lt;fct&gt;     &lt;fct&gt;  
@@ -577,27 +588,27 @@ div.csl-indent {
 ##  8     2808     28 Female    Male   
 ##  9     2809     28 Female    Male   
 ## 10     2810     28 Male      Male   
-## # … with 35 more rows</code></pre>
-<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="composition.html#cb289-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First create a vector that is TRUE whenever alter has the same sex as ego in </span></span>
-<span id="cb289-2"><a href="composition.html#cb289-2" aria-hidden="true" tabindex="-1"></a><span class="co"># data.28 (the joined data frame for ego 28).</span></span>
-<span id="cb289-3"><a href="composition.html#cb289-3" aria-hidden="true" tabindex="-1"></a>data<span class="fl">.28</span><span class="sc">$</span>alter.sex <span class="sc">==</span> data<span class="fl">.28</span><span class="sc">$</span>ego.sex</span></code></pre></div>
+## # ℹ 35 more rows</code></pre>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="composition.html#cb276-1" tabindex="-1"></a><span class="co"># First create a vector that is TRUE whenever alter has the same sex as ego in </span></span>
+<span id="cb276-2"><a href="composition.html#cb276-2" tabindex="-1"></a><span class="co"># data.28 (the joined data frame for ego 28).</span></span>
+<span id="cb276-3"><a href="composition.html#cb276-3" tabindex="-1"></a>data<span class="fl">.28</span><span class="sc">$</span>alter.sex <span class="sc">==</span> data<span class="fl">.28</span><span class="sc">$</span>ego.sex</span></code></pre></div>
 <pre><code>##  [1] FALSE  TRUE  TRUE  TRUE FALSE FALSE  TRUE FALSE FALSE  TRUE  TRUE  TRUE
 ## [13]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
 ## [25]  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE
 ## [37] FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</code></pre>
-<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="composition.html#cb291-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The proportion we&#39;re looking for is simply the proportion of TRUE&#39;s in this</span></span>
-<span id="cb291-2"><a href="composition.html#cb291-2" aria-hidden="true" tabindex="-1"></a><span class="co"># vector.</span></span>
-<span id="cb291-3"><a href="composition.html#cb291-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(data<span class="fl">.28</span><span class="sc">$</span>alter.sex <span class="sc">==</span> data<span class="fl">.28</span><span class="sc">$</span>ego.sex)</span></code></pre></div>
+<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="composition.html#cb278-1" tabindex="-1"></a><span class="co"># The proportion we&#39;re looking for is simply the proportion of TRUE&#39;s in this</span></span>
+<span id="cb278-2"><a href="composition.html#cb278-2" tabindex="-1"></a><span class="co"># vector.</span></span>
+<span id="cb278-3"><a href="composition.html#cb278-3" tabindex="-1"></a><span class="fu">mean</span>(data<span class="fl">.28</span><span class="sc">$</span>alter.sex <span class="sc">==</span> data<span class="fl">.28</span><span class="sc">$</span>ego.sex)</span></code></pre></div>
 <pre><code>## [1] 0.8222222</code></pre>
-<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="composition.html#cb293-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Similarly: count of alters who are in the same age bracket as the ego.</span></span>
-<span id="cb293-2"><a href="composition.html#cb293-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(data<span class="fl">.28</span><span class="sc">$</span>alter.age.cat <span class="sc">==</span> data<span class="fl">.28</span><span class="sc">$</span>ego.age.cat)</span></code></pre></div>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="composition.html#cb280-1" tabindex="-1"></a><span class="co"># Similarly: count of alters who are in the same age bracket as the ego.</span></span>
+<span id="cb280-2"><a href="composition.html#cb280-2" tabindex="-1"></a><span class="fu">sum</span>(data<span class="fl">.28</span><span class="sc">$</span>alter.age.cat <span class="sc">==</span> data<span class="fl">.28</span><span class="sc">$</span>ego.age.cat)</span></code></pre></div>
 <pre><code>## [1] 9</code></pre>
-<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="composition.html#cb295-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Again, we can put these measures together into a data frame row with dplyr.</span></span>
-<span id="cb295-2"><a href="composition.html#cb295-2" aria-hidden="true" tabindex="-1"></a>data<span class="fl">.28</span> <span class="sc">%&gt;%</span></span>
-<span id="cb295-3"><a href="composition.html#cb295-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb295-4"><a href="composition.html#cb295-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">prop.same.gender =</span> <span class="fu">mean</span>(alter.sex <span class="sc">==</span> ego.sex), </span>
-<span id="cb295-5"><a href="composition.html#cb295-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">count.same.age =</span> <span class="fu">sum</span>(alter.age.cat <span class="sc">==</span> ego.age.cat)</span>
-<span id="cb295-6"><a href="composition.html#cb295-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="composition.html#cb282-1" tabindex="-1"></a><span class="co"># Again, we can put these measures together into a data frame row with dplyr.</span></span>
+<span id="cb282-2"><a href="composition.html#cb282-2" tabindex="-1"></a>data<span class="fl">.28</span> <span class="sc">|&gt;</span></span>
+<span id="cb282-3"><a href="composition.html#cb282-3" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb282-4"><a href="composition.html#cb282-4" tabindex="-1"></a>    <span class="at">prop.same.gender =</span> <span class="fu">mean</span>(alter.sex <span class="sc">==</span> ego.sex), </span>
+<span id="cb282-5"><a href="composition.html#cb282-5" tabindex="-1"></a>    <span class="at">count.same.age =</span> <span class="fu">sum</span>(alter.age.cat <span class="sc">==</span> ego.age.cat)</span>
+<span id="cb282-6"><a href="composition.html#cb282-6" tabindex="-1"></a>  )</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 2
 ##   prop.same.gender count.same.age
 ##              &lt;dbl&gt;          &lt;int&gt;
@@ -615,7 +626,7 @@ div.csl-indent {
 <li><em>Apply</em> exactly the same type of calculation on each piece, identically and independently.</li>
 <li><em>Combine</em> all results back together, for example into a new dataset.</li>
 </ol></li>
-<li>This has been called the <strong>split-apply-combine</strong> strategy <span class="citation">(<a href="#ref-wickham_split-apply-combine_2011" role="doc-biblioref">Wickham, 2011</a>)</span> and is essential in egocentric network analysis. With ego-networks, we are constantly (1) splitting the data into pieces, each piece typically corresponding to one ego; (2) performing identical and independent analyses on each piece (each ego-network); (3) combining the results back together, typically into a single ego-level dataset, to then associate them with other ego-level variables.</li>
+<li>This has been called the <strong>split-apply-combine</strong> strategy <span class="citation">(<a href="#ref-wickham_split-apply-combine_2011">Wickham, 2011</a>)</span> and is essential in egocentric network analysis. With ego-networks, we are constantly (1) splitting the data into pieces, each piece typically corresponding to one ego; (2) performing identical and independent analyses on each piece (each ego-network); (3) combining the results back together, typically into a single ego-level dataset, to then associate them with other ego-level variables.</li>
 <li>In base and traditional R, common tools to perform split-apply-combine operations include <code>for</code> loops, the <code>apply</code> family of functions, and <code>aggregate</code>.</li>
 <li>The <code>tidyverse</code> packages provide new ways of conducting split-apply-combine operations with more efficient and readable code:
 <ul>
@@ -645,52 +656,52 @@ div.csl-indent {
 <li>Join the results with other ego-level data (level-2 join).</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="composition.html#cb297-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The summarise function offers a concise syntax to calculate summary </span></span>
-<span id="cb297-2"><a href="composition.html#cb297-2" aria-hidden="true" tabindex="-1"></a><span class="co"># statistics on a data frame&#39;s variables. </span></span>
-<span id="cb297-3"><a href="composition.html#cb297-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb297-4"><a href="composition.html#cb297-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s see what happens if we apply this function to the alter attribute data</span></span>
-<span id="cb297-5"><a href="composition.html#cb297-5" aria-hidden="true" tabindex="-1"></a><span class="co"># frame including all alters, without grouping it by ego ID.</span></span>
-<span id="cb297-6"><a href="composition.html#cb297-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb297-7"><a href="composition.html#cb297-7" aria-hidden="true" tabindex="-1"></a><span class="co"># * Mean alter closeness:</span></span>
-<span id="cb297-8"><a href="composition.html#cb297-8" aria-hidden="true" tabindex="-1"></a>alter.attr.all <span class="sc">%&gt;%</span></span>
-<span id="cb297-9"><a href="composition.html#cb297-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean.clo =</span> <span class="fu">mean</span>(alter.clo, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="composition.html#cb284-1" tabindex="-1"></a><span class="co"># The summarise function offers a concise syntax to calculate summary </span></span>
+<span id="cb284-2"><a href="composition.html#cb284-2" tabindex="-1"></a><span class="co"># statistics on a data frame&#39;s variables. </span></span>
+<span id="cb284-3"><a href="composition.html#cb284-3" tabindex="-1"></a></span>
+<span id="cb284-4"><a href="composition.html#cb284-4" tabindex="-1"></a><span class="co"># Let&#39;s see what happens if we apply this function to the alter attribute data</span></span>
+<span id="cb284-5"><a href="composition.html#cb284-5" tabindex="-1"></a><span class="co"># frame including all alters, without grouping it by ego ID.</span></span>
+<span id="cb284-6"><a href="composition.html#cb284-6" tabindex="-1"></a></span>
+<span id="cb284-7"><a href="composition.html#cb284-7" tabindex="-1"></a><span class="co"># * Mean alter closeness:</span></span>
+<span id="cb284-8"><a href="composition.html#cb284-8" tabindex="-1"></a>alter.attr.all <span class="sc">|&gt;</span></span>
+<span id="cb284-9"><a href="composition.html#cb284-9" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean.clo =</span> <span class="fu">mean</span>(alter.clo, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 1
 ##   mean.clo
 ##      &lt;dbl&gt;
 ## 1     3.87</code></pre>
-<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="composition.html#cb299-1" aria-hidden="true" tabindex="-1"></a><span class="co"># * N of distinct values in the alter nationality variable (i.e., number of </span></span>
-<span id="cb299-2"><a href="composition.html#cb299-2" aria-hidden="true" tabindex="-1"></a><span class="co"># distinct nationalities of alters):</span></span>
-<span id="cb299-3"><a href="composition.html#cb299-3" aria-hidden="true" tabindex="-1"></a>alter.attr.all <span class="sc">%&gt;%</span></span>
-<span id="cb299-4"><a href="composition.html#cb299-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">N.nat =</span> <span class="fu">n_distinct</span>(alter.nat))</span></code></pre></div>
+<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="composition.html#cb286-1" tabindex="-1"></a><span class="co"># * N of distinct values in the alter nationality variable (i.e., number of </span></span>
+<span id="cb286-2"><a href="composition.html#cb286-2" tabindex="-1"></a><span class="co"># distinct nationalities of alters):</span></span>
+<span id="cb286-3"><a href="composition.html#cb286-3" tabindex="-1"></a>alter.attr.all <span class="sc">|&gt;</span></span>
+<span id="cb286-4"><a href="composition.html#cb286-4" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">N.nat =</span> <span class="fu">n_distinct</span>(alter.nat))</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 1
 ##   N.nat
 ##   &lt;int&gt;
 ## 1     3</code></pre>
-<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="composition.html#cb301-1" aria-hidden="true" tabindex="-1"></a><span class="co"># * N of distinct values in the alter nationality, country of residence, and</span></span>
-<span id="cb301-2"><a href="composition.html#cb301-2" aria-hidden="true" tabindex="-1"></a><span class="co"># age bracket variables. In this case, we apply the same summarizing function</span></span>
-<span id="cb301-3"><a href="composition.html#cb301-3" aria-hidden="true" tabindex="-1"></a><span class="co"># to multiple variables (not just one), to be selected via across().</span></span>
-<span id="cb301-4"><a href="composition.html#cb301-4" aria-hidden="true" tabindex="-1"></a>alter.attr.all <span class="sc">%&gt;%</span></span>
-<span id="cb301-5"><a href="composition.html#cb301-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb301-6"><a href="composition.html#cb301-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(<span class="fu">c</span>(alter.nat, alter.res, alter.age.cat), </span>
-<span id="cb301-7"><a href="composition.html#cb301-7" aria-hidden="true" tabindex="-1"></a>           n_distinct)</span>
-<span id="cb301-8"><a href="composition.html#cb301-8" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="composition.html#cb288-1" tabindex="-1"></a><span class="co"># * N of distinct values in the alter nationality, country of residence, and</span></span>
+<span id="cb288-2"><a href="composition.html#cb288-2" tabindex="-1"></a><span class="co"># age bracket variables. In this case, we apply the same summarizing function</span></span>
+<span id="cb288-3"><a href="composition.html#cb288-3" tabindex="-1"></a><span class="co"># to multiple variables (not just one), to be selected via across().</span></span>
+<span id="cb288-4"><a href="composition.html#cb288-4" tabindex="-1"></a>alter.attr.all <span class="sc">|&gt;</span></span>
+<span id="cb288-5"><a href="composition.html#cb288-5" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb288-6"><a href="composition.html#cb288-6" tabindex="-1"></a>    <span class="fu">across</span>(<span class="fu">c</span>(alter.nat, alter.res, alter.age.cat), </span>
+<span id="cb288-7"><a href="composition.html#cb288-7" tabindex="-1"></a>           n_distinct)</span>
+<span id="cb288-8"><a href="composition.html#cb288-8" tabindex="-1"></a>    )</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 3
 ##   alter.nat alter.res alter.age.cat
 ##       &lt;int&gt;     &lt;int&gt;         &lt;int&gt;
 ## 1         3         3             8</code></pre>
-<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="composition.html#cb303-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Because we ran this without previously grouping the data frame by ego ID, each</span></span>
-<span id="cb303-2"><a href="composition.html#cb303-2" aria-hidden="true" tabindex="-1"></a><span class="co"># function is calculated on all alters from all egos pooled (all rows of the</span></span>
-<span id="cb303-3"><a href="composition.html#cb303-3" aria-hidden="true" tabindex="-1"></a><span class="co"># alter attribute data frame), not on the set of alters of each ego.</span></span>
-<span id="cb303-4"><a href="composition.html#cb303-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb303-5"><a href="composition.html#cb303-5" aria-hidden="true" tabindex="-1"></a><span class="co"># If we group the data frame by ego_ID, each of those summary statistics is</span></span>
-<span id="cb303-6"><a href="composition.html#cb303-6" aria-hidden="true" tabindex="-1"></a><span class="co"># calculated for each ego:</span></span>
-<span id="cb303-7"><a href="composition.html#cb303-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb303-8"><a href="composition.html#cb303-8" aria-hidden="true" tabindex="-1"></a><span class="co"># * Mean alter closeness:</span></span>
-<span id="cb303-9"><a href="composition.html#cb303-9" aria-hidden="true" tabindex="-1"></a>alter.attr.all <span class="sc">%&gt;%</span></span>
-<span id="cb303-10"><a href="composition.html#cb303-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Group by ego ID</span></span>
-<span id="cb303-11"><a href="composition.html#cb303-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ego_ID) <span class="sc">%&gt;%</span></span>
-<span id="cb303-12"><a href="composition.html#cb303-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate summary measure</span></span>
-<span id="cb303-13"><a href="composition.html#cb303-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean.clo =</span> <span class="fu">mean</span>(alter.clo, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="composition.html#cb290-1" tabindex="-1"></a><span class="co"># Because we ran this without previously grouping the data frame by ego ID, each</span></span>
+<span id="cb290-2"><a href="composition.html#cb290-2" tabindex="-1"></a><span class="co"># function is calculated on all alters from all egos pooled (all rows of the</span></span>
+<span id="cb290-3"><a href="composition.html#cb290-3" tabindex="-1"></a><span class="co"># alter attribute data frame), not on the set of alters of each ego.</span></span>
+<span id="cb290-4"><a href="composition.html#cb290-4" tabindex="-1"></a></span>
+<span id="cb290-5"><a href="composition.html#cb290-5" tabindex="-1"></a><span class="co"># If we group the data frame by ego_ID, each of those summary statistics is</span></span>
+<span id="cb290-6"><a href="composition.html#cb290-6" tabindex="-1"></a><span class="co"># calculated for each ego:</span></span>
+<span id="cb290-7"><a href="composition.html#cb290-7" tabindex="-1"></a></span>
+<span id="cb290-8"><a href="composition.html#cb290-8" tabindex="-1"></a><span class="co"># * Mean alter closeness:</span></span>
+<span id="cb290-9"><a href="composition.html#cb290-9" tabindex="-1"></a>alter.attr.all <span class="sc">|&gt;</span></span>
+<span id="cb290-10"><a href="composition.html#cb290-10" tabindex="-1"></a>  <span class="co"># Group by ego ID</span></span>
+<span id="cb290-11"><a href="composition.html#cb290-11" tabindex="-1"></a>  <span class="fu">group_by</span>(ego_ID) <span class="sc">|&gt;</span></span>
+<span id="cb290-12"><a href="composition.html#cb290-12" tabindex="-1"></a>  <span class="co"># Calculate summary measure</span></span>
+<span id="cb290-13"><a href="composition.html#cb290-13" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean.clo =</span> <span class="fu">mean</span>(alter.clo, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 102 × 2
 ##    ego_ID mean.clo
 ##     &lt;dbl&gt;    &lt;dbl&gt;
@@ -704,12 +715,12 @@ div.csl-indent {
 ##  8     46     3.48
 ##  9     47     4.05
 ## 10     48     4.07
-## # … with 92 more rows</code></pre>
-<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="composition.html#cb305-1" aria-hidden="true" tabindex="-1"></a><span class="co"># * N of distinct values in the alter nationality variable (i.e., number of </span></span>
-<span id="cb305-2"><a href="composition.html#cb305-2" aria-hidden="true" tabindex="-1"></a><span class="co"># distinct nationalities of alters):</span></span>
-<span id="cb305-3"><a href="composition.html#cb305-3" aria-hidden="true" tabindex="-1"></a>alter.attr.all <span class="sc">%&gt;%</span></span>
-<span id="cb305-4"><a href="composition.html#cb305-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ego_ID) <span class="sc">%&gt;%</span></span>
-<span id="cb305-5"><a href="composition.html#cb305-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">N.nat =</span> <span class="fu">n_distinct</span>(alter.nat))</span></code></pre></div>
+## # ℹ 92 more rows</code></pre>
+<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="composition.html#cb292-1" tabindex="-1"></a><span class="co"># * N of distinct values in the alter nationality variable (i.e., number of </span></span>
+<span id="cb292-2"><a href="composition.html#cb292-2" tabindex="-1"></a><span class="co"># distinct nationalities of alters):</span></span>
+<span id="cb292-3"><a href="composition.html#cb292-3" tabindex="-1"></a>alter.attr.all <span class="sc">|&gt;</span></span>
+<span id="cb292-4"><a href="composition.html#cb292-4" tabindex="-1"></a>  <span class="fu">group_by</span>(ego_ID) <span class="sc">|&gt;</span></span>
+<span id="cb292-5"><a href="composition.html#cb292-5" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">N.nat =</span> <span class="fu">n_distinct</span>(alter.nat))</span></code></pre></div>
 <pre><code>## # A tibble: 102 × 2
 ##    ego_ID N.nat
 ##     &lt;dbl&gt; &lt;int&gt;
@@ -723,19 +734,19 @@ div.csl-indent {
 ##  8     46     3
 ##  9     47     1
 ## 10     48     3
-## # … with 92 more rows</code></pre>
-<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="composition.html#cb307-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We can also &quot;permanently&quot; group the data frame by ego_ID and then calculate all</span></span>
-<span id="cb307-2"><a href="composition.html#cb307-2" aria-hidden="true" tabindex="-1"></a><span class="co"># our summary measures by ego ID.</span></span>
-<span id="cb307-3"><a href="composition.html#cb307-3" aria-hidden="true" tabindex="-1"></a>alter.attr.all <span class="sc">%&lt;&gt;%</span> </span>
-<span id="cb307-4"><a href="composition.html#cb307-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ego_ID)</span>
-<span id="cb307-5"><a href="composition.html#cb307-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb307-6"><a href="composition.html#cb307-6" aria-hidden="true" tabindex="-1"></a><span class="co"># * N of distinct values in the alter nationality, country of residence, and</span></span>
-<span id="cb307-7"><a href="composition.html#cb307-7" aria-hidden="true" tabindex="-1"></a><span class="co"># age bracket variables:</span></span>
-<span id="cb307-8"><a href="composition.html#cb307-8" aria-hidden="true" tabindex="-1"></a>alter.attr.all <span class="sc">%&gt;%</span></span>
-<span id="cb307-9"><a href="composition.html#cb307-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb307-10"><a href="composition.html#cb307-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(<span class="fu">c</span>(alter.nat, alter.res, alter.age.cat), </span>
-<span id="cb307-11"><a href="composition.html#cb307-11" aria-hidden="true" tabindex="-1"></a>           n_distinct)</span>
-<span id="cb307-12"><a href="composition.html#cb307-12" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div>
+## # ℹ 92 more rows</code></pre>
+<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="composition.html#cb294-1" tabindex="-1"></a><span class="co"># We can also &quot;permanently&quot; group the data frame by ego_ID and then calculate all</span></span>
+<span id="cb294-2"><a href="composition.html#cb294-2" tabindex="-1"></a><span class="co"># our summary measures by ego ID.</span></span>
+<span id="cb294-3"><a href="composition.html#cb294-3" tabindex="-1"></a>alter.attr.all <span class="sc">%&lt;&gt;%</span> </span>
+<span id="cb294-4"><a href="composition.html#cb294-4" tabindex="-1"></a>  <span class="fu">group_by</span>(ego_ID)</span>
+<span id="cb294-5"><a href="composition.html#cb294-5" tabindex="-1"></a></span>
+<span id="cb294-6"><a href="composition.html#cb294-6" tabindex="-1"></a><span class="co"># * N of distinct values in the alter nationality, country of residence, and</span></span>
+<span id="cb294-7"><a href="composition.html#cb294-7" tabindex="-1"></a><span class="co"># age bracket variables:</span></span>
+<span id="cb294-8"><a href="composition.html#cb294-8" tabindex="-1"></a>alter.attr.all <span class="sc">|&gt;</span></span>
+<span id="cb294-9"><a href="composition.html#cb294-9" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb294-10"><a href="composition.html#cb294-10" tabindex="-1"></a>    <span class="fu">across</span>(<span class="fu">c</span>(alter.nat, alter.res, alter.age.cat), </span>
+<span id="cb294-11"><a href="composition.html#cb294-11" tabindex="-1"></a>           n_distinct)</span>
+<span id="cb294-12"><a href="composition.html#cb294-12" tabindex="-1"></a>    )</span></code></pre></div>
 <pre><code>## # A tibble: 102 × 4
 ##    ego_ID alter.nat alter.res alter.age.cat
 ##     &lt;dbl&gt;     &lt;int&gt;     &lt;int&gt;         &lt;int&gt;
@@ -749,35 +760,35 @@ div.csl-indent {
 ##  8     46         3         3             7
 ##  9     47         1         3             6
 ## 10     48         3         3             7
-## # … with 92 more rows</code></pre>
-<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="composition.html#cb309-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We can also use summarise to run more complex functions on alter attributes</span></span>
-<span id="cb309-2"><a href="composition.html#cb309-2" aria-hidden="true" tabindex="-1"></a><span class="co"># by ego.</span></span>
-<span id="cb309-3"><a href="composition.html#cb309-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb309-4"><a href="composition.html#cb309-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Imagine we want to count the number of alters who are &quot;Close family&quot;, &quot;Other</span></span>
-<span id="cb309-5"><a href="composition.html#cb309-5" aria-hidden="true" tabindex="-1"></a><span class="co"># family&quot;, and &quot;Friends&quot; in an ego-network.</span></span>
-<span id="cb309-6"><a href="composition.html#cb309-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb309-7"><a href="composition.html#cb309-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s consider the ego-network of ego ID 28 as an example.</span></span>
-<span id="cb309-8"><a href="composition.html#cb309-8" aria-hidden="true" tabindex="-1"></a>alter.attr<span class="fl">.28</span></span></code></pre></div>
+## # ℹ 92 more rows</code></pre>
+<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="composition.html#cb296-1" tabindex="-1"></a><span class="co"># We can also use summarise to run more complex functions on alter attributes</span></span>
+<span id="cb296-2"><a href="composition.html#cb296-2" tabindex="-1"></a><span class="co"># by ego.</span></span>
+<span id="cb296-3"><a href="composition.html#cb296-3" tabindex="-1"></a></span>
+<span id="cb296-4"><a href="composition.html#cb296-4" tabindex="-1"></a><span class="co"># Imagine we want to count the number of alters who are &quot;Close family&quot;, &quot;Other</span></span>
+<span id="cb296-5"><a href="composition.html#cb296-5" tabindex="-1"></a><span class="co"># family&quot;, and &quot;Friends&quot; in an ego-network.</span></span>
+<span id="cb296-6"><a href="composition.html#cb296-6" tabindex="-1"></a></span>
+<span id="cb296-7"><a href="composition.html#cb296-7" tabindex="-1"></a><span class="co"># Let&#39;s consider the ego-network of ego ID 28 as an example.</span></span>
+<span id="cb296-8"><a href="composition.html#cb296-8" tabindex="-1"></a>alter.attr<span class="fl">.28</span></span></code></pre></div>
 <pre><code>## # A tibble: 45 × 12
-##    alter_ID ego_ID alter_num alter.sex alter.a…¹ alter…² alter…³ alter…⁴ alter…⁵
-##       &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;     &lt;fct&gt;     &lt;fct&gt;   &lt;fct&gt;   &lt;fct&gt;     &lt;dbl&gt;
-##  1     2801     28         1 Female    51-60     Close … Sri La… Sri La…      NA
-##  2     2802     28         2 Male      51-60     Other … Sri La… Sri La…       3
-##  3     2803     28         3 Male      51-60     Close … Sri La… Sri La…      NA
-##  4     2804     28         4 Male      60+       Close … Sri La… Sri La…      NA
-##  5     2805     28         5 Female    41-50     Close … Sri La… Sri La…      NA
-##  6     2806     28         6 Female    60+       Close … Sri La… Sri La…      NA
-##  7     2807     28         7 Male      41-50     Other … Sri La… Sri La…       5
-##  8     2808     28         8 Female    36-40     Other … Sri La… Sri La…       4
-##  9     2809     28         9 Female    51-60     Other … Sri La… Sri La…       5
-## 10     2810     28        10 Male      60+       Other … Sri La… Sri La…       5
-## # … with 35 more rows, 3 more variables: alter.loan &lt;fct&gt;, alter.fam &lt;fct&gt;,
-## #   alter.age &lt;dbl&gt;, and abbreviated variable names ¹​alter.age.cat, ²​alter.rel,
-## #   ³​alter.nat, ⁴​alter.res, ⁵​alter.clo</code></pre>
-<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="composition.html#cb311-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the number of alters in each relationship type in this ego-network.</span></span>
-<span id="cb311-2"><a href="composition.html#cb311-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb311-3"><a href="composition.html#cb311-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Vector of alter relationship attribute.</span></span>
-<span id="cb311-4"><a href="composition.html#cb311-4" aria-hidden="true" tabindex="-1"></a>alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.rel</span></code></pre></div>
+##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
+##       &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt; &lt;fct&gt;     &lt;fct&gt;         &lt;fct&gt;        &lt;fct&gt;    
+##  1     2801     28         1 Female    51-60         Close family Sri Lanka
+##  2     2802     28         2 Male      51-60         Other family Sri Lanka
+##  3     2803     28         3 Male      51-60         Close family Sri Lanka
+##  4     2804     28         4 Male      60+           Close family Sri Lanka
+##  5     2805     28         5 Female    41-50         Close family Sri Lanka
+##  6     2806     28         6 Female    60+           Close family Sri Lanka
+##  7     2807     28         7 Male      41-50         Other family Sri Lanka
+##  8     2808     28         8 Female    36-40         Other family Sri Lanka
+##  9     2809     28         9 Female    51-60         Other family Sri Lanka
+## 10     2810     28        10 Male      60+           Other family Sri Lanka
+## # ℹ 35 more rows
+## # ℹ 5 more variables: alter.res &lt;fct&gt;, alter.clo &lt;dbl&gt;, alter.loan &lt;fct&gt;,
+## #   alter.fam &lt;fct&gt;, alter.age &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="composition.html#cb298-1" tabindex="-1"></a><span class="co"># Calculate the number of alters in each relationship type in this ego-network.</span></span>
+<span id="cb298-2"><a href="composition.html#cb298-2" tabindex="-1"></a></span>
+<span id="cb298-3"><a href="composition.html#cb298-3" tabindex="-1"></a><span class="co"># Vector of alter relationship attribute.</span></span>
+<span id="cb298-4"><a href="composition.html#cb298-4" tabindex="-1"></a>alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.rel</span></code></pre></div>
 <pre><code>##  [1] Close family  Other family  Close family  Close family  Close family 
 ##  [6] Close family  Other family  Other family  Other family  Other family 
 ## [11] Friends       Friends       Friends       Friends       Friends      
@@ -788,26 +799,26 @@ div.csl-indent {
 ## [36] Friends       Friends       Friends       Friends       Friends      
 ## [41] Friends       Acquaintances Acquaintances Friends       Friends      
 ## Levels: Acquaintances Close family Friends Other family</code></pre>
-<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="composition.html#cb313-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Flag with TRUE whenever alter is &quot;Close family&quot;</span></span>
-<span id="cb313-2"><a href="composition.html#cb313-2" aria-hidden="true" tabindex="-1"></a>alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.rel<span class="sc">==</span><span class="st">&quot;Close family&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="composition.html#cb300-1" tabindex="-1"></a><span class="co"># Flag with TRUE whenever alter is &quot;Close family&quot;</span></span>
+<span id="cb300-2"><a href="composition.html#cb300-2" tabindex="-1"></a>alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.rel<span class="sc">==</span><span class="st">&quot;Close family&quot;</span></span></code></pre></div>
 <pre><code>##  [1]  TRUE FALSE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE
 ## [13] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 ## [25] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 ## [37] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
-<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="composition.html#cb315-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count the number of TRUE&#39;s</span></span>
-<span id="cb315-2"><a href="composition.html#cb315-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.rel<span class="sc">==</span><span class="st">&quot;Close family&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="composition.html#cb302-1" tabindex="-1"></a><span class="co"># Count the number of TRUE&#39;s</span></span>
+<span id="cb302-2"><a href="composition.html#cb302-2" tabindex="-1"></a><span class="fu">sum</span>(alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.rel<span class="sc">==</span><span class="st">&quot;Close family&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] 5</code></pre>
-<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="composition.html#cb317-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The same can be done for &quot;Other family&quot; and &quot;Friends&quot;</span></span>
-<span id="cb317-2"><a href="composition.html#cb317-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.rel<span class="sc">==</span><span class="st">&quot;Other family&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="composition.html#cb304-1" tabindex="-1"></a><span class="co"># The same can be done for &quot;Other family&quot; and &quot;Friends&quot;</span></span>
+<span id="cb304-2"><a href="composition.html#cb304-2" tabindex="-1"></a><span class="fu">sum</span>(alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.rel<span class="sc">==</span><span class="st">&quot;Other family&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] 5</code></pre>
-<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb319-1"><a href="composition.html#cb319-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.rel<span class="sc">==</span><span class="st">&quot;Friends&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="composition.html#cb306-1" tabindex="-1"></a><span class="fu">sum</span>(alter.attr<span class="fl">.28</span><span class="sc">$</span>alter.rel<span class="sc">==</span><span class="st">&quot;Friends&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] 27</code></pre>
-<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb321-1"><a href="composition.html#cb321-1" aria-hidden="true" tabindex="-1"></a><span class="co"># With dplyr we can run the same operations for every ego</span></span>
-<span id="cb321-2"><a href="composition.html#cb321-2" aria-hidden="true" tabindex="-1"></a>N.rel <span class="ot">&lt;-</span> alter.attr.all <span class="sc">%&gt;%</span></span>
-<span id="cb321-3"><a href="composition.html#cb321-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">N.clo.fam =</span> <span class="fu">sum</span>(alter.rel<span class="sc">==</span><span class="st">&quot;Close family&quot;</span>),</span>
-<span id="cb321-4"><a href="composition.html#cb321-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">N.oth.fam =</span> <span class="fu">sum</span>(alter.rel<span class="sc">==</span><span class="st">&quot;Other family&quot;</span>),</span>
-<span id="cb321-5"><a href="composition.html#cb321-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">N.fri =</span> <span class="fu">sum</span>(alter.rel<span class="sc">==</span><span class="st">&quot;Friends&quot;</span>))</span>
-<span id="cb321-6"><a href="composition.html#cb321-6" aria-hidden="true" tabindex="-1"></a>N.rel</span></code></pre></div>
+<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="composition.html#cb308-1" tabindex="-1"></a><span class="co"># With dplyr we can run the same operations for every ego</span></span>
+<span id="cb308-2"><a href="composition.html#cb308-2" tabindex="-1"></a>N.rel <span class="ot">&lt;-</span> alter.attr.all <span class="sc">|&gt;</span></span>
+<span id="cb308-3"><a href="composition.html#cb308-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">N.clo.fam =</span> <span class="fu">sum</span>(alter.rel<span class="sc">==</span><span class="st">&quot;Close family&quot;</span>),</span>
+<span id="cb308-4"><a href="composition.html#cb308-4" tabindex="-1"></a>            <span class="at">N.oth.fam =</span> <span class="fu">sum</span>(alter.rel<span class="sc">==</span><span class="st">&quot;Other family&quot;</span>),</span>
+<span id="cb308-5"><a href="composition.html#cb308-5" tabindex="-1"></a>            <span class="at">N.fri =</span> <span class="fu">sum</span>(alter.rel<span class="sc">==</span><span class="st">&quot;Friends&quot;</span>))</span>
+<span id="cb308-6"><a href="composition.html#cb308-6" tabindex="-1"></a>N.rel</span></code></pre></div>
 <pre><code>## # A tibble: 102 × 4
 ##    ego_ID N.clo.fam N.oth.fam N.fri
 ##     &lt;dbl&gt;     &lt;int&gt;     &lt;int&gt; &lt;int&gt;
@@ -821,37 +832,37 @@ div.csl-indent {
 ##  8     46         3        14    12
 ##  9     47         1        20    18
 ## 10     48         4         6    26
-## # … with 92 more rows</code></pre>
-<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="composition.html#cb323-1" aria-hidden="true" tabindex="-1"></a><span class="co"># After getting compositional summary variables for each ego, we might want to</span></span>
-<span id="cb323-2"><a href="composition.html#cb323-2" aria-hidden="true" tabindex="-1"></a><span class="co"># join them with other ego-level data (level-2 join).</span></span>
-<span id="cb323-3"><a href="composition.html#cb323-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb323-4"><a href="composition.html#cb323-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge with summary variables.</span></span>
-<span id="cb323-5"><a href="composition.html#cb323-5" aria-hidden="true" tabindex="-1"></a>ego.df <span class="sc">%&gt;%</span></span>
-<span id="cb323-6"><a href="composition.html#cb323-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(N.rel, <span class="at">by=</span> <span class="st">&quot;ego_ID&quot;</span>)</span></code></pre></div>
+## # ℹ 92 more rows</code></pre>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="composition.html#cb310-1" tabindex="-1"></a><span class="co"># After getting compositional summary variables for each ego, we might want to</span></span>
+<span id="cb310-2"><a href="composition.html#cb310-2" tabindex="-1"></a><span class="co"># join them with other ego-level data (level-2 join).</span></span>
+<span id="cb310-3"><a href="composition.html#cb310-3" tabindex="-1"></a></span>
+<span id="cb310-4"><a href="composition.html#cb310-4" tabindex="-1"></a><span class="co"># Merge with summary variables.</span></span>
+<span id="cb310-5"><a href="composition.html#cb310-5" tabindex="-1"></a>ego.df <span class="sc">|&gt;</span></span>
+<span id="cb310-6"><a href="composition.html#cb310-6" tabindex="-1"></a>  <span class="fu">left_join</span>(N.rel, <span class="at">by=</span> <span class="st">&quot;ego_ID&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 102 × 12
-##    ego_ID ego.sex ego.age ego.arr ego.edu  ego.inc  empl ego.e…¹ ego.a…² N.clo…³
-##     &lt;dbl&gt; &lt;fct&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;fct&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;     &lt;int&gt;
-##  1     28 Male         61    2008 Seconda…     350     3 Yes     60+           5
-##  2     29 Male         38    2000 Primary      900     4 Yes     36-40         5
-##  3     33 Male         30    2010 Primary      200     3 Yes     26-30         3
-##  4     35 Male         25    2009 Seconda…    1000     3 Yes     18-25         4
-##  5     39 Male         29    2007 Primary        0     1 No      26-30         4
-##  6     40 Male         56    2008 Seconda…     950     4 Yes     51-60         5
-##  7     45 Male         52    1975 Primary     1600     3 Yes     51-60         3
-##  8     46 Male         35    2002 Seconda…    1200     4 Yes     31-35         3
-##  9     47 Male         22    2010 Seconda…     700     4 Yes     18-25         1
-## 10     48 Male         51    2007 Primary      950     4 Yes     51-60         4
-## # … with 92 more rows, 2 more variables: N.oth.fam &lt;int&gt;, N.fri &lt;int&gt;, and
-## #   abbreviated variable names ¹​ego.empl.bin, ²​ego.age.cat, ³​N.clo.fam</code></pre>
-<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="composition.html#cb325-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We can then ungroup alter.attr.all by ego ID to remove the grouping information.</span></span>
-<span id="cb325-2"><a href="composition.html#cb325-2" aria-hidden="true" tabindex="-1"></a>alter.attr.all <span class="ot">&lt;-</span> <span class="fu">ungroup</span>(alter.attr.all)</span>
-<span id="cb325-3"><a href="composition.html#cb325-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb325-4"><a href="composition.html#cb325-4" aria-hidden="true" tabindex="-1"></a><span class="co"># To get the size of each personal network, we can simpy use the count() function:</span></span>
-<span id="cb325-5"><a href="composition.html#cb325-5" aria-hidden="true" tabindex="-1"></a><span class="co"># it counts the number of rows for each unique value of a variable. The</span></span>
-<span id="cb325-6"><a href="composition.html#cb325-6" aria-hidden="true" tabindex="-1"></a><span class="co"># number of rows for each unique value of ego_ID in alter.attr.all is the number</span></span>
-<span id="cb325-7"><a href="composition.html#cb325-7" aria-hidden="true" tabindex="-1"></a><span class="co"># of alters for each ego (personal network size).</span></span>
-<span id="cb325-8"><a href="composition.html#cb325-8" aria-hidden="true" tabindex="-1"></a>alter.attr.all <span class="sc">%&gt;%</span> </span>
-<span id="cb325-9"><a href="composition.html#cb325-9" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">count</span>(ego_ID)</span></code></pre></div>
+##    ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
+##     &lt;dbl&gt; &lt;fct&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;fct&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;        &lt;fct&gt;      
+##  1     28 Male         61    2008 Second…     350     3 Yes          60+        
+##  2     29 Male         38    2000 Primary     900     4 Yes          36-40      
+##  3     33 Male         30    2010 Primary     200     3 Yes          26-30      
+##  4     35 Male         25    2009 Second…    1000     3 Yes          18-25      
+##  5     39 Male         29    2007 Primary       0     1 No           26-30      
+##  6     40 Male         56    2008 Second…     950     4 Yes          51-60      
+##  7     45 Male         52    1975 Primary    1600     3 Yes          51-60      
+##  8     46 Male         35    2002 Second…    1200     4 Yes          31-35      
+##  9     47 Male         22    2010 Second…     700     4 Yes          18-25      
+## 10     48 Male         51    2007 Primary     950     4 Yes          51-60      
+## # ℹ 92 more rows
+## # ℹ 3 more variables: N.clo.fam &lt;int&gt;, N.oth.fam &lt;int&gt;, N.fri &lt;int&gt;</code></pre>
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="composition.html#cb312-1" tabindex="-1"></a><span class="co"># We can then ungroup alter.attr.all by ego ID to remove the grouping information.</span></span>
+<span id="cb312-2"><a href="composition.html#cb312-2" tabindex="-1"></a>alter.attr.all <span class="ot">&lt;-</span> <span class="fu">ungroup</span>(alter.attr.all)</span>
+<span id="cb312-3"><a href="composition.html#cb312-3" tabindex="-1"></a></span>
+<span id="cb312-4"><a href="composition.html#cb312-4" tabindex="-1"></a><span class="co"># To get the size of each personal network, we can simpy use the count() function:</span></span>
+<span id="cb312-5"><a href="composition.html#cb312-5" tabindex="-1"></a><span class="co"># it counts the number of rows for each unique value of a variable. The</span></span>
+<span id="cb312-6"><a href="composition.html#cb312-6" tabindex="-1"></a><span class="co"># number of rows for each unique value of ego_ID in alter.attr.all is the number</span></span>
+<span id="cb312-7"><a href="composition.html#cb312-7" tabindex="-1"></a><span class="co"># of alters for each ego (personal network size).</span></span>
+<span id="cb312-8"><a href="composition.html#cb312-8" tabindex="-1"></a>alter.attr.all <span class="sc">|&gt;</span> </span>
+<span id="cb312-9"><a href="composition.html#cb312-9" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">count</span>(ego_ID)</span></code></pre></div>
 <pre><code>## # A tibble: 102 × 2
 ##    ego_ID     n
 ##     &lt;dbl&gt; &lt;int&gt;
@@ -865,20 +876,20 @@ div.csl-indent {
 ##  8     46    45
 ##  9     47    45
 ## 10     48    45
-## # … with 92 more rows</code></pre>
-<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="composition.html#cb327-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ***** EXERCISES </span></span>
-<span id="cb327-2"><a href="composition.html#cb327-2" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb327-3"><a href="composition.html#cb327-3" aria-hidden="true" tabindex="-1"></a><span class="co"># (1) Extract the values of alter.attr.all$alter.sex corresponding to ego_ID 28</span></span>
-<span id="cb327-4"><a href="composition.html#cb327-4" aria-hidden="true" tabindex="-1"></a><span class="co"># (dplyr::filter). Calculate the proportion of &quot;Female&quot; values. Based on this</span></span>
-<span id="cb327-5"><a href="composition.html#cb327-5" aria-hidden="true" tabindex="-1"></a><span class="co"># code, use summarise() to calculate the proportion of women in every ego&#39;s</span></span>
-<span id="cb327-6"><a href="composition.html#cb327-6" aria-hidden="true" tabindex="-1"></a><span class="co"># personal network. Hint: mean(alter.sex==&quot;Female&quot;).</span></span>
-<span id="cb327-7"><a href="composition.html#cb327-7" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb327-8"><a href="composition.html#cb327-8" aria-hidden="true" tabindex="-1"></a><span class="co"># (2) Subset alter.attr.all to the rows corresponding to ego_ID 53 (dplyr::filter).</span></span>
-<span id="cb327-9"><a href="composition.html#cb327-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Using the resulting data frame, calculate the average closeness ($alter.clo)</span></span>
-<span id="cb327-10"><a href="composition.html#cb327-10" aria-hidden="true" tabindex="-1"></a><span class="co"># of Italian alters (i.e. $alter.nat==&quot;Italy&quot;). Based on this code, run</span></span>
-<span id="cb327-11"><a href="composition.html#cb327-11" aria-hidden="true" tabindex="-1"></a><span class="co"># summarise() to calculate the average closeness of Italian alters for all egos.</span></span>
-<span id="cb327-12"><a href="composition.html#cb327-12" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb327-13"><a href="composition.html#cb327-13" aria-hidden="true" tabindex="-1"></a><span class="co"># *****</span></span></code></pre></div>
+## # ℹ 92 more rows</code></pre>
+<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="composition.html#cb314-1" tabindex="-1"></a><span class="co"># ***** EXERCISES </span></span>
+<span id="cb314-2"><a href="composition.html#cb314-2" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb314-3"><a href="composition.html#cb314-3" tabindex="-1"></a><span class="co"># (1) Extract the values of alter.attr.all$alter.sex corresponding to ego_ID 28</span></span>
+<span id="cb314-4"><a href="composition.html#cb314-4" tabindex="-1"></a><span class="co"># (dplyr::filter). Calculate the proportion of &quot;Female&quot; values. Based on this</span></span>
+<span id="cb314-5"><a href="composition.html#cb314-5" tabindex="-1"></a><span class="co"># code, use summarise() to calculate the proportion of women in every ego&#39;s</span></span>
+<span id="cb314-6"><a href="composition.html#cb314-6" tabindex="-1"></a><span class="co"># personal network. Hint: mean(alter.sex==&quot;Female&quot;).</span></span>
+<span id="cb314-7"><a href="composition.html#cb314-7" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb314-8"><a href="composition.html#cb314-8" tabindex="-1"></a><span class="co"># (2) Subset alter.attr.all to the rows corresponding to ego_ID 53 (dplyr::filter).</span></span>
+<span id="cb314-9"><a href="composition.html#cb314-9" tabindex="-1"></a><span class="co"># Using the resulting data frame, calculate the average closeness ($alter.clo)</span></span>
+<span id="cb314-10"><a href="composition.html#cb314-10" tabindex="-1"></a><span class="co"># of Italian alters (i.e. $alter.nat==&quot;Italy&quot;). Based on this code, run</span></span>
+<span id="cb314-11"><a href="composition.html#cb314-11" tabindex="-1"></a><span class="co"># summarise() to calculate the average closeness of Italian alters for all egos.</span></span>
+<span id="cb314-12"><a href="composition.html#cb314-12" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb314-13"><a href="composition.html#cb314-13" tabindex="-1"></a><span class="co"># *****</span></span></code></pre></div>
 
 </div>
 </div>

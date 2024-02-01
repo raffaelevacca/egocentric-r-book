@@ -14,7 +14,7 @@ The script covers the following topics:
 * Creating and saving R objects.
 * Vectors and matrices, data frames and tibbles.
 * Arithmetic and relational operations.
-* Indexing vectors, matrices, and data frames.
+* Subsetting vectors, matrices, and data frames.
 
 ## Starting R and loading packages {#starting-R-and-loading-packages}
 
@@ -60,7 +60,7 @@ The script covers the following topics:
     * `help.search(...)` or `??...` search for a specific string in the manual pages, e.g. `??histogram`.
 + In addition to built-in help facilities within R, there are plenty of ways to get **R help online**. Certain popular R packages have their own website, e.g. [ggplot2](http://ggplot2.tidyverse.org/), [igraph](http://igraph.org/), and [statnet](http://www.statnet.org/). Other websites for general R help include [rdocumentation.org](http://www.rdocumentation.org/) and [stackoverflow.com](http://stackoverflow.com/). See the workshop slides or talk to me for more information.
 
-```{r starting, include=TRUE, cache=FALSE, tidy= FALSE}
+```{r starting, include=TRUE, cache=FALSE, tidy= FALSE, message=FALSE}
 ```
 
 ```{r include=FALSE, cache=FALSE}
@@ -192,28 +192,28 @@ rm(list=ls())
 ```{r operations, include=TRUE, cache=FALSE, tidy= FALSE}
 ```
 
-## Indexing
+## Subsetting
 
-+ **Indexing** is crucial in R. Indexing means appending an index to an object to extract one (or more) of its elements or components. Indexing is also called subscripting.
-+ Indexing can be used to **extract** (view, query) the component of an object, or to **replace** it (assign a different value to that element).
-+ The basic notation for indexing in R is `[ ]`: `x[i]` gives you the _i_-th element of object `x`.
-+ **Numeric indexing** uses integers in square brackets `[ ]`: e.g. `x[3]`. Note that you can use negative integers to index (select) everything _but_ that element: e.g. `x[-3]`, `x[c(-2,-4)]`.
-+ **Logical indexing** uses logical vectors in square brackets `[ ]`. It's used to index objects according to a condition, e.g. to index all values in `x` that are greater than 3 (see example code below).
-+ **Name indexing** uses element names. Elements in a vector, and rows or columns in a matrix can have names. 
++ **Subsetting** is crucial in R. It means appending an index (or subscript) to an object to subset or extract one (or more) of its elements or components. This is also called "indexing" or "subscripting".
++ Subsetting can be used to **extract** (view, query) the component of an object, or to **replace** it (assign a different value to that element).
++ The basic notation for subsetting in R is `[ ]`: `x[i]` gives you the _i_-th element of object `x`.
++ **Numeric subsetting** uses integers in square brackets `[ ]`: e.g. `x[3]`. Note that you can use negative integers to index (select) everything _but_ that element: e.g. `x[-3]`, `x[c(-2,-4)]`.
++ **Logical subsetting** uses logical vectors in square brackets `[ ]`. It's used to subset objects based on a condition, e.g., to index all values in `x` that are greater than 3 (see example code below).
++ **Name subsetting** uses element names. Elements in a vector, and rows or columns in a matrix can have names. 
     * Names can be displayed and assigned using the `names` function in base R, or `set_names` (just to assign names) in tidyverse.
-+ When indexing you must take into account the **number of dimensions** of an object. For example, vectors have 1 dimension, matrices have 2. Arrays can be defined with 3 dimensions or more (e.g. three-way tables). 
++ When subsetting you must take into account the **number of dimensions** of an object. For example, vectors have one dimension, matrices have two. Arrays can be defined with three dimensions or more (e.g. three-way tables). 
     * Square brackets typically contain a slot for each dimension of the object, separated by a comma:
         - `x[i]` indexes the _i_-th element of the one-dimensional object `x`;
         - `x[i,j]` indexes the _i,j_-th element of the two-dimensional object `x` (e.g. `x` is a matrix, _i_ refers to a row and _j_ refers to a column); 
         - `x[i,j,k]` indexes the _i,j,k_-th element of the three-dimensional object `x`, etc.
     * Notice that a dimension's slot may be empty, meaning that we index all elements in that dimension. So, if `x` is a matrix, `x[3,]` will index the whole 3rd row of the matrix -- i.e. `[`row 3, all columns`]`. 
     * If `x` has more than one dimension (e.g. it's a matrix), then `x[3]` (no comma, just one slot) is still valid, but it might give you unexpected results.
-+ Matrices have special functions that can be used for indexing, e.g. `diagonal()`, `upper.tri()`, `lower.tri()`. These can be useful for manipulating adjacency matrices.
-+ Particular indexing rules may apply to particular `class`es of objects, for example lists and data frames (see next Section \@ref(index-df)).
++ Matrices have special functions that can be used for subsetting, e.g. `diagonal()`, `upper.tri()`, `lower.tri()`. These can be useful for manipulating adjacency matrices.
++ Particular subsetting rules may apply to particular `class`es of objects, for example lists and data frames (see next Section \@ref(index-df)).
  
-### Indexing and subsetting data frames {#index-df}
+### Subsetting data frames {#index-df}
 
-+ **List notations.** Data frames are a special class of lists (see Section \@ref(lists) for more about lists). Just like any list, data frames can be indexed in the following 3 ways:
++ **List notations.** Data frames are a special class of lists (see Section \@ref(lists) for more about lists). Just like any list, data frames can be subset in the following three ways:
     1. `[ ]` notation, e.g. `df[3]` or `df["variable.name"]`. This returns another data frame that only includes the indexed element(s), e.g. only the 3^rd^ element. Note:
         - This notation _preserves the_ `data.frame` _class_: the result is still a data frame.
         - This notation can be used to index _multiple_ elements of a data frame into a new data frame, e.g. `df[c(1,3,5)]` or `df[c("sex", "age")]`
@@ -221,13 +221,13 @@ rm(list=ls())
         - `[[ ]]` _does not_ preserve the `data.frame` class. The result is _not_ a data frame.
         - Consistently, `[[ ]]` can only be used to index a _single_ element (column) of the data frame, not multiple elements.
     3. The `$` notation. If _variable.name_ is the name of a specific variable (column) in `df`, then `df$variable.name` indexes that variable. This is the same as the `[[ ]]` notation: `df$variable.name` is the same as `df[["variable.name"]]`, and it's also the same as `df[[i]]` (where `i` is the position of the variable called _variable.name_ in the data frame).
-+ **Matrix notation.** Data frames can also be indexed like a matrix, with the `[ , ]` notation: 
++ **Matrix notation.** Data frames can also be subset like a matrix, with the `[ , ]` notation: 
     * `df[2,3]`, `df[2, ]`, `df[ ,3]`.
     * `df[,"age"]`, `df[,c("sex", "age")]`, `df[5,"age"]`
 + **Keep in mind the difference** between the following:
     * Extracting a data frame's variable (column) in itself, as a vector (numeric, character, etc.) --- The single pepper packet by itself in the figure below (panel C). This is given by `df[[i]]`, `df[["variable.name"]]`, `df$variable.name`.
     * Extracting another data frame of just one variable (column) -- The single pepper packet _within_ the pepper shaker in the figure below (panel B). This is given by `df[i]`, `df["variable.name"]`.
-+ **Subsetting data frames**. In base R there are different ways to subset a dataframe's rows (cases) and/or columns (variables) using indexing (some examples are in the code below). However, we'll mostly use the subsetting functions introduced by the `dplyr` package in `tidyverse` (see [below](#the-tidyverse-syntax)).
++ **Subsetting verbs** in tidyverse. In addition to subsetting data frames via the base indexing syntax described above, we can also use the subsetting functions introduced by the `dplyr` package in tidyverse (see [below](#the-tidyverse-syntax)).
 
 [![Indexing lists/data frames](./Figures/wickham_indexing_tweet.png){width=50%}](https://twitter.com/hadleywickham/status/643381054758363136?lang=en)
 
@@ -236,37 +236,26 @@ rm(list=ls())
 
 ## The `tidyverse` syntax
 
-### Pipes and the `%>%` operator
-+ The pipe operator `%>%` was introduced by the `magrittr` package and is adopted by `igraph` and `tidyverse`, which we'll use in this workshop. The operator is becoming increasingly popular among R users.
+### Pipes and the `|>` operator
+
++ The original pipe operator, `%>%`, was introduced by the `magrittr` package in 2014. It quickly gained popularity in the R community and was adopted by `igraph` and `tidyverse` (among other packages), which we use in this workshop. In 2021, R incorporated the pipe idea with a new, similar (but not identical) operator: `|>`. See [this page](https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/) for an overview of the differences between `|>` and `%>%`.
 + The idea behind pipes is in essence very simple:
-    * `f(g(x))` becomes `x %>% g %>% f`.
-    * For example: `mean(table(x))` becomes `x %>% table %>% mean`.
-+ So `%>%` pipes the output of the previous function (e.g. `table`) into the input of the following function (e.g. `mean`). This turns inside-to-outside code into left-to-right code. Because left to right is the direction most of us are used to read in, pipes make R code less cumbersome and more readable.
+    * `f(g(x))` becomes `x |> g() |> f()`.
+    * For example: `mean(table(x))` becomes `x |> table() |> mean()`.
++ So `|>` pipes the output of the previous function (e.g., `table()`) into the input of the following function (e.g., `mean()`). This turns inside-to-outside code into left-to-right code. Because left to right is the direction most of us are used to read in (at least in English and other Western languages), pipes make R code easier to read and follow.
 + You may also see pipes concatenating multiple lines of code. That's possible and a common coding style. Instead of
 ```
-x %>% table %>% mean
+x |> table() |> mean()
 ```
 you can write 
 ```
-x %>%
-  table %>%
-  mean
-```
-+ The `%<>%` operator combines `%>%` (pipe) and `<-` (assignment): it pipes the left-hand object on to the right-hand operations, and then assigns the operations' final output to the original object. The following code:
-```
-x <- x %>%
-  table %>%
-  mean
-```
-does the same thing as the following (more concise) code:
-```
-x %<>%
-  table %>%
-  mean
+x |>
+  table() |>
+  mean()
 ```
 
 ### Subsetting data frames in `tidyverse`
-+ Tidyverse includes the `dplyr` package for data frame manipulation. This is a very powerful package for all kinds of data manipulation. To learn more, see the package [cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf) and [vignettes](https://dplyr.tidyverse.org/articles/index.html).
++ Tidyverse includes the `dplyr` package for data frame manipulation. This is a very powerful package for all kinds of data wrangling. To learn more, see the package [cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf) and [vignettes](https://dplyr.tidyverse.org/articles/index.html).
 + Subsetting data frames with `dplyr`:
     * `dplyr::filter()` is used to subset rows (cases) of a data frame based on one or multiple conditions (for example, respondents with certain values on one or more variables). This preserves the data frame class, similar to `[ ]` indexing.
     * `dplyr::select()` is used to subset columns (variables) of a data frame. You can use full variable names or select variables in many other ways (see examples in the `select` [manual page](https://dplyr.tidyverse.org/reference/select.html)). This preserves the data frame class, similar to `[ ]` indexing.
