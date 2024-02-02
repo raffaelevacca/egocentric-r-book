@@ -15,7 +15,6 @@
 library(tidyverse)
 library(skimr)
 library(janitor)
-library(magrittr)
 
 # Load data.
 load("./Data/data.rda")
@@ -227,7 +226,7 @@ alter.attr.all |>
 
 # We can also "permanently" group the data frame by ego_ID and then calculate all
 # our summary measures by ego ID.
-alter.attr.all %<>% 
+alter.attr.all <- alter.attr.all |> 
   group_by(ego_ID)
 
 # * N of distinct values in the alter nationality, country of residence, and

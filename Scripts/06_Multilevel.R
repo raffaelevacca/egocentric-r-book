@@ -15,7 +15,6 @@
 library(tidyverse)
 library(lme4)
 library(car)
-library(magrittr)
 library(skimr)
 library(janitor)
 library(broom.mixed)

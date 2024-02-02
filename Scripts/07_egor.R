@@ -13,7 +13,6 @@
 
 # Load packages
 library(tidyverse)
-library(magrittr)
 library(igraph)
 library(egor)
 library(janitor)

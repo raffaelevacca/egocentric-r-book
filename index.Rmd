@@ -69,23 +69,22 @@ The **slides** used for this workshop can be downloaded [here](https://www.dropb
 
 ### Required R packages {#packages}
 
-* For descriptive statistics
+* For descriptive statistics:
     - [`janitor`](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html)
     - [`skimr`](https://cran.r-project.org/web/packages/skimr/vignettes/skimr.html)
-* For network data, measures, visualization
+* For network data, measures, visualization:
     - [`egor`](https://github.com/tilltnet/egor)
     - [`ggraph`](https://github.com/thomasp85/ggraph)
     - [`igraph`](https://igraph.org/)
     - [`intergraph`](https://mbojan.github.io/intergraph/)
     - [`statnet`](http://statnet.org/)
     - [`tidygraph`](https://github.com/thomasp85/tidygraph)
-* To fit multilevel statistical models and view their results
+* To fit multilevel statistical models and view their results:
     - [`broom.mixed`](https://cran.r-project.org/web/packages/broom.mixed/vignettes/broom_mixed_intro.html)
     - [`car`](https://cran.r-project.org/web/packages/car/index.html)
     - [`ggeffects`](https://strengejacke.github.io/ggeffects/)
     - [`lme4`](https://github.com/lme4/lme4)
-* General
-    - [`magrittr`](https://magrittr.tidyverse.org/)
+* General:
     - [`tidyverse`](https://www.tidyverse.org/). This is a collection of different packages that share a common language and set of principles, including `dplyr`, `ggplot2`, and `purrr`. See [Wickham and Grolemund (2017)](http://r4ds.had.co.nz/) for more information.
 
 ### RStudio options

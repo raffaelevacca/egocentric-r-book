@@ -23,7 +23,7 @@
 <meta name="author" content="Raffaele Vacca" />
 
 
-<meta name="date" content="2024-02-01" />
+<meta name="date" content="2024-02-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -306,17 +306,16 @@ div.csl-indent {
 </ul></li>
 <li>The resulting data objects are those that we used in the previous chapters (saved in the <code>data.rda</code> file).</li>
 </ul>
-<div class="sourceCode" id="cb457"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb457-1"><a href="egor.html#cb457-1" tabindex="-1"></a><span class="co"># Load packages</span></span>
-<span id="cb457-2"><a href="egor.html#cb457-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb457-3"><a href="egor.html#cb457-3" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
-<span id="cb457-4"><a href="egor.html#cb457-4" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
-<span id="cb457-5"><a href="egor.html#cb457-5" tabindex="-1"></a><span class="fu">library</span>(egor)</span>
-<span id="cb457-6"><a href="egor.html#cb457-6" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
-<span id="cb457-7"><a href="egor.html#cb457-7" tabindex="-1"></a></span>
-<span id="cb457-8"><a href="egor.html#cb457-8" tabindex="-1"></a><span class="co"># Import the raw csv files into R as data frames.</span></span>
-<span id="cb457-9"><a href="egor.html#cb457-9" tabindex="-1"></a></span>
-<span id="cb457-10"><a href="egor.html#cb457-10" tabindex="-1"></a><span class="co"># Ego attributes</span></span>
-<span id="cb457-11"><a href="egor.html#cb457-11" tabindex="-1"></a>(ego.df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;./Data/raw_data/ego_data.csv&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb453"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb453-1"><a href="egor.html#cb453-1" tabindex="-1"></a><span class="co"># Load packages</span></span>
+<span id="cb453-2"><a href="egor.html#cb453-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb453-3"><a href="egor.html#cb453-3" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb453-4"><a href="egor.html#cb453-4" tabindex="-1"></a><span class="fu">library</span>(egor)</span>
+<span id="cb453-5"><a href="egor.html#cb453-5" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb453-6"><a href="egor.html#cb453-6" tabindex="-1"></a></span>
+<span id="cb453-7"><a href="egor.html#cb453-7" tabindex="-1"></a><span class="co"># Import the raw csv files into R as data frames.</span></span>
+<span id="cb453-8"><a href="egor.html#cb453-8" tabindex="-1"></a></span>
+<span id="cb453-9"><a href="egor.html#cb453-9" tabindex="-1"></a><span class="co"># Ego attributes</span></span>
+<span id="cb453-10"><a href="egor.html#cb453-10" tabindex="-1"></a>(ego.df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;./Data/raw_data/ego_data.csv&quot;</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 102 × 9
 ##    ego_ID ego.sex ego.age ego.arr ego.edu ego.inc  empl ego.empl.bin ego.age.cat
 ##     &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;      
@@ -331,15 +330,15 @@ div.csl-indent {
 ##  9     47 Male         22    2010 Second…     700     4 Yes          18-25      
 ## 10     48 Male         51    2007 Primary     950     4 Yes          51-60      
 ## # ℹ 92 more rows</code></pre>
-<div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb459-1"><a href="egor.html#cb459-1" tabindex="-1"></a><span class="co"># Convert all character variables to factor</span></span>
-<span id="cb459-2"><a href="egor.html#cb459-2" tabindex="-1"></a><span class="co"># Using dplyr&#39;s across(), this code takes all ego.df variables that are character</span></span>
-<span id="cb459-3"><a href="egor.html#cb459-3" tabindex="-1"></a><span class="co"># (where(is.character)) and applies the as.factor() function to each, converting </span></span>
-<span id="cb459-4"><a href="egor.html#cb459-4" tabindex="-1"></a><span class="co"># it to a factor variable. The resulting data frame is re-assigned to ego.df.</span></span>
-<span id="cb459-5"><a href="egor.html#cb459-5" tabindex="-1"></a>ego.df <span class="ot">&lt;-</span> ego.df <span class="sc">|&gt;</span> </span>
-<span id="cb459-6"><a href="egor.html#cb459-6" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), as.factor))</span>
-<span id="cb459-7"><a href="egor.html#cb459-7" tabindex="-1"></a></span>
-<span id="cb459-8"><a href="egor.html#cb459-8" tabindex="-1"></a><span class="co"># Alter attributes (all alters from all egos in same data frame).</span></span>
-<span id="cb459-9"><a href="egor.html#cb459-9" tabindex="-1"></a>(alter.attr.all <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;./Data/raw_data/alter_attributes.csv&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb455"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb455-1"><a href="egor.html#cb455-1" tabindex="-1"></a><span class="co"># Convert all character variables to factor</span></span>
+<span id="cb455-2"><a href="egor.html#cb455-2" tabindex="-1"></a><span class="co"># Using dplyr&#39;s across(), this code takes all ego.df variables that are character</span></span>
+<span id="cb455-3"><a href="egor.html#cb455-3" tabindex="-1"></a><span class="co"># (where(is.character)) and applies the as.factor() function to each, converting </span></span>
+<span id="cb455-4"><a href="egor.html#cb455-4" tabindex="-1"></a><span class="co"># it to a factor variable. The resulting data frame is re-assigned to ego.df.</span></span>
+<span id="cb455-5"><a href="egor.html#cb455-5" tabindex="-1"></a>ego.df <span class="ot">&lt;-</span> ego.df <span class="sc">|&gt;</span> </span>
+<span id="cb455-6"><a href="egor.html#cb455-6" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), as.factor))</span>
+<span id="cb455-7"><a href="egor.html#cb455-7" tabindex="-1"></a></span>
+<span id="cb455-8"><a href="egor.html#cb455-8" tabindex="-1"></a><span class="co"># Alter attributes (all alters from all egos in same data frame).</span></span>
+<span id="cb455-9"><a href="egor.html#cb455-9" tabindex="-1"></a>(alter.attr.all <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;./Data/raw_data/alter_attributes.csv&quot;</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 4,590 × 12
 ##    alter_ID ego_ID alter_num alter.sex alter.age.cat alter.rel    alter.nat
 ##       &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;        &lt;chr&gt;    
@@ -356,46 +355,46 @@ div.csl-indent {
 ## # ℹ 4,580 more rows
 ## # ℹ 5 more variables: alter.res &lt;chr&gt;, alter.clo &lt;dbl&gt;, alter.loan &lt;chr&gt;,
 ## #   alter.fam &lt;chr&gt;, alter.age &lt;dbl&gt;</code></pre>
-<div class="sourceCode" id="cb461"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb461-1"><a href="egor.html#cb461-1" tabindex="-1"></a><span class="co"># Convert all character variables to factor.</span></span>
-<span id="cb461-2"><a href="egor.html#cb461-2" tabindex="-1"></a>alter.attr.all <span class="ot">&lt;-</span> alter.attr.all <span class="sc">|&gt;</span> </span>
-<span id="cb461-3"><a href="egor.html#cb461-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), as.factor))</span>
-<span id="cb461-4"><a href="egor.html#cb461-4" tabindex="-1"></a></span>
-<span id="cb461-5"><a href="egor.html#cb461-5" tabindex="-1"></a><span class="co"># To make things easier in the rest of the workshop materials, make sure the </span></span>
-<span id="cb461-6"><a href="egor.html#cb461-6" tabindex="-1"></a><span class="co"># factors of alter gender and ego gender have the same levels (categories).</span></span>
-<span id="cb461-7"><a href="egor.html#cb461-7" tabindex="-1"></a></span>
-<span id="cb461-8"><a href="egor.html#cb461-8" tabindex="-1"></a><span class="co"># Levels of alter.sex variable.</span></span>
-<span id="cb461-9"><a href="egor.html#cb461-9" tabindex="-1"></a>alter.attr.all <span class="sc">|&gt;</span></span>
-<span id="cb461-10"><a href="egor.html#cb461-10" tabindex="-1"></a>  <span class="fu">pull</span>(alter.sex) <span class="sc">|&gt;</span></span>
-<span id="cb461-11"><a href="egor.html#cb461-11" tabindex="-1"></a>  <span class="fu">levels</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb457"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb457-1"><a href="egor.html#cb457-1" tabindex="-1"></a><span class="co"># Convert all character variables to factor.</span></span>
+<span id="cb457-2"><a href="egor.html#cb457-2" tabindex="-1"></a>alter.attr.all <span class="ot">&lt;-</span> alter.attr.all <span class="sc">|&gt;</span> </span>
+<span id="cb457-3"><a href="egor.html#cb457-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.character), as.factor))</span>
+<span id="cb457-4"><a href="egor.html#cb457-4" tabindex="-1"></a></span>
+<span id="cb457-5"><a href="egor.html#cb457-5" tabindex="-1"></a><span class="co"># To make things easier in the rest of the workshop materials, make sure the </span></span>
+<span id="cb457-6"><a href="egor.html#cb457-6" tabindex="-1"></a><span class="co"># factors of alter gender and ego gender have the same levels (categories).</span></span>
+<span id="cb457-7"><a href="egor.html#cb457-7" tabindex="-1"></a></span>
+<span id="cb457-8"><a href="egor.html#cb457-8" tabindex="-1"></a><span class="co"># Levels of alter.sex variable.</span></span>
+<span id="cb457-9"><a href="egor.html#cb457-9" tabindex="-1"></a>alter.attr.all <span class="sc">|&gt;</span></span>
+<span id="cb457-10"><a href="egor.html#cb457-10" tabindex="-1"></a>  <span class="fu">pull</span>(alter.sex) <span class="sc">|&gt;</span></span>
+<span id="cb457-11"><a href="egor.html#cb457-11" tabindex="-1"></a>  <span class="fu">levels</span>()</span></code></pre></div>
 <pre><code>## [1] &quot;Female&quot; &quot;Male&quot;</code></pre>
-<div class="sourceCode" id="cb463"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb463-1"><a href="egor.html#cb463-1" tabindex="-1"></a><span class="co"># Levels of ego.sex variable: Female doesn&#39;t appear because no ego is female in </span></span>
-<span id="cb463-2"><a href="egor.html#cb463-2" tabindex="-1"></a><span class="co"># these data.</span></span>
-<span id="cb463-3"><a href="egor.html#cb463-3" tabindex="-1"></a>ego.df <span class="sc">|&gt;</span></span>
-<span id="cb463-4"><a href="egor.html#cb463-4" tabindex="-1"></a>  <span class="fu">pull</span>(ego.sex) <span class="sc">|&gt;</span></span>
-<span id="cb463-5"><a href="egor.html#cb463-5" tabindex="-1"></a>  <span class="fu">levels</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb459"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb459-1"><a href="egor.html#cb459-1" tabindex="-1"></a><span class="co"># Levels of ego.sex variable: Female doesn&#39;t appear because no ego is female in </span></span>
+<span id="cb459-2"><a href="egor.html#cb459-2" tabindex="-1"></a><span class="co"># these data.</span></span>
+<span id="cb459-3"><a href="egor.html#cb459-3" tabindex="-1"></a>ego.df <span class="sc">|&gt;</span></span>
+<span id="cb459-4"><a href="egor.html#cb459-4" tabindex="-1"></a>  <span class="fu">pull</span>(ego.sex) <span class="sc">|&gt;</span></span>
+<span id="cb459-5"><a href="egor.html#cb459-5" tabindex="-1"></a>  <span class="fu">levels</span>()</span></code></pre></div>
 <pre><code>## [1] &quot;Male&quot;</code></pre>
-<div class="sourceCode" id="cb465"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb465-1"><a href="egor.html#cb465-1" tabindex="-1"></a>ego.df <span class="sc">|&gt;</span></span>
-<span id="cb465-2"><a href="egor.html#cb465-2" tabindex="-1"></a>  <span class="fu">tabyl</span>(ego.sex)</span></code></pre></div>
+<div class="sourceCode" id="cb461"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb461-1"><a href="egor.html#cb461-1" tabindex="-1"></a>ego.df <span class="sc">|&gt;</span></span>
+<span id="cb461-2"><a href="egor.html#cb461-2" tabindex="-1"></a>  <span class="fu">tabyl</span>(ego.sex)</span></code></pre></div>
 <pre><code>##  ego.sex   n percent
 ##     Male 102       1</code></pre>
-<div class="sourceCode" id="cb467"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb467-1"><a href="egor.html#cb467-1" tabindex="-1"></a><span class="co"># Add the Female level to the ego.sex factor.</span></span>
-<span id="cb467-2"><a href="egor.html#cb467-2" tabindex="-1"></a>ego.df <span class="ot">&lt;-</span> ego.df <span class="sc">|&gt;</span> </span>
-<span id="cb467-3"><a href="egor.html#cb467-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ego.sex =</span> <span class="fu">fct_expand</span>(ego.sex, <span class="st">&quot;Female&quot;</span>))</span>
-<span id="cb467-4"><a href="egor.html#cb467-4" tabindex="-1"></a></span>
-<span id="cb467-5"><a href="egor.html#cb467-5" tabindex="-1"></a><span class="co"># See the result</span></span>
-<span id="cb467-6"><a href="egor.html#cb467-6" tabindex="-1"></a>ego.df <span class="sc">|&gt;</span></span>
-<span id="cb467-7"><a href="egor.html#cb467-7" tabindex="-1"></a>  <span class="fu">pull</span>(ego.sex) <span class="sc">|&gt;</span></span>
-<span id="cb467-8"><a href="egor.html#cb467-8" tabindex="-1"></a>  <span class="fu">levels</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb463"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb463-1"><a href="egor.html#cb463-1" tabindex="-1"></a><span class="co"># Add the Female level to the ego.sex factor.</span></span>
+<span id="cb463-2"><a href="egor.html#cb463-2" tabindex="-1"></a>ego.df <span class="ot">&lt;-</span> ego.df <span class="sc">|&gt;</span> </span>
+<span id="cb463-3"><a href="egor.html#cb463-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ego.sex =</span> <span class="fu">fct_expand</span>(ego.sex, <span class="st">&quot;Female&quot;</span>))</span>
+<span id="cb463-4"><a href="egor.html#cb463-4" tabindex="-1"></a></span>
+<span id="cb463-5"><a href="egor.html#cb463-5" tabindex="-1"></a><span class="co"># See the result</span></span>
+<span id="cb463-6"><a href="egor.html#cb463-6" tabindex="-1"></a>ego.df <span class="sc">|&gt;</span></span>
+<span id="cb463-7"><a href="egor.html#cb463-7" tabindex="-1"></a>  <span class="fu">pull</span>(ego.sex) <span class="sc">|&gt;</span></span>
+<span id="cb463-8"><a href="egor.html#cb463-8" tabindex="-1"></a>  <span class="fu">levels</span>()</span></code></pre></div>
 <pre><code>## [1] &quot;Male&quot;   &quot;Female&quot;</code></pre>
-<div class="sourceCode" id="cb469"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb469-1"><a href="egor.html#cb469-1" tabindex="-1"></a><span class="co"># Note that this doesn&#39;t alter the actual data in ego.df, just adds &quot;Female&quot; to </span></span>
-<span id="cb469-2"><a href="egor.html#cb469-2" tabindex="-1"></a><span class="co"># the list of possible levels (categories) in ego.sex.</span></span>
-<span id="cb469-3"><a href="egor.html#cb469-3" tabindex="-1"></a>ego.df <span class="sc">|&gt;</span></span>
-<span id="cb469-4"><a href="egor.html#cb469-4" tabindex="-1"></a>  <span class="fu">tabyl</span>(ego.sex)</span></code></pre></div>
+<div class="sourceCode" id="cb465"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb465-1"><a href="egor.html#cb465-1" tabindex="-1"></a><span class="co"># Note that this doesn&#39;t alter the actual data in ego.df, just adds &quot;Female&quot; to </span></span>
+<span id="cb465-2"><a href="egor.html#cb465-2" tabindex="-1"></a><span class="co"># the list of possible levels (categories) in ego.sex.</span></span>
+<span id="cb465-3"><a href="egor.html#cb465-3" tabindex="-1"></a>ego.df <span class="sc">|&gt;</span></span>
+<span id="cb465-4"><a href="egor.html#cb465-4" tabindex="-1"></a>  <span class="fu">tabyl</span>(ego.sex)</span></code></pre></div>
 <pre><code>##  ego.sex   n percent
 ##     Male 102       1
 ##   Female   0       0</code></pre>
-<div class="sourceCode" id="cb471"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb471-1"><a href="egor.html#cb471-1" tabindex="-1"></a><span class="co"># Alter-alter ties (single edge list with all alters from all egos).</span></span>
-<span id="cb471-2"><a href="egor.html#cb471-2" tabindex="-1"></a>(alter_ties <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;./Data/raw_data/alter_ties.csv&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb467"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb467-1"><a href="egor.html#cb467-1" tabindex="-1"></a><span class="co"># Alter-alter ties (single edge list with all alters from all egos).</span></span>
+<span id="cb467-2"><a href="egor.html#cb467-2" tabindex="-1"></a>(alter_ties <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;./Data/raw_data/alter_ties.csv&quot;</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 30,064 × 4
 ##     from    to ego_ID weight
 ##    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
@@ -410,27 +409,27 @@ div.csl-indent {
 ##  9  2801  2810     28      1
 ## 10  2801  2811     28      1
 ## # ℹ 30,054 more rows</code></pre>
-<div class="sourceCode" id="cb473"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb473-1"><a href="egor.html#cb473-1" tabindex="-1"></a><span class="co"># Using these 3 data frames, create an egor object.</span></span>
-<span id="cb473-2"><a href="egor.html#cb473-2" tabindex="-1"></a>egor.obj <span class="ot">&lt;-</span> egor<span class="sc">::</span><span class="fu">threefiles_to_egor</span>(<span class="at">egos=</span> ego.df, </span>
-<span id="cb473-3"><a href="egor.html#cb473-3" tabindex="-1"></a>                               <span class="at">alters.df=</span> alter.attr.all, </span>
-<span id="cb473-4"><a href="egor.html#cb473-4" tabindex="-1"></a>                               <span class="at">edges=</span> alter_ties, </span>
-<span id="cb473-5"><a href="egor.html#cb473-5" tabindex="-1"></a>                               <span class="at">ID.vars =</span> <span class="fu">list</span>(<span class="at">ego =</span> <span class="st">&quot;ego_ID&quot;</span>, </span>
-<span id="cb473-6"><a href="egor.html#cb473-6" tabindex="-1"></a>                                              <span class="at">alter =</span> <span class="st">&quot;alter_ID&quot;</span>, </span>
-<span id="cb473-7"><a href="egor.html#cb473-7" tabindex="-1"></a>                                              <span class="at">source =</span> <span class="st">&quot;from&quot;</span>, </span>
-<span id="cb473-8"><a href="egor.html#cb473-8" tabindex="-1"></a>                                              <span class="at">target =</span> <span class="st">&quot;to&quot;</span>))</span>
-<span id="cb473-9"><a href="egor.html#cb473-9" tabindex="-1"></a></span>
-<span id="cb473-10"><a href="egor.html#cb473-10" tabindex="-1"></a><span class="co"># The egor object can immediately be converted to a list of igraph networks.</span></span>
-<span id="cb473-11"><a href="egor.html#cb473-11" tabindex="-1"></a>gr.list <span class="ot">&lt;-</span> egor<span class="sc">::</span><span class="fu">as_igraph</span>(egor.obj)</span>
-<span id="cb473-12"><a href="egor.html#cb473-12" tabindex="-1"></a></span>
-<span id="cb473-13"><a href="egor.html#cb473-13" tabindex="-1"></a><span class="co"># See the result</span></span>
-<span id="cb473-14"><a href="egor.html#cb473-14" tabindex="-1"></a><span class="fu">head</span>(gr.list)</span></code></pre></div>
+<div class="sourceCode" id="cb469"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb469-1"><a href="egor.html#cb469-1" tabindex="-1"></a><span class="co"># Using these 3 data frames, create an egor object.</span></span>
+<span id="cb469-2"><a href="egor.html#cb469-2" tabindex="-1"></a>egor.obj <span class="ot">&lt;-</span> egor<span class="sc">::</span><span class="fu">threefiles_to_egor</span>(<span class="at">egos=</span> ego.df, </span>
+<span id="cb469-3"><a href="egor.html#cb469-3" tabindex="-1"></a>                               <span class="at">alters.df=</span> alter.attr.all, </span>
+<span id="cb469-4"><a href="egor.html#cb469-4" tabindex="-1"></a>                               <span class="at">edges=</span> alter_ties, </span>
+<span id="cb469-5"><a href="egor.html#cb469-5" tabindex="-1"></a>                               <span class="at">ID.vars =</span> <span class="fu">list</span>(<span class="at">ego =</span> <span class="st">&quot;ego_ID&quot;</span>, </span>
+<span id="cb469-6"><a href="egor.html#cb469-6" tabindex="-1"></a>                                              <span class="at">alter =</span> <span class="st">&quot;alter_ID&quot;</span>, </span>
+<span id="cb469-7"><a href="egor.html#cb469-7" tabindex="-1"></a>                                              <span class="at">source =</span> <span class="st">&quot;from&quot;</span>, </span>
+<span id="cb469-8"><a href="egor.html#cb469-8" tabindex="-1"></a>                                              <span class="at">target =</span> <span class="st">&quot;to&quot;</span>))</span>
+<span id="cb469-9"><a href="egor.html#cb469-9" tabindex="-1"></a></span>
+<span id="cb469-10"><a href="egor.html#cb469-10" tabindex="-1"></a><span class="co"># The egor object can immediately be converted to a list of igraph networks.</span></span>
+<span id="cb469-11"><a href="egor.html#cb469-11" tabindex="-1"></a>gr.list <span class="ot">&lt;-</span> egor<span class="sc">::</span><span class="fu">as_igraph</span>(egor.obj)</span>
+<span id="cb469-12"><a href="egor.html#cb469-12" tabindex="-1"></a></span>
+<span id="cb469-13"><a href="egor.html#cb469-13" tabindex="-1"></a><span class="co"># See the result</span></span>
+<span id="cb469-14"><a href="egor.html#cb469-14" tabindex="-1"></a><span class="fu">head</span>(gr.list)</span></code></pre></div>
 <pre><code>## $`28`
-## IGRAPH 32a99df UNW- 45 259 -- 
+## IGRAPH 7bc8b22 UNW- 45 259 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from 32a99df (vertex names):
+## + edges from 7bc8b22 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -439,12 +438,12 @@ div.csl-indent {
 ## + ... omitted several edges
 ## 
 ## $`29`
-## IGRAPH 6db62c1 UNW- 45 202 -- 
+## IGRAPH 1885414 UNW- 45 202 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from 6db62c1 (vertex names):
+## + edges from 1885414 (vertex names):
 ##  [1] 2901--2902 2901--2904 2901--2906 2901--2907 2901--2908 2901--2909
 ##  [7] 2901--2910 2901--2911 2901--2915 2901--2916 2901--2917 2901--2918
 ## [13] 2901--2919 2901--2927 2901--2928 2901--2929 2901--2930 2901--2931
@@ -453,12 +452,12 @@ div.csl-indent {
 ## + ... omitted several edges
 ## 
 ## $`33`
-## IGRAPH 5331804 UNW- 45 207 -- 
+## IGRAPH b6adf99 UNW- 45 207 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from 5331804 (vertex names):
+## + edges from b6adf99 (vertex names):
 ##  [1] 3301--3302 3301--3303 3301--3304 3301--3305 3301--3306 3301--3307
 ##  [7] 3301--3308 3301--3309 3301--3310 3301--3311 3301--3312 3301--3313
 ## [13] 3301--3314 3301--3315 3301--3316 3301--3317 3301--3318 3301--3319
@@ -467,12 +466,12 @@ div.csl-indent {
 ## + ... omitted several edges
 ## 
 ## $`35`
-## IGRAPH 4e7492a UNW- 45 221 -- 
+## IGRAPH 80cca43 UNW- 45 221 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from 4e7492a (vertex names):
+## + edges from 80cca43 (vertex names):
 ##  [1] 3501--3502 3501--3503 3501--3504 3501--3505 3501--3506 3501--3507
 ##  [7] 3501--3508 3501--3509 3501--3510 3501--3512 3501--3513 3501--3514
 ## [13] 3501--3516 3501--3517 3501--3522 3501--3523 3501--3524 3501--3525
@@ -481,12 +480,12 @@ div.csl-indent {
 ## + ... omitted several edges
 ## 
 ## $`39`
-## IGRAPH ad523ff UNW- 45 92 -- 
+## IGRAPH 11d0a81 UNW- 45 92 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from ad523ff (vertex names):
+## + edges from 11d0a81 (vertex names):
 ##  [1] 3901--3902 3901--3903 3901--3904 3901--3905 3901--3906 3901--3907
 ##  [7] 3901--3911 3901--3913 3901--3920 3901--3924 3901--3925 3901--3931
 ## [13] 3901--3932 3901--3933 3901--3937 3901--3938 3901--3940 3901--3941
@@ -495,21 +494,21 @@ div.csl-indent {
 ## + ... omitted several edges
 ## 
 ## $`40`
-## IGRAPH 5464b4d UNW- 45 255 -- 
+## IGRAPH 446cfde UNW- 45 255 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from 5464b4d (vertex names):
+## + edges from 446cfde (vertex names):
 ##  [1] 4001--4003 4001--4007 4001--4008 4001--4009 4001--4036 4001--4040
 ##  [7] 4001--4045 4002--4003 4002--4004 4002--4006 4002--4008 4002--4009
 ## [13] 4002--4010 4002--4011 4002--4012 4002--4013 4002--4014 4002--4015
 ## [19] 4002--4016 4002--4017 4002--4021 4002--4029 4002--4036 4002--4037
 ## [25] 4002--4038 4002--4040 4002--4041 4002--4042 4002--4043 4002--4044
 ## + ... omitted several edges</code></pre>
-<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb475-1"><a href="egor.html#cb475-1" tabindex="-1"></a><span class="co"># Note that gr.list is a named list, with each element&#39;s name being the </span></span>
-<span id="cb475-2"><a href="egor.html#cb475-2" tabindex="-1"></a><span class="co"># corresponding ego ID.</span></span>
-<span id="cb475-3"><a href="egor.html#cb475-3" tabindex="-1"></a><span class="fu">names</span>(gr.list)</span></code></pre></div>
+<div class="sourceCode" id="cb471"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb471-1"><a href="egor.html#cb471-1" tabindex="-1"></a><span class="co"># Note that gr.list is a named list, with each element&#39;s name being the </span></span>
+<span id="cb471-2"><a href="egor.html#cb471-2" tabindex="-1"></a><span class="co"># corresponding ego ID.</span></span>
+<span id="cb471-3"><a href="egor.html#cb471-3" tabindex="-1"></a><span class="fu">names</span>(gr.list)</span></code></pre></div>
 <pre><code>##   [1] &quot;28&quot;  &quot;29&quot;  &quot;33&quot;  &quot;35&quot;  &quot;39&quot;  &quot;40&quot;  &quot;45&quot;  &quot;46&quot;  &quot;47&quot;  &quot;48&quot;  &quot;49&quot;  &quot;51&quot; 
 ##  [13] &quot;52&quot;  &quot;53&quot;  &quot;55&quot;  &quot;56&quot;  &quot;57&quot;  &quot;58&quot;  &quot;59&quot;  &quot;60&quot;  &quot;61&quot;  &quot;62&quot;  &quot;64&quot;  &quot;65&quot; 
 ##  [25] &quot;66&quot;  &quot;68&quot;  &quot;69&quot;  &quot;71&quot;  &quot;73&quot;  &quot;74&quot;  &quot;78&quot;  &quot;79&quot;  &quot;80&quot;  &quot;81&quot;  &quot;82&quot;  &quot;83&quot; 
@@ -519,56 +518,56 @@ div.csl-indent {
 ##  [73] &quot;129&quot; &quot;130&quot; &quot;131&quot; &quot;132&quot; &quot;133&quot; &quot;135&quot; &quot;136&quot; &quot;138&quot; &quot;139&quot; &quot;140&quot; &quot;141&quot; &quot;142&quot;
 ##  [85] &quot;144&quot; &quot;146&quot; &quot;147&quot; &quot;149&quot; &quot;151&quot; &quot;152&quot; &quot;153&quot; &quot;154&quot; &quot;155&quot; &quot;156&quot; &quot;157&quot; &quot;158&quot;
 ##  [97] &quot;159&quot; &quot;160&quot; &quot;161&quot; &quot;162&quot; &quot;163&quot; &quot;164&quot;</code></pre>
-<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb477-1"><a href="egor.html#cb477-1" tabindex="-1"></a><span class="co"># In gr.list, the igraph ego-networks do not include the ego node. We can create</span></span>
-<span id="cb477-2"><a href="egor.html#cb477-2" tabindex="-1"></a><span class="co"># the same list, but now include a node for ego in each igraph ego-network.</span></span>
-<span id="cb477-3"><a href="egor.html#cb477-3" tabindex="-1"></a>gr.list.ego <span class="ot">&lt;-</span> egor<span class="sc">::</span><span class="fu">as_igraph</span>(egor.obj, <span class="at">include.ego =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb477-4"><a href="egor.html#cb477-4" tabindex="-1"></a></span>
-<span id="cb477-5"><a href="egor.html#cb477-5" tabindex="-1"></a><span class="co"># Let&#39;s look at the same network with and without the ego.</span></span>
-<span id="cb477-6"><a href="egor.html#cb477-6" tabindex="-1"></a></span>
-<span id="cb477-7"><a href="egor.html#cb477-7" tabindex="-1"></a><span class="co"># Without ego (gr.list).</span></span>
-<span id="cb477-8"><a href="egor.html#cb477-8" tabindex="-1"></a>(gr <span class="ot">&lt;-</span> gr.list[[<span class="st">&quot;28&quot;</span>]])</span></code></pre></div>
-<pre><code>## IGRAPH 32a99df UNW- 45 259 -- 
+<div class="sourceCode" id="cb473"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb473-1"><a href="egor.html#cb473-1" tabindex="-1"></a><span class="co"># In gr.list, the igraph ego-networks do not include the ego node. We can create</span></span>
+<span id="cb473-2"><a href="egor.html#cb473-2" tabindex="-1"></a><span class="co"># the same list, but now include a node for ego in each igraph ego-network.</span></span>
+<span id="cb473-3"><a href="egor.html#cb473-3" tabindex="-1"></a>gr.list.ego <span class="ot">&lt;-</span> egor<span class="sc">::</span><span class="fu">as_igraph</span>(egor.obj, <span class="at">include.ego =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb473-4"><a href="egor.html#cb473-4" tabindex="-1"></a></span>
+<span id="cb473-5"><a href="egor.html#cb473-5" tabindex="-1"></a><span class="co"># Let&#39;s look at the same network with and without the ego.</span></span>
+<span id="cb473-6"><a href="egor.html#cb473-6" tabindex="-1"></a></span>
+<span id="cb473-7"><a href="egor.html#cb473-7" tabindex="-1"></a><span class="co"># Without ego (gr.list).</span></span>
+<span id="cb473-8"><a href="egor.html#cb473-8" tabindex="-1"></a>(gr <span class="ot">&lt;-</span> gr.list[[<span class="st">&quot;28&quot;</span>]])</span></code></pre></div>
+<pre><code>## IGRAPH 7bc8b22 UNW- 45 259 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from 32a99df (vertex names):
+## + edges from 7bc8b22 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
 ## [19] 2801--2827 2801--2828 2801--2829 2801--2831 2801--2840 2801--2841
 ## [25] 2802--2803 2802--2804 2802--2805 2802--2806 2802--2807 2802--2808
 ## + ... omitted several edges</code></pre>
-<div class="sourceCode" id="cb479"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb479-1"><a href="egor.html#cb479-1" tabindex="-1"></a><span class="co"># Just the vertex sequence.</span></span>
-<span id="cb479-2"><a href="egor.html#cb479-2" tabindex="-1"></a><span class="fu">V</span>(gr)</span></code></pre></div>
-<pre><code>## + 45/45 vertices, named, from 32a99df:
+<div class="sourceCode" id="cb475"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb475-1"><a href="egor.html#cb475-1" tabindex="-1"></a><span class="co"># Just the vertex sequence.</span></span>
+<span id="cb475-2"><a href="egor.html#cb475-2" tabindex="-1"></a><span class="fu">V</span>(gr)</span></code></pre></div>
+<pre><code>## + 45/45 vertices, named, from 7bc8b22:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2813 2814 2815
 ## [16] 2816 2817 2818 2819 2820 2821 2822 2823 2824 2825 2826 2827 2828 2829 2830
 ## [31] 2831 2832 2833 2834 2835 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845</code></pre>
-<div class="sourceCode" id="cb481"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb481-1"><a href="egor.html#cb481-1" tabindex="-1"></a><span class="co"># With ego (gr.list.ego). </span></span>
-<span id="cb481-2"><a href="egor.html#cb481-2" tabindex="-1"></a>(gr.ego <span class="ot">&lt;-</span> gr.list.ego[[<span class="st">&quot;28&quot;</span>]])</span></code></pre></div>
-<pre><code>## IGRAPH 3e551cc UNW- 46 304 -- 
+<div class="sourceCode" id="cb477"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb477-1"><a href="egor.html#cb477-1" tabindex="-1"></a><span class="co"># With ego (gr.list.ego). </span></span>
+<span id="cb477-2"><a href="egor.html#cb477-2" tabindex="-1"></a>(gr.ego <span class="ot">&lt;-</span> gr.list.ego[[<span class="st">&quot;28&quot;</span>]])</span></code></pre></div>
+<pre><code>## IGRAPH 936053b UNW- 46 304 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from 3e551cc (vertex names):
+## + edges from 936053b (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
 ## [19] 2801--2827 2801--2828 2801--2829 2801--2831 2801--2840 2801--2841
 ## [25] 2802--2803 2802--2804 2802--2805 2802--2806 2802--2807 2802--2808
 ## + ... omitted several edges</code></pre>
-<div class="sourceCode" id="cb483"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb483-1"><a href="egor.html#cb483-1" tabindex="-1"></a><span class="co"># Just the vertex sequence. Note the name of the last node.</span></span>
-<span id="cb483-2"><a href="egor.html#cb483-2" tabindex="-1"></a><span class="fu">V</span>(gr.ego)</span></code></pre></div>
-<pre><code>## + 46/46 vertices, named, from 3e551cc:
+<div class="sourceCode" id="cb479"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb479-1"><a href="egor.html#cb479-1" tabindex="-1"></a><span class="co"># Just the vertex sequence. Note the name of the last node.</span></span>
+<span id="cb479-2"><a href="egor.html#cb479-2" tabindex="-1"></a><span class="fu">V</span>(gr.ego)</span></code></pre></div>
+<pre><code>## + 46/46 vertices, named, from 936053b:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2813 2814 2815
 ## [16] 2816 2817 2818 2819 2820 2821 2822 2823 2824 2825 2826 2827 2828 2829 2830
 ## [31] 2831 2832 2833 2834 2835 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845
 ## [46] ego</code></pre>
-<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="egor.html#cb485-1" tabindex="-1"></a><span class="co"># In our ego-network data, alter-alter ties have weights (1 or 2, see the data </span></span>
-<span id="cb485-2"><a href="egor.html#cb485-2" tabindex="-1"></a><span class="co"># codebook).</span></span>
-<span id="cb485-3"><a href="egor.html#cb485-3" tabindex="-1"></a><span class="fu">E</span>(gr)<span class="sc">$</span>weight</span></code></pre></div>
+<div class="sourceCode" id="cb481"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb481-1"><a href="egor.html#cb481-1" tabindex="-1"></a><span class="co"># In our ego-network data, alter-alter ties have weights (1 or 2, see the data </span></span>
+<span id="cb481-2"><a href="egor.html#cb481-2" tabindex="-1"></a><span class="co"># codebook).</span></span>
+<span id="cb481-3"><a href="egor.html#cb481-3" tabindex="-1"></a><span class="fu">E</span>(gr)<span class="sc">$</span>weight</span></code></pre></div>
 <pre><code>##   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1 1 1 1 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 ##  [38] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 ##  [75] 1 1 1 1 1 2 1 1 1 1 1 1 1 1 1 1 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 2 1
@@ -576,9 +575,9 @@ div.csl-indent {
 ## [149] 1 1 1 1 1 1 1 2 2 1 1 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1 1 1 1 1
 ## [186] 1 1 1 1 1 1 1 1 1 1 1 2 1 1 1 1 1 1 1 1 1 1 2 1 1 1 1 2 1 1 2 1 1 1 1 1 1
 ## [223] 1 1 1 1 1 1 1 2 1 1 1 1 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1</code></pre>
-<div class="sourceCode" id="cb487"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb487-1"><a href="egor.html#cb487-1" tabindex="-1"></a><span class="co"># These weights are obviously not defined for ego-alter ties. So in the </span></span>
-<span id="cb487-2"><a href="egor.html#cb487-2" tabindex="-1"></a><span class="co"># ego-network with the ego included, the tie weights are NA for ego-alter ties.</span></span>
-<span id="cb487-3"><a href="egor.html#cb487-3" tabindex="-1"></a><span class="fu">E</span>(gr.ego)<span class="sc">$</span>weight</span></code></pre></div>
+<div class="sourceCode" id="cb483"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb483-1"><a href="egor.html#cb483-1" tabindex="-1"></a><span class="co"># These weights are obviously not defined for ego-alter ties. So in the </span></span>
+<span id="cb483-2"><a href="egor.html#cb483-2" tabindex="-1"></a><span class="co"># ego-network with the ego included, the tie weights are NA for ego-alter ties.</span></span>
+<span id="cb483-3"><a href="egor.html#cb483-3" tabindex="-1"></a><span class="fu">E</span>(gr.ego)<span class="sc">$</span>weight</span></code></pre></div>
 <pre><code>##   [1]  1  1  1  1  1  1  1  1  1  1  1  1  1  1  2  1  1  1  1  1  2  1  1  1  1
 ##  [26]  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
 ##  [51]  1  1  1  1  1  1  1  2  2  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
@@ -592,20 +591,20 @@ div.csl-indent {
 ## [251]  1  1  1  1  1  1  2  1  1 NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
 ## [276] NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
 ## [301] NA NA NA NA</code></pre>
-<div class="sourceCode" id="cb489"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb489-1"><a href="egor.html#cb489-1" tabindex="-1"></a><span class="fu">E</span>(gr.ego)[<span class="fu">inc</span>(<span class="st">&quot;ego&quot;</span>)]<span class="sc">$</span>weight</span></code></pre></div>
+<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="egor.html#cb485-1" tabindex="-1"></a><span class="fu">E</span>(gr.ego)[<span class="fu">inc</span>(<span class="st">&quot;ego&quot;</span>)]<span class="sc">$</span>weight</span></code></pre></div>
 <pre><code>## Warning: &#39;inc&#39; is deprecated.
 ## Use &#39;.inc&#39; instead.
 ## See help(&quot;Deprecated&quot;)</code></pre>
 <pre><code>##  [1] NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
 ## [26] NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA</code></pre>
-<div class="sourceCode" id="cb492"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb492-1"><a href="egor.html#cb492-1" tabindex="-1"></a><span class="co"># This may create problems in certain functions, for example the plot.igraph()</span></span>
-<span id="cb492-2"><a href="egor.html#cb492-2" tabindex="-1"></a><span class="co"># function. So let&#39;s replace those NA&#39;s with a distinctive weight value for </span></span>
-<span id="cb492-3"><a href="egor.html#cb492-3" tabindex="-1"></a><span class="co"># ego-alter ties: 3.</span></span>
-<span id="cb492-4"><a href="egor.html#cb492-4" tabindex="-1"></a><span class="fu">E</span>(gr.ego)<span class="sc">$</span>weight <span class="ot">&lt;-</span> <span class="fu">E</span>(gr.ego)<span class="sc">$</span>weight <span class="sc">|&gt;</span> </span>
-<span id="cb492-5"><a href="egor.html#cb492-5" tabindex="-1"></a>  <span class="fu">replace_na</span>(<span class="dv">3</span>)</span>
-<span id="cb492-6"><a href="egor.html#cb492-6" tabindex="-1"></a></span>
-<span id="cb492-7"><a href="egor.html#cb492-7" tabindex="-1"></a><span class="co"># See the result</span></span>
-<span id="cb492-8"><a href="egor.html#cb492-8" tabindex="-1"></a><span class="fu">E</span>(gr.ego)<span class="sc">$</span>weight</span></code></pre></div>
+<div class="sourceCode" id="cb488"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb488-1"><a href="egor.html#cb488-1" tabindex="-1"></a><span class="co"># This may create problems in certain functions, for example the plot.igraph()</span></span>
+<span id="cb488-2"><a href="egor.html#cb488-2" tabindex="-1"></a><span class="co"># function. So let&#39;s replace those NA&#39;s with a distinctive weight value for </span></span>
+<span id="cb488-3"><a href="egor.html#cb488-3" tabindex="-1"></a><span class="co"># ego-alter ties: 3.</span></span>
+<span id="cb488-4"><a href="egor.html#cb488-4" tabindex="-1"></a><span class="fu">E</span>(gr.ego)<span class="sc">$</span>weight <span class="ot">&lt;-</span> <span class="fu">E</span>(gr.ego)<span class="sc">$</span>weight <span class="sc">|&gt;</span> </span>
+<span id="cb488-5"><a href="egor.html#cb488-5" tabindex="-1"></a>  <span class="fu">replace_na</span>(<span class="dv">3</span>)</span>
+<span id="cb488-6"><a href="egor.html#cb488-6" tabindex="-1"></a></span>
+<span id="cb488-7"><a href="egor.html#cb488-7" tabindex="-1"></a><span class="co"># See the result</span></span>
+<span id="cb488-8"><a href="egor.html#cb488-8" tabindex="-1"></a><span class="fu">E</span>(gr.ego)<span class="sc">$</span>weight</span></code></pre></div>
 <pre><code>##   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1 1 1 1 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 ##  [38] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 ##  [75] 1 1 1 1 1 2 1 1 1 1 1 1 1 1 1 1 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 2 1
@@ -615,85 +614,85 @@ div.csl-indent {
 ## [223] 1 1 1 1 1 1 1 2 1 1 1 1 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1
 ## [260] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
 ## [297] 3 3 3 3 3 3 3 3</code></pre>
-<div class="sourceCode" id="cb494"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb494-1"><a href="egor.html#cb494-1" tabindex="-1"></a><span class="fu">E</span>(gr.ego)[<span class="fu">inc</span>(<span class="st">&quot;ego&quot;</span>)]<span class="sc">$</span>weight</span></code></pre></div>
+<div class="sourceCode" id="cb490"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb490-1"><a href="egor.html#cb490-1" tabindex="-1"></a><span class="fu">E</span>(gr.ego)[<span class="fu">inc</span>(<span class="st">&quot;ego&quot;</span>)]<span class="sc">$</span>weight</span></code></pre></div>
 <pre><code>## Warning: &#39;inc&#39; is deprecated.
 ## Use &#39;.inc&#39; instead.
 ## See help(&quot;Deprecated&quot;)</code></pre>
 <pre><code>##  [1] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
 ## [39] 3 3 3 3 3 3 3</code></pre>
-<div class="sourceCode" id="cb497"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb497-1"><a href="egor.html#cb497-1" tabindex="-1"></a><span class="co"># Let&#39;s now plot the two ego-networks.</span></span>
-<span id="cb497-2"><a href="egor.html#cb497-2" tabindex="-1"></a></span>
-<span id="cb497-3"><a href="egor.html#cb497-3" tabindex="-1"></a><span class="co"># Without ego.</span></span>
-<span id="cb497-4"><a href="egor.html#cb497-4" tabindex="-1"></a><span class="fu">plot</span>(gr, <span class="at">vertex.label =</span> <span class="cn">NA</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb493"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb493-1"><a href="egor.html#cb493-1" tabindex="-1"></a><span class="co"># Let&#39;s now plot the two ego-networks.</span></span>
+<span id="cb493-2"><a href="egor.html#cb493-2" tabindex="-1"></a></span>
+<span id="cb493-3"><a href="egor.html#cb493-3" tabindex="-1"></a><span class="co"># Without ego.</span></span>
+<span id="cb493-4"><a href="egor.html#cb493-4" tabindex="-1"></a><span class="fu">plot</span>(gr, <span class="at">vertex.label =</span> <span class="cn">NA</span>)</span></code></pre></div>
 <p><img src="Egocentric_R_bookdown_files/figure-html/egor-1.png" width="672" /></p>
-<div class="sourceCode" id="cb498"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb498-1"><a href="egor.html#cb498-1" tabindex="-1"></a><span class="co"># With ego.</span></span>
-<span id="cb498-2"><a href="egor.html#cb498-2" tabindex="-1"></a><span class="fu">plot</span>(gr.ego, <span class="at">vertex.label =</span> <span class="cn">NA</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb494"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb494-1"><a href="egor.html#cb494-1" tabindex="-1"></a><span class="co"># With ego.</span></span>
+<span id="cb494-2"><a href="egor.html#cb494-2" tabindex="-1"></a><span class="fu">plot</span>(gr.ego, <span class="at">vertex.label =</span> <span class="cn">NA</span>)</span></code></pre></div>
 <p><img src="Egocentric_R_bookdown_files/figure-html/egor-2.png" width="672" /></p>
-<div class="sourceCode" id="cb499"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb499-1"><a href="egor.html#cb499-1" tabindex="-1"></a><span class="co"># Let&#39;s do the weight replacement operation above (NA replaced by 3 for ego-alter </span></span>
-<span id="cb499-2"><a href="egor.html#cb499-2" tabindex="-1"></a><span class="co"># tie weights) for all the ego-networks in gr.list.ego.</span></span>
-<span id="cb499-3"><a href="egor.html#cb499-3" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(gr.list.ego)) {</span>
-<span id="cb499-4"><a href="egor.html#cb499-4" tabindex="-1"></a>  <span class="fu">E</span>(gr.ego)<span class="sc">$</span>weight <span class="ot">&lt;-</span> <span class="fu">E</span>(gr.ego)<span class="sc">$</span>weight <span class="sc">|&gt;</span> </span>
-<span id="cb499-5"><a href="egor.html#cb499-5" tabindex="-1"></a>    <span class="fu">replace_na</span>(<span class="dv">3</span>)</span>
-<span id="cb499-6"><a href="egor.html#cb499-6" tabindex="-1"></a>}</span>
-<span id="cb499-7"><a href="egor.html#cb499-7" tabindex="-1"></a></span>
-<span id="cb499-8"><a href="egor.html#cb499-8" tabindex="-1"></a><span class="co"># The operation above can be done with tidyverse map() functions as well. First</span></span>
-<span id="cb499-9"><a href="egor.html#cb499-9" tabindex="-1"></a><span class="co"># define the function operating on a single graph.</span></span>
-<span id="cb499-10"><a href="egor.html#cb499-10" tabindex="-1"></a>weight_replace <span class="ot">&lt;-</span> <span class="cf">function</span>(gr) {</span>
-<span id="cb499-11"><a href="egor.html#cb499-11" tabindex="-1"></a>  <span class="fu">E</span>(gr)<span class="sc">$</span>weight <span class="ot">&lt;-</span> <span class="fu">E</span>(gr)<span class="sc">$</span>weight <span class="sc">|&gt;</span> </span>
-<span id="cb499-12"><a href="egor.html#cb499-12" tabindex="-1"></a>    <span class="fu">replace_na</span>(<span class="dv">3</span>)</span>
-<span id="cb499-13"><a href="egor.html#cb499-13" tabindex="-1"></a>  </span>
-<span id="cb499-14"><a href="egor.html#cb499-14" tabindex="-1"></a>  <span class="co"># Return value</span></span>
-<span id="cb499-15"><a href="egor.html#cb499-15" tabindex="-1"></a>  gr</span>
-<span id="cb499-16"><a href="egor.html#cb499-16" tabindex="-1"></a>}</span>
-<span id="cb499-17"><a href="egor.html#cb499-17" tabindex="-1"></a></span>
-<span id="cb499-18"><a href="egor.html#cb499-18" tabindex="-1"></a><span class="co"># Then apply the function to all graphs in the list.</span></span>
-<span id="cb499-19"><a href="egor.html#cb499-19" tabindex="-1"></a>new.list <span class="ot">&lt;-</span> gr.list.ego <span class="sc">|&gt;</span></span>
-<span id="cb499-20"><a href="egor.html#cb499-20" tabindex="-1"></a>  <span class="fu">map</span>(weight_replace)</span>
-<span id="cb499-21"><a href="egor.html#cb499-21" tabindex="-1"></a></span>
-<span id="cb499-22"><a href="egor.html#cb499-22" tabindex="-1"></a><span class="co"># Sometimes it&#39;s useful to have ego ID as a graph attribute of the ego-network</span></span>
-<span id="cb499-23"><a href="egor.html#cb499-23" tabindex="-1"></a><span class="co"># in addition to having it as name of the ego-network&#39;s element in the list.</span></span>
-<span id="cb499-24"><a href="egor.html#cb499-24" tabindex="-1"></a><span class="co"># So let&#39;s add ego ID as the $ego_ID graph attribute in each list element.</span></span>
-<span id="cb499-25"><a href="egor.html#cb499-25" tabindex="-1"></a></span>
-<span id="cb499-26"><a href="egor.html#cb499-26" tabindex="-1"></a><span class="co"># List of graphs without the ego.</span></span>
-<span id="cb499-27"><a href="egor.html#cb499-27" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(gr.list)) {</span>
-<span id="cb499-28"><a href="egor.html#cb499-28" tabindex="-1"></a>  gr.list[[i]]<span class="sc">$</span>ego_ID <span class="ot">&lt;-</span> <span class="fu">names</span>(gr.list)[[i]]</span>
-<span id="cb499-29"><a href="egor.html#cb499-29" tabindex="-1"></a>}</span>
-<span id="cb499-30"><a href="egor.html#cb499-30" tabindex="-1"></a></span>
-<span id="cb499-31"><a href="egor.html#cb499-31" tabindex="-1"></a><span class="co"># List of graphs with the ego.</span></span>
-<span id="cb499-32"><a href="egor.html#cb499-32" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(gr.list.ego)) {</span>
-<span id="cb499-33"><a href="egor.html#cb499-33" tabindex="-1"></a>  gr.list.ego[[i]]<span class="sc">$</span>ego_ID <span class="ot">&lt;-</span> <span class="fu">names</span>(gr.list.ego)[[i]]</span>
-<span id="cb499-34"><a href="egor.html#cb499-34" tabindex="-1"></a>}</span>
-<span id="cb499-35"><a href="egor.html#cb499-35" tabindex="-1"></a></span>
-<span id="cb499-36"><a href="egor.html#cb499-36" tabindex="-1"></a><span class="co"># See the result </span></span>
-<span id="cb499-37"><a href="egor.html#cb499-37" tabindex="-1"></a>gr.list[[<span class="st">&quot;28&quot;</span>]]</span></code></pre></div>
-<pre><code>## IGRAPH 32a99df UNW- 45 259 -- 
+<div class="sourceCode" id="cb495"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb495-1"><a href="egor.html#cb495-1" tabindex="-1"></a><span class="co"># Let&#39;s do the weight replacement operation above (NA replaced by 3 for ego-alter </span></span>
+<span id="cb495-2"><a href="egor.html#cb495-2" tabindex="-1"></a><span class="co"># tie weights) for all the ego-networks in gr.list.ego.</span></span>
+<span id="cb495-3"><a href="egor.html#cb495-3" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(gr.list.ego)) {</span>
+<span id="cb495-4"><a href="egor.html#cb495-4" tabindex="-1"></a>  <span class="fu">E</span>(gr.ego)<span class="sc">$</span>weight <span class="ot">&lt;-</span> <span class="fu">E</span>(gr.ego)<span class="sc">$</span>weight <span class="sc">|&gt;</span> </span>
+<span id="cb495-5"><a href="egor.html#cb495-5" tabindex="-1"></a>    <span class="fu">replace_na</span>(<span class="dv">3</span>)</span>
+<span id="cb495-6"><a href="egor.html#cb495-6" tabindex="-1"></a>}</span>
+<span id="cb495-7"><a href="egor.html#cb495-7" tabindex="-1"></a></span>
+<span id="cb495-8"><a href="egor.html#cb495-8" tabindex="-1"></a><span class="co"># The operation above can be done with tidyverse map() functions as well. First</span></span>
+<span id="cb495-9"><a href="egor.html#cb495-9" tabindex="-1"></a><span class="co"># define the function operating on a single graph.</span></span>
+<span id="cb495-10"><a href="egor.html#cb495-10" tabindex="-1"></a>weight_replace <span class="ot">&lt;-</span> <span class="cf">function</span>(gr) {</span>
+<span id="cb495-11"><a href="egor.html#cb495-11" tabindex="-1"></a>  <span class="fu">E</span>(gr)<span class="sc">$</span>weight <span class="ot">&lt;-</span> <span class="fu">E</span>(gr)<span class="sc">$</span>weight <span class="sc">|&gt;</span> </span>
+<span id="cb495-12"><a href="egor.html#cb495-12" tabindex="-1"></a>    <span class="fu">replace_na</span>(<span class="dv">3</span>)</span>
+<span id="cb495-13"><a href="egor.html#cb495-13" tabindex="-1"></a>  </span>
+<span id="cb495-14"><a href="egor.html#cb495-14" tabindex="-1"></a>  <span class="co"># Return value</span></span>
+<span id="cb495-15"><a href="egor.html#cb495-15" tabindex="-1"></a>  gr</span>
+<span id="cb495-16"><a href="egor.html#cb495-16" tabindex="-1"></a>}</span>
+<span id="cb495-17"><a href="egor.html#cb495-17" tabindex="-1"></a></span>
+<span id="cb495-18"><a href="egor.html#cb495-18" tabindex="-1"></a><span class="co"># Then apply the function to all graphs in the list.</span></span>
+<span id="cb495-19"><a href="egor.html#cb495-19" tabindex="-1"></a>new.list <span class="ot">&lt;-</span> gr.list.ego <span class="sc">|&gt;</span></span>
+<span id="cb495-20"><a href="egor.html#cb495-20" tabindex="-1"></a>  <span class="fu">map</span>(weight_replace)</span>
+<span id="cb495-21"><a href="egor.html#cb495-21" tabindex="-1"></a></span>
+<span id="cb495-22"><a href="egor.html#cb495-22" tabindex="-1"></a><span class="co"># Sometimes it&#39;s useful to have ego ID as a graph attribute of the ego-network</span></span>
+<span id="cb495-23"><a href="egor.html#cb495-23" tabindex="-1"></a><span class="co"># in addition to having it as name of the ego-network&#39;s element in the list.</span></span>
+<span id="cb495-24"><a href="egor.html#cb495-24" tabindex="-1"></a><span class="co"># So let&#39;s add ego ID as the $ego_ID graph attribute in each list element.</span></span>
+<span id="cb495-25"><a href="egor.html#cb495-25" tabindex="-1"></a></span>
+<span id="cb495-26"><a href="egor.html#cb495-26" tabindex="-1"></a><span class="co"># List of graphs without the ego.</span></span>
+<span id="cb495-27"><a href="egor.html#cb495-27" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(gr.list)) {</span>
+<span id="cb495-28"><a href="egor.html#cb495-28" tabindex="-1"></a>  gr.list[[i]]<span class="sc">$</span>ego_ID <span class="ot">&lt;-</span> <span class="fu">names</span>(gr.list)[[i]]</span>
+<span id="cb495-29"><a href="egor.html#cb495-29" tabindex="-1"></a>}</span>
+<span id="cb495-30"><a href="egor.html#cb495-30" tabindex="-1"></a></span>
+<span id="cb495-31"><a href="egor.html#cb495-31" tabindex="-1"></a><span class="co"># List of graphs with the ego.</span></span>
+<span id="cb495-32"><a href="egor.html#cb495-32" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(gr.list.ego)) {</span>
+<span id="cb495-33"><a href="egor.html#cb495-33" tabindex="-1"></a>  gr.list.ego[[i]]<span class="sc">$</span>ego_ID <span class="ot">&lt;-</span> <span class="fu">names</span>(gr.list.ego)[[i]]</span>
+<span id="cb495-34"><a href="egor.html#cb495-34" tabindex="-1"></a>}</span>
+<span id="cb495-35"><a href="egor.html#cb495-35" tabindex="-1"></a></span>
+<span id="cb495-36"><a href="egor.html#cb495-36" tabindex="-1"></a><span class="co"># See the result </span></span>
+<span id="cb495-37"><a href="egor.html#cb495-37" tabindex="-1"></a>gr.list[[<span class="st">&quot;28&quot;</span>]]</span></code></pre></div>
+<pre><code>## IGRAPH 7bc8b22 UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 32a99df (vertex names):
+## + edges from 7bc8b22 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
 ## [19] 2801--2827 2801--2828 2801--2829 2801--2831 2801--2840 2801--2841
 ## [25] 2802--2803 2802--2804 2802--2805 2802--2806 2802--2807 2802--2808
 ## + ... omitted several edges</code></pre>
-<div class="sourceCode" id="cb501"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb501-1"><a href="egor.html#cb501-1" tabindex="-1"></a>gr.list[[<span class="st">&quot;28&quot;</span>]]<span class="sc">$</span>ego_ID</span></code></pre></div>
+<div class="sourceCode" id="cb497"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb497-1"><a href="egor.html#cb497-1" tabindex="-1"></a>gr.list[[<span class="st">&quot;28&quot;</span>]]<span class="sc">$</span>ego_ID</span></code></pre></div>
 <pre><code>## [1] &quot;28&quot;</code></pre>
-<div class="sourceCode" id="cb503"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb503-1"><a href="egor.html#cb503-1" tabindex="-1"></a><span class="co"># Extract alter attributes and graph for one ego (ego ID 28)</span></span>
-<span id="cb503-2"><a href="egor.html#cb503-2" tabindex="-1"></a></span>
-<span id="cb503-3"><a href="egor.html#cb503-3" tabindex="-1"></a><span class="co"># Alter attribute data frame.</span></span>
-<span id="cb503-4"><a href="egor.html#cb503-4" tabindex="-1"></a>alter.attr<span class="fl">.28</span> <span class="ot">&lt;-</span> alter.attr.all <span class="sc">|&gt;</span></span>
-<span id="cb503-5"><a href="egor.html#cb503-5" tabindex="-1"></a>  <span class="fu">filter</span>(ego_ID<span class="sc">==</span><span class="dv">28</span>)</span>
-<span id="cb503-6"><a href="egor.html#cb503-6" tabindex="-1"></a></span>
-<span id="cb503-7"><a href="egor.html#cb503-7" tabindex="-1"></a><span class="co"># Ego-network graph.</span></span>
-<span id="cb503-8"><a href="egor.html#cb503-8" tabindex="-1"></a>gr<span class="fl">.28</span> <span class="ot">&lt;-</span> gr.list[[<span class="st">&quot;28&quot;</span>]]</span>
-<span id="cb503-9"><a href="egor.html#cb503-9" tabindex="-1"></a></span>
-<span id="cb503-10"><a href="egor.html#cb503-10" tabindex="-1"></a><span class="co"># Ego-network graph, with ego included.</span></span>
-<span id="cb503-11"><a href="egor.html#cb503-11" tabindex="-1"></a>gr.ego<span class="fl">.28</span> <span class="ot">&lt;-</span> gr.list.ego[[<span class="st">&quot;28&quot;</span>]]</span>
-<span id="cb503-12"><a href="egor.html#cb503-12" tabindex="-1"></a></span>
-<span id="cb503-13"><a href="egor.html#cb503-13" tabindex="-1"></a><span class="co"># Save all data to file.</span></span>
-<span id="cb503-14"><a href="egor.html#cb503-14" tabindex="-1"></a><span class="fu">save</span>(ego.df, alter.attr.all, gr.list, alter.attr<span class="fl">.28</span>, gr<span class="fl">.28</span>, gr.ego<span class="fl">.28</span>, <span class="at">file=</span><span class="st">&quot;./Data/data.rda&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb499"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb499-1"><a href="egor.html#cb499-1" tabindex="-1"></a><span class="co"># Extract alter attributes and graph for one ego (ego ID 28)</span></span>
+<span id="cb499-2"><a href="egor.html#cb499-2" tabindex="-1"></a></span>
+<span id="cb499-3"><a href="egor.html#cb499-3" tabindex="-1"></a><span class="co"># Alter attribute data frame.</span></span>
+<span id="cb499-4"><a href="egor.html#cb499-4" tabindex="-1"></a>alter.attr<span class="fl">.28</span> <span class="ot">&lt;-</span> alter.attr.all <span class="sc">|&gt;</span></span>
+<span id="cb499-5"><a href="egor.html#cb499-5" tabindex="-1"></a>  <span class="fu">filter</span>(ego_ID<span class="sc">==</span><span class="dv">28</span>)</span>
+<span id="cb499-6"><a href="egor.html#cb499-6" tabindex="-1"></a></span>
+<span id="cb499-7"><a href="egor.html#cb499-7" tabindex="-1"></a><span class="co"># Ego-network graph.</span></span>
+<span id="cb499-8"><a href="egor.html#cb499-8" tabindex="-1"></a>gr<span class="fl">.28</span> <span class="ot">&lt;-</span> gr.list[[<span class="st">&quot;28&quot;</span>]]</span>
+<span id="cb499-9"><a href="egor.html#cb499-9" tabindex="-1"></a></span>
+<span id="cb499-10"><a href="egor.html#cb499-10" tabindex="-1"></a><span class="co"># Ego-network graph, with ego included.</span></span>
+<span id="cb499-11"><a href="egor.html#cb499-11" tabindex="-1"></a>gr.ego<span class="fl">.28</span> <span class="ot">&lt;-</span> gr.list.ego[[<span class="st">&quot;28&quot;</span>]]</span>
+<span id="cb499-12"><a href="egor.html#cb499-12" tabindex="-1"></a></span>
+<span id="cb499-13"><a href="egor.html#cb499-13" tabindex="-1"></a><span class="co"># Save all data to file.</span></span>
+<span id="cb499-14"><a href="egor.html#cb499-14" tabindex="-1"></a><span class="fu">save</span>(ego.df, alter.attr.all, gr.list, alter.attr<span class="fl">.28</span>, gr<span class="fl">.28</span>, gr.ego<span class="fl">.28</span>, <span class="at">file=</span><span class="st">&quot;./Data/data.rda&quot;</span>)</span></code></pre></div>
 </div>
 <div id="analyzing-and-visualizing-ego-network-data" class="section level2 hasAnchor" number="7.2">
 <h2><span class="header-section-number">7.2</span> Analyzing and visualizing ego-network data<a href="egor.html#analyzing-and-visualizing-ego-network-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
