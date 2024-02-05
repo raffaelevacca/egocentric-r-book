@@ -225,11 +225,11 @@ mean(age > 50)
 
 # ---- end-operations
 ############################################################################## #
-###                           INDEXING                                      ====
+###                           SUBSETTING                                      ====
 ############################################################################## #
 ## ---- indexing
 
-# Numeric indexing                                                          ----
+# Numeric subsetting                                                          ----
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 # Let's use our vector of ego age values again.
@@ -241,7 +241,7 @@ age[2]
 # Its 2nd, 4th and 5th elements.
 age[c(2,4,5)]
 
-# Fifth to sevents elements
+# Fifth to seventh elements
 age[5:7]
 
 # Use indexing to assign (replace) an element.
@@ -250,7 +250,7 @@ age[2] <- 45
 # The content of x has now changed.
 age
 
-# Let's index the adjacency matrix we created before.
+# Let's subset the adjacency matrix we created before.
 adj
 
 # Its 2,3 cell: Edge from node 2 to node 3.
@@ -260,7 +260,7 @@ adj[,2]
 # Its 2nd and 3rd row: All edges from nodes 2 and 3.
 adj[2:3,]
 
-# Logical indexing                                                          ----
+# Logical subsetting                                                          ----
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 # Which values of "age" are between 40 and 60?
@@ -268,20 +268,20 @@ adj[2:3,]
 # Let's create a logical index that flags these values.
 (ind <- age > 40 & age < 60)
 
-# Use this index to extract these values from vector "age" via logical indexing.
+# Use this index to extract these values from vector "age" via logical subsetting.
 age[ind]
 
 # We could also have typed directly:
 age[age > 40 & age < 60]
 
 
-# Indexing data frames                                                     ---- 
+# Subsetting data frames                                                     ---- 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 # We'll use our ego-level data frame.
 ego.df
 
-# Numeric indexing works on data frames too: it allows you to index variables.
+# Numeric subsetting works on data frames too: it allows you to index variables.
 
 # The 3rd variable.
 ego.df[3]
@@ -296,7 +296,7 @@ class(ego.df[[3]])
 # The [[ ]] notation extracts the actual column as a vector, while [ ] keeps
 # the data frame class.
 
-# We can also index data frames as matrices.
+# We can also subset data frames as matrices.
 # The second and third columns.
 ego.df[,2:3]
 # Lines 1 to 3
@@ -312,7 +312,7 @@ ego.df$ego.age
 # This is the same as ego.df[[3]] or ego.df[["ego.age"]]
 identical(ego.df[[3]], ego.df$ego.age)
 
-# With tidyverse, this type of indexing syntax is replaced by new "verbs" 
+# With tidyverse, this type of subsetting syntax is replaced by new "verbs" 
 # (see section below):
 # * Index data frame rows: filter() instead of []
 # * Index data frame columns: select() instead of []

@@ -23,7 +23,7 @@
 <meta name="author" content="Raffaele Vacca" />
 
 
-<meta name="date" content="2024-02-02" />
+<meta name="date" content="2024-02-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -803,7 +803,7 @@ div.csl-indent {
 <li><strong>Subsetting verbs</strong> in tidyverse. In addition to subsetting data frames via the base indexing syntax described above, we can also use the subsetting functions introduced by the <code>dplyr</code> package in tidyverse (see <a href="basics.html#the-tidyverse-syntax">below</a>).</li>
 </ul>
 <p><a href="https://twitter.com/hadleywickham/status/643381054758363136?lang=en"><img src="Figures/wickham_indexing_tweet.png" style="width:50.0%" alt="Indexing lists/data frames" /></a></p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="basics.html#cb75-1" tabindex="-1"></a><span class="co"># Numeric indexing                                                          ----</span></span>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="basics.html#cb75-1" tabindex="-1"></a><span class="co"># Numeric subsetting                                                          ----</span></span>
 <span id="cb75-2"><a href="basics.html#cb75-2" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
 <span id="cb75-3"><a href="basics.html#cb75-3" tabindex="-1"></a></span>
 <span id="cb75-4"><a href="basics.html#cb75-4" tabindex="-1"></a><span class="co"># Let&#39;s use our vector of ego age values again.</span></span>
@@ -815,7 +815,7 @@ div.csl-indent {
 <div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="basics.html#cb79-1" tabindex="-1"></a><span class="co"># Its 2nd, 4th and 5th elements.</span></span>
 <span id="cb79-2"><a href="basics.html#cb79-2" tabindex="-1"></a>age[<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">5</span>)]</span></code></pre></div>
 <pre><code>## [1] 38 25 29</code></pre>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="basics.html#cb81-1" tabindex="-1"></a><span class="co"># Fifth to sevents elements</span></span>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="basics.html#cb81-1" tabindex="-1"></a><span class="co"># Fifth to seventh elements</span></span>
 <span id="cb81-2"><a href="basics.html#cb81-2" tabindex="-1"></a>age[<span class="dv">5</span><span class="sc">:</span><span class="dv">7</span>]</span></code></pre></div>
 <pre><code>## [1] 29 56 52</code></pre>
 <div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="basics.html#cb83-1" tabindex="-1"></a><span class="co"># Use indexing to assign (replace) an element.</span></span>
@@ -824,7 +824,7 @@ div.csl-indent {
 <span id="cb83-4"><a href="basics.html#cb83-4" tabindex="-1"></a><span class="co"># The content of x has now changed.</span></span>
 <span id="cb83-5"><a href="basics.html#cb83-5" tabindex="-1"></a>age</span></code></pre></div>
 <pre><code>##  [1] 61 45 30 25 29 56 52 35 22 51</code></pre>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="basics.html#cb85-1" tabindex="-1"></a><span class="co"># Let&#39;s index the adjacency matrix we created before.</span></span>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="basics.html#cb85-1" tabindex="-1"></a><span class="co"># Let&#39;s subset the adjacency matrix we created before.</span></span>
 <span id="cb85-2"><a href="basics.html#cb85-2" tabindex="-1"></a>adj</span></code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
 ## [1,]    0    1    1
@@ -841,7 +841,7 @@ div.csl-indent {
 <pre><code>##      [,1] [,2] [,3]
 ## [1,]    1    0    1
 ## [2,]    0    0    0</code></pre>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="basics.html#cb93-1" tabindex="-1"></a><span class="co"># Logical indexing                                                          ----</span></span>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="basics.html#cb93-1" tabindex="-1"></a><span class="co"># Logical subsetting                                                          ----</span></span>
 <span id="cb93-2"><a href="basics.html#cb93-2" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
 <span id="cb93-3"><a href="basics.html#cb93-3" tabindex="-1"></a></span>
 <span id="cb93-4"><a href="basics.html#cb93-4" tabindex="-1"></a><span class="co"># Which values of &quot;age&quot; are between 40 and 60?</span></span>
@@ -849,13 +849,13 @@ div.csl-indent {
 <span id="cb93-6"><a href="basics.html#cb93-6" tabindex="-1"></a><span class="co"># Let&#39;s create a logical index that flags these values.</span></span>
 <span id="cb93-7"><a href="basics.html#cb93-7" tabindex="-1"></a>(ind <span class="ot">&lt;-</span> age <span class="sc">&gt;</span> <span class="dv">40</span> <span class="sc">&amp;</span> age <span class="sc">&lt;</span> <span class="dv">60</span>)</span></code></pre></div>
 <pre><code>##  [1] FALSE  TRUE FALSE FALSE FALSE  TRUE  TRUE FALSE FALSE  TRUE</code></pre>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="basics.html#cb95-1" tabindex="-1"></a><span class="co"># Use this index to extract these values from vector &quot;age&quot; via logical indexing.</span></span>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="basics.html#cb95-1" tabindex="-1"></a><span class="co"># Use this index to extract these values from vector &quot;age&quot; via logical subsetting.</span></span>
 <span id="cb95-2"><a href="basics.html#cb95-2" tabindex="-1"></a>age[ind]</span></code></pre></div>
 <pre><code>## [1] 45 56 52 51</code></pre>
 <div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="basics.html#cb97-1" tabindex="-1"></a><span class="co"># We could also have typed directly:</span></span>
 <span id="cb97-2"><a href="basics.html#cb97-2" tabindex="-1"></a>age[age <span class="sc">&gt;</span> <span class="dv">40</span> <span class="sc">&amp;</span> age <span class="sc">&lt;</span> <span class="dv">60</span>]</span></code></pre></div>
 <pre><code>## [1] 45 56 52 51</code></pre>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="basics.html#cb99-1" tabindex="-1"></a><span class="co"># Indexing data frames                                                     ---- </span></span>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="basics.html#cb99-1" tabindex="-1"></a><span class="co"># Subsetting data frames                                                     ---- </span></span>
 <span id="cb99-2"><a href="basics.html#cb99-2" tabindex="-1"></a><span class="co"># - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - </span></span>
 <span id="cb99-3"><a href="basics.html#cb99-3" tabindex="-1"></a></span>
 <span id="cb99-4"><a href="basics.html#cb99-4" tabindex="-1"></a><span class="co"># We&#39;ll use our ego-level data frame.</span></span>
@@ -874,7 +874,7 @@ div.csl-indent {
 ##  9     47 Male         22    2010 Second…     700     4 Yes          18-25      
 ## 10     48 Male         51    2007 Primary     950     4 Yes          51-60      
 ## # ℹ 92 more rows</code></pre>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="basics.html#cb101-1" tabindex="-1"></a><span class="co"># Numeric indexing works on data frames too: it allows you to index variables.</span></span>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="basics.html#cb101-1" tabindex="-1"></a><span class="co"># Numeric subsetting works on data frames too: it allows you to index variables.</span></span>
 <span id="cb101-2"><a href="basics.html#cb101-2" tabindex="-1"></a></span>
 <span id="cb101-3"><a href="basics.html#cb101-3" tabindex="-1"></a><span class="co"># The 3rd variable.</span></span>
 <span id="cb101-4"><a href="basics.html#cb101-4" tabindex="-1"></a>ego.df[<span class="dv">3</span>]</span></code></pre></div>
@@ -907,7 +907,7 @@ div.csl-indent {
 <div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="basics.html#cb109-1" tabindex="-1"></a><span class="co"># The [[ ]] notation extracts the actual column as a vector, while [ ] keeps</span></span>
 <span id="cb109-2"><a href="basics.html#cb109-2" tabindex="-1"></a><span class="co"># the data frame class.</span></span>
 <span id="cb109-3"><a href="basics.html#cb109-3" tabindex="-1"></a></span>
-<span id="cb109-4"><a href="basics.html#cb109-4" tabindex="-1"></a><span class="co"># We can also index data frames as matrices.</span></span>
+<span id="cb109-4"><a href="basics.html#cb109-4" tabindex="-1"></a><span class="co"># We can also subset data frames as matrices.</span></span>
 <span id="cb109-5"><a href="basics.html#cb109-5" tabindex="-1"></a><span class="co"># The second and third columns.</span></span>
 <span id="cb109-6"><a href="basics.html#cb109-6" tabindex="-1"></a>ego.df[,<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]</span></code></pre></div>
 <pre><code>## # A tibble: 102 × 2
@@ -964,7 +964,7 @@ div.csl-indent {
 <div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="basics.html#cb119-1" tabindex="-1"></a><span class="co"># This is the same as ego.df[[3]] or ego.df[[&quot;ego.age&quot;]]</span></span>
 <span id="cb119-2"><a href="basics.html#cb119-2" tabindex="-1"></a><span class="fu">identical</span>(ego.df[[<span class="dv">3</span>]], ego.df<span class="sc">$</span>ego.age)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="basics.html#cb121-1" tabindex="-1"></a><span class="co"># With tidyverse, this type of indexing syntax is replaced by new &quot;verbs&quot; </span></span>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="basics.html#cb121-1" tabindex="-1"></a><span class="co"># With tidyverse, this type of subsetting syntax is replaced by new &quot;verbs&quot; </span></span>
 <span id="cb121-2"><a href="basics.html#cb121-2" tabindex="-1"></a><span class="co"># (see section below):</span></span>
 <span id="cb121-3"><a href="basics.html#cb121-3" tabindex="-1"></a><span class="co"># * Index data frame rows: filter() instead of []</span></span>
 <span id="cb121-4"><a href="basics.html#cb121-4" tabindex="-1"></a><span class="co"># * Index data frame columns: select() instead of []</span></span>
