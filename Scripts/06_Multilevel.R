@@ -92,6 +92,30 @@ m1 <- glmer(alter.loan ~ # Dependent variable
 # View results
 car::S(m1)
 
+# Let's save the coefficient estimates.
+
+# Fixed intercept
+b0 <- m1 |> 
+  tidy() |> 
+  filter(effect == "fixed") |> 
+  pull(estimate)
+
+# Standard deviation of u_j
+s_u <- m1 |> 
+  tidy() |> 
+  filter(effect == "ran_pars") |> 
+  pull(estimate)
+
+# The odds of providing support for the tie of an average ego are estimated
+# as follows (see equations in slides, with u_j = 0)
+exp(b0)
+
+# The corresponding probability is estimated as
+exp(b0)/(exp(b0)+1)
+
+# The between-ego variance in the log-odds of a tie providing support is estimated
+# as follows (but it's difficult to interpret quantities in the log-odds scale)
+s_u^2
 
 ## m2: Add tie characteristics as predictors (level 1)                      ====
 # ============================================================================ =
@@ -133,7 +157,7 @@ car::S(m3)
 ## m4: Add alter characteristics as predictors (level 1)                        ====
 # ============================================================================ =
 
-# Add alter sex and alter age (centered)
+# Add alter gender and alter age (centered)
 
 # See descriptives for the new predictors
 tabyl(model.data$alter.sex)
@@ -221,8 +245,8 @@ m6 <- glmer(alter.loan ~ alter.fam + alter.same.age + # Tie characteristics
               alter.sex + alter.age.cat.cen +  # Alter characteristics
               net.count.fam.cen + # Ego-network characteristics
               (1 + alter.fam | ego_ID), # Both intercept (1) and alter.fam 
-            start= ss, # 
-            # slppe vary in level-2 units (ego_ID)
+            start= ss, # Start optimization from results of previous fit
+            # slope vary in level-2 units (ego_ID)
             family = binomial("logit"), # Model class (logistic)
             data= model.data) # Data
 
