@@ -120,7 +120,7 @@
 
 \title{Egocentric network analysis with R}
 \author{\href{http://www.raffaelevacca.com/}{Raffaele Vacca}}
-\date{2024-02-05}
+\date{2024-06-20}
 
 \begin{document}
 \maketitle
@@ -149,20 +149,24 @@ To take this workshop you need to:
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  Download the last version of \textbf{R} \href{https://cran.r-project.org/mirrors.html}{here} (select a location near you)
+  Download the latest version of \textbf{R} \href{https://cran.r-project.org/mirrors.html}{here} (select a location near you)
 
   \begin{itemize}
   \tightlist
   \item
     Follow instructions to install R in your computer
+  \item
+    If you downloaded R some time ago, please update it to the latest version
   \end{itemize}
 \item
-  Download \textbf{RStudio} (free version) \href{https://www.rstudio.com/products/rstudio/download/}{here}
+  Download the latest version of \textbf{RStudio} (free version) \href{https://posit.co/download/rstudio-desktop/}{here}
 
   \begin{itemize}
   \tightlist
   \item
     Follow instructions to install RStudio in your computer
+  \item
+    If you downloaded RStudio some time ago, please update it to the latest version
   \end{itemize}
 \item
   Install the \textbf{R packages} listed \protect\hyperlink{packages}{below}
@@ -369,7 +373,7 @@ For most of the workshop we will directly use R data objects in \texttt{data.rda
 \hypertarget{author-and-contacts}{%
 \section{Author and contacts}\label{author-and-contacts}}
 
-I am an assistant professor of sociology at the \href{https://www.unimi.it/en}{University of Milan} in the \href{http://eng.sps.unimi.it/ecm/home}{Deparment of Social and Political Sciences}. My main research and teaching interests are social networks, migration, health inequalities, and studies of science. I also teach and do research on data science, statistics, and computational methods for the social sciences. More information about me, my work and my contact details is \href{http://www.raffaelevacca.com/about-me/}{here}.
+I'm an assistant professor of sociology at the \href{https://www.unimi.it/en}{University of Milan} in the \href{http://eng.sps.unimi.it/ecm/home}{Deparment of Social and Political Sciences} and its \href{https://behavelab.org/}{Behave Lab}. My main research and teaching interests are social networks, migration, health inequalities, and studies of science. I also teach and do research on data science, statistics, and computational methods for the social sciences. More information about me, my work and my contact details is \href{http://www.raffaelevacca.com/}{here}.
 
 \hypertarget{basics}{%
 \chapter{R basics}\label{basics}}
@@ -1334,7 +1338,7 @@ In R, everything that \textbf{exists} is an object. Everything that \textbf{happ
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Subsetting} is crucial in R. It means appending an index (or subscript) to an object to subset or extract one (or more) of its elements or components. This is also called ``indexing'' or ``subscripting''.
+  \textbf{Subsetting} is crucial in R. It means extracting one (or more) of an object's elements or components, typically by appending an index (or subscript) to that object (this is also called ``indexing'' or ``subscripting'').
 \item
   Subsetting can be used to \textbf{extract} (view, query) the component of an object, or to \textbf{replace} it (assign a different value to that element).
 \item
@@ -2512,12 +2516,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH ff0d051 UNW- 45 259 -- 
+## IGRAPH 291ff10 UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from ff0d051 (vertex names):
+## + edges from 291ff10 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -2544,12 +2548,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 83a192b UNW- 46 304 -- 
+## IGRAPH 02083a0 UNW- 46 304 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 83a192b (vertex names):
+## + edges from 02083a0 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -2677,20 +2681,24 @@ This chapter covers the following topics:
 ## #
 ## # An undirected simple graph with 1 component
 ## #
-## # A tibble: 45 x 11
-##   name  alter_num alter.sex alter.age.cat alter.rel    alter.nat alter.res
-##   <chr>     <dbl> <chr>     <chr>         <chr>        <chr>     <chr>    
-## 1 2801          1 Female    51-60         Close family Sri Lanka Sri Lanka
-## 2 2802          2 Male      51-60         Other family Sri Lanka Sri Lanka
-## 3 2803          3 Male      51-60         Close family Sri Lanka Sri Lanka
-## 4 2804          4 Male      60+           Close family Sri Lanka Sri Lanka
-## 5 2805          5 Female    41-50         Close family Sri Lanka Sri Lanka
-## 6 2806          6 Female    60+           Close family Sri Lanka Sri Lanka
-## # i 39 more rows
+## # Node Data: 45 x 11 (active)
+##    name  alter_num alter.sex alter.age.cat alter.rel    alter.nat alter.res
+##    <chr>     <dbl> <chr>     <chr>         <chr>        <chr>     <chr>    
+##  1 2801          1 Female    51-60         Close family Sri Lanka Sri Lanka
+##  2 2802          2 Male      51-60         Other family Sri Lanka Sri Lanka
+##  3 2803          3 Male      51-60         Close family Sri Lanka Sri Lanka
+##  4 2804          4 Male      60+           Close family Sri Lanka Sri Lanka
+##  5 2805          5 Female    41-50         Close family Sri Lanka Sri Lanka
+##  6 2806          6 Female    60+           Close family Sri Lanka Sri Lanka
+##  7 2807          7 Male      41-50         Other family Sri Lanka Sri Lanka
+##  8 2808          8 Female    36-40         Other family Sri Lanka Sri Lanka
+##  9 2809          9 Female    51-60         Other family Sri Lanka Sri Lanka
+## 10 2810         10 Male      60+           Other family Sri Lanka Sri Lanka
+## # i 35 more rows
 ## # i 4 more variables: alter.clo <dbl>, alter.loan <chr>, alter.fam <chr>,
 ## #   alter.age <dbl>
 ## #
-## # A tibble: 259 x 3
+## # Edge Data: 259 x 3
 ##    from    to weight
 ##   <int> <int>  <dbl>
 ## 1     1     2      1
@@ -2713,7 +2721,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 45/45 vertices, named, from ff0d051:
+## + 45/45 vertices, named, from 291ff10:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2813 2814 2815
 ## [16] 2816 2817 2818 2819 2820 2821 2822 2823 2824 2825 2826 2827 2828 2829 2830
 ## [31] 2831 2832 2833 2834 2835 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845
@@ -2728,7 +2736,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 259/259 edges from ff0d051 (vertex names):
+## + 259/259 edges from 291ff10 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -2864,12 +2872,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH ff0d051 UNW- 45 259 -- 
+## IGRAPH 291ff10 UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), new.attribute (v/n), weight (e/n)
-## + edges from ff0d051 (vertex names):
+## + edges from 291ff10 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -2921,12 +2929,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH ff0d051 UNW- 45 259 -- 
+## IGRAPH 291ff10 UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/n), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), new.attribute (v/n), weight (e/n)
-## + edges from ff0d051 (vertex names):
+## + edges from 291ff10 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -3010,7 +3018,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 8/45 vertices, named, from ff0d051:
+## + 8/45 vertices, named, from 291ff10:
 ## [1] 2801 2805 2806 2808 2809 2828 2832 2837
 \end{verbatim}
 
@@ -3063,7 +3071,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 16/45 vertices, named, from ff0d051:
+## + 16/45 vertices, named, from 291ff10:
 ##  [1] 2814 2815 2821 2822 2823 2824 2825 2826 2832 2834 2835 2837 2838 2839 2843
 ## [16] 2845
 \end{verbatim}
@@ -3088,7 +3096,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 16/259 edges from ff0d051 (vertex names):
+## + 16/259 edges from 291ff10 (vertex names):
 ##  [1] 2814--2833 2815--2833 2821--2833 2822--2833 2823--2833 2824--2833
 ##  [7] 2825--2833 2826--2833 2832--2833 2833--2834 2833--2835 2833--2837
 ## [13] 2833--2838 2833--2839 2833--2843 2833--2845
@@ -3125,7 +3133,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 24/259 edges from ff0d051 (vertex names):
+## + 24/259 edges from 291ff10 (vertex names):
 ##  [1] 2801--2818 2801--2829 2804--2811 2804--2840 2807--2811 2811--2812
 ##  [7] 2811--2828 2813--2841 2813--2845 2814--2833 2815--2833 2816--2835
 ## [13] 2817--2835 2821--2826 2821--2833 2821--2839 2823--2830 2825--2833
@@ -3141,7 +3149,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 5/259 edges from ff0d051 (vertex names):
+## + 5/259 edges from 291ff10 (vertex names):
 ## [1] 2814--2833 2815--2833 2821--2833 2825--2833 2833--2843
 \end{verbatim}
 
@@ -4243,12 +4251,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH ff0d051 UNW- 45 259 -- 
+## IGRAPH 291ff10 UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from ff0d051 (vertex names):
+## + edges from 291ff10 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -4423,12 +4431,12 @@ This chapter covers the following topics:
 
 \begin{verbatim}
 ## $`28`
-## IGRAPH ff0d051 UNW- 45 259 -- 
+## IGRAPH 291ff10 UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from ff0d051 (vertex names):
+## + edges from 291ff10 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -4437,12 +4445,12 @@ This chapter covers the following topics:
 ## + ... omitted several edges
 ## 
 ## $`29`
-## IGRAPH 85d9dbc UNW- 45 202 -- 
+## IGRAPH 108a5b7 UNW- 45 202 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 85d9dbc (vertex names):
+## + edges from 108a5b7 (vertex names):
 ##  [1] 2901--2902 2901--2904 2901--2906 2901--2907 2901--2908 2901--2909
 ##  [7] 2901--2910 2901--2911 2901--2915 2901--2916 2901--2917 2901--2918
 ## [13] 2901--2919 2901--2927 2901--2928 2901--2929 2901--2930 2901--2931
@@ -4451,12 +4459,12 @@ This chapter covers the following topics:
 ## + ... omitted several edges
 ## 
 ## $`33`
-## IGRAPH 0674232 UNW- 45 207 -- 
+## IGRAPH 24846e3 UNW- 45 207 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 0674232 (vertex names):
+## + edges from 24846e3 (vertex names):
 ##  [1] 3301--3302 3301--3303 3301--3304 3301--3305 3301--3306 3301--3307
 ##  [7] 3301--3308 3301--3309 3301--3310 3301--3311 3301--3312 3301--3313
 ## [13] 3301--3314 3301--3315 3301--3316 3301--3317 3301--3318 3301--3319
@@ -4465,12 +4473,12 @@ This chapter covers the following topics:
 ## + ... omitted several edges
 ## 
 ## $`35`
-## IGRAPH 88571bb UNW- 45 221 -- 
+## IGRAPH 980051c UNW- 45 221 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 88571bb (vertex names):
+## + edges from 980051c (vertex names):
 ##  [1] 3501--3502 3501--3503 3501--3504 3501--3505 3501--3506 3501--3507
 ##  [7] 3501--3508 3501--3509 3501--3510 3501--3512 3501--3513 3501--3514
 ## [13] 3501--3516 3501--3517 3501--3522 3501--3523 3501--3524 3501--3525
@@ -4479,12 +4487,12 @@ This chapter covers the following topics:
 ## + ... omitted several edges
 ## 
 ## $`39`
-## IGRAPH 2de49b3 UNW- 45 92 -- 
+## IGRAPH 2830c6c UNW- 45 92 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 2de49b3 (vertex names):
+## + edges from 2830c6c (vertex names):
 ##  [1] 3901--3902 3901--3903 3901--3904 3901--3905 3901--3906 3901--3907
 ##  [7] 3901--3911 3901--3913 3901--3920 3901--3924 3901--3925 3901--3931
 ## [13] 3901--3932 3901--3933 3901--3937 3901--3938 3901--3940 3901--3941
@@ -4493,12 +4501,12 @@ This chapter covers the following topics:
 ## + ... omitted several edges
 ## 
 ## $`40`
-## IGRAPH 0c45639 UNW- 45 255 -- 
+## IGRAPH 05f7794 UNW- 45 255 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 0c45639 (vertex names):
+## + edges from 05f7794 (vertex names):
 ##  [1] 4001--4003 4001--4007 4001--4008 4001--4009 4001--4036 4001--4040
 ##  [7] 4001--4045 4002--4003 4002--4004 4002--4006 4002--4008 4002--4009
 ## [13] 4002--4010 4002--4011 4002--4012 4002--4013 4002--4014 4002--4015
@@ -4562,12 +4570,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 83a192b UNW- 46 304 -- 
+## IGRAPH 02083a0 UNW- 46 304 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 83a192b (vertex names):
+## + edges from 02083a0 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -4601,8 +4609,8 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## ego 
-##  NA
+##        ego 
+## 0.07344785
 \end{verbatim}
 
 \begin{Shaded}
@@ -4623,7 +4631,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 1/45 vertex, named, from ff0d051:
+## + 1/45 vertex, named, from 291ff10:
 ## [1] 2801
 \end{verbatim}
 
@@ -4656,7 +4664,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 5/45 vertices, named, from ff0d051:
+## + 5/45 vertices, named, from 291ff10:
 ## [1] 2801 2803 2804 2805 2806
 \end{verbatim}
 
@@ -4683,7 +4691,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 17/45 vertices, named, from ff0d051:
+## + 17/45 vertices, named, from 291ff10:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2827 2828 2829
 ## [16] 2840 2841
 \end{verbatim}
@@ -4696,7 +4704,7 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## + 88/259 edges from ff0d051 (vertex names):
+## + 88/259 edges from 291ff10 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2827
 ## [13] 2801--2828 2801--2829 2801--2840 2801--2841 2802--2803 2802--2804
@@ -4732,12 +4740,12 @@ This chapter covers the following topics:
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 780f29a UNW- 17 88 -- 
+## IGRAPH 07beb93 UNW- 17 88 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 780f29a (vertex names):
+## + edges from 07beb93 (vertex names):
 ##  [1] 2801--2802 2801--2803 2802--2803 2801--2804 2802--2804 2803--2804
 ##  [7] 2801--2805 2802--2805 2803--2805 2804--2805 2801--2806 2802--2806
 ## [13] 2803--2806 2804--2806 2805--2806 2801--2807 2802--2807 2803--2807
@@ -5389,6 +5397,55 @@ General resources on multilevel models:
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\CommentTok{\# Let\textquotesingle{}s save the coefficient estimates.}
+
+\CommentTok{\# Fixed intercept}
+\NormalTok{b0 }\OtherTok{\textless{}{-}}\NormalTok{ m1 }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{tidy}\NormalTok{() }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(effect }\SpecialCharTok{==} \StringTok{"fixed"}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{pull}\NormalTok{(estimate)}
+
+\CommentTok{\# Standard deviation of u\_j}
+\NormalTok{s\_u }\OtherTok{\textless{}{-}}\NormalTok{ m1 }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{tidy}\NormalTok{() }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(effect }\SpecialCharTok{==} \StringTok{"ran\_pars"}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{pull}\NormalTok{(estimate)}
+
+\CommentTok{\# The odds of providing support for the tie of an average ego are estimated}
+\CommentTok{\# as follows (see equations in slides, with u\_j = 0)}
+\FunctionTok{exp}\NormalTok{(b0)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.055234
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# The corresponding probability is estimated as}
+\FunctionTok{exp}\NormalTok{(b0)}\SpecialCharTok{/}\NormalTok{(}\FunctionTok{exp}\NormalTok{(b0)}\SpecialCharTok{+}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.5134375
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# The between{-}ego variance in the log{-}odds of a tie providing support is estimated}
+\CommentTok{\# as follows (but it\textquotesingle{}s difficult to interpret quantities in the log{-}odds scale)}
+\NormalTok{s\_u}\SpecialCharTok{\^{}}\DecValTok{2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.8101307
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \DocumentationTok{\#\# m2: Add tie characteristics as predictors (level 1)                      ====}
 \CommentTok{\# ============================================================================ =}
 
@@ -5536,25 +5593,25 @@ General resources on multilevel models:
 ## 
 ## Estimates of Fixed Effects:
 ##                   Estimate Std. Error z value Pr(>|z|)    
-## (Intercept)       -0.61436    0.22536  -2.726  0.00641 ** 
-## alter.famYes       1.00698    0.09285  10.845  < 2e-16 ***
-## alter.same.ageYes  0.19790    0.07950   2.489  0.01281 *  
+## (Intercept)       -0.61436    0.22533  -2.726  0.00640 ** 
+## alter.famYes       1.00699    0.09285  10.845  < 2e-16 ***
+## alter.same.ageYes  0.19790    0.07950   2.489  0.01280 *  
 ## ego.age.cen       -0.01306    0.04487  -0.291  0.77099    
-## ego.empl.binYes    0.07830    0.24563   0.319  0.74991    
-## ego.eduSecondary   0.49402    0.20962   2.357  0.01844 *  
-## ego.eduUniversity  0.86482    0.29947   2.888  0.00388 ** 
+## ego.empl.binYes    0.07832    0.24561   0.319  0.74983    
+## ego.eduSecondary   0.49400    0.20960   2.357  0.01843 *  
+## ego.eduUniversity  0.86479    0.29947   2.888  0.00388 ** 
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Exponentiated Fixed Effects and Confidence Bounds:
-##                    Estimate     2.5 %    97.5 %
-## (Intercept)       0.5409892 0.3478234 0.8414306
-## alter.famYes      2.7373325 2.2818749 3.2836986
-## alter.same.ageYes 1.2188387 1.0429695 1.4243637
-## ego.age.cen       0.9870230 0.9039204 1.0777658
-## ego.empl.binYes   1.0814450 0.6682212 1.7502037
-## ego.eduSecondary  1.6388905 1.0867238 2.4716141
-## ego.eduUniversity 2.3745730 1.3202994 4.2706956
+##                    Estimate     2.5 %   97.5 %
+## (Intercept)       0.5409862 0.3478430 0.841374
+## alter.famYes      2.7373448 2.2818891 3.283708
+## alter.same.ageYes 1.2188368 1.0429701 1.424358
+## ego.age.cen       0.9870231 0.9039210 1.077765
+## ego.empl.binYes   1.0814645 0.6682624 1.750159
+## ego.eduSecondary  1.6388627 1.0867468 2.471478
+## ego.eduUniversity 2.3745177 1.3202836 4.270548
 ## 
 ## Estimates of Random Effects (Covariance Components):
 ##  Groups Name        Std.Dev.
@@ -5571,7 +5628,7 @@ General resources on multilevel models:
 \DocumentationTok{\#\# m4: Add alter characteristics as predictors (level 1)                        ====}
 \CommentTok{\# ============================================================================ =}
 
-\CommentTok{\# Add alter sex and alter age (centered)}
+\CommentTok{\# Add alter gender and alter age (centered)}
 
 \CommentTok{\# See descriptives for the new predictors}
 \FunctionTok{tabyl}\NormalTok{(model.data}\SpecialCharTok{$}\NormalTok{alter.sex)}
@@ -5630,29 +5687,29 @@ General resources on multilevel models:
 ## 
 ## Estimates of Fixed Effects:
 ##                   Estimate Std. Error z value Pr(>|z|)    
-## (Intercept)       -0.79887    0.23618  -3.383 0.000718 ***
-## alter.famYes       1.04455    0.09450  11.053  < 2e-16 ***
-## alter.same.ageYes  0.18047    0.07984   2.261 0.023786 *  
-## ego.age.cen       -0.02345    0.04544  -0.516 0.605772    
-## ego.empl.binYes    0.06895    0.24628   0.280 0.779486    
-## ego.eduSecondary   0.49039    0.21008   2.334 0.019578 *  
-## ego.eduUniversity  0.87968    0.30013   2.931 0.003379 ** 
-## alter.sexMale      0.25266    0.08596   2.939 0.003289 ** 
-## alter.age.cat.cen  0.03834    0.02475   1.549 0.121300    
+## (Intercept)       -0.79887    0.23617  -3.383 0.000718 ***
+## alter.famYes       1.04456    0.09450  11.053  < 2e-16 ***
+## alter.same.ageYes  0.18048    0.07984   2.261 0.023785 *  
+## ego.age.cen       -0.02345    0.04544  -0.516 0.605820    
+## ego.empl.binYes    0.06893    0.24628   0.280 0.779576    
+## ego.eduSecondary   0.49039    0.21007   2.334 0.019574 *  
+## ego.eduUniversity  0.87970    0.30016   2.931 0.003381 ** 
+## alter.sexMale      0.25266    0.08596   2.939 0.003288 ** 
+## alter.age.cat.cen  0.03834    0.02475   1.549 0.121303    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Exponentiated Fixed Effects and Confidence Bounds:
 ##                    Estimate     2.5 %    97.5 %
-## (Intercept)       0.4498365 0.2831526 0.7146425
-## alter.famYes      2.8421300 2.3615731 3.4204755
-## alter.same.ageYes 1.1977844 1.0242887 1.4006672
-## ego.age.cen       0.9768214 0.8935895 1.0678058
-## ego.empl.binYes   1.0713874 0.6611755 1.7361061
-## ego.eduSecondary  1.6329480 1.0818205 2.4648443
-## ego.eduUniversity 2.4101365 1.3383500 4.3402381
-## alter.sexMale     1.2874404 1.0878274 1.5236817
-## alter.age.cat.cen 1.0390877 0.9898894 1.0907312
+## (Intercept)       0.4498381 0.2831558 0.7146394
+## alter.famYes      2.8421369 2.3615841 3.4204762
+## alter.same.ageYes 1.1977867 1.0242909 1.4006695
+## ego.age.cen       0.9768245 0.8935926 1.0678088
+## ego.empl.binYes   1.0713570 0.6611542 1.7360636
+## ego.eduSecondary  1.6329585 1.0818371 2.4648383
+## ego.eduUniversity 2.4101827 1.3383053 4.3405499
+## alter.sexMale     1.2874519 1.0878372 1.5236953
+## alter.age.cat.cen 1.0390873 0.9898890 1.0907307
 ## 
 ## Estimates of Random Effects (Covariance Components):
 ##  Groups Name        Std.Dev.
@@ -5717,35 +5774,35 @@ General resources on multilevel models:
 ## 
 ## Estimates of Fixed Effects:
 ##                   Estimate Std. Error z value Pr(>|z|)    
-## (Intercept)       -0.85010    0.23451  -3.625 0.000289 ***
+## (Intercept)       -0.85008    0.23451  -3.625 0.000289 ***
 ## alter.famYes       1.06161    0.09498  11.178  < 2e-16 ***
-## alter.same.ageYes  0.18265    0.07984   2.288 0.022143 *  
-## ego.age.cen       -0.02294    0.04473  -0.513 0.608080    
-## ego.empl.binYes    0.11925    0.24383   0.489 0.624801    
-## ego.eduSecondary   0.49636    0.20680   2.400 0.016385 *  
-## ego.eduUniversity  0.94460    0.29757   3.174 0.001502 ** 
-## alter.sexMale      0.25065    0.08595   2.916 0.003544 ** 
-## alter.age.cat.cen  0.03879    0.02474   1.568 0.116935    
-## net.count.fam.cen -0.17863    0.09517  -1.877 0.060523 .  
+## alter.same.ageYes  0.18265    0.07984   2.288 0.022146 *  
+## ego.age.cen       -0.02293    0.04473  -0.513 0.608156    
+## ego.empl.binYes    0.11922    0.24383   0.489 0.624878    
+## ego.eduSecondary   0.49633    0.20679   2.400 0.016390 *  
+## ego.eduUniversity  0.94457    0.29758   3.174 0.001503 ** 
+## alter.sexMale      0.25068    0.08595   2.916 0.003541 ** 
+## alter.age.cat.cen  0.03879    0.02474   1.568 0.116875    
+## net.count.fam.cen -0.17863    0.09517  -1.877 0.060527 .  
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Exponentiated Fixed Effects and Confidence Bounds:
-##                    Estimate     2.5 %    97.5 %
-## (Intercept)       0.4273712 0.2698904 0.6767418
-## alter.famYes      2.8910105 2.3999717 3.4825169
-## alter.same.ageYes 1.2003998 1.0265266 1.4037236
-## ego.age.cen       0.9773249 0.8952995 1.0668653
-## ego.empl.binYes   1.1266465 0.6986206 1.8169121
-## ego.eduSecondary  1.6427235 1.0953169 2.4637077
-## ego.eduUniversity 2.5717720 1.4352830 4.6081582
-## alter.sexMale     1.2848651 1.0856573 1.5206256
-## alter.age.cat.cen 1.0395482 0.9903442 1.0911968
-## net.count.fam.cen 0.8364157 0.6940866 1.0079307
+##                    Estimate     2.5 %   97.5 %
+## (Intercept)       0.4273806 0.2698966 0.676756
+## alter.famYes      2.8910255 2.3999791 3.482542
+## alter.same.ageYes 1.2003973 1.0265230 1.403723
+## ego.age.cen       0.9773295 0.8953030 1.066871
+## ego.empl.binYes   1.1266164 0.6986027 1.816862
+## ego.eduSecondary  1.6426831 1.0952915 2.463644
+## ego.eduUniversity 2.5717065 1.4352279 4.608101
+## alter.sexMale     1.2848996 1.0856867 1.520666
+## alter.age.cat.cen 1.0395548 0.9903505 1.091204
+## net.count.fam.cen 0.8364152 0.6940840 1.007933
 ## 
 ## Estimates of Random Effects (Covariance Components):
 ##  Groups Name        Std.Dev.
-##  ego_ID (Intercept) 0.8647  
+##  ego_ID (Intercept) 0.8648  
 ## 
 ## Number of obs: 3972, groups:  ego_ID, 100
 ## 
@@ -5792,10 +5849,10 @@ General resources on multilevel models:
 \begin{verbatim}
 ## # Predicted probabilities of alter.loan
 ## 
-## alter.fam | Predicted |       95% CI
-## ------------------------------------
-## No        |      0.30 | [0.21, 0.40]
-## Yes       |      0.55 | [0.44, 0.66]
+## alter.fam | Predicted |     95% CI
+## ----------------------------------
+## No        |      0.30 | 0.21, 0.40
+## Yes       |      0.55 | 0.44, 0.66
 ## 
 ## Adjusted for:
 ## *    alter.same.age =      No
@@ -5820,8 +5877,8 @@ General resources on multilevel models:
 ## # A tibble: 2 x 6
 ##   x     predicted std.error conf.low conf.high group
 ##   <fct>     <dbl>     <dbl>    <dbl>     <dbl> <fct>
-## 1 No        0.299     0.234    0.212     0.403 1    
-## 2 Yes       0.552     0.239    0.436     0.664 1
+## 1 No        0.299     0.234    0.213     0.403 1    
+## 2 Yes       0.552     0.239    0.436     0.663 1
 \end{verbatim}
 
 \begin{Shaded}
@@ -5874,8 +5931,8 @@ General resources on multilevel models:
 \NormalTok{              alter.sex }\SpecialCharTok{+}\NormalTok{ alter.age.cat.cen }\SpecialCharTok{+}  \CommentTok{\# Alter characteristics}
 \NormalTok{              net.count.fam.cen }\SpecialCharTok{+} \CommentTok{\# Ego{-}network characteristics}
 \NormalTok{              (}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ alter.fam }\SpecialCharTok{|}\NormalTok{ ego\_ID), }\CommentTok{\# Both intercept (1) and alter.fam }
-            \AttributeTok{start=}\NormalTok{ ss, }\CommentTok{\# }
-            \CommentTok{\# slppe vary in level{-}2 units (ego\_ID)}
+            \AttributeTok{start=}\NormalTok{ ss, }\CommentTok{\# Start optimization from results of previous fit}
+            \CommentTok{\# slope vary in level{-}2 units (ego\_ID)}
             \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\StringTok{"logit"}\NormalTok{), }\CommentTok{\# Model class (logistic)}
             \AttributeTok{data=}\NormalTok{ model.data) }\CommentTok{\# Data}
 
@@ -5893,31 +5950,31 @@ General resources on multilevel models:
 ## 
 ## Estimates of Fixed Effects:
 ##                   Estimate Std. Error z value Pr(>|z|)    
-## (Intercept)       -0.91968    0.24605  -3.738 0.000186 ***
-## alter.famYes       1.10130    0.12286   8.964  < 2e-16 ***
-## alter.same.ageYes  0.18966    0.08067   2.351 0.018713 *  
-## ego.age.cen       -0.02932    0.04559  -0.643 0.520114    
-## ego.empl.binYes    0.16612    0.25192   0.659 0.509615    
-## ego.eduSecondary   0.52521    0.21101   2.489 0.012809 *  
-## ego.eduUniversity  1.00011    0.30744   3.253 0.001142 ** 
-## alter.sexMale      0.25913    0.08691   2.982 0.002868 ** 
-## alter.age.cat.cen  0.04229    0.02515   1.682 0.092584 .  
-## net.count.fam.cen -0.18543    0.09693  -1.913 0.055745 .  
+## (Intercept)       -0.91962    0.24605  -3.737 0.000186 ***
+## alter.famYes       1.10131    0.12286   8.964  < 2e-16 ***
+## alter.same.ageYes  0.18966    0.08067   2.351 0.018712 *  
+## ego.age.cen       -0.02932    0.04559  -0.643 0.520063    
+## ego.empl.binYes    0.16609    0.25191   0.659 0.509706    
+## ego.eduSecondary   0.52518    0.21101   2.489 0.012815 *  
+## ego.eduUniversity  1.00012    0.30742   3.253 0.001141 ** 
+## alter.sexMale      0.25912    0.08691   2.982 0.002868 ** 
+## alter.age.cat.cen  0.04229    0.02515   1.682 0.092583 .  
+## net.count.fam.cen -0.18542    0.09693  -1.913 0.055766 .  
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ## Exponentiated Fixed Effects and Confidence Bounds:
 ##                    Estimate     2.5 %    97.5 %
-## (Intercept)       0.3986475 0.2461204 0.6456995
-## alter.famYes      3.0080801 2.3643604 3.8270587
-## alter.same.ageYes 1.2088406 1.0320627 1.4158981
-## ego.age.cen       0.9711061 0.8881039 1.0618657
-## ego.empl.binYes   1.1807181 0.7206342 1.9345392
-## ego.eduSecondary  1.6908172 1.1181093 2.5568725
-## ego.eduUniversity 2.7185746 1.4881625 4.9662908
-## alter.sexMale     1.2958056 1.0928514 1.5364505
-## alter.age.cat.cen 1.0432016 0.9930326 1.0959051
-## net.count.fam.cen 0.8307445 0.6870036 1.0045601
+## (Intercept)       0.3986723 0.2461368 0.6457371
+## alter.famYes      3.0080902 2.3643660 3.8270753
+## alter.same.ageYes 1.2088422 1.0320642 1.4158999
+## ego.age.cen       0.9711026 0.8881006 1.0618619
+## ego.empl.binYes   1.1806748 0.7206099 1.9344627
+## ego.eduSecondary  1.6907594 1.1180705 2.5567863
+## ego.eduUniversity 2.7186080 1.4882169 4.9662315
+## alter.sexMale     1.2957950 1.0928440 1.5364359
+## alter.age.cat.cen 1.0432017 0.9930327 1.0959053
+## net.count.fam.cen 0.8307589 0.6870161 1.0045766
 ## 
 ## Estimates of Random Effects (Covariance Components):
 ##  Groups Name         Std.Dev. Corr 
@@ -5950,7 +6007,7 @@ General resources on multilevel models:
 ##  7 fixed    <NA>   ego.eduUniversity        1.00      0.307      3.25   1.14e- 3
 ##  8 fixed    <NA>   alter.sexMale            0.259     0.0869     2.98   2.87e- 3
 ##  9 fixed    <NA>   alter.age.cat.cen        0.0423    0.0251     1.68   9.26e- 2
-## 10 fixed    <NA>   net.count.fam.cen       -0.185     0.0969    -1.91   5.57e- 2
+## 10 fixed    <NA>   net.count.fam.cen       -0.185     0.0969    -1.91   5.58e- 2
 ## 11 ran_pars ego_ID sd__(Intercept)          0.905    NA         NA     NA       
 ## 12 ran_pars ego_ID cor__(Intercept).alte~  -0.275    NA         NA     NA       
 ## 13 ran_pars ego_ID sd__alter.famYes         0.670    NA         NA     NA
@@ -6039,7 +6096,7 @@ General resources on multilevel models:
 \end{Shaded}
 
 \begin{verbatim}
-## 'log Lik.' 0.006327254 (df=11)
+## 'log Lik.' 0.006327255 (df=11)
 \end{verbatim}
 
 \begin{Shaded}
@@ -6289,12 +6346,12 @@ More information about this package can be found in its \href{https://github.com
 
 \begin{verbatim}
 ## $`28`
-## IGRAPH a283c5c UNW- 45 259 -- 
+## IGRAPH 1f538fd UNW- 45 259 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from a283c5c (vertex names):
+## + edges from 1f538fd (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -6303,12 +6360,12 @@ More information about this package can be found in its \href{https://github.com
 ## + ... omitted several edges
 ## 
 ## $`29`
-## IGRAPH 9405cb6 UNW- 45 202 -- 
+## IGRAPH 29c9ead UNW- 45 202 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from 9405cb6 (vertex names):
+## + edges from 29c9ead (vertex names):
 ##  [1] 2901--2902 2901--2904 2901--2906 2901--2907 2901--2908 2901--2909
 ##  [7] 2901--2910 2901--2911 2901--2915 2901--2916 2901--2917 2901--2918
 ## [13] 2901--2919 2901--2927 2901--2928 2901--2929 2901--2930 2901--2931
@@ -6317,12 +6374,12 @@ More information about this package can be found in its \href{https://github.com
 ## + ... omitted several edges
 ## 
 ## $`33`
-## IGRAPH 17a159b UNW- 45 207 -- 
+## IGRAPH 25c412d UNW- 45 207 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from 17a159b (vertex names):
+## + edges from 25c412d (vertex names):
 ##  [1] 3301--3302 3301--3303 3301--3304 3301--3305 3301--3306 3301--3307
 ##  [7] 3301--3308 3301--3309 3301--3310 3301--3311 3301--3312 3301--3313
 ## [13] 3301--3314 3301--3315 3301--3316 3301--3317 3301--3318 3301--3319
@@ -6331,12 +6388,12 @@ More information about this package can be found in its \href{https://github.com
 ## + ... omitted several edges
 ## 
 ## $`35`
-## IGRAPH 495fe16 UNW- 45 221 -- 
+## IGRAPH 6c1286b UNW- 45 221 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from 495fe16 (vertex names):
+## + edges from 6c1286b (vertex names):
 ##  [1] 3501--3502 3501--3503 3501--3504 3501--3505 3501--3506 3501--3507
 ##  [7] 3501--3508 3501--3509 3501--3510 3501--3512 3501--3513 3501--3514
 ## [13] 3501--3516 3501--3517 3501--3522 3501--3523 3501--3524 3501--3525
@@ -6345,12 +6402,12 @@ More information about this package can be found in its \href{https://github.com
 ## + ... omitted several edges
 ## 
 ## $`39`
-## IGRAPH 616ebb8 UNW- 45 92 -- 
+## IGRAPH ad742ec UNW- 45 92 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from 616ebb8 (vertex names):
+## + edges from ad742ec (vertex names):
 ##  [1] 3901--3902 3901--3903 3901--3904 3901--3905 3901--3906 3901--3907
 ##  [7] 3901--3911 3901--3913 3901--3920 3901--3924 3901--3925 3901--3931
 ## [13] 3901--3932 3901--3933 3901--3937 3901--3938 3901--3940 3901--3941
@@ -6359,12 +6416,12 @@ More information about this package can be found in its \href{https://github.com
 ## + ... omitted several edges
 ## 
 ## $`40`
-## IGRAPH 439c39c UNW- 45 255 -- 
+## IGRAPH c921c79 UNW- 45 255 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from 439c39c (vertex names):
+## + edges from c921c79 (vertex names):
 ##  [1] 4001--4003 4001--4007 4001--4008 4001--4009 4001--4036 4001--4040
 ##  [7] 4001--4045 4002--4003 4002--4004 4002--4006 4002--4008 4002--4009
 ## [13] 4002--4010 4002--4011 4002--4012 4002--4013 4002--4014 4002--4015
@@ -6407,12 +6464,12 @@ More information about this package can be found in its \href{https://github.com
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH a283c5c UNW- 45 259 -- 
+## IGRAPH 1f538fd UNW- 45 259 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from a283c5c (vertex names):
+## + edges from 1f538fd (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -6429,7 +6486,7 @@ More information about this package can be found in its \href{https://github.com
 \end{Shaded}
 
 \begin{verbatim}
-## + 45/45 vertices, named, from a283c5c:
+## + 45/45 vertices, named, from 1f538fd:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2813 2814 2815
 ## [16] 2816 2817 2818 2819 2820 2821 2822 2823 2824 2825 2826 2827 2828 2829 2830
 ## [31] 2831 2832 2833 2834 2835 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845
@@ -6443,12 +6500,12 @@ More information about this package can be found in its \href{https://github.com
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 43711af UNW- 46 304 -- 
+## IGRAPH 47003e1 UNW- 46 304 -- 
 ## + attr: .egoID (g/n), name (v/c), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), weight (e/n)
-## + edges from 43711af (vertex names):
+## + edges from 47003e1 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -6465,7 +6522,7 @@ More information about this package can be found in its \href{https://github.com
 \end{Shaded}
 
 \begin{verbatim}
-## + 46/46 vertices, named, from 43711af:
+## + 46/46 vertices, named, from 47003e1:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2813 2814 2815
 ## [16] 2816 2817 2818 2819 2820 2821 2822 2823 2824 2825 2826 2827 2828 2829 2830
 ## [31] 2831 2832 2833 2834 2835 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845
@@ -6516,15 +6573,9 @@ More information about this package can be found in its \href{https://github.com
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{E}\NormalTok{(gr.ego)[}\FunctionTok{inc}\NormalTok{(}\StringTok{"ego"}\NormalTok{)]}\SpecialCharTok{$}\NormalTok{weight}
+\FunctionTok{E}\NormalTok{(gr.ego)[}\FunctionTok{.inc}\NormalTok{(}\StringTok{"ego"}\NormalTok{)]}\SpecialCharTok{$}\NormalTok{weight}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## Warning: 'inc' is deprecated.
-## Use '.inc' instead.
-## See help("Deprecated")
-\end{verbatim}
 
 \begin{verbatim}
 ##  [1] NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA NA
@@ -6558,15 +6609,9 @@ More information about this package can be found in its \href{https://github.com
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{E}\NormalTok{(gr.ego)[}\FunctionTok{inc}\NormalTok{(}\StringTok{"ego"}\NormalTok{)]}\SpecialCharTok{$}\NormalTok{weight}
+\FunctionTok{E}\NormalTok{(gr.ego)[}\FunctionTok{.inc}\NormalTok{(}\StringTok{"ego"}\NormalTok{)]}\SpecialCharTok{$}\NormalTok{weight}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## Warning: 'inc' is deprecated.
-## Use '.inc' instead.
-## See help("Deprecated")
-\end{verbatim}
 
 \begin{verbatim}
 ##  [1] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
@@ -6613,7 +6658,7 @@ More information about this package can be found in its \href{https://github.com
 \NormalTok{\}}
 
 \CommentTok{\# Then apply the function to all graphs in the list.}
-\NormalTok{new.list }\OtherTok{\textless{}{-}}\NormalTok{ gr.list.ego }\SpecialCharTok{|\textgreater{}}
+\NormalTok{gr.list.ego }\OtherTok{\textless{}{-}}\NormalTok{ gr.list.ego }\SpecialCharTok{|\textgreater{}}
   \FunctionTok{map}\NormalTok{(weight\_replace)}
 
 \CommentTok{\# Sometimes it\textquotesingle{}s useful to have ego ID as a graph attribute of the ego{-}network}
@@ -6636,12 +6681,12 @@ More information about this package can be found in its \href{https://github.com
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH a283c5c UNW- 45 259 -- 
+## IGRAPH 1f538fd UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from a283c5c (vertex names):
+## + edges from 1f538fd (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -6675,7 +6720,8 @@ More information about this package can be found in its \href{https://github.com
 \NormalTok{gr.ego}\FloatTok{.28} \OtherTok{\textless{}{-}}\NormalTok{ gr.list.ego[[}\StringTok{"28"}\NormalTok{]]}
 
 \CommentTok{\# Save all data to file.}
-\FunctionTok{save}\NormalTok{(ego.df, alter.attr.all, gr.list, alter.attr}\FloatTok{.28}\NormalTok{, gr}\FloatTok{.28}\NormalTok{, gr.ego}\FloatTok{.28}\NormalTok{, }\AttributeTok{file=}\StringTok{"./Data/data.rda"}\NormalTok{)}
+\FunctionTok{save}\NormalTok{(ego.df, alter.attr.all, gr.list, alter.attr}\FloatTok{.28}\NormalTok{, gr}\FloatTok{.28}\NormalTok{, gr.ego}\FloatTok{.28}\NormalTok{, }
+     \AttributeTok{file=}\StringTok{"./Data/data.rda"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -7388,7 +7434,7 @@ This is a quick summary of the basics about \textbf{types} and \textbf{classes} 
 \begin{verbatim}
 ## # A tibble: 1 x 2
 ##   N.comp N.iso
-##    <int> <int>
+##    <dbl> <int>
 ## 1      1     0
 \end{verbatim}
 
@@ -7555,9 +7601,9 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 05d3a61 UN-- 45 283 -- 
+## IGRAPH 2002353 UN-- 45 283 -- 
 ## + attr: name (v/c)
-## + edges from 05d3a61 (vertex names):
+## + edges from 2002353 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2818 2801--2820 2801--2823
@@ -7987,9 +8033,9 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 71d9c02 UNW- 45 259 -- 
+## IGRAPH c53225b UNW- 45 259 -- 
 ## + attr: name (v/c), ego_ID (e/n), weight (e/n)
-## + edges from 71d9c02 (vertex names):
+## + edges from c53225b (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -8046,9 +8092,9 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 76794df UNW- 45 259 -- 
+## IGRAPH 2f6155b UNW- 45 259 -- 
 ## + attr: name (v/c), ego_ID (e/n), weight (e/n)
-## + edges from 76794df (vertex names):
+## + edges from 2f6155b (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -8068,9 +8114,9 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 3fee39f UNW- 42 265 -- 
+## IGRAPH 64b2701 UNW- 42 265 -- 
 ## + attr: name (v/c), ego_ID (e/n), weight (e/n)
-## + edges from 3fee39f (vertex names):
+## + edges from 64b2701 (vertex names):
 ##  [1] 9401--9402 9401--9403 9401--9404 9401--9405 9401--9406 9401--9407
 ##  [7] 9401--9408 9401--9409 9401--9410 9401--9411 9401--9412 9401--9413
 ## [13] 9401--9414 9401--9415 9401--9438 9401--9443 9401--9444 9402--9403
@@ -8118,12 +8164,12 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## IGRAPH 27e212c UNW- 45 259 -- 
+## IGRAPH 83eb134 UNW- 45 259 -- 
 ## + attr: name (v/c), ego_ID (v/n), alter_num (v/n), alter.sex (v/c),
 ## | alter.age.cat (v/c), alter.rel (v/c), alter.nat (v/c), alter.res
 ## | (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam (v/c), alter.age
 ## | (v/n), ego_ID (e/n), weight (e/n)
-## + edges from 27e212c (vertex names):
+## + edges from 83eb134 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -8264,7 +8310,7 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## + 46/46 vertices, named, from 7292e66:
+## + 46/46 vertices, named, from 8b49c18:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2813 2814 2815
 ## [16] 2816 2817 2818 2819 2820 2821 2822 2823 2824 2825 2826 2827 2828 2829 2830
 ## [31] 2831 2832 2833 2834 2835 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845
@@ -8375,6 +8421,15 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \CommentTok{\# printing verbose loading messages) and intergraph.}
 \FunctionTok{library}\NormalTok{(network)}
 \FunctionTok{library}\NormalTok{(sna)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Error in library(sna): there is no package called 'sna'
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(intergraph)}
 
 \CommentTok{\# Let\textquotesingle{}s convert our ego{-}network to a statnet "network" object.}
@@ -8658,7 +8713,12 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \end{Shaded}
 
 \begin{verbatim}
-## Error in FUN(X[[i]], ...): as.edgelist.sna input must be an adjacency matrix/array, edgelist matrix, network, or sparse matrix, or list thereof.
+## 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2813 2814 2815 2816 
+##   24   17   13   12   12   13   13   12   10    9   11    8   18   14   16    9 
+## 2817 2818 2819 2820 2821 2822 2823 2824 2825 2826 2827 2828 2829 2830 2831 2832 
+##    9   10    2    2    9   18   27   13   10    8    4    3    3    3   15   16 
+## 2833 2834 2835 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845 
+##   16   12   21    3   10   14   14   16   13    7   12    5   12
 \end{verbatim}
 
 \begin{Shaded}
@@ -8684,6 +8744,10 @@ This section demonstrates how to import ego-network data into R ``manually'', wi
 \FunctionTok{detach}\NormalTok{(}\StringTok{"package:sna"}\NormalTok{, }\AttributeTok{unload=}\ConstantTok{TRUE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+## Error in detach("package:sna", unload = TRUE): invalid 'name' argument
+\end{verbatim}
 
 \hypertarget{illustrative-example-personal-networks-of-sri-lankan-immigrants-in-italy}{%
 \section{Illustrative example: personal networks of Sri Lankan immigrants in Italy}\label{illustrative-example-personal-networks-of-sri-lankan-immigrants-in-italy}}
