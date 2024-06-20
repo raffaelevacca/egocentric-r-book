@@ -114,7 +114,7 @@ E(gr)$weight
 # These weights are obviously not defined for ego-alter ties. So in the 
 # ego-network with the ego included, the tie weights are NA for ego-alter ties.
 E(gr.ego)$weight
-E(gr.ego)[inc("ego")]$weight
+E(gr.ego)[.inc("ego")]$weight
 
 # This may create problems in certain functions, for example the plot.igraph()
 # function. So let's replace those NA's with a distinctive weight value for 
@@ -124,7 +124,7 @@ E(gr.ego)$weight <- E(gr.ego)$weight |>
 
 # See the result
 E(gr.ego)$weight
-E(gr.ego)[inc("ego")]$weight
+E(gr.ego)[.inc("ego")]$weight
 
 # Let's now plot the two ego-networks.
 
@@ -152,7 +152,7 @@ weight_replace <- function(gr) {
 }
 
 # Then apply the function to all graphs in the list.
-new.list <- gr.list.ego |>
+gr.list.ego <- gr.list.ego |>
   map(weight_replace)
 
 # Sometimes it's useful to have ego ID as a graph attribute of the ego-network
@@ -186,6 +186,7 @@ gr.28 <- gr.list[["28"]]
 gr.ego.28 <- gr.list.ego[["28"]]
 
 # Save all data to file.
-save(ego.df, alter.attr.all, gr.list, alter.attr.28, gr.28, gr.ego.28, file="./Data/data.rda")
+save(ego.df, alter.attr.all, gr.list, alter.attr.28, gr.28, gr.ego.28, 
+     file="./Data/data.rda")
 
 # ---- end-egor

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 2 R basics | Egocentric network analysis with R</title>
   <meta name="description" content="Personal network analysis with R" />
-  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.38 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 2 R basics | Egocentric network analysis with R" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Raffaele Vacca" />
 
 
-<meta name="date" content="2024-02-05" />
+<meta name="date" content="2024-06-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -750,7 +750,7 @@ div.csl-indent {
 <div id="subsetting" class="section level2 hasAnchor" number="2.5">
 <h2><span class="header-section-number">2.5</span> Subsetting<a href="basics.html#subsetting" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <ul>
-<li><strong>Subsetting</strong> is crucial in R. It means appending an index (or subscript) to an object to subset or extract one (or more) of its elements or components. This is also called “indexing” or “subscripting”.</li>
+<li><strong>Subsetting</strong> is crucial in R. It means extracting one (or more) of an object’s elements or components, typically by appending an index (or subscript) to that object (this is also called “indexing” or “subscripting”).</li>
 <li>Subsetting can be used to <strong>extract</strong> (view, query) the component of an object, or to <strong>replace</strong> it (assign a different value to that element).</li>
 <li>The basic notation for subsetting in R is <code>[ ]</code>: <code>x[i]</code> gives you the <em>i</em>-th element of object <code>x</code>.</li>
 <li><strong>Numeric subsetting</strong> uses integers in square brackets <code>[ ]</code>: e.g. <code>x[3]</code>. Note that you can use negative integers to index (select) everything <em>but</em> that element: e.g. <code>x[-3]</code>, <code>x[c(-2,-4)]</code>.</li>

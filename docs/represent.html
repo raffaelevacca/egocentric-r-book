@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 3 Representing and visualizing ego-networks | Egocentric network analysis with R</title>
   <meta name="description" content="Personal network analysis with R" />
-  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.38 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 3 Representing and visualizing ego-networks | Egocentric network analysis with R" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Raffaele Vacca" />
 
 
-<meta name="date" content="2024-02-05" />
+<meta name="date" content="2024-06-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -488,12 +488,12 @@ div.csl-indent {
 <span id="cb159-8"><a href="represent.html#cb159-8" tabindex="-1"></a><span class="co"># The data.rda file, which we loaded earlier, also includes the ego-network of </span></span>
 <span id="cb159-9"><a href="represent.html#cb159-9" tabindex="-1"></a><span class="co"># ego 28 (as igraph object)</span></span>
 <span id="cb159-10"><a href="represent.html#cb159-10" tabindex="-1"></a>gr<span class="fl">.28</span></span></code></pre></div>
-<pre><code>## IGRAPH 6e06ab7 UNW- 45 259 -- 
+<pre><code>## IGRAPH 7b94903 UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 6e06ab7 (vertex names):
+## + edges from 7b94903 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -512,12 +512,12 @@ div.csl-indent {
 <span id="cb161-10"><a href="represent.html#cb161-10" tabindex="-1"></a><span class="co"># We also have the same network, with ego included: note the different number</span></span>
 <span id="cb161-11"><a href="represent.html#cb161-11" tabindex="-1"></a><span class="co"># of vertices and edges compared to the previous graph.</span></span>
 <span id="cb161-12"><a href="represent.html#cb161-12" tabindex="-1"></a>gr.ego<span class="fl">.28</span></span></code></pre></div>
-<pre><code>## IGRAPH 673bb5f UNW- 46 304 -- 
+<pre><code>## IGRAPH 856e8ff UNW- 46 304 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), weight (e/n)
-## + edges from 673bb5f (vertex names):
+## + edges from 856e8ff (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -607,20 +607,24 @@ div.csl-indent {
 ## #
 ## # An undirected simple graph with 1 component
 ## #
-## # A tibble: 45 × 11
-##   name  alter_num alter.sex alter.age.cat alter.rel    alter.nat alter.res
-##   &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;        &lt;chr&gt;     &lt;chr&gt;    
-## 1 2801          1 Female    51-60         Close family Sri Lanka Sri Lanka
-## 2 2802          2 Male      51-60         Other family Sri Lanka Sri Lanka
-## 3 2803          3 Male      51-60         Close family Sri Lanka Sri Lanka
-## 4 2804          4 Male      60+           Close family Sri Lanka Sri Lanka
-## 5 2805          5 Female    41-50         Close family Sri Lanka Sri Lanka
-## 6 2806          6 Female    60+           Close family Sri Lanka Sri Lanka
-## # ℹ 39 more rows
+## # Node Data: 45 × 11 (active)
+##    name  alter_num alter.sex alter.age.cat alter.rel    alter.nat alter.res
+##    &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;        &lt;chr&gt;     &lt;chr&gt;    
+##  1 2801          1 Female    51-60         Close family Sri Lanka Sri Lanka
+##  2 2802          2 Male      51-60         Other family Sri Lanka Sri Lanka
+##  3 2803          3 Male      51-60         Close family Sri Lanka Sri Lanka
+##  4 2804          4 Male      60+           Close family Sri Lanka Sri Lanka
+##  5 2805          5 Female    41-50         Close family Sri Lanka Sri Lanka
+##  6 2806          6 Female    60+           Close family Sri Lanka Sri Lanka
+##  7 2807          7 Male      41-50         Other family Sri Lanka Sri Lanka
+##  8 2808          8 Female    36-40         Other family Sri Lanka Sri Lanka
+##  9 2809          9 Female    51-60         Other family Sri Lanka Sri Lanka
+## 10 2810         10 Male      60+           Other family Sri Lanka Sri Lanka
+## # ℹ 35 more rows
 ## # ℹ 4 more variables: alter.clo &lt;dbl&gt;, alter.loan &lt;chr&gt;, alter.fam &lt;chr&gt;,
 ## #   alter.age &lt;dbl&gt;
 ## #
-## # A tibble: 259 × 3
+## # Edge Data: 259 × 3
 ##    from    to weight
 ##   &lt;int&gt; &lt;int&gt;  &lt;dbl&gt;
 ## 1     1     2      1
@@ -635,14 +639,14 @@ div.csl-indent {
 <span id="cb172-6"><a href="represent.html#cb172-6" tabindex="-1"></a><span class="co"># Vertex sequence of the whole graph. Notice that vertices are displayed by</span></span>
 <span id="cb172-7"><a href="represent.html#cb172-7" tabindex="-1"></a><span class="co"># &quot;names&quot; (alter IDs in this case).</span></span>
 <span id="cb172-8"><a href="represent.html#cb172-8" tabindex="-1"></a><span class="fu">V</span>(gr)</span></code></pre></div>
-<pre><code>## + 45/45 vertices, named, from 6e06ab7:
+<pre><code>## + 45/45 vertices, named, from 7b94903:
 ##  [1] 2801 2802 2803 2804 2805 2806 2807 2808 2809 2810 2811 2812 2813 2814 2815
 ## [16] 2816 2817 2818 2819 2820 2821 2822 2823 2824 2825 2826 2827 2828 2829 2830
 ## [31] 2831 2832 2833 2834 2835 2836 2837 2838 2839 2840 2841 2842 2843 2844 2845</code></pre>
 <div class="sourceCode" id="cb174"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb174-1"><a href="represent.html#cb174-1" tabindex="-1"></a><span class="co"># Edge sequence of the whole graph. Notice that vertex names (alter IDs) are</span></span>
 <span id="cb174-2"><a href="represent.html#cb174-2" tabindex="-1"></a><span class="co"># used here too.</span></span>
 <span id="cb174-3"><a href="represent.html#cb174-3" tabindex="-1"></a><span class="fu">E</span>(gr)</span></code></pre></div>
-<pre><code>## + 259/259 edges from 6e06ab7 (vertex names):
+<pre><code>## + 259/259 edges from 7b94903 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -714,12 +718,12 @@ div.csl-indent {
 <span id="cb190-3"><a href="represent.html#cb190-3" tabindex="-1"></a></span>
 <span id="cb190-4"><a href="represent.html#cb190-4" tabindex="-1"></a><span class="co"># Now a new attribute is listed for the graph.</span></span>
 <span id="cb190-5"><a href="represent.html#cb190-5" tabindex="-1"></a>gr</span></code></pre></div>
-<pre><code>## IGRAPH 6e06ab7 UNW- 45 259 -- 
+<pre><code>## IGRAPH 7b94903 UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/c), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), new.attribute (v/n), weight (e/n)
-## + edges from 6e06ab7 (vertex names):
+## + edges from 7b94903 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -747,12 +751,12 @@ div.csl-indent {
 <span id="cb196-5"><a href="represent.html#cb196-5" tabindex="-1"></a></span>
 <span id="cb196-6"><a href="represent.html#cb196-6" tabindex="-1"></a><span class="co"># Check that the new attribute was created</span></span>
 <span id="cb196-7"><a href="represent.html#cb196-7" tabindex="-1"></a>gr</span></code></pre></div>
-<pre><code>## IGRAPH 6e06ab7 UNW- 45 259 -- 
+<pre><code>## IGRAPH 7b94903 UNW- 45 259 -- 
 ## + attr: .egoID (g/n), ego_ID (g/n), name (v/c), alter_num (v/n),
 ## | alter.sex (v/c), alter.age.cat (v/c), alter.rel (v/c), alter.nat
 ## | (v/c), alter.res (v/c), alter.clo (v/n), alter.loan (v/c), alter.fam
 ## | (v/c), alter.age (v/n), new.attribute (v/n), weight (e/n)
-## + edges from 6e06ab7 (vertex names):
+## + edges from 7b94903 (vertex names):
 ##  [1] 2801--2802 2801--2803 2801--2804 2801--2805 2801--2806 2801--2807
 ##  [7] 2801--2808 2801--2809 2801--2810 2801--2811 2801--2812 2801--2813
 ## [13] 2801--2814 2801--2815 2801--2818 2801--2820 2801--2823 2801--2825
@@ -802,7 +806,7 @@ div.csl-indent {
 <span id="cb203-3"><a href="represent.html#cb203-3" tabindex="-1"></a></span>
 <span id="cb203-4"><a href="represent.html#cb203-4" tabindex="-1"></a><span class="co"># View only female alters.</span></span>
 <span id="cb203-5"><a href="represent.html#cb203-5" tabindex="-1"></a><span class="fu">V</span>(gr)[alter.sex<span class="sc">==</span><span class="st">&quot;Female&quot;</span>]</span></code></pre></div>
-<pre><code>## + 8/45 vertices, named, from 6e06ab7:
+<pre><code>## + 8/45 vertices, named, from 7b94903:
 ## [1] 2801 2805 2806 2808 2809 2828 2832 2837</code></pre>
 <div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="represent.html#cb205-1" tabindex="-1"></a><span class="co"># View residence country just for female alters.</span></span>
 <span id="cb205-2"><a href="represent.html#cb205-2" tabindex="-1"></a><span class="fu">V</span>(gr)[alter.sex<span class="sc">==</span><span class="st">&quot;Female&quot;</span>]<span class="sc">$</span>alter.res</span></code></pre></div>
@@ -823,7 +827,7 @@ div.csl-indent {
 <span id="cb211-4"><a href="represent.html#cb211-4" tabindex="-1"></a><span class="co"># View all alters who know alter 2833 (vertices that are adjacent to vertex</span></span>
 <span id="cb211-5"><a href="represent.html#cb211-5" tabindex="-1"></a><span class="co"># &quot;2833&quot;).</span></span>
 <span id="cb211-6"><a href="represent.html#cb211-6" tabindex="-1"></a><span class="fu">V</span>(gr)[<span class="fu">.nei</span>(<span class="st">&quot;2833&quot;</span>)]</span></code></pre></div>
-<pre><code>## + 16/45 vertices, named, from 6e06ab7:
+<pre><code>## + 16/45 vertices, named, from 7b94903:
 ##  [1] 2814 2815 2821 2822 2823 2824 2825 2826 2832 2834 2835 2837 2838 2839 2843
 ## [16] 2845</code></pre>
 <div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="represent.html#cb213-1" tabindex="-1"></a><span class="co"># View the gender of all alters who know alter 2833.</span></span>
@@ -832,7 +836,7 @@ div.csl-indent {
 ##  [9] &quot;Female&quot; &quot;Male&quot;   &quot;Male&quot;   &quot;Female&quot; &quot;Male&quot;   &quot;Male&quot;   &quot;Male&quot;   &quot;Male&quot;</code></pre>
 <div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="represent.html#cb215-1" tabindex="-1"></a><span class="co"># View all edges that are incident on alter 2833</span></span>
 <span id="cb215-2"><a href="represent.html#cb215-2" tabindex="-1"></a><span class="fu">E</span>(gr)[<span class="fu">.inc</span>(<span class="st">&quot;2833&quot;</span>)]</span></code></pre></div>
-<pre><code>## + 16/259 edges from 6e06ab7 (vertex names):
+<pre><code>## + 16/259 edges from 7b94903 (vertex names):
 ##  [1] 2814--2833 2815--2833 2821--2833 2822--2833 2823--2833 2824--2833
 ##  [7] 2825--2833 2826--2833 2832--2833 2833--2834 2833--2835 2833--2837
 ## [13] 2833--2838 2833--2839 2833--2843 2833--2845</code></pre>
@@ -845,7 +849,7 @@ div.csl-indent {
 <pre><code>## [1] 2</code></pre>
 <div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="represent.html#cb221-1" tabindex="-1"></a><span class="co"># View all edges with weight==2 (alters who &quot;maybe&quot; know each other).</span></span>
 <span id="cb221-2"><a href="represent.html#cb221-2" tabindex="-1"></a><span class="fu">E</span>(gr)[weight<span class="sc">==</span><span class="dv">2</span>] </span></code></pre></div>
-<pre><code>## + 24/259 edges from 6e06ab7 (vertex names):
+<pre><code>## + 24/259 edges from 7b94903 (vertex names):
 ##  [1] 2801--2818 2801--2829 2804--2811 2804--2840 2807--2811 2811--2812
 ##  [7] 2811--2828 2813--2841 2813--2845 2814--2833 2815--2833 2816--2835
 ## [13] 2817--2835 2821--2826 2821--2833 2821--2839 2823--2830 2825--2833
@@ -853,7 +857,7 @@ div.csl-indent {
 <div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="represent.html#cb223-1" tabindex="-1"></a><span class="co"># Conditions in R indexing can always be combined: view all &quot;maybe&quot; edges</span></span>
 <span id="cb223-2"><a href="represent.html#cb223-2" tabindex="-1"></a><span class="co"># that are incident on alter 2833.</span></span>
 <span id="cb223-3"><a href="represent.html#cb223-3" tabindex="-1"></a><span class="fu">E</span>(gr)[weight<span class="sc">==</span><span class="dv">2</span> <span class="sc">&amp;</span> <span class="fu">.inc</span>(<span class="st">&quot;2833&quot;</span>)]</span></code></pre></div>
-<pre><code>## + 5/259 edges from 6e06ab7 (vertex names):
+<pre><code>## + 5/259 edges from 7b94903 (vertex names):
 ## [1] 2814--2833 2815--2833 2821--2833 2825--2833 2833--2843</code></pre>
 <div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="represent.html#cb225-1" tabindex="-1"></a><span class="co"># ***** EXERCISES</span></span>
 <span id="cb225-2"><a href="represent.html#cb225-2" tabindex="-1"></a><span class="co"># (1) Get the average alter closeness (vertex attribute $alter.clo) of Sri Lankan</span></span>

@@ -24,10 +24,12 @@ Feel free to [contact me](http://www.raffaelevacca.com/) to know more about this
 
 To take this workshop you need to:
 
-1. Download the last version of **R** [here](https://cran.r-project.org/mirrors.html) (select a location near you)
+1. Download the latest version of **R** [here](https://cran.r-project.org/mirrors.html) (select a location near you)
     * Follow instructions to install R in your computer
-2. Download **RStudio** (free version) [here](https://www.rstudio.com/products/rstudio/download/)
+    * If you downloaded R some time ago, please update it to the latest version
+2. Download the latest version of **RStudio** (free version) [here](https://posit.co/download/rstudio-desktop/)
     * Follow instructions to install RStudio in your computer
+    * If you downloaded RStudio some time ago, please update it to the latest version
 3. Install the **R packages** listed [below](#packages)
     * Open RStudio and go to `Top menu > Tools > Install packages...`
     * Install each package in the list
@@ -122,7 +124,7 @@ For most of the workshop we will directly use R data objects in `data.rda`. We w
 
 ## Author and contacts
 
-I am an assistant professor of sociology at the [University of Milan](https://www.unimi.it/en) in the [Deparment of Social and Political Sciences](http://eng.sps.unimi.it/ecm/home). My main research and teaching interests are social networks, migration, health inequalities, and studies of science. I also teach and do research on data science, statistics, and computational methods for the social sciences. More information about me, my work and my contact details is [here](http://www.raffaelevacca.com/about-me/). 
+I'm an assistant professor of sociology at the [University of Milan](https://www.unimi.it/en) in the [Deparment of Social and Political Sciences](http://eng.sps.unimi.it/ecm/home) and its [Behave Lab](https://behavelab.org/). My main research and teaching interests are social networks, migration, health inequalities, and studies of science. I also teach and do research on data science, statistics, and computational methods for the social sciences. More information about me, my work and my contact details is [here](http://www.raffaelevacca.com/). 
 
 ```{r include=FALSE}
 # automatically create a bib database for R packages

@@ -194,7 +194,7 @@ rm(list=ls())
 
 ## Subsetting
 
-+ **Subsetting** is crucial in R. It means appending an index (or subscript) to an object to subset or extract one (or more) of its elements or components. This is also called "indexing" or "subscripting".
++ **Subsetting** is crucial in R. It means extracting one (or more) of an object's elements or components, typically by appending an index (or subscript) to that object (this is also called "indexing" or "subscripting").
 + Subsetting can be used to **extract** (view, query) the component of an object, or to **replace** it (assign a different value to that element).
 + The basic notation for subsetting in R is `[ ]`: `x[i]` gives you the _i_-th element of object `x`.
 + **Numeric subsetting** uses integers in square brackets `[ ]`: e.g. `x[3]`. Note that you can use negative integers to index (select) everything _but_ that element: e.g. `x[-3]`, `x[c(-2,-4)]`.
